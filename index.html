@@ -35,8 +35,7 @@ nav{
   backdrop-filter:blur(12px);
 }
 .nav-logo{
-  font-family:var(--font-display);font-size:17px;font-weight:900;
-  letter-spacing:.5px;color:#fff;text-decoration:none;
+  color:#fff;text-decoration:none;
   display:flex;align-items:center;gap:10px;margin-right:32px;
 }
 .nav-logo-mark{
@@ -63,10 +62,16 @@ nav{
 }
 .hero-bg{
   position:absolute;inset:0;z-index:0;
+  background-image: url('IMG_1685.JPG');
+  background-size:cover;
+  background-position:center 30%;
+}
+.hero-bg::after{
+  content:'';
+  position:absolute;inset:0;
   background:
-    radial-gradient(ellipse 80% 60% at 60% 40%, rgba(136,28,28,.18) 0%, transparent 70%),
-    radial-gradient(ellipse 40% 40% at 10% 80%, rgba(201,168,76,.06) 0%, transparent 60%),
-    linear-gradient(160deg, #07090e 0%, #0a0c14 50%, #07090e 100%);
+    linear-gradient(to bottom, rgba(10,10,14,.55) 0%, rgba(10,10,14,.72) 60%, rgba(10,10,14,.95) 100%),
+    linear-gradient(to right, rgba(10,10,14,.4) 0%, transparent 60%);
 }
 /* Diagonal accent line */
 .hero-bg::after{
@@ -74,7 +79,7 @@ nav{
   top:0;right:15%;bottom:0;width:1px;
   background:linear-gradient(to bottom, transparent, rgba(136,28,28,.3) 30%, rgba(136,28,28,.3) 70%, transparent);
 }
-.hero-content{position:relative;z-index:1;max-width:900px}
+.hero-content{position:relative;z-index:2;max-width:900px}
 .hero-eyebrow{
   font-family:var(--font-display);font-size:11px;font-weight:700;
   letter-spacing:3px;text-transform:uppercase;color:var(--gold);
@@ -292,8 +297,7 @@ footer a:hover{color:var(--text)}
 <!-- NAV -->
 <nav>
   <a href="index.html" class="nav-logo">
-    <div class="nav-logo-mark">UMA</div>
-    UMass Hockey<span>Stats</span>
+    <img src="UMass_Hockey_2_.png" alt="UMass Hockey" style="height:36px;width:auto;display:block;" />
   </a>
   <div class="nav-links">
     <a href="#rosters" class="nav-link">Rosters</a>
@@ -301,6 +305,7 @@ footer a:hover{color:var(--text)}
     <a href="career_stats.html" class="nav-link">Career Stats</a>
     <a href="recruiting_classes.html" class="nav-link">Draft</a>
     <a href="alltime_records.html" class="nav-link">Records</a>
+    <a href="awards.html" class="nav-link">Awards</a>
     <a href="https://umasshockeyblog.substack.com/" class="nav-link" target="_blank" rel="noopener">Blog ↗</a>
   </div>
 </nav>
@@ -330,8 +335,8 @@ footer a:hover{color:var(--text)}
   </div>
   <div class="stat-block">
     <div class="stat-val">15</div>
-    <div class="stat-label">NHL Alumni</div>
-    <div class="stat-sub">From the Carvel era</div>
+    <div class="stat-label">NHL Debuts</div>
+    <div class="stat-sub">Carvel era</div>
   </div>
   <div class="stat-block">
     <div class="stat-val">142</div>
@@ -606,10 +611,16 @@ footer a:hover{color:var(--text)}
         <div class="tool-desc">Every top-50 scorer in program history — points, goals, and assists. Era filters for All-Time, Hockey East, and Carvel eras. Rankings update dynamically.</div>
         <div class="tool-arrow">→</div>
       </a>
-      <a href="recruiting_classes.html" class="tool-card">
+<a href="recruiting_classes.html" class="tool-card">
         <div class="tool-eyebrow">Draft Intelligence</div>
         <div class="tool-title">Recruiting Classes</div>
         <div class="tool-desc">29 NHL draft picks across 11 freshman classes — view by class year or draft year, track NHL debut rates, and follow active college picks.</div>
+        <div class="tool-arrow">→</div>
+      </a>
+      <a href="awards.html" class="tool-card">
+        <div class="tool-eyebrow">Hardware</div>
+        <div class="tool-title">Awards</div>
+        <div class="tool-desc">Every individual award in program history — All-American honors, Hockey East awards, Hobey Baker candidates, and national recognition from 1993 to present.</div>
         <div class="tool-arrow">→</div>
       </a>
     </div>
