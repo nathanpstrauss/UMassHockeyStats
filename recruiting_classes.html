@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>UMass Hockey — Recruiting Class Draft Intelligence</title>
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;600;700;800;900&family=Barlow:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#08090c;--surface:#0e1018;--surface2:#13161f;
+  --border:#1c2035;--border2:#252a40;
+  --text:#dde3f0;--muted:#5a6278;--muted2:#3a4060;
+  --maroon:#881c1c;--maroon-bright:#b02828;--gold:#c8960a;
+}
+body{font-family:'Barlow',sans-serif;background:var(--bg);color:var(--text);min-height:100vh}
+.header{padding:40px 40px 32px;border-bottom:1px solid var(--border);
+  background:linear-gradient(180deg,rgba(136,28,28,.12) 0%,transparent 100%)}
+.back-link{display:inline-flex;align-items:center;gap:6px;font-family:'Barlow Condensed',sans-serif;
+  font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:1.5px;color:var(--muted);
+  text-decoration:none;margin-bottom:20px;transition:color .15s}
+.back-link:hover{color:var(--text)}
+.header-eyebrow{font-family:'Barlow Condensed',sans-serif;font-size:11px;font-weight:700;
+  text-transform:uppercase;letter-spacing:2.5px;color:var(--maroon-bright);margin-bottom:10px}
+.header-title{font-family:'Barlow Condensed',sans-serif;font-size:clamp(32px,5vw,56px);
+  font-weight:900;color:#fff;line-height:1;margin-bottom:10px}
+.header-sub{font-size:14px;color:var(--muted);max-width:580px;line-height:1.6;margin-bottom:24px}
+.summary-row{display:flex;gap:24px;flex-wrap:wrap}
+.sum-stat{text-align:left}
+.sum-val{font-family:'Barlow Condensed',sans-serif;font-size:28px;font-weight:900;color:#fff;line-height:1}
+.sum-lbl{font-size:10px;color:var(--muted);text-transform:uppercase;letter-spacing:.8px;margin-top:2px}
+
+/* ── Controls ── */
+.controls{display:flex;align-items:center;gap:20px;flex-wrap:wrap;
+  padding:16px 40px;border-bottom:1px solid var(--border);background:var(--surface)}
+.ctrl-group{display:flex;align-items:center;gap:10px}
+.ctrl-label{font-family:'Barlow Condensed',sans-serif;font-size:11px;font-weight:700;
+  text-transform:uppercase;letter-spacing:1.5px;color:var(--muted);white-space:nowrap}
+.ctrl-divider{width:1px;height:24px;background:var(--border)}
+.toggle-group{display:flex;gap:2px;background:var(--surface2);border:1px solid var(--border);
+  border-radius:6px;padding:3px}
+.toggle-btn{font-family:'Barlow Condensed',sans-serif;font-size:12px;font-weight:700;
+  text-transform:uppercase;letter-spacing:.8px;padding:5px 14px;border-radius:4px;
+  border:none;background:transparent;color:var(--muted);cursor:pointer;transition:all .15s}
+.toggle-btn.active{background:var(--maroon);color:#fff}
+
+/* ── Legend ── */
+.legend{display:flex;gap:16px;flex-wrap:wrap;padding:14px 40px;border-bottom:1px solid var(--border)}
+.leg-item{display:flex;align-items:center;gap:6px;font-size:11px;color:var(--muted)}
+.leg-dot{width:10px;height:10px;border-radius:50%;flex-shrink:0}
+
+/* ── Main ── */
+.main{padding:32px 40px;max-width:1200px}
+
+/* ── Class/year card ── */
+.class-card{background:var(--surface);border:1px solid var(--border);border-radius:12px;
+  margin-bottom:12px;overflow:hidden;transition:border-color .15s}
+.class-card:hover{border-color:var(--border2)}
+.class-header{display:grid;align-items:center;gap:20px;padding:16px 20px;
+  cursor:pointer;user-select:none}
+.class-header.freshman-layout{grid-template-columns:150px 1fr auto}
+.class-header.draftyear-layout{grid-template-columns:120px 1fr auto}
+
+.class-season{font-family:'Barlow Condensed',sans-serif;font-size:24px;font-weight:900;color:#fff}
+.class-season small{display:block;font-size:10px;color:var(--muted);font-weight:700;
+  letter-spacing:1px;text-transform:uppercase;margin-top:2px}
+.draft-bar-wrap{flex:1}
+.draft-bar{height:20px;border-radius:4px;display:flex;overflow:hidden;
+  background:var(--surface2);border:1px solid var(--border)}
+.draft-bar-seg{height:100%;cursor:pointer;transition:opacity .15s}
+.draft-bar-seg:hover{opacity:.75}
+.draft-bar-empty{height:100%;flex:1}
+.class-meta{display:flex;gap:8px;align-items:center;flex-shrink:0}
+.meta-pill{font-family:'Barlow Condensed',sans-serif;font-size:12px;font-weight:700;
+  padding:3px 10px;border-radius:10px;white-space:nowrap}
+.pill-nhl{background:rgba(224,123,57,.15);color:#e07b39;border:1px solid rgba(224,123,57,.3)}
+.pill-picks{background:rgba(74,144,217,.1);color:#4a90d9;border:1px solid rgba(74,144,217,.2)}
+.pill-rate{background:rgba(200,150,10,.1);color:var(--gold);border:1px solid rgba(200,150,10,.2)}
+.pill-active{background:rgba(25,168,122,.1);color:#19a87a;border:1px solid rgba(25,168,122,.2)}
+.chevron{color:var(--muted);transition:transform .25s;font-size:18px;flex-shrink:0;margin-left:4px}
+.class-card.open .chevron{transform:rotate(90deg)}
+
+/* ── Player grid ── */
+.player-grid{display:none;padding:0 20px 20px;
+  grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:10px}
+.class-card.open .player-grid{display:grid}
+.player-tile{background:var(--surface2);border:1px solid var(--border);border-radius:8px;
+  padding:12px 14px;display:flex;align-items:flex-start;gap:12px;position:relative;overflow:hidden}
+.player-tile::before{content:'';position:absolute;left:0;top:0;bottom:0;width:3px}
+.player-tile[data-tier="nhl"]::before{background:#e07b39}
+.player-tile[data-tier="ahl"]::before{background:#4a90d9}
+.player-tile[data-tier="echl"]::before{background:#5bb85b}
+.player-tile[data-tier="europe"]::before{background:#9b6dd4}
+.player-tile[data-tier="active_college"]::before{background:#19a87a}
+.player-tile[data-tier="other"]::before{background:#555b6e}
+.tile-round{width:28px;height:28px;border-radius:6px;flex-shrink:0;
+  display:flex;align-items:center;justify-content:center;
+  font-family:'Barlow Condensed',sans-serif;font-size:13px;font-weight:900;color:#000}
+.tile-body{flex:1;min-width:0}
+.tile-name{font-family:'Barlow Condensed',sans-serif;font-size:16px;font-weight:800;
+  color:#fff;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.tile-draft{font-size:11px;color:var(--muted);margin-top:2px}
+.tile-class-note{font-size:10px;color:var(--muted2);margin-top:1px}
+.tile-outcome{font-family:'Barlow Condensed',sans-serif;font-size:10px;font-weight:800;
+  text-transform:uppercase;letter-spacing:.8px;margin-top:5px}
+.tile-outcome[data-tier="nhl"]{color:#e07b39}
+.tile-outcome[data-tier="ahl"]{color:#4a90d9}
+.tile-outcome[data-tier="echl"]{color:#5bb85b}
+.tile-outcome[data-tier="europe"]{color:#9b6dd4}
+.tile-outcome[data-tier="active_college"]{color:#19a87a}
+.tile-outcome[data-tier="other"]{color:#555b6e}
+.tile-nhl-gp{font-size:10px;color:var(--muted);margin-left:5px}
+.class-divider{height:1px;background:var(--border);margin:0 20px}
+.section-head{font-family:'Barlow Condensed',sans-serif;font-size:11px;font-weight:700;
+  text-transform:uppercase;letter-spacing:1.5px;color:var(--muted);
+  padding:24px 0 8px;border-top:1px solid var(--border);margin-top:8px}
+.section-head:first-child{border-top:none;padding-top:0;margin-top:0}
+</style>
+</head>
+<body>
+
+<div class="header">
+  <a class="back-link" href="index.html">← UMass Hockey Stats</a>
+  <div class="header-eyebrow">Greg Carvel Era · 2016–Present</div>
+  <h1 class="header-title">Recruiting Class<br>Draft Intelligence</h1>
+  <p class="header-sub">Every NHL draft pick to play under Greg Carvel — by freshman class or by draft year. Which classes produced the most picks? Which drafts had the most Minutemen taken?</p>
+  <div class="summary-row">
+    <div class="sum-stat"><div class="sum-val" style="color:#4a90d9">29</div><div class="sum-lbl">Total draft picks</div></div>
+    <div class="sum-stat"><div class="sum-val" style="color:#e07b39">13</div><div class="sum-lbl">NHL debuts</div></div>
+    <div class="sum-stat"><div class="sum-val" style="color:var(--gold)">68%</div><div class="sum-lbl">NHL conversion rate</div></div>
+    <div class="sum-stat"><div class="sum-val" style="color:#f5c518">2</div><div class="sum-lbl">1st round picks</div></div>
+  </div>
+</div>
+
+<div class="controls">
+  <div class="ctrl-group">
+    <span class="ctrl-label">View by</span>
+    <div class="toggle-group">
+      <button class="toggle-btn active" onclick="setView('freshman')">Freshman Class</button>
+      <button class="toggle-btn" onclick="setView('draftyear')">Draft Year</button>
+    </div>
+  </div>
+  <div class="ctrl-divider"></div>
+  <div class="ctrl-group">
+    <span class="ctrl-label">Sort by</span>
+    <div class="toggle-group" id="sort-btns">
+      <button class="toggle-btn active" onclick="setSort('year')">Year</button>
+      <button class="toggle-btn" onclick="setSort('picks')">Most Picks</button>
+      <button class="toggle-btn" onclick="setSort('nhl')">Most NHL</button>
+      <button class="toggle-btn" onclick="setSort('rate')">NHL Rate</button>
+    </div>
+  </div>
+</div>
+
+<div class="legend">
+<div class="leg-item"><div class="leg-dot" style="background:#e07b39"></div>NHL</div><div class="leg-item"><div class="leg-dot" style="background:#4a90d9"></div>AHL</div><div class="leg-item"><div class="leg-dot" style="background:#5bb85b"></div>ECHL</div><div class="leg-item"><div class="leg-dot" style="background:#9b6dd4"></div>Europe</div><div class="leg-item"><div class="leg-dot" style="background:#19a87a"></div>Still in college</div><div class="leg-item"><div class="leg-dot" style="background:#555b6e"></div>Out of hockey</div>
+</div>
+
+<div class="main" id="main"></div>
+
+<script>
+const CLASS_DATA = {"2015-16": [{"name": "William Lagesson", "pos": "D", "draft": {"team": "EDM", "round": 4, "pick": 91, "year": 2014}, "tier": "nhl", "nhl_seasons": 7, "nhl_gp": 107, "first_umass": "2015-16", "last_umass": "2016-17"}, {"name": "Ivan Chukarov", "pos": "D", "draft": {"team": "BUF", "round": 7, "pick": 182, "year": 2015}, "tier": "echl", "nhl_seasons": 0, "nhl_gp": 0, "first_umass": "2015-16", "last_umass": "2018-19"}], "2017-18": [{"name": "Mario Ferraro", "pos": "D", "draft": {"team": "SJS", "round": 2, "pick": 49, "year": 2017}, "tier": "nhl", "nhl_seasons": 7, "nhl_gp": 490, "first_umass": "2017-18", "last_umass": "2018-19"}, {"name": "Cale Makar", "pos": "D", "draft": {"team": "COL", "round": 1, "pick": 4, "year": 2017}, "tier": "nhl", "nhl_seasons": 8, "nhl_gp": 470, "first_umass": "2017-18", "last_umass": "2018-19"}, {"name": "John Leonard", "pos": "F", "draft": {"team": "SJS", "round": 6, "pick": 182, "year": 2018}, "tier": "nhl", "nhl_seasons": 5, "nhl_gp": 81, "first_umass": "2017-18", "last_umass": "2019-20"}], "2018-19": [{"name": "Marc Del Gaizo", "pos": "D", "draft": {"team": "NSH", "round": 4, "pick": 109, "year": 2019}, "tier": "nhl", "nhl_seasons": 2, "nhl_gp": 55, "first_umass": "2018-19", "last_umass": "2020-21"}, {"name": "Filip Lindberg", "pos": "G", "draft": {"team": "MIN", "round": 7, "pick": 197, "year": 2019}, "tier": "europe", "nhl_seasons": 0, "nhl_gp": 0, "first_umass": "2018-19", "last_umass": "2020-21"}], "2019-20": [{"name": "Zac Jones", "pos": "D", "draft": {"team": "NYR", "round": 3, "pick": 68, "year": 2019}, "tier": "nhl", "nhl_seasons": 5, "nhl_gp": 115, "first_umass": "2019-20", "last_umass": "2020-21"}, {"name": "Matt Kessel", "pos": "D", "draft": {"team": "STL", "round": 5, "pick": 150, "year": 2020}, "tier": "nhl", "nhl_seasons": 4, "nhl_gp": 99, "first_umass": "2019-20", "last_umass": "2021-22"}], "2021-22": [{"name": "Lucas Mercuri", "pos": "F", "draft": {"team": "TBL", "round": 5, "pick": 159, "year": 2020}, "tier": "ahl", "nhl_seasons": 0, "nhl_gp": 0, "first_umass": "2021-22", "last_umass": "2024-25"}, {"name": "Taylor Makar", "pos": "F", "draft": {"team": "COL", "round": 7, "pick": 220, "year": 2021}, "tier": "nhl", "nhl_seasons": 1, "nhl_gp": 12, "first_umass": "2021-22", "last_umass": "2023-24"}, {"name": "Ryan Ufko", "pos": "D", "draft": {"team": "NSH", "round": 4, "pick": 115, "year": 2021}, "tier": "nhl", "nhl_seasons": 2, "nhl_gp": 19, "first_umass": "2021-22", "last_umass": "2023-24"}, {"name": "Scott Morrow", "pos": "D", "draft": {"team": "CAR", "round": 2, "pick": 40, "year": 2021}, "tier": "nhl", "nhl_seasons": 3, "nhl_gp": 45, "first_umass": "2021-22", "last_umass": "2023-24"}], "2020-21": [{"name": "Josh Lopina", "pos": "F", "draft": {"team": "ANA", "round": 4, "pick": 98, "year": 2021}, "tier": "ahl", "nhl_seasons": 0, "nhl_gp": 0, "first_umass": "2020-21", "last_umass": "2021-22"}], "2022-23": [{"name": "Kenny Connors", "pos": "F", "draft": {"team": "LAK", "round": 4, "pick": 103, "year": 2022}, "tier": "nhl", "nhl_seasons": 1, "nhl_gp": 2, "first_umass": "2022-23", "last_umass": "2024-25"}, {"name": "Tyson Dyck", "pos": "F", "draft": {"team": "OTT", "round": 7, "pick": 206, "year": 2022}, "tier": "active_college", "nhl_seasons": 0, "nhl_gp": 0, "first_umass": "2022-23", "last_umass": "2022-23"}, {"name": "Cole O'Hara", "pos": "F", "draft": {"team": "NSH", "round": 4, "pick": 114, "year": 2022}, "tier": "nhl", "nhl_seasons": 1, "nhl_gp": 1, "first_umass": "2022-23", "last_umass": "2024-25"}], "2023-24": [{"name": "Dans Locmelis", "pos": "F", "draft": {"team": "BOS", "round": 4, "pick": 119, "year": 2022}, "tier": "ahl", "nhl_seasons": 0, "nhl_gp": 0, "first_umass": "2023-24", "last_umass": "2024-25"}, {"name": "Michael Hrabal", "pos": "G", "draft": {"team": "ARI", "round": 2, "pick": 38, "year": 2023}, "tier": "ahl", "nhl_seasons": 0, "nhl_gp": 0, "first_umass": "2023-24", "last_umass": "2025-26"}, {"name": "Aydar Suniev", "pos": "F", "draft": {"team": "CGY", "round": 3, "pick": 80, "year": 2023}, "tier": "nhl", "nhl_seasons": 2, "nhl_gp": 7, "first_umass": "2023-24", "last_umass": "2024-25"}, {"name": "Nicholas Van Tassell", "pos": "F", "draft": {"team": "OTT", "round": 7, "pick": 215, "year": 2023}, "tier": "active_college", "nhl_seasons": 0, "nhl_gp": 0, "first_umass": "2023-24", "last_umass": "2025-26"}, {"name": "Cameron O'Neill", "pos": "F", "draft": {"team": "OTT", "round": 5, "pick": 143, "year": 2022}, "tier": "active_college", "nhl_seasons": 0, "nhl_gp": 0, "first_umass": "2023-24", "last_umass": "2025-26"}], "2024-25": [{"name": "Francesco Dell'Elce", "pos": "D", "draft": {"team": "COL", "round": 3, "pick": 77, "year": 2025}, "tier": "active_college", "nhl_seasons": 0, "nhl_gp": 0, "first_umass": "2024-25", "last_umass": "2025-26"}, {"name": "Larry Keenan", "pos": "D", "draft": {"team": "DET", "round": 4, "pick": 117, "year": 2023}, "tier": "active_college", "nhl_seasons": 0, "nhl_gp": 0, "first_umass": "2024-25", "last_umass": "2025-26"}], "2025-26": [{"name": "Vaclav Nestrasil", "pos": "F", "draft": {"team": "CHI", "round": 1, "pick": 25, "year": 2025}, "tier": "active_college", "nhl_seasons": 0, "nhl_gp": 0, "first_umass": "2025-26", "last_umass": "2025-26"}], "2026-27": [{"name": "Maxim Massé", "pos": "F", "draft": {"team": "ANA", "round": 3, "pick": 66, "year": 2024}, "tier": "active_college", "nhl_seasons": 0, "nhl_gp": 0, "first_umass": "2026-27", "last_umass": "2026-27"}, {"name": "Max Curran", "pos": "F", "draft": {"team": "CGY", "round": 5, "pick": 161, "year": 2024}, "tier": "active_college", "nhl_seasons": 0, "nhl_gp": 0, "first_umass": "2026-27", "last_umass": "2026-27", "draft_note": "Originally COL R5 #161 2024; rights traded to CGY in Nazem Kadri deal"}, {"name": "Melvin Novotny", "pos": "F", "draft": {"team": "BUF", "round": 7, "pick": 195, "year": 2025}, "tier": "active_college", "nhl_seasons": 0, "nhl_gp": 0, "first_umass": "2026-27", "last_umass": "2026-27"}, {"name": "Arsenii Radkov", "pos": "G", "draft": {"team": "MTL", "round": 3, "pick": 82, "year": 2025}, "tier": "active_college", "nhl_seasons": 0, "nhl_gp": 0, "first_umass": "2026-27", "last_umass": "2026-27"}]};
+const DRAFT_DATA = {"2014": [{"name": "William Lagesson", "pos": "D", "draft": {"team": "EDM", "round": 4, "pick": 91, "year": 2014}, "tier": "nhl", "nhl_seasons": 7, "nhl_gp": 107, "first_umass": "2015-16", "last_umass": "2016-17", "freshman_class": "2015-16"}], "2015": [{"name": "Ivan Chukarov", "pos": "D", "draft": {"team": "BUF", "round": 7, "pick": 182, "year": 2015}, "tier": "echl", "nhl_seasons": 0, "nhl_gp": 0, "first_umass": "2015-16", "last_umass": "2018-19", "freshman_class": "2015-16"}], "2017": [{"name": "Mario Ferraro", "pos": "D", "draft": {"team": "SJS", "round": 2, "pick": 49, "year": 2017}, "tier": "nhl", "nhl_seasons": 7, "nhl_gp": 490, "first_umass": "2017-18", "last_umass": "2018-19", "freshman_class": "2017-18"}, {"name": "Cale Makar", "pos": "D", "draft": {"team": "COL", "round": 1, "pick": 4, "year": 2017}, "tier": "nhl", "nhl_seasons": 8, "nhl_gp": 470, "first_umass": "2017-18", "last_umass": "2018-19", "freshman_class": "2017-18"}], "2018": [{"name": "John Leonard", "pos": "F", "draft": {"team": "SJS", "round": 6, "pick": 182, "year": 2018}, "tier": "nhl", "nhl_seasons": 5, "nhl_gp": 81, "first_umass": "2017-18", "last_umass": "2019-20", "freshman_class": "2017-18"}], "2019": [{"name": "Marc Del Gaizo", "pos": "D", "draft": {"team": "NSH", "round": 4, "pick": 109, "year": 2019}, "tier": "nhl", "nhl_seasons": 2, "nhl_gp": 55, "first_umass": "2018-19", "last_umass": "2020-21", "freshman_class": "2018-19"}, {"name": "Filip Lindberg", "pos": "G", "draft": {"team": "MIN", "round": 7, "pick": 197, "year": 2019}, "tier": "europe", "nhl_seasons": 0, "nhl_gp": 0, "first_umass": "2018-19", "last_umass": "2020-21", "freshman_class": "2018-19"}, {"name": "Zac Jones", "pos": "D", "draft": {"team": "NYR", "round": 3, "pick": 68, "year": 2019}, "tier": "nhl", "nhl_seasons": 5, "nhl_gp": 115, "first_umass": "2019-20", "last_umass": "2020-21", "freshman_class": "2019-20"}], "2020": [{"name": "Matt Kessel", "pos": "D", "draft": {"team": "STL", "round": 5, "pick": 150, "year": 2020}, "tier": "nhl", "nhl_seasons": 4, "nhl_gp": 99, "first_umass": "2019-20", "last_umass": "2021-22", "freshman_class": "2019-20"}, {"name": "Lucas Mercuri", "pos": "F", "draft": {"team": "TBL", "round": 5, "pick": 159, "year": 2020}, "tier": "ahl", "nhl_seasons": 0, "nhl_gp": 0, "first_umass": "2021-22", "last_umass": "2024-25", "freshman_class": "2021-22"}], "2021": [{"name": "Taylor Makar", "pos": "F", "draft": {"team": "COL", "round": 7, "pick": 220, "year": 2021}, "tier": "nhl", "nhl_seasons": 1, "nhl_gp": 12, "first_umass": "2021-22", "last_umass": "2023-24", "freshman_class": "2021-22"}, {"name": "Ryan Ufko", "pos": "D", "draft": {"team": "NSH", "round": 4, "pick": 115, "year": 2021}, "tier": "nhl", "nhl_seasons": 2, "nhl_gp": 19, "first_umass": "2021-22", "last_umass": "2023-24", "freshman_class": "2021-22"}, {"name": "Scott Morrow", "pos": "D", "draft": {"team": "CAR", "round": 2, "pick": 40, "year": 2021}, "tier": "nhl", "nhl_seasons": 3, "nhl_gp": 45, "first_umass": "2021-22", "last_umass": "2023-24", "freshman_class": "2021-22"}, {"name": "Josh Lopina", "pos": "F", "draft": {"team": "ANA", "round": 4, "pick": 98, "year": 2021}, "tier": "ahl", "nhl_seasons": 0, "nhl_gp": 0, "first_umass": "2020-21", "last_umass": "2021-22", "freshman_class": "2020-21"}], "2022": [{"name": "Kenny Connors", "pos": "F", "draft": {"team": "LAK", "round": 4, "pick": 103, "year": 2022}, "tier": "nhl", "nhl_seasons": 1, "nhl_gp": 2, "first_umass": "2022-23", "last_umass": "2024-25", "freshman_class": "2022-23"}, {"name": "Tyson Dyck", "pos": "F", "draft": {"team": "OTT", "round": 7, "pick": 206, "year": 2022}, "tier": "active_college", "nhl_seasons": 0, "nhl_gp": 0, "first_umass": "2022-23", "last_umass": "2022-23", "freshman_class": "2022-23"}, {"name": "Cole O'Hara", "pos": "F", "draft": {"team": "NSH", "round": 4, "pick": 114, "year": 2022}, "tier": "nhl", "nhl_seasons": 1, "nhl_gp": 1, "first_umass": "2022-23", "last_umass": "2024-25", "freshman_class": "2022-23"}, {"name": "Dans Locmelis", "pos": "F", "draft": {"team": "BOS", "round": 4, "pick": 119, "year": 2022}, "tier": "ahl", "nhl_seasons": 0, "nhl_gp": 0, "first_umass": "2023-24", "last_umass": "2024-25", "freshman_class": "2023-24"}, {"name": "Cameron O'Neill", "pos": "F", "draft": {"team": "OTT", "round": 5, "pick": 143, "year": 2022}, "tier": "active_college", "nhl_seasons": 0, "nhl_gp": 0, "first_umass": "2023-24", "last_umass": "2025-26", "freshman_class": "2023-24"}], "2023": [{"name": "Michael Hrabal", "pos": "G", "draft": {"team": "ARI", "round": 2, "pick": 38, "year": 2023}, "tier": "ahl", "nhl_seasons": 0, "nhl_gp": 0, "first_umass": "2023-24", "last_umass": "2025-26", "freshman_class": "2023-24"}, {"name": "Aydar Suniev", "pos": "F", "draft": {"team": "CGY", "round": 3, "pick": 80, "year": 2023}, "tier": "nhl", "nhl_seasons": 2, "nhl_gp": 7, "first_umass": "2023-24", "last_umass": "2024-25", "freshman_class": "2023-24"}, {"name": "Nicholas Van Tassell", "pos": "F", "draft": {"team": "OTT", "round": 7, "pick": 215, "year": 2023}, "tier": "active_college", "nhl_seasons": 0, "nhl_gp": 0, "first_umass": "2023-24", "last_umass": "2025-26", "freshman_class": "2023-24"}, {"name": "Larry Keenan", "pos": "D", "draft": {"team": "DET", "round": 4, "pick": 117, "year": 2023}, "tier": "active_college", "nhl_seasons": 0, "nhl_gp": 0, "first_umass": "2024-25", "last_umass": "2025-26", "freshman_class": "2024-25"}], "2025": [{"name": "Francesco Dell'Elce", "pos": "D", "draft": {"team": "COL", "round": 3, "pick": 77, "year": 2025}, "tier": "active_college", "nhl_seasons": 0, "nhl_gp": 0, "first_umass": "2024-25", "last_umass": "2025-26", "freshman_class": "2024-25"}, {"name": "Vaclav Nestrasil", "pos": "F", "draft": {"team": "CHI", "round": 1, "pick": 25, "year": 2025}, "tier": "active_college", "nhl_seasons": 0, "nhl_gp": 0, "first_umass": "2025-26", "last_umass": "2025-26", "freshman_class": "2025-26"}, {"name": "Melvin Novotny", "pos": "F", "draft": {"team": "BUF", "round": 7, "pick": 195, "year": 2025}, "tier": "active_college", "nhl_seasons": 0, "nhl_gp": 0, "first_umass": "2026-27", "last_umass": "2026-27", "freshman_class": "2026-27"}, {"name": "Arsenii Radkov", "pos": "G", "draft": {"team": "MTL", "round": 3, "pick": 82, "year": 2025}, "tier": "active_college", "nhl_seasons": 0, "nhl_gp": 0, "first_umass": "2026-27", "last_umass": "2026-27", "freshman_class": "2026-27"}], "2024": [{"name": "Maxim Massé", "pos": "F", "draft": {"team": "ANA", "round": 3, "pick": 66, "year": 2024}, "tier": "active_college", "nhl_seasons": 0, "nhl_gp": 0, "first_umass": "2026-27", "last_umass": "2026-27", "freshman_class": "2026-27"}, {"name": "Max Curran", "pos": "F", "draft": {"team": "CGY", "round": 5, "pick": 161, "year": 2024}, "tier": "active_college", "nhl_seasons": 0, "nhl_gp": 0, "first_umass": "2026-27", "last_umass": "2026-27", "draft_note": "Originally COL R5 #161 2024; rights traded to CGY in Nazem Kadri deal", "freshman_class": "2026-27"}]};
+const TC = {"nhl": "#e07b39", "ahl": "#4a90d9", "echl": "#5bb85b", "europe": "#9b6dd4", "active_college": "#19a87a", "other": "#555b6e"};
+const TL = {"nhl": "NHL", "ahl": "AHL", "echl": "ECHL", "europe": "Europe", "active_college": "Still in college", "other": "Out of hockey"};
+const RC = {"1": "#f5c518", "2": "#e07b39", "3": "#4a90d9", "4": "#5bb85b", "5": "#9b6dd4", "6": "#c47c14", "7": "#555b6e"};
+
+let currentView = 'freshman';
+let currentSort = 'year';
+
+function nhlRate(picks){
+  const eligible = picks.filter(p=>p.tier!=='active_college');
+  if(!eligible.length) return null;
+  return eligible.filter(p=>p.tier==='nhl').length / eligible.length;
+}
+
+function makeBar(picks){
+  const total = picks.length;
+  const rc = {};
+  picks.forEach(p=>{ const r=String(p.draft.round); rc[r]=(rc[r]||0)+1; });
+  return Object.entries(rc).sort((a,b)=>a[0]-b[0]).map(([r,cnt])=>{
+    const w=(cnt/total*100).toFixed(1);
+    const col=RC[r]||'#555b6e';
+    return `<div class="draft-bar-seg" style="width:${w}%;background:${col}" title="R${r}: ${cnt} player${cnt!==1?'s':''}"></div>`;
+  }).join('') + '<div class="draft-bar-empty"></div>';
+}
+
+function makeTile(p, showClass){
+  const d=p.draft;
+  const pickStr = d.pick ? `${d.team} · R${d.round} #${d.pick} · ${d.year}` : `${d.team} · R${d.round} · ${d.year}`;
+  const classNote = showClass && p.freshman_class
+    ? `<div class="tile-class-note">Freshman class of ${p.freshman_class.split('-')[0]}</div>` : '';
+  const gp = p.nhl_gp>0 ? `<span class="tile-nhl-gp">${p.nhl_gp} GP</span>` : '';
+  const roundCol = RC[String(d.round)]||'#555b6e';
+  return `<div class="player-tile" data-tier="${p.tier}">
+    <div class="tile-round" style="background:${roundCol}">R${d.round}</div>
+    <div class="tile-body">
+      <div class="tile-name">${p.name}</div>
+      <div class="tile-draft">${pickStr}</div>
+      ${classNote}
+      <div class="tile-outcome" data-tier="${p.tier}">${TL[p.tier]||p.tier}${gp}</div>
+    </div>
+  </div>`;
+}
+
+function makeCard(key, picks, isFreshman){
+  const total = picks.length;
+  const nhl   = picks.filter(p=>p.tier==='nhl').length;
+  const rate  = nhlRate(picks);
+  const hasActive = picks.some(p=>p.tier==='active_college');
+
+  let headLabel, subLabel, layoutClass;
+  if(isFreshman){
+    const [y1,y2] = key.split('-');
+    headLabel = `${y1}–${y2}`;
+    subLabel  = `Freshman class of ${y1}`;
+    layoutClass = 'freshman-layout';
+  } else {
+    headLabel = key;
+    subLabel  = `${key} NHL Draft`;
+    layoutClass = 'draftyear-layout';
+  }
+
+  const ratePill = hasActive && rate===null
+    ? `<div class="meta-pill pill-active">Active roster</div>`
+    : rate!==null
+      ? `<div class="meta-pill pill-rate">${Math.round(rate*100)}% NHL</div>`
+      : '';
+
+  const sortedPicks = [...picks].sort((a,b)=>a.draft.round-b.draft.round||(a.draft.pick||999)-(b.draft.pick||999));
+  const tiles = sortedPicks.map(p=>makeTile(p,!isFreshman)).join('');
+  const cardId = `card-${key.replace(/[^a-z0-9]/gi,'-')}`;
+
+  return `<div class="class-card" id="${cardId}">
+    <div class="class-header ${layoutClass}" onclick="toggleCard('${cardId}')">
+      <div class="class-season">${headLabel}<small>${subLabel}</small></div>
+      <div class="draft-bar-wrap"><div class="draft-bar">${makeBar(picks)}</div></div>
+      <div class="class-meta">
+        <div class="meta-pill pill-picks">${total} pick${total!==1?'s':''}</div>
+        <div class="meta-pill pill-nhl">${nhl} NHL</div>
+        ${ratePill}
+        <div class="chevron">›</div>
+      </div>
+    </div>
+    <div class="class-divider"></div>
+    <div class="player-grid">${tiles}</div>
+  </div>`;
+}
+
+function getSortedKeys(dataObj){
+  let keys = Object.keys(dataObj);
+  if(currentSort==='picks')  keys.sort((a,b)=>dataObj[b].length-dataObj[a].length);
+  else if(currentSort==='nhl') keys.sort((a,b)=>{
+    const na=dataObj[b].filter(p=>p.tier==='nhl').length;
+    const nb=dataObj[a].filter(p=>p.tier==='nhl').length;
+    return na-nb||dataObj[b].length-dataObj[a].length;
+  });
+  else if(currentSort==='rate') keys.sort((a,b)=>{
+    const ra=nhlRate(dataObj[a])??-1, rb=nhlRate(dataObj[b])??-1;
+    return rb-ra;
+  });
+  else keys.sort();
+  return keys;
+}
+
+function renderAll(){
+  const isFreshman = currentView==='freshman';
+  const dataObj = isFreshman ? CLASS_DATA : DRAFT_DATA;
+  const keys = getSortedKeys(dataObj);
+  const main = document.getElementById('main');
+  const openCards = new Set([...document.querySelectorAll('.class-card.open')].map(c=>c.id));
+  main.innerHTML = keys.map(k=>makeCard(k, dataObj[k], isFreshman)).join('');
+  openCards.forEach(id=>{const c=document.getElementById(id);if(c)c.classList.add('open');});
+}
+
+function setView(v){
+  currentView=v;
+  currentSort='year';
+  document.querySelectorAll('.toggle-btn').forEach(b=>{
+    if(b.getAttribute('onclick').includes("setView"))
+      b.classList.toggle('active',b.getAttribute('onclick').includes("'"+v+"'"));
+    if(b.getAttribute('onclick').includes("setSort"))
+      b.classList.toggle('active',b.getAttribute('onclick').includes("'year'"));
+  });
+  renderAll();
+}
+
+function setSort(s){
+  currentSort=s;
+  document.querySelectorAll('[onclick*="setSort"]').forEach(b=>
+    b.classList.toggle('active',b.getAttribute('onclick').includes("'"+s+"'")));
+  renderAll();
+}
+
+function toggleCard(id){
+  const c=document.getElementById(id);
+  if(c) c.classList.toggle('open');
+}
+
+renderAll();
+// Auto-open best freshman class and biggest draft year
+setTimeout(()=>{
+  const c1=document.getElementById('card-2017-18');
+  const c2=document.getElementById('card-2022');
+  if(c1)c1.classList.add('open');
+},100);
+</script>
+</body>
+</html>

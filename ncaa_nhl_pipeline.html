@@ -1,0 +1,376 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>NCAA D1 Hockey → NHL Pipeline (2018–2026)</title>
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;600;700;800;900&family=Barlow:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+
+* { box-sizing:border-box; margin:0; padding:0; }
+:root {
+  --bg:#0a0c10; --surface:#111318; --border:#1e2230;
+  --text:#e2e6f0; --muted:#5a6070; --accent:#4a90d9;
+  --r1:#f5c518; --r2:#e07b39; --r3:#5bb85b; --r4:#4a90d9;
+  --r5:#9b6dd4; --r6:#e84393; --r7:#36c4c4;
+  --ud:#555b6e; --pre:#3a3e4a;
+}
+body { font-family:'Barlow',sans-serif; background:var(--bg); color:var(--text); min-height:100vh; overflow-x:hidden; }
+.header { padding:32px 48px 22px; border-bottom:1px solid var(--border); background:linear-gradient(135deg,rgba(74,144,217,0.04) 0%,transparent 60%); }
+.header-top { display:flex; align-items:flex-end; gap:24px; flex-wrap:wrap; }
+.title-block h1 { font-family:'Barlow Condensed',sans-serif; font-size:44px; font-weight:900; letter-spacing:-0.5px; line-height:1; color:#fff; }
+.title-block h1 span { color:var(--accent); }
+.title-block p { font-size:12.5px; color:var(--muted); margin-top:7px; font-weight:300; }
+.header-stats { display:flex; gap:32px; margin-left:auto; flex-wrap:wrap; }
+.hstat { text-align:right; }
+.hstat-val { font-family:'Barlow Condensed',sans-serif; font-size:32px; font-weight:800; color:var(--accent); line-height:1; }
+.hstat-lbl { font-size:10px; color:var(--muted); margin-top:3px; letter-spacing:0.8px; text-transform:uppercase; }
+.controls { padding:14px 48px; border-bottom:1px solid var(--border); display:flex; align-items:center; gap:24px; flex-wrap:wrap; }
+.ctrl-group { display:flex; align-items:center; gap:8px; }
+.ctrl-label { font-size:10px; color:var(--muted); text-transform:uppercase; letter-spacing:1px; }
+.btn-row { display:flex; gap:3px; }
+.btn { padding:5px 12px; border-radius:5px; border:1px solid var(--border); background:var(--surface); color:var(--muted); font-size:11px; font-family:'Barlow Condensed',sans-serif; font-weight:700; letter-spacing:0.5px; text-transform:uppercase; cursor:pointer; transition:all 0.15s; }
+.btn:hover { border-color:var(--accent); color:var(--text); }
+.btn.active { background:var(--accent); border-color:var(--accent); color:#fff; }
+.legend { padding:10px 48px; display:flex; gap:4px; flex-wrap:wrap; border-bottom:1px solid var(--border); align-items:center; }
+.leg-label { font-size:10px; color:var(--muted); text-transform:uppercase; letter-spacing:0.8px; margin-right:6px; }
+.leg-item { display:flex; align-items:center; gap:5px; font-size:11px; color:var(--text); cursor:pointer; padding:4px 8px; border-radius:4px; border:1px solid transparent; transition:all 0.15s; font-family:'Barlow Condensed',sans-serif; font-weight:700; }
+.leg-item:hover { border-color:var(--border); }
+.leg-item.dimmed { opacity:0.25; }
+.leg-dot { width:10px; height:10px; border-radius:2px; flex-shrink:0; }
+.chart-wrap { padding:20px 48px 48px; overflow-x:auto; }
+.chart-inner { min-width:700px; }
+.school-row { display:flex; align-items:center; margin-bottom:4px; cursor:pointer; border-radius:6px; transition:background 0.15s; }
+.school-row:hover { background:rgba(74,144,217,0.06); }
+.school-row:hover .school-name-text { color:#fff; }
+.school-name-block { width:220px; min-width:220px; display:flex; align-items:center; gap:8px; padding:4px 14px 4px 4px; border-radius:6px; cursor:pointer; transition:background 0.15s; }
+/* row hover handles highlight */
+.school-badge { width:28px; height:28px; border-radius:5px; flex-shrink:0; display:flex; align-items:center; justify-content:center; font-family:'Barlow Condensed',sans-serif; font-size:8px; font-weight:900; text-transform:uppercase; line-height:1.1; text-align:center; padding:2px; }
+.school-name-text { font-family:'Barlow Condensed',sans-serif; font-size:13px; font-weight:600; color:#c8cfe0; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; transition:color 0.15s; }
+.bar-outer { flex:1; height:24px; }
+.bar-track { width:100%; height:24px; display:flex; gap:1px; border-radius:3px; overflow:hidden; background:rgba(255,255,255,0.025); }
+.bar-seg { height:100%; cursor:pointer; min-width:0; transition:filter 0.1s, opacity 0.1s; }
+.bar-track:hover .bar-seg { opacity:0.3; }
+.bar-track:hover .bar-seg:hover { opacity:1 !important; filter:brightness(1.2); }
+.total-label { width:32px; text-align:right; font-family:'Barlow Condensed',sans-serif; font-size:13px; font-weight:700; color:#7ec8f0; padding-left:8px; line-height:24px; }
+.section-head { font-family:'Barlow Condensed',sans-serif; font-size:10px; font-weight:700; text-transform:uppercase; letter-spacing:2px; color:#2e3450; margin:16px 0 6px 220px; padding-bottom:5px; border-bottom:1px solid #141824; }
+.seg-tooltip { position:fixed; background:#14182a; border:1px solid #2a3060; border-radius:10px; padding:12px 16px; pointer-events:none; z-index:1000; display:none; max-width:280px; box-shadow:0 12px 40px rgba(0,0,0,0.7); }
+.stt-header { display:flex; align-items:center; gap:8px; margin-bottom:8px; }
+.stt-dot { width:10px; height:10px; border-radius:2px; flex-shrink:0; }
+.stt-school { font-family:'Barlow Condensed',sans-serif; font-size:13px; font-weight:700; color:#aac4e0; }
+.stt-round { font-family:'Barlow Condensed',sans-serif; font-size:15px; font-weight:900; color:#fff; }
+.stt-count { font-family:'Barlow Condensed',sans-serif; font-size:12px; color:var(--muted); margin-left:auto; }
+.stt-players { display:flex; flex-direction:column; gap:3px; }
+.stt-player { font-size:12px; color:#d0ddf0; line-height:1.4; display:flex; align-items:baseline; gap:6px; }
+.stt-player-name { flex:1; }
+.stt-pick { font-size:10px; color:var(--muted); font-family:'Barlow Condensed',sans-serif; white-space:nowrap; }
+.overlay { position:fixed; inset:0; background:rgba(5,7,12,0.92); z-index:2000; display:none; overflow-y:auto; backdrop-filter:blur(4px); }
+.overlay.open { display:block; }
+.detail { max-width:860px; margin:40px auto; padding:0 24px 60px; }
+.detail-back { display:inline-flex; align-items:center; gap:8px; font-family:'Barlow Condensed',sans-serif; font-size:13px; font-weight:700; text-transform:uppercase; letter-spacing:0.8px; color:var(--muted); cursor:pointer; padding:8px 0; margin-bottom:24px; transition:color 0.15s; }
+.detail-back:hover { color:var(--accent); }
+.detail-back svg { width:16px; height:16px; }
+.detail-header { display:flex; align-items:center; gap:18px; margin-bottom:32px; padding-bottom:24px; border-bottom:1px solid var(--border); flex-wrap:wrap; }
+.detail-badge { width:56px; height:56px; border-radius:10px; flex-shrink:0; display:flex; align-items:center; justify-content:center; font-family:'Barlow Condensed',sans-serif; font-size:16px; font-weight:900; text-transform:uppercase; line-height:1.1; text-align:center; }
+.detail-title { flex:1; min-width:160px; }
+.detail-title h2 { font-family:'Barlow Condensed',sans-serif; font-size:36px; font-weight:900; line-height:1; }
+.detail-title p { font-size:12px; color:var(--muted); margin-top:4px; }
+.detail-stats { display:flex; gap:24px; flex-wrap:wrap; }
+.dstat { text-align:right; }
+.dstat-val { font-family:'Barlow Condensed',sans-serif; font-size:28px; font-weight:800; color:var(--accent); line-height:1; }
+.dstat-lbl { font-size:10px; color:var(--muted); margin-top:2px; letter-spacing:0.6px; text-transform:uppercase; }
+.detail-bar-wrap { margin-bottom:32px; }
+.detail-bar { height:32px; display:flex; gap:2px; border-radius:6px; overflow:hidden; }
+.detail-bar-seg { height:100%; }
+.detail-bar-legend { display:flex; gap:12px; flex-wrap:wrap; margin-top:10px; }
+.dbl-item { display:flex; align-items:center; gap:5px; font-size:11px; font-family:'Barlow Condensed',sans-serif; font-weight:700; color:var(--text); }
+.dbl-dot { width:8px; height:8px; border-radius:2px; }
+.detail-rounds { display:flex; flex-direction:column; gap:20px; }
+.round-section-header { display:flex; align-items:center; gap:10px; margin-bottom:10px; padding-bottom:8px; border-bottom:1px solid var(--border); }
+.rsh-dot { width:10px; height:10px; border-radius:2px; flex-shrink:0; }
+.rsh-label { font-family:'Barlow Condensed',sans-serif; font-size:16px; font-weight:800; color:#fff; }
+.rsh-count { font-family:'Barlow Condensed',sans-serif; font-size:12px; font-weight:600; color:var(--muted); background:var(--surface); border:1px solid var(--border); border-radius:10px; padding:1px 8px; margin-left:auto; }
+.player-grid { display:grid; grid-template-columns:repeat(auto-fill, minmax(200px, 1fr)); gap:6px; }
+.player-card { background:var(--surface); border:1px solid var(--border); border-radius:7px; padding:9px 12px; display:flex; align-items:center; justify-content:space-between; gap:8px; transition:border-color 0.15s; }
+.player-card:hover { border-color:#3a4060; }
+.player-card-name { font-size:13px; color:#d8e4f0; font-weight:500; }
+.player-card-pick { font-family:'Barlow Condensed',sans-serif; font-size:11px; color:var(--muted); white-space:nowrap; text-align:right; flex-shrink:0; }
+
+</style>
+</head>
+<body>
+<div class="header"><div class="header-top">
+  <div class="title-block"><h1>NCAA D1 Hockey <span>→</span> NHL</h1>
+  <p>Players making their NHL debut · seasons 2018–19 through 2025–26 · transfers counted for each school · data: College Hockey News / Hockey Reference</p></div>
+  <div class="header-stats">
+    <div class="hstat"><div class="hstat-val">343</div><div class="hstat-lbl">Alumni debuted</div></div>
+    <div class="hstat"><div class="hstat-val">45</div><div class="hstat-lbl">Programs</div></div>
+    <div class="hstat"><div class="hstat-val">57</div><div class="hstat-lbl">1st rounders</div></div>
+    <div class="hstat"><div class="hstat-val">135</div><div class="hstat-lbl">Undrafted</div></div>
+  </div></div></div>
+<div class="controls">
+  <div class="ctrl-group"><span class="ctrl-label">Sort</span><div class="btn-row" id="sort-btns">
+    <button class="btn active" onclick="setSort('total')">Total</button>
+    <button class="btn" onclick="setSort('r1')">1st Round</button>
+    <button class="btn" onclick="setSort('undrafted')">Undrafted</button>
+    <button class="btn" onclick="setSort('alpha')">A–Z</button>
+    <button class="btn" onclick="setSort('conf')">Conference</button>
+  </div></div>
+  <div class="ctrl-group"><span class="ctrl-label">Filter</span><div class="btn-row" id="filter-btns">
+    <button class="btn active" onclick="setFilter('all')">All 45</button>
+    <button class="btn" onclick="setFilter('5plus')">5+ players</button>
+    <button class="btn" onclick="setFilter('10plus')">10+ players</button>
+  </div></div>
+</div>
+<div class="legend">
+  <span class="leg-label">Draft Round →</span>
+  <div class="leg-item" onclick="toggleRound('R1')" id="leg-R1"><div class="leg-dot" style="background:var(--r1)"></div>Round 1</div>
+  <div class="leg-item" onclick="toggleRound('R2')" id="leg-R2"><div class="leg-dot" style="background:var(--r2)"></div>Round 2</div>
+  <div class="leg-item" onclick="toggleRound('R3')" id="leg-R3"><div class="leg-dot" style="background:var(--r3)"></div>Round 3</div>
+  <div class="leg-item" onclick="toggleRound('R4')" id="leg-R4"><div class="leg-dot" style="background:var(--r4)"></div>Round 4</div>
+  <div class="leg-item" onclick="toggleRound('R5')" id="leg-R5"><div class="leg-dot" style="background:var(--r5)"></div>Round 5</div>
+  <div class="leg-item" onclick="toggleRound('R6')" id="leg-R6"><div class="leg-dot" style="background:var(--r6)"></div>Round 6</div>
+  <div class="leg-item" onclick="toggleRound('R7')" id="leg-R7"><div class="leg-dot" style="background:var(--r7)"></div>Round 7</div>
+  <div class="leg-item" onclick="toggleRound('Undrafted')" id="leg-Undrafted"><div class="leg-dot" style="background:var(--ud)"></div>Undrafted</div>
+  <div class="leg-item" onclick="toggleRound('Pre-2015')" id="leg-Pre-2015"><div class="leg-dot" style="background:var(--pre)"></div>Pre-2015 draft</div>
+</div>
+<div class="chart-wrap"><div class="chart-inner" id="chart"></div></div>
+<div class="seg-tooltip" id="seg-tooltip"></div>
+<div class="overlay" id="overlay"><div class="detail" id="detail-panel"></div></div>
+<script>
+
+const DATA = [{"school": "Michigan", "total": 23, "R1": 13, "R2": 3, "R3": 3, "R4": 1, "R5": 0, "R6": 2, "R7": 0, "Undrafted": 1, "Pre-2015": 0, "players": {"R1": [{"name": "Adam Fantilli", "pick": "3", "year": "2023"}, {"name": "Brendan Brisson", "pick": "29", "year": "2020"}, {"name": "Cameron York", "pick": "14", "year": "2019"}, {"name": "Frank Nazar", "pick": "13", "year": "2022"}, {"name": "John Beecher", "pick": "30", "year": "2019"}, {"name": "Joshua Norris", "pick": "19", "year": "2017"}, {"name": "Kent Johnson", "pick": "5", "year": "2021"}, {"name": "Luke Hughes", "pick": "4", "year": "2021"}, {"name": "Mackie Samoskevich", "pick": "24", "year": "2021"}, {"name": "Matty Beniers", "pick": "2", "year": "2021"}, {"name": "Owen Power", "pick": "1", "year": "2021"}, {"name": "Quinn Hughes", "pick": "7", "year": "2018"}, {"name": "Rutger McGroarty", "pick": "14", "year": "2022"}], "R2": [{"name": "Gavin Brindley", "pick": "34", "year": "2023"}, {"name": "Seamus Casey", "pick": "46", "year": "2022"}, {"name": "Thomas Bordeleau", "pick": "38", "year": "2020"}], "R3": [{"name": "Erik Portillo", "pick": "67", "year": "2019"}, {"name": "Jack LaFontaine", "pick": "75", "year": "2016"}, {"name": "William Lockwood", "pick": "64", "year": "2016"}], "R4": [{"name": "Dylan Duke", "pick": "126", "year": "2021"}], "R6": [{"name": "Cooper Marody", "pick": "158", "year": "2015"}, {"name": "Marshall Warren", "pick": "166", "year": "2019"}], "Undrafted": [{"name": "Nick Blankenburg", "pick": "", "year": ""}]}}, {"school": "Boston University", "total": 23, "R1": 10, "R2": 5, "R3": 4, "R4": 0, "R5": 0, "R6": 1, "R7": 0, "Undrafted": 3, "Pre-2015": 0, "players": {"R1": [{"name": "Brady Tkachuk", "pick": "4", "year": "2018"}, {"name": "Dante Fabbro", "pick": "17", "year": "2016"}, {"name": "Jake Oettinger", "pick": "26", "year": "2017"}, {"name": "Joel Farabee", "pick": "14", "year": "2018"}, {"name": "Kieffer Bellows", "pick": "19", "year": "2016"}, {"name": "Macklin Celebrini", "pick": "1", "year": "2024"}, {"name": "Sacha Boisvert", "pick": "18", "year": "2024"}, {"name": "Shane Bowers", "pick": "28", "year": "2017"}, {"name": "Tom Willander", "pick": "11", "year": "2023"}, {"name": "Trevor Zegras", "pick": "9", "year": "2019"}], "R2": [{"name": "Alex Vlasic", "pick": "43", "year": "2019"}, {"name": "Cole Hutson", "pick": "43", "year": "2024"}, {"name": "Drew Commesso", "pick": "46", "year": "2020"}, {"name": "Lane Hutson", "pick": "62", "year": "2022"}, {"name": "Ryan Greene", "pick": "57", "year": "2022"}], "R3": [{"name": "Cameron Crotty", "pick": "82", "year": "2017"}, {"name": "David Farrance", "pick": "92", "year": "2017"}, {"name": "Devin Kaplan", "pick": "69", "year": "2022"}, {"name": "Domenick Fensore", "pick": "90", "year": "2019"}], "R6": [{"name": "Shane Lachance", "pick": "186", "year": "2020"}], "Undrafted": [{"name": "Maxwell Willman", "pick": "", "year": ""}, {"name": "Quinn Hutson", "pick": "", "year": ""}, {"name": "Wilmer Skoog", "pick": "", "year": ""}]}}, {"school": "Boston College", "total": 22, "R1": 9, "R2": 1, "R3": 6, "R4": 1, "R5": 0, "R6": 2, "R7": 0, "Undrafted": 3, "Pre-2015": 0, "players": {"R1": [{"name": "Alex Newhook", "pick": "16", "year": "2019"}, {"name": "Cutter Gauthier", "pick": "5", "year": "2022"}, {"name": "Gabriel Perreault", "pick": "23", "year": "2023"}, {"name": "James Hagens", "pick": "7", "year": "2025"}, {"name": "Matt Boldy", "pick": "12", "year": "2019"}, {"name": "Oliver Wahlstrom", "pick": "11", "year": "2018"}, {"name": "Ryan Leonard", "pick": "8", "year": "2023"}, {"name": "Spencer Knight", "pick": "13", "year": "2019"}, {"name": "Will Smith", "pick": "4", "year": "2023"}], "R2": [{"name": "Drew Helleson", "pick": "47", "year": "2019"}], "R3": [{"name": "Casey Fitzgerald", "pick": "86", "year": "2016"}, {"name": "Drew Fortescue", "pick": "90", "year": "2023"}, {"name": "Jack McBain", "pick": "63", "year": "2018"}, {"name": "Jacob Fowler", "pick": "69", "year": "2023"}, {"name": "Joseph Woll", "pick": "62", "year": "2016"}, {"name": "Trevor Kuntar", "pick": "89", "year": "2020"}], "R4": [{"name": "Jack St. Ivany", "pick": "112", "year": "2018"}], "R6": [{"name": "Marshall Warren", "pick": "166", "year": "2019"}, {"name": "Nikita Nesterenko", "pick": "172", "year": "2019"}], "Undrafted": [{"name": "Marc McLaughlin", "pick": "", "year": ""}, {"name": "Mike Hardman", "pick": "", "year": ""}, {"name": "Patrick Giles", "pick": "", "year": ""}]}}, {"school": "Minnesota", "total": 19, "R1": 6, "R2": 5, "R3": 4, "R4": 1, "R5": 0, "R6": 0, "R7": 1, "Undrafted": 2, "Pre-2015": 0, "players": {"R1": [{"name": "Jimmy Snuggerud", "pick": "23", "year": "2022"}, {"name": "Logan Cooley", "pick": "3", "year": "2022"}, {"name": "Matthew Wood", "pick": "15", "year": "2023"}, {"name": "Oliver Moore", "pick": "19", "year": "2023"}, {"name": "Ryan Johnson", "pick": "31", "year": "2019"}, {"name": "Sam Rinzel", "pick": "25", "year": "2022"}], "R2": [{"name": "Brock Faber", "pick": "45", "year": "2020"}, {"name": "Jackson LaCombe", "pick": "39", "year": "2019"}, {"name": "Matthew Knies", "pick": "57", "year": "2021"}, {"name": "Ryan Lindgren", "pick": "49", "year": "2016"}, {"name": "Tristan Broz", "pick": "58", "year": "2021"}], "R3": [{"name": "Jack LaFontaine", "pick": "75", "year": "2016"}, {"name": "Rem Pitlick", "pick": "76", "year": "2016"}, {"name": "Sampo Ranta", "pick": "78", "year": "2018"}, {"name": "Thomas Novak", "pick": "85", "year": "2015"}], "R4": [{"name": "Scott Reedy", "pick": "102", "year": "2017"}], "R7": [{"name": "Samuel Walker", "pick": "200", "year": "2017"}], "Undrafted": [{"name": "Ben Meyers", "pick": "", "year": ""}, {"name": "Jake Bischoff", "pick": "", "year": ""}]}}, {"school": "Minnesota-Duluth", "total": 18, "R1": 2, "R2": 2, "R3": 2, "R4": 1, "R5": 1, "R6": 2, "R7": 1, "Undrafted": 7, "Pre-2015": 0, "players": {"R1": [{"name": "Isaac Howard", "pick": "31", "year": "2022"}, {"name": "Riley Tufte", "pick": "25", "year": "2016"}], "R2": [{"name": "Dylan Samberg", "pick": "43", "year": "2017"}, {"name": "Scott Perunovich", "pick": "45", "year": "2018"}], "R3": [{"name": "Joey Anderson", "pick": "73", "year": "2016"}, {"name": "Wyatt Kaiser", "pick": "81", "year": "2020"}], "R4": [{"name": "Michael Anderson", "pick": "103", "year": "2017"}], "R5": [{"name": "Noah Cates", "pick": "137", "year": "2017"}], "R6": [{"name": "Cole Koepke", "pick": "183", "year": "2018"}, {"name": "Dominic James", "pick": "173", "year": "2021"}], "R7": [{"name": "Nick Swaney", "pick": "209", "year": "2017"}], "Undrafted": [{"name": "Adam Johnson", "pick": "", "year": ""}, {"name": "Hunter Miska", "pick": "", "year": ""}, {"name": "Hunter Shepard", "pick": "", "year": ""}, {"name": "Jackson Cates", "pick": "", "year": ""}, {"name": "Justin Richards", "pick": "", "year": ""}, {"name": "Karson Kuhlman", "pick": "", "year": ""}, {"name": "Kasimir Kaskisuo", "pick": "", "year": ""}]}}, {"school": "Massachusetts", "total": 15, "R1": 1, "R2": 2, "R3": 2, "R4": 4, "R5": 1, "R6": 1, "R7": 1, "Undrafted": 3, "Pre-2015": 0, "players": {"R1": [{"name": "Cale Makar", "pick": "4", "year": "2017"}], "R2": [{"name": "Mario Ferraro", "pick": "49", "year": "2017"}, {"name": "Scott Morrow", "pick": "40", "year": "2021"}], "R3": [{"name": "Aydar Suniev", "pick": "80", "year": "2023"}, {"name": "Zachary Jones", "pick": "68", "year": "2019"}], "R4": [{"name": "Cole O'Hara", "pick": "114", "year": "2022"}, {"name": "Kenny Connors", "pick": "103", "year": "2022"}, {"name": "Marc Del Gaizo", "pick": "109", "year": "2019"}, {"name": "Ryan Ufko", "pick": "115", "year": "2021"}], "R5": [{"name": "Matthew Kessel", "pick": "150", "year": "2020"}], "R6": [{"name": "John Leonard", "pick": "182", "year": "2018"}], "R7": [{"name": "Taylor Makar", "pick": "220", "year": "2022"}], "Undrafted": [{"name": "Matt Murray", "pick": "", "year": ""}, {"name": "Mitchell Chaffee", "pick": "", "year": ""}, {"name": "William Lagesson", "pick": "", "year": ""}]}}, {"school": "North Dakota", "total": 14, "R1": 3, "R2": 2, "R3": 0, "R4": 3, "R5": 0, "R6": 0, "R7": 1, "Undrafted": 5, "Pre-2015": 0, "players": {"R1": [{"name": "Jacob Bernard-Docker", "pick": "26", "year": "2018"}, {"name": "Jake Sanderson", "pick": "5", "year": "2020"}, {"name": "Sacha Boisvert", "pick": "18", "year": "2024"}], "R2": [{"name": "Shane Pinto", "pick": "32", "year": "2019"}, {"name": "Tyler Kleven", "pick": "44", "year": "2020"}], "R4": [{"name": "Jackson Blake", "pick": "109", "year": "2021"}, {"name": "Jasper Weatherby", "pick": "102", "year": "2018"}, {"name": "Rhett Gardner", "pick": "116", "year": "2016"}], "R7": [{"name": "Abram Wiebe", "pick": "209", "year": "2021"}], "Undrafted": [{"name": "Austin Poganski", "pick": "", "year": ""}, {"name": "Cole Smith", "pick": "", "year": ""}, {"name": "Jake Livanavage", "pick": "", "year": ""}, {"name": "Luke Johnson", "pick": "", "year": ""}, {"name": "Matt Kiersted", "pick": "", "year": ""}]}}, {"school": "Harvard", "total": 14, "R1": 1, "R2": 1, "R3": 5, "R4": 4, "R5": 0, "R6": 1, "R7": 0, "Undrafted": 2, "Pre-2015": 0, "players": {"R1": [{"name": "Matthew Coronato", "pick": "13", "year": "2021"}], "R2": [{"name": "Jack Drury", "pick": "42", "year": "2018"}], "R3": [{"name": "Adam Fox", "pick": "66", "year": "2016"}, {"name": "Alex Laferriere", "pick": "83", "year": "2020"}, {"name": "Ian Moore", "pick": "67", "year": "2020"}, {"name": "John Farinacci", "pick": "76", "year": "2019"}, {"name": "Reilly Walsh", "pick": "81", "year": "2017"}], "R4": [{"name": "Henry Thrun", "pick": "101", "year": "2019"}, {"name": "Jack Rathbone", "pick": "95", "year": "2017"}, {"name": "Nicholas Abruzzese", "pick": "124", "year": "2019"}, {"name": "Sean Farrell", "pick": "124", "year": "2020"}], "R6": [{"name": "John Marino", "pick": "154", "year": "2015"}], "Undrafted": [{"name": "Colin Blackwell", "pick": "", "year": ""}, {"name": "Marshall Rifai", "pick": "", "year": ""}]}}, {"school": "Western Michigan", "total": 14, "R1": 0, "R2": 3, "R3": 1, "R4": 1, "R5": 2, "R6": 0, "R7": 0, "Undrafted": 7, "Pre-2015": 0, "players": {"R2": [{"name": "Mattias Samuelsson", "pick": "32", "year": "2018"}, {"name": "Sam Colangelo", "pick": "36", "year": "2020"}, {"name": "Wade Allison", "pick": "52", "year": "2016"}], "R3": [{"name": "Ronald Attard", "pick": "72", "year": "2019"}], "R4": [{"name": "Paul Cotter", "pick": "115", "year": "2018"}], "R5": [{"name": "Alex Bump", "pick": "133", "year": "2022"}, {"name": "Hugh McGing", "pick": "138", "year": "2018"}], "Undrafted": [{"name": "Brandon Bussi", "pick": "", "year": ""}, {"name": "Corey Schueneman", "pick": "", "year": ""}, {"name": "Ethen Frank", "pick": "", "year": ""}, {"name": "Jason Polin", "pick": "", "year": ""}, {"name": "Max Sasson", "pick": "", "year": ""}, {"name": "Sheldon Dries", "pick": "", "year": ""}, {"name": "Tim Washe", "pick": "", "year": ""}]}}, {"school": "Providence", "total": 14, "R1": 0, "R2": 1, "R3": 0, "R4": 4, "R5": 3, "R6": 1, "R7": 1, "Undrafted": 4, "Pre-2015": 0, "players": {"R2": [{"name": "Kasper Björkqvist", "pick": "61", "year": "2016"}], "R4": [{"name": "Brandon Duhaime", "pick": "106", "year": "2016"}, {"name": "Jacob Bryson", "pick": "99", "year": "2017"}, {"name": "Maxwell Crozier", "pick": "120", "year": "2019"}, {"name": "Tyce Thompson", "pick": "96", "year": "2019"}], "R5": [{"name": "Brett Berard", "pick": "134", "year": "2020"}, {"name": "Jaroslav Chmelar", "pick": "144", "year": "2021"}, {"name": "Michael Callahan", "pick": "142", "year": "2018"}], "R6": [{"name": "Riley Duran", "pick": "182", "year": "2020"}], "R7": [{"name": "Vincent Desharnais", "pick": "183", "year": "2016"}], "Undrafted": [{"name": "Brian Pinho", "pick": "", "year": ""}, {"name": "Jake Walman", "pick": "", "year": ""}, {"name": "Jaxson Stauber", "pick": "", "year": ""}, {"name": "Parker Ford", "pick": "", "year": ""}]}}, {"school": "Northeastern", "total": 13, "R1": 0, "R2": 3, "R3": 1, "R4": 1, "R5": 0, "R6": 2, "R7": 4, "Undrafted": 2, "Pre-2015": 0, "players": {"R2": [{"name": "Cameron Lund", "pick": "34", "year": "2022"}, {"name": "Jayden Struble", "pick": "46", "year": "2019"}, {"name": "Sam Colangelo", "pick": "36", "year": "2020"}], "R3": [{"name": "Jordan Harris", "pick": "71", "year": "2018"}], "R4": [{"name": "Ryan Shea", "pick": "121", "year": "2015"}], "R6": [{"name": "Hunter Mcdonald", "pick": "165", "year": "2022"}, {"name": "Michael Kesselring", "pick": "164", "year": "2018"}], "R7": [{"name": "Aidan McDonough", "pick": "195", "year": "2019"}, {"name": "Cayden Primeau", "pick": "199", "year": "2017"}, {"name": "Devon Levi", "pick": "212", "year": "2020"}, {"name": "Jeremy Davies", "pick": "192", "year": "2016"}], "Undrafted": [{"name": "Jack Williams", "pick": "", "year": ""}, {"name": "Justin Hryckowian", "pick": "", "year": ""}]}}, {"school": "Denver", "total": 13, "R1": 1, "R2": 3, "R3": 1, "R4": 1, "R5": 1, "R6": 2, "R7": 1, "Undrafted": 3, "Pre-2015": 0, "players": {"R1": [{"name": "Zeev Buium", "pick": "12", "year": "2024"}], "R2": [{"name": "Bobby Brink", "pick": "34", "year": "2019"}, {"name": "Ian Mitchell", "pick": "57", "year": "2017"}, {"name": "Tristan Broz", "pick": "58", "year": "2021"}], "R3": [{"name": "Carter Mazur", "pick": "70", "year": "2021"}], "R4": [{"name": "Michael Benning", "pick": "95", "year": "2020"}], "R5": [{"name": "Magnus Chrona", "pick": "152", "year": "2018"}], "R6": [{"name": "Cole Guttman", "pick": "180", "year": "2017"}, {"name": "Jared Wright", "pick": "169", "year": "2021"}], "R7": [{"name": "Jack Devine", "pick": "221", "year": "2021"}], "Undrafted": [{"name": "Devin Cooley", "pick": "", "year": ""}, {"name": "Logan O'Connor", "pick": "", "year": ""}, {"name": "Trevor Moore", "pick": "", "year": ""}]}}, {"school": "Minnesota State", "total": 12, "R1": 0, "R2": 0, "R3": 1, "R4": 0, "R5": 0, "R6": 0, "R7": 0, "Undrafted": 11, "Pre-2015": 0, "players": {"R3": [{"name": "Nathan Smith", "pick": "91", "year": "2018"}], "Undrafted": [{"name": "Akito Hirose", "pick": "", "year": ""}, {"name": "C.J. Suess", "pick": "", "year": ""}, {"name": "Connor Mackey", "pick": "", "year": ""}, {"name": "Jake Livingstone", "pick": "", "year": ""}, {"name": "Jaxson Stauber", "pick": "", "year": ""}, {"name": "Marc Michaelis", "pick": "", "year": ""}, {"name": "Ondrej Pavel", "pick": "", "year": ""}, {"name": "Sam Morton", "pick": "", "year": ""}, {"name": "Teddy Blueger", "pick": "", "year": ""}, {"name": "Walker Duehr", "pick": "", "year": ""}, {"name": "Wyatt Aamodt", "pick": "", "year": ""}]}}, {"school": "St. Cloud State", "total": 12, "R1": 2, "R2": 0, "R3": 0, "R4": 1, "R5": 1, "R6": 1, "R7": 0, "Undrafted": 7, "Pre-2015": 0, "players": {"R1": [{"name": "Dennis Cholowski", "pick": "20", "year": "2016"}, {"name": "Ryan Poehling", "pick": "25", "year": "2017"}], "R4": [{"name": "William Borgen", "pick": "92", "year": "2015"}], "R5": [{"name": "Michael Eyssimont", "pick": "142", "year": "2016"}], "R6": [{"name": "Nicklaus Perbix", "pick": "169", "year": "2017"}], "Undrafted": [{"name": "Blake Lizotte", "pick": "", "year": ""}, {"name": "Ethan Prow", "pick": "", "year": ""}, {"name": "Jack Ahcan", "pick": "", "year": ""}, {"name": "Jimmy Schuldt", "pick": "", "year": ""}, {"name": "Jon Lizotte", "pick": "", "year": ""}, {"name": "Patrick Russell", "pick": "", "year": ""}, {"name": "Tyson Gross", "pick": "", "year": ""}]}}, {"school": "Notre Dame", "total": 11, "R1": 0, "R2": 1, "R3": 2, "R4": 0, "R5": 1, "R6": 1, "R7": 0, "Undrafted": 5, "Pre-2015": 1, "players": {"R2": [{"name": "Andrew Peeke", "pick": "34", "year": "2016"}], "R3": [{"name": "Dennis Gilbert", "pick": "91", "year": "2015"}, {"name": "Landon Slaggert", "pick": "79", "year": "2020"}], "R5": [{"name": "Spencer Stastney", "pick": "131", "year": "2018"}], "R6": [{"name": "Nathan Clurman", "pick": "161", "year": "2016"}], "Undrafted": [{"name": "Alex Steeves", "pick": "", "year": ""}, {"name": "Callahan Burke", "pick": "", "year": ""}, {"name": "Jake Evans", "pick": "", "year": ""}, {"name": "Jordan Gross", "pick": "", "year": ""}, {"name": "Thomas Di Pauli", "pick": "", "year": ""}], "Pre-2015": [{"name": "Calvin Petersen", "pick": "92", "year": "2013"}]}}, {"school": "Ohio State", "total": 11, "R1": 0, "R2": 1, "R3": 0, "R4": 1, "R5": 1, "R6": 2, "R7": 0, "Undrafted": 6, "Pre-2015": 0, "players": {"R2": [{"name": "Mason Lohrei", "pick": "58", "year": "2020"}], "R4": [{"name": "Stephen Halliday", "pick": "104", "year": "2022"}], "R5": [{"name": "Jakub Dobes", "pick": "136", "year": "2020"}], "R6": [{"name": "Carson Meyer", "pick": "179", "year": "2017"}, {"name": "Tanner Laczynski", "pick": "169", "year": "2016"}], "Undrafted": [{"name": "Anthony Greco", "pick": "", "year": ""}, {"name": "Cole McWard", "pick": "", "year": ""}, {"name": "Dakota Joshua", "pick": "", "year": ""}, {"name": "Dave Gust", "pick": "", "year": ""}, {"name": "Georgii Merkulov", "pick": "", "year": ""}, {"name": "Matt Tomkins", "pick": "", "year": ""}]}}, {"school": "Connecticut", "total": 10, "R1": 1, "R2": 2, "R3": 0, "R4": 0, "R5": 0, "R6": 0, "R7": 4, "Undrafted": 3, "Pre-2015": 0, "players": {"R1": [{"name": "Matthew Wood", "pick": "15", "year": "2023"}], "R2": [{"name": "Ruslan Iskhakov", "pick": "43", "year": "2018"}, {"name": "Yan Kuznetsov", "pick": "50", "year": "2020"}], "R7": [{"name": "Adam Huska", "pick": "184", "year": "2015"}, {"name": "Arsenii Sergeev", "pick": "205", "year": "2022"}, {"name": "Chase Bradley", "pick": "203", "year": "2020"}, {"name": "Ryan Tverberg", "pick": "213", "year": "2020"}], "Undrafted": [{"name": "Marc Gatcomb", "pick": "", "year": ""}, {"name": "Maxim Letunov", "pick": "", "year": ""}, {"name": "Viking Gustafsson Nyberg", "pick": "", "year": ""}]}}, {"school": "Quinnipiac", "total": 10, "R1": 0, "R2": 0, "R3": 0, "R4": 0, "R5": 1, "R6": 2, "R7": 0, "Undrafted": 6, "Pre-2015": 1, "players": {"R5": [{"name": "Charles-Alexis Legault", "pick": "139", "year": "2023"}], "R6": [{"name": "Chase Priskie", "pick": "177", "year": "2016"}, {"name": "Skyler Brind'Amour", "pick": "177", "year": "2017"}], "Undrafted": [{"name": "Brogan Rafferty", "pick": "", "year": ""}, {"name": "Collin Graf", "pick": "", "year": ""}, {"name": "Connor Clifton", "pick": "", "year": ""}, {"name": "Jacob Quillan", "pick": "", "year": ""}, {"name": "Yaniv Perets", "pick": "", "year": ""}, {"name": "Zach Metsa", "pick": "", "year": ""}], "Pre-2015": [{"name": "Devon Toews", "pick": "108", "year": "2014"}]}}, {"school": "Wisconsin", "total": 8, "R1": 5, "R2": 0, "R3": 1, "R4": 0, "R5": 0, "R6": 1, "R7": 1, "Undrafted": 0, "Pre-2015": 0, "players": {"R1": [{"name": "Alex Turcotte", "pick": "5", "year": "2019"}, {"name": "Cole Caufield", "pick": "15", "year": "2019"}, {"name": "Dylan Holloway", "pick": "14", "year": "2020"}, {"name": "K'Andre Miller", "pick": "22", "year": "2018"}, {"name": "Trent Frederic", "pick": "29", "year": "2016"}], "R3": [{"name": "Ty Emberson", "pick": "73", "year": "2018"}], "R6": [{"name": "Cameron Hughes", "pick": "165", "year": "2015"}], "R7": [{"name": "Wyatt Kalynuk", "pick": "196", "year": "2017"}]}}, {"school": "Cornell", "total": 8, "R1": 0, "R2": 0, "R3": 1, "R4": 0, "R5": 0, "R6": 1, "R7": 0, "Undrafted": 6, "Pre-2015": 0, "players": {"R3": [{"name": "Matthew Stienburg", "pick": "63", "year": "2019"}], "R6": [{"name": "Morgan Barron", "pick": "174", "year": "2017"}], "Undrafted": [{"name": "Anthony Angello", "pick": "", "year": ""}, {"name": "Cole Bardreau", "pick": "", "year": ""}, {"name": "Jacob MacDonald", "pick": "", "year": ""}, {"name": "Jeff Malott", "pick": "", "year": ""}, {"name": "Sam Malinski", "pick": "", "year": ""}, {"name": "Travis Mitchell", "pick": "", "year": ""}]}}, {"school": "Michigan State", "total": 8, "R1": 2, "R2": 0, "R3": 0, "R4": 0, "R5": 0, "R6": 1, "R7": 0, "Undrafted": 5, "Pre-2015": 0, "players": {"R1": [{"name": "Artyom Levshunov", "pick": "2", "year": "2024"}, {"name": "Isaac Howard", "pick": "31", "year": "2022"}], "R6": [{"name": "Mason Appleton", "pick": "168", "year": "2015"}], "Undrafted": [{"name": "Jake Chelios", "pick": "", "year": ""}, {"name": "Joshua Jacobs", "pick": "", "year": ""}, {"name": "Karsen Dorwart", "pick": "", "year": ""}, {"name": "Mackenzie MacEachern", "pick": "", "year": ""}, {"name": "Taro Hirose", "pick": "", "year": ""}]}}, {"school": "Maine", "total": 6, "R1": 1, "R2": 0, "R3": 0, "R4": 1, "R5": 1, "R6": 0, "R7": 1, "Undrafted": 2, "Pre-2015": 0, "players": {"R1": [{"name": "Bradly Nadeau", "pick": "30", "year": "2023"}], "R4": [{"name": "Jeremy Swayman", "pick": "111", "year": "2017"}], "R5": [{"name": "Chase Pearson", "pick": "140", "year": "2015"}], "R7": [{"name": "Taylor Makar", "pick": "220", "year": "2022"}], "Undrafted": [{"name": "Brady Keeper", "pick": "", "year": ""}, {"name": "Victor Ostman", "pick": "", "year": ""}]}}, {"school": "Nebraska-Omaha", "total": 6, "R1": 0, "R2": 0, "R3": 0, "R4": 1, "R5": 1, "R6": 0, "R7": 0, "Undrafted": 4, "Pre-2015": 0, "players": {"R4": [{"name": "Ty Mueller", "pick": "105", "year": "2023"}], "R5": [{"name": "Victor Mancini", "pick": "159", "year": "2022"}], "Undrafted": [{"name": "Brandon Scanlin", "pick": "", "year": ""}, {"name": "Fredrik Olofsson", "pick": "", "year": ""}, {"name": "Mason Morelli", "pick": "", "year": ""}, {"name": "Taylor Ward", "pick": "", "year": ""}]}}, {"school": "Massachusetts-Lowell", "total": 4, "R1": 0, "R2": 0, "R3": 0, "R4": 0, "R5": 0, "R6": 0, "R7": 1, "Undrafted": 3, "Pre-2015": 0, "players": {"R7": [{"name": "Andre Lee", "pick": "188", "year": "2019"}], "Undrafted": [{"name": "Joseph Gambardella", "pick": "", "year": ""}, {"name": "Kevin Boyle", "pick": "", "year": ""}, {"name": "Lucas Condotta", "pick": "", "year": ""}]}}, {"school": "Yale", "total": 4, "R1": 0, "R2": 0, "R3": 0, "R4": 1, "R5": 0, "R6": 0, "R7": 1, "Undrafted": 2, "Pre-2015": 0, "players": {"R4": [{"name": "Jack St. Ivany", "pick": "112", "year": "2018"}], "R7": [{"name": "Philip Kemp", "pick": "208", "year": "2017"}], "Undrafted": [{"name": "Billy Sweezey", "pick": "", "year": ""}, {"name": "Joe Snively", "pick": "", "year": ""}]}}, {"school": "Michigan Tech", "total": 4, "R1": 0, "R2": 0, "R3": 0, "R4": 0, "R5": 0, "R6": 0, "R7": 1, "Undrafted": 3, "Pre-2015": 0, "players": {"R7": [{"name": "Matt Roy", "pick": "194", "year": "2015"}], "Undrafted": [{"name": "Brian Halonen", "pick": "", "year": ""}, {"name": "Jake Lucchini", "pick": "", "year": ""}, {"name": "Joel L'Esperance", "pick": "", "year": ""}]}}, {"school": "Arizona State", "total": 4, "R1": 0, "R2": 1, "R3": 0, "R4": 0, "R5": 1, "R6": 0, "R7": 1, "Undrafted": 1, "Pre-2015": 0, "players": {"R2": [{"name": "Josh Doan", "pick": "37", "year": "2021"}], "R5": [{"name": "Ty Murchison", "pick": "158", "year": "2021"}], "R7": [{"name": "Joey Daccord", "pick": "199", "year": "2015"}], "Undrafted": [{"name": "Brinson Pasichnuk", "pick": "", "year": ""}]}}, {"school": "Miami (Ohio)", "total": 4, "R1": 0, "R2": 0, "R3": 0, "R4": 1, "R5": 0, "R6": 1, "R7": 0, "Undrafted": 2, "Pre-2015": 0, "players": {"R4": [{"name": "Jonathan Gruden", "pick": "95", "year": "2018"}], "R6": [{"name": "Carson Meyer", "pick": "179", "year": "2017"}], "Undrafted": [{"name": "Grant Hutton", "pick": "", "year": ""}, {"name": "Kiefer Sherwood", "pick": "", "year": ""}]}}, {"school": "Penn State", "total": 3, "R1": 0, "R2": 0, "R3": 0, "R4": 1, "R5": 0, "R6": 0, "R7": 1, "Undrafted": 1, "Pre-2015": 0, "players": {"R4": [{"name": "Brett Murray", "pick": "99", "year": "2016"}], "R7": [{"name": "Arsenii Sergeev", "pick": "205", "year": "2022"}], "Undrafted": [{"name": "Brandon Biro", "pick": "", "year": ""}]}}, {"school": "Merrimack", "total": 3, "R1": 0, "R2": 0, "R3": 1, "R4": 0, "R5": 0, "R6": 1, "R7": 0, "Undrafted": 1, "Pre-2015": 0, "players": {"R3": [{"name": "Johnathan Kovacevic", "pick": "74", "year": "2017"}], "R6": [{"name": "Brett Seney", "pick": "157", "year": "2015"}], "Undrafted": [{"name": "Declan Carlile", "pick": "", "year": ""}]}}, {"school": "Dartmouth", "total": 3, "R1": 0, "R2": 0, "R3": 0, "R4": 0, "R5": 0, "R6": 0, "R7": 0, "Undrafted": 3, "Pre-2015": 0, "players": {"Undrafted": [{"name": "Clay Stevenson", "pick": "", "year": ""}, {"name": "Drew O'Connor", "pick": "", "year": ""}, {"name": "Luke Haymes", "pick": "", "year": ""}]}}, {"school": "Union", "total": 3, "R1": 0, "R2": 0, "R3": 0, "R4": 0, "R5": 0, "R6": 0, "R7": 0, "Undrafted": 3, "Pre-2015": 0, "players": {"Undrafted": [{"name": "Collin Graf", "pick": "", "year": ""}, {"name": "Nick DeSimone", "pick": "", "year": ""}, {"name": "Sam Morton", "pick": "", "year": ""}]}}, {"school": "Colorado College", "total": 3, "R1": 0, "R2": 0, "R3": 0, "R4": 1, "R5": 0, "R6": 0, "R7": 1, "Undrafted": 1, "Pre-2015": 0, "players": {"R4": [{"name": "Noah Laba", "pick": "111", "year": "2022"}], "R7": [{"name": "Josiah Slavin", "pick": "193", "year": "2018"}], "Undrafted": [{"name": "Hunter McKown", "pick": "", "year": ""}]}}, {"school": "Princeton", "total": 3, "R1": 0, "R2": 0, "R3": 0, "R4": 0, "R5": 0, "R6": 0, "R7": 0, "Undrafted": 3, "Pre-2015": 0, "players": {"Undrafted": [{"name": "Josh Teves", "pick": "", "year": ""}, {"name": "Max Veronneau", "pick": "", "year": ""}, {"name": "Ryan Kuffner", "pick": "", "year": ""}]}}, {"school": "Clarkson", "total": 3, "R1": 0, "R2": 0, "R3": 0, "R4": 0, "R5": 0, "R6": 0, "R7": 0, "Undrafted": 3, "Pre-2015": 0, "players": {"Undrafted": [{"name": "Joshua Dunne", "pick": "", "year": ""}, {"name": "Nico Sturm", "pick": "", "year": ""}, {"name": "Sheldon Rempal", "pick": "", "year": ""}]}}, {"school": "Northern Michigan", "total": 2, "R1": 0, "R2": 0, "R3": 0, "R4": 0, "R5": 0, "R6": 0, "R7": 0, "Undrafted": 2, "Pre-2015": 0, "players": {"Undrafted": [{"name": "Dominik Shine", "pick": "", "year": ""}, {"name": "Viking Gustafsson Nyberg", "pick": "", "year": ""}]}}, {"school": "Sacred Heart", "total": 2, "R1": 0, "R2": 0, "R3": 0, "R4": 0, "R5": 0, "R6": 0, "R7": 0, "Undrafted": 2, "Pre-2015": 0, "players": {"Undrafted": [{"name": "Justin Danforth", "pick": "", "year": ""}, {"name": "Marc Johnstone", "pick": "", "year": ""}]}}, {"school": "Bowling Green", "total": 2, "R1": 0, "R2": 0, "R3": 0, "R4": 0, "R5": 0, "R6": 0, "R7": 0, "Undrafted": 2, "Pre-2015": 0, "players": {"Undrafted": [{"name": "Mark Friedman", "pick": "", "year": ""}, {"name": "Sean Walker", "pick": "", "year": ""}]}}, {"school": "Brown", "total": 2, "R1": 0, "R2": 0, "R3": 0, "R4": 0, "R5": 0, "R6": 0, "R7": 0, "Undrafted": 2, "Pre-2015": 0, "players": {"Undrafted": [{"name": "Maxwell Willman", "pick": "", "year": ""}, {"name": "Sam Lafferty", "pick": "", "year": ""}]}}, {"school": "New Hampshire", "total": 1, "R1": 0, "R2": 0, "R3": 0, "R4": 0, "R5": 1, "R6": 0, "R7": 0, "Undrafted": 0, "Pre-2015": 0, "players": {"R5": [{"name": "Angus Crookshank", "pick": "126", "year": "2018"}]}}, {"school": "Colgate", "total": 1, "R1": 0, "R2": 0, "R3": 0, "R4": 0, "R5": 0, "R6": 0, "R7": 0, "Undrafted": 1, "Pre-2015": 0, "players": {"Undrafted": [{"name": "Bobby McMann", "pick": "", "year": ""}]}}, {"school": "St. Lawrence", "total": 1, "R1": 0, "R2": 0, "R3": 0, "R4": 0, "R5": 0, "R6": 0, "R7": 0, "Undrafted": 1, "Pre-2015": 0, "players": {"Undrafted": [{"name": "Gavin Bayreuther", "pick": "", "year": ""}]}}, {"school": "Ferris State", "total": 1, "R1": 0, "R2": 0, "R3": 0, "R4": 0, "R5": 0, "R6": 0, "R7": 0, "Undrafted": 1, "Pre-2015": 0, "players": {"Undrafted": [{"name": "Gerald Mayhew", "pick": "", "year": ""}]}}, {"school": "Bemidji State University", "total": 1, "R1": 0, "R2": 0, "R3": 0, "R4": 0, "R5": 0, "R6": 0, "R7": 0, "Undrafted": 1, "Pre-2015": 0, "players": {"Undrafted": [{"name": "Owen Sillinger", "pick": "", "year": ""}]}}, {"school": "Vermont", "total": 1, "R1": 0, "R2": 0, "R3": 0, "R4": 1, "R5": 0, "R6": 0, "R7": 0, "Undrafted": 0, "Pre-2015": 0, "players": {"R4": [{"name": "Ross Colton", "pick": "118", "year": "2016"}]}}];
+
+const SS = {
+  "Boston University":       {bg:"#cc0000",  fg:"#ffffff", border:"#ff4444", abbr:"BU"},
+  "Michigan":                {bg:"#00274c",  fg:"#ffcb05", border:"#ffcb05", abbr:"UM"},
+  "Boston College":          {bg:"#8b0000",  fg:"#d4af37", border:"#c8a030", abbr:"BC"},
+  "Minnesota":               {bg:"#7a0019",  fg:"#ffcc33", border:"#ffcc33", abbr:"MN"},
+  "Minnesota-Duluth":        {bg:"#7a0019",  fg:"#ffd700", border:"#ffd700", abbr:"UMD"},
+  "Massachusetts":           {bg:"#881c1c",  fg:"#ffffff", border:"#cc4444", abbr:"UMA"},
+  "North Dakota":            {bg:"#009a44",  fg:"#ffffff", border:"#00cc55", abbr:"UND"},
+  "Western Michigan":        {bg:"#6c4023",  fg:"#f5c518", border:"#f5c518", abbr:"WMU"},
+  "Providence":              {bg:"#3a3a3a",  fg:"#ffffff", border:"#aaaaaa", abbr:"PC"},
+  "Harvard":                 {bg:"#a51c30",  fg:"#ffffff", border:"#cc3344", abbr:"HAR"},
+  "Denver":                  {bg:"#8b2332",  fg:"#c8a050", border:"#c8a050", abbr:"DU"},
+  "Northeastern":            {bg:"#cc0000",  fg:"#000000", border:"#ff2222", abbr:"NEU"},
+  "St. Cloud State":         {bg:"#d4102c",  fg:"#ffffff", border:"#ff2244", abbr:"SCS"},
+  "Minnesota State":         {bg:"#4e2583",  fg:"#ffc72c", border:"#ffc72c", abbr:"MSU"},
+  "Ohio State":              {bg:"#bb0000",  fg:"#ffffff", border:"#ff4422", abbr:"OSU"},
+  "Notre Dame":              {bg:"#0c2340",  fg:"#c99700", border:"#c99700", abbr:"ND"},
+  "Connecticut":             {bg:"#000e2f",  fg:"#e4d5b7", border:"#002b8f", abbr:"UCO"},
+  "Quinnipiac":              {bg:"#002b5c",  fg:"#c8a951", border:"#c8a951", abbr:"QU"},
+  "Michigan State":          {bg:"#18453b",  fg:"#ffffff", border:"#22cc77", abbr:"MSU"},
+  "Cornell":                 {bg:"#b31b1b",  fg:"#ffffff", border:"#dd3333", abbr:"COR"},
+  "Wisconsin":               {bg:"#c5050c",  fg:"#ffffff", border:"#ff2222", abbr:"UW"},
+  "Maine":                   {bg:"#003b6e",  fg:"#ffffff", border:"#ffffff", abbr:"ME"},
+  "Nebraska-Omaha":          {bg:"#1a1a1a",  fg:"#cc0000", border:"#cc0000", abbr:"UNO"},
+  "Arizona State":           {bg:"#8c1d40",  fg:"#ffc627", border:"#ffc627", abbr:"ASU"},
+  "Massachusetts-Lowell":    {bg:"#003087",  fg:"#ffffff", border:"#cc0000", abbr:"UML"},
+  "Michigan Tech":           {bg:"#000000",  fg:"#ffd200", border:"#ffd200", abbr:"MTU"},
+  "Yale":                    {bg:"#0f4d92",  fg:"#ffffff", border:"#4488dd", abbr:"YAL"},
+  "Dartmouth":               {bg:"#00693e",  fg:"#ffffff", border:"#00bb66", abbr:"DAR"},
+  "Colorado College":        {bg:"#1a1a1a",  fg:"#c8b400", border:"#c8b400", abbr:"CC"},
+  "Penn State":              {bg:"#001e44",  fg:"#ffffff", border:"#334466", abbr:"PSU"},
+  "Union":                   {bg:"#1a0a0a",  fg:"#c8a951", border:"#862633", abbr:"UNI"},
+  "Merrimack":               {bg:"#003057",  fg:"#c8922a", border:"#c8922a", abbr:"MER"},
+  "Miami (Ohio)":            {bg:"#b61e2e",  fg:"#f0c040", border:"#f0c040", abbr:"MIA"},
+  "Clarkson":                {bg:"#005900",  fg:"#ffd200", border:"#ffd200", abbr:"CLK"},
+  "Princeton":               {bg:"#ee7f00",  fg:"#000000", border:"#ff9900", abbr:"PRI"},
+  "Northern Michigan":       {bg:"#006633",  fg:"#ffd700", border:"#ffd700", abbr:"NMU"},
+  "Sacred Heart":            {bg:"#8b0000",  fg:"#ffffff", border:"#cc2222", abbr:"SHU"},
+  "Brown":                   {bg:"#4e3629",  fg:"#ffffff", border:"#8b6644", abbr:"BRN"},
+  "Bowling Green":           {bg:"#f15a22",  fg:"#ffffff", border:"#ff8855", abbr:"BG"},
+  "New Hampshire":           {bg:"#003da5",  fg:"#ffffff", border:"#4477dd", abbr:"UNH"},
+  "St. Lawrence":            {bg:"#8b0000",  fg:"#c8a951", border:"#c8a951", abbr:"SLU"},
+  "Ferris State":            {bg:"#b30000",  fg:"#ffc72c", border:"#ffc72c", abbr:"FSU"},
+  "Vermont":                 {bg:"#007a33",  fg:"#ffe838", border:"#00aa44", abbr:"UVM"},
+  "Colgate":                 {bg:"#821019",  fg:"#ffffff", border:"#cc2233", abbr:"COL"},
+  "Bemidji State University":{bg:"#006341",  fg:"#ffffff", border:"#00aa66", abbr:"BSU"},
+};
+
+const CONFS = {
+  "Hockey East":["Boston University","Boston College","Massachusetts","Northeastern","Providence","Notre Dame","Connecticut","Maine","Massachusetts-Lowell","New Hampshire","Vermont","Merrimack"],
+  "Big Ten":    ["Michigan","Minnesota","Wisconsin","Ohio State","Michigan State","Penn State"],
+  "NCHC":       ["North Dakota","Minnesota-Duluth","Denver","Western Michigan","St. Cloud State","Colorado College","Nebraska-Omaha","Miami (Ohio)","Arizona State"],
+  "ECAC":       ["Harvard","Quinnipiac","Yale","Dartmouth","Union","Princeton","Clarkson","Cornell","Brown","St. Lawrence","Colgate"],
+  "CCHA":       ["Michigan Tech","Northern Michigan","Bowling Green","Ferris State","Bemidji State University"],
+};
+const SCHOOL_CONF = {};
+for (const [c,ss] of Object.entries(CONFS)) for (const s of ss) SCHOOL_CONF[s]=c;
+
+const RC  = {R1:"#f5c518",R2:"#e07b39",R3:"#5bb85b",R4:"#4a90d9",R5:"#9b6dd4",R6:"#e84393",R7:"#36c4c4",Undrafted:"#555b6e","Pre-2015":"#3a3e4a"};
+const RCV = {R1:"var(--r1)",R2:"var(--r2)",R3:"var(--r3)",R4:"var(--r4)",R5:"var(--r5)",R6:"var(--r6)",R7:"var(--r7)",Undrafted:"var(--ud)","Pre-2015":"var(--pre)"};
+const RO  = ["R1","R2","R3","R4","R5","R6","R7","Undrafted","Pre-2015"];
+const RL  = {R1:"Round 1",R2:"Round 2",R3:"Round 3",R4:"Round 4",R5:"Round 5",R6:"Round 6",R7:"Round 7",Undrafted:"Undrafted","Pre-2015":"Pre-2015 Draft"};
+
+let currentSort='total', currentFilter='all';
+let activeRounds = new Set(RO);
+
+const gS = s => SS[s] || {bg:"#2a2e3e",fg:"#fff",border:"#444",abbr:s.slice(0,3).toUpperCase()};
+const gC = s => SCHOOL_CONF[s] || "Other";
+const fT = d => RO.filter(r=>activeRounds.has(r)).reduce((s,r)=>s+(d[r]||0),0);
+
+window._sd = {};
+DATA.forEach(d => { window._sd[d.school] = d; });
+
+function renderChart() {
+  let rows = [...DATA];
+  if (currentFilter==='5plus')  rows = rows.filter(d=>d.total>=5);
+  if (currentFilter==='10plus') rows = rows.filter(d=>d.total>=10);
+  if      (currentSort==='total')     rows.sort((a,b)=>fT(b)-fT(a)||a.school.localeCompare(b.school));
+  else if (currentSort==='r1')        rows.sort((a,b)=>(b.R1||0)-(a.R1||0)||b.total-a.total);
+  else if (currentSort==='undrafted') rows.sort((a,b)=>(b.Undrafted||0)-(a.Undrafted||0)||b.total-a.total);
+  else if (currentSort==='alpha')     rows.sort((a,b)=>a.school.localeCompare(b.school));
+  else if (currentSort==='conf')      rows.sort((a,b)=>gC(a.school).localeCompare(gC(b.school))||fT(b)-fT(a));
+  const maxFilt = Math.max(...rows.map(d=>fT(d)),1);
+  const chart = document.getElementById('chart');
+  chart.innerHTML = '';
+  let lastConf = null;
+  rows.forEach(function(d) {
+    var st = gS(d.school), ft = fT(d);
+    if (currentSort==='conf') {
+      var c = gC(d.school);
+      if (c!==lastConf) {
+        var sh=document.createElement('div'); sh.className='section-head'; sh.textContent=c;
+        chart.appendChild(sh); lastConf=c;
+      }
+    }
+    var row=document.createElement('div'); row.className='school-row';
+    row.setAttribute('data-school',d.school);
+    row.addEventListener('click',function(e){
+      if(!e.target.closest('.bar-seg')) openDetail(this.getAttribute('data-school'));
+    });
+    var nb=document.createElement('div'); nb.className='school-name-block';
+    nb.setAttribute('data-school',d.school);
+    /* click on whole row instead */
+    var badge=document.createElement('div'); badge.className='school-badge';
+    badge.style.background=st.bg; badge.style.color=st.fg;
+    badge.style.border='1.5px solid '+st.border; badge.textContent=st.abbr;
+    var nt=document.createElement('span'); nt.className='school-name-text'; nt.textContent=d.school;
+    nb.appendChild(badge); nb.appendChild(nt);
+    var bo=document.createElement('div'); bo.className='bar-outer';
+    var bt=document.createElement('div'); bt.className='bar-track';
+    var hasSegs=false;
+    RO.forEach(function(r){
+      if(!activeRounds.has(r)) return;
+      var cnt=d[r]||0; if(!cnt) return; hasSegs=true;
+      var seg=document.createElement('div'); seg.className='bar-seg';
+      seg.style.width=(cnt/maxFilt*100)+'%'; seg.style.background=RCV[r];
+      seg.setAttribute('data-school',d.school); seg.setAttribute('data-round',r);
+      seg.addEventListener('click',function(e){
+        e.stopPropagation();
+        var s=this.getAttribute('data-school'), r=this.getAttribute('data-round');
+        openDetail(s, r);
+      });
+      seg.addEventListener('mouseenter',function(e){showSegTip(e,this.getAttribute('data-school'),this.getAttribute('data-round'));});
+      seg.addEventListener('mouseleave',hideSegTip);
+      bt.appendChild(seg);
+    });
+    if(!hasSegs){var em=document.createElement('div');em.style.cssText='width:100%;background:rgba(255,255,255,0.02)';bt.appendChild(em);}
+    bo.appendChild(bt);
+    var tl=document.createElement('div'); tl.className='total-label'; tl.textContent=ft;
+    row.appendChild(nb); row.appendChild(bo); row.appendChild(tl);
+    chart.appendChild(row);
+  });
+}
+
+function showSegTip(e,school,round) {
+  var d=window._sd[school]; if(!d) return;
+  var players=(d.players&&d.players[round])||[], color=RC[round];
+  var tip=document.getElementById('seg-tooltip');
+  var h='<div class="stt-header"><div class="stt-dot" style="background:'+color+'"></div>'
+    +'<div><div class="stt-school">'+school+'</div><div class="stt-round">'+RL[round]+'</div></div>'
+    +'<div class="stt-count">'+players.length+' player'+(players.length!==1?'s':'')+'</div></div>'
+    +'<div class="stt-players">';
+  players.forEach(function(p){
+    var pi=p.pick?(round+' \u00b7 #'+p.pick+' \u00b7 '+p.year):'UDFA';
+    h+='<div class="stt-player"><span class="stt-player-name">'+p.name+'</span><span class="stt-pick">'+pi+'</span></div>';
+  });
+  h+='</div>'; tip.innerHTML=h; tip.style.display='block'; moveSegTip(e);
+}
+function moveSegTip(e){
+  var tip=document.getElementById('seg-tooltip');
+  var x=e.clientX+16,y=e.clientY-12;
+  if(x+300>window.innerWidth) x=e.clientX-310;
+  if(y+tip.offsetHeight+10>window.innerHeight) y=e.clientY-tip.offsetHeight-10;
+  tip.style.left=x+'px'; tip.style.top=y+'px';
+}
+function hideSegTip(){document.getElementById('seg-tooltip').style.display='none';}
+document.addEventListener('mousemove',function(e){
+  var t=document.getElementById('seg-tooltip'); if(t.style.display!=='none') moveSegTip(e);
+});
+
+function openDetail(school, scrollToRound) {
+  var d=window._sd[school]; if(!d) return;
+  var st=gS(school), conf=gC(school);
+  var lc=(st.fg==='#fff'||st.fg==='#ffffff')?(st.border||'#aad4ff'):st.fg;
+  var bt=RO.reduce(function(s,r){return s+(d[r]||0);},0);
+  var bsegs='';
+  RO.forEach(function(r){var cnt=d[r]||0;if(!cnt)return;bsegs+='<div class="detail-bar-seg" style="width:'+(cnt/bt*100)+'%;background:'+RC[r]+'" title="'+RL[r]+': '+cnt+'"></div>';});
+  var leg='';
+  RO.forEach(function(r){if(!d[r])return;leg+='<div class="dbl-item"><div class="dbl-dot" style="background:'+RC[r]+'"></div>'+RL[r]+' ('+d[r]+')</div>';});
+  var stats='<div class="dstat"><div class="dstat-val">'+d.total+'</div><div class="dstat-lbl">Total</div></div>';
+  if(d.R1) stats+='<div class="dstat"><div class="dstat-val" style="color:'+RC.R1+'">'+d.R1+'</div><div class="dstat-lbl">1st Round</div></div>';
+  if(d.Undrafted) stats+='<div class="dstat"><div class="dstat-val" style="color:#8899bb">'+d.Undrafted+'</div><div class="dstat-lbl">Undrafted</div></div>';
+  var rsecs='';
+  RO.forEach(function(r){
+    if(!d[r]) return;
+    var ps=(d.players&&d.players[r])||[], cards='';
+    ps.forEach(function(p){
+      var pi=p.pick?('#'+p.pick+' \u00b7 '+p.year):'UDFA';
+      cards+='<div class="player-card"><span class="player-card-name">'+p.name+'</span><span class="player-card-pick">'+pi+'</span></div>';
+    });
+    rsecs+='<div class="round-section" data-round-id="'+r+'"><div class="round-section-header">'
+      +'<div class="rsh-dot" style="background:'+RC[r]+'"></div>'
+      +'<span class="rsh-label">'+RL[r]+'</span>'
+      +'<span class="rsh-count">'+ps.length+' player'+(ps.length!==1?'s':'')+'</span>'
+      +'</div><div class="player-grid">'+cards+'</div></div>';
+  });
+  var panel=document.getElementById('detail-panel');
+  panel.innerHTML='<div class="detail-back" id="back-btn">'
+    +'<svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2"><path d="M10 3L5 8l5 5"/></svg>'
+    +'Back to all programs</div>'
+    +'<div class="detail-header">'
+    +'<div class="detail-badge" style="background:'+st.bg+';color:'+st.fg+';border:2px solid '+st.border+'">'+st.abbr+'</div>'
+    +'<div class="detail-title"><h2 style="color:'+lc+'">'+school+'</h2><p>'+conf+' \u00b7 NHL debutants 2018\u201319 through 2025\u201326</p></div>'
+    +'<div class="detail-stats">'+stats+'</div></div>'
+    +'<div class="detail-bar-wrap"><div class="detail-bar">'+bsegs+'</div><div class="detail-bar-legend">'+leg+'</div></div>'
+    +'<div class="detail-rounds">'+rsecs+'</div>';
+  document.getElementById('back-btn').addEventListener('click',function(){closeDetail();});
+  var ov=document.getElementById('overlay');
+  ov.classList.add('open'); document.body.style.overflow='hidden';
+  if(scrollToRound) {
+    var target = panel.querySelector('[data-round-id="'+scrollToRound+'"]');
+    if(target) { setTimeout(function(){ target.scrollIntoView({behavior:'smooth',block:'start'}); },50); }
+    else { ov.scrollTop=0; }
+  } else { ov.scrollTop=0; }
+}
+function closeDetail(){
+  document.getElementById('overlay').classList.remove('open');
+  document.body.style.overflow='';
+}
+document.getElementById('overlay').addEventListener('click',function(e){if(e.target===this)closeDetail();});
+document.addEventListener('keydown',function(e){if(e.key==='Escape')closeDetail();});
+
+function setSort(s){
+  currentSort=s;
+  document.querySelectorAll('#sort-btns .btn').forEach(function(b,i){b.classList.toggle('active',['total','r1','undrafted','alpha','conf'][i]===s);});
+  renderChart();
+}
+function setFilter(f){
+  currentFilter=f;
+  document.querySelectorAll('#filter-btns .btn').forEach(function(b,i){b.classList.toggle('active',['all','5plus','10plus'][i]===f);});
+  renderChart();
+}
+function toggleRound(r){
+  if(activeRounds.has(r)){if(activeRounds.size>1)activeRounds.delete(r);}
+  else activeRounds.add(r);
+  document.querySelectorAll('.leg-item').forEach(function(el){el.classList.toggle('dimmed',!activeRounds.has(el.id.replace('leg-','')));});
+  renderChart();
+}
+renderChart();
+
+</script>
+</body>
+</html>
