@@ -1,0 +1,564 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Awards — UMass Hockey Stats</title>
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;600;700;900&family=Barlow:wght@400;500&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --maroon:#881c1c;
+  --maroon-dark:#5a1010;
+  --maroon-dim:rgba(136,28,28,.15);
+  --gold:#c9a84c;
+  --gold-dim:rgba(201,168,76,.12);
+  --white:#ffffff;
+  --off-white:rgba(255,255,255,.87);
+  --muted:rgba(255,255,255,.45);
+  --muted2:rgba(255,255,255,.22);
+  --surface:rgba(255,255,255,.03);
+  --surface2:rgba(255,255,255,.055);
+  --border:rgba(255,255,255,.08);
+  --border2:rgba(255,255,255,.14);
+  --font:'Barlow Condensed',sans-serif;
+  --font-body:'Barlow',sans-serif;
+}
+html{scroll-behavior:smooth}
+body{background:#0c0c10;color:var(--white);font-family:var(--font-body);min-height:100vh;overflow-x:hidden}
+
+/* NAV */
+nav{
+  position:fixed;top:0;left:0;right:0;z-index:100;
+  display:flex;align-items:center;padding:0 40px;height:58px;
+  background:rgba(12,12,16,.92);border-bottom:1px solid var(--border);
+  backdrop-filter:blur(14px);
+}
+.nav-logo{color:#fff;text-decoration:none;display:flex;align-items:center;margin-right:32px}
+.nav-logo img{height:34px;width:auto;display:block}
+.nav-links{display:flex;align-items:center;gap:2px;margin-left:auto}
+.nav-link{
+  font-family:var(--font);font-size:12px;font-weight:700;
+  letter-spacing:1.5px;text-transform:uppercase;color:var(--muted);
+  text-decoration:none;padding:6px 12px;border-radius:3px;transition:color .15s,background .15s;
+}
+.nav-link:hover,.nav-link.active{color:#fff;background:rgba(255,255,255,.05)}
+.nav-link.external{color:var(--maroon)}
+
+/* PAGE HEADER */
+.page-header{
+  padding:100px 48px 48px;
+  max-width:900px;margin:0 auto;
+}
+.page-label{
+  font-family:var(--font);font-size:11px;font-weight:700;
+  letter-spacing:3px;text-transform:uppercase;color:var(--maroon);
+  margin-bottom:10px;
+}
+.page-title{
+  font-family:var(--font);font-size:clamp(42px,5vw,68px);
+  font-weight:900;line-height:.95;color:#fff;margin-bottom:14px;
+}
+.page-sub{font-size:15px;color:var(--muted);line-height:1.6;max-width:480px}
+
+/* ACCORDION */
+.awards-wrap{max-width:900px;margin:0 auto;padding:0 48px 80px;display:flex;flex-direction:column;gap:2px}
+
+.award-section{border:1px solid var(--border);border-radius:6px;overflow:hidden;background:var(--surface)}
+
+.section-trigger{
+  width:100%;display:flex;align-items:center;gap:16px;
+  padding:18px 22px;cursor:pointer;
+  background:none;border:none;color:#fff;text-align:left;
+  transition:background .15s;
+  user-select:none;
+}
+.section-trigger:hover{background:var(--surface2)}
+
+.section-trigger.open{background:var(--surface2)}
+.section-trigger.open .trigger-arrow{transform:rotate(180deg)}
+
+.trigger-label{
+  font-family:var(--font);font-size:18px;font-weight:900;
+  letter-spacing:.3px;color:#fff;flex:1;
+}
+.trigger-count{
+  font-family:var(--font);font-size:11px;font-weight:700;
+  letter-spacing:1.5px;text-transform:uppercase;color:var(--muted2);
+}
+.trigger-arrow{
+  color:var(--muted2);font-size:12px;transition:transform .2s;flex-shrink:0;
+}
+
+.section-body{
+  display:none;border-top:1px solid var(--border);
+}
+.section-body.open{display:block}
+
+/* AWARD ROW */
+.award-row{
+  display:flex;align-items:baseline;gap:0;
+  padding:14px 22px;border-bottom:1px solid var(--border);
+  transition:background .12s;
+}
+.award-row:last-child{border-bottom:none}
+.award-row:hover{background:var(--surface2)}
+
+.award-year{
+  font-family:var(--font);font-size:13px;font-weight:700;
+  color:var(--muted2);letter-spacing:.5px;min-width:72px;flex-shrink:0;
+}
+.award-person{
+  font-family:var(--font);font-size:18px;font-weight:900;color:#fff;
+  flex:1;line-height:1.1;
+}
+.award-note{
+  font-family:var(--font);font-size:11px;font-weight:700;
+  letter-spacing:1px;text-transform:uppercase;color:var(--muted);
+  text-align:right;flex-shrink:0;
+}
+
+/* MILESTONE ROW */
+.award-row.milestone{border-left:3px solid var(--maroon)}
+.award-row.milestone .award-year{color:var(--maroon)}
+
+/* GOLD ROW */
+.award-row.gold-row{border-left:3px solid var(--gold)}
+.award-row.gold-row .award-year{color:var(--gold)}
+.award-row.gold-row .award-person{color:#fff}
+
+/* FIRST-EVER TAG */
+.tag{
+  font-family:var(--font);font-size:9px;font-weight:800;
+  letter-spacing:1.5px;text-transform:uppercase;
+  padding:2px 7px;border-radius:2px;margin-left:10px;
+  vertical-align:middle;display:inline-block;
+  white-space:nowrap;
+}
+.tag-first{background:rgba(201,168,76,.18);color:var(--gold);border:1px solid rgba(201,168,76,.3)}
+.tag-milestone{background:rgba(136,28,28,.2);color:#d06060;border:1px solid rgba(136,28,28,.3)}
+.tag-unan{background:rgba(255,255,255,.06);color:var(--muted);border:1px solid var(--border2)}
+
+/* ALLSTAR TABLE */
+.allstar-table{width:100%}
+.allstar-season-header{
+  padding:10px 22px;
+  background:rgba(255,255,255,.02);
+  border-bottom:1px solid var(--border);
+  font-family:var(--font);font-size:11px;font-weight:700;
+  letter-spacing:2px;text-transform:uppercase;color:var(--muted2);
+}
+
+.allstar-row{
+  display:flex;align-items:center;gap:14px;
+  padding:11px 22px;border-bottom:1px solid var(--border);
+  transition:background .12s;
+}
+.allstar-row:last-child{border-bottom:none}
+.allstar-row:hover{background:var(--surface2)}
+
+.allstar-season{
+  font-family:var(--font);font-size:12px;font-weight:700;
+  color:var(--muted2);min-width:64px;flex-shrink:0;
+}
+.allstar-team-badge{
+  font-family:var(--font);font-size:10px;font-weight:800;
+  letter-spacing:1px;text-transform:uppercase;
+  padding:3px 9px;border-radius:2px;min-width:90px;text-align:center;flex-shrink:0;
+}
+.b-1st{background:rgba(201,168,76,.18);color:var(--gold);border:1px solid rgba(201,168,76,.3)}
+.b-2nd{background:rgba(255,255,255,.07);color:rgba(220,220,235,.8);border:1px solid var(--border2)}
+.b-3rd{background:rgba(255,255,255,.04);color:var(--muted);border:1px solid var(--border)}
+.b-rk{background:rgba(80,160,120,.12);color:rgba(120,200,155,.85);border:1px solid rgba(120,200,155,.2)}
+.b-hm{background:rgba(255,255,255,.03);color:var(--muted2);border:1px solid var(--border)}
+.b-spec{background:rgba(136,28,28,.15);color:#c06060;border:1px solid rgba(136,28,28,.25)}
+
+.allstar-name{font-family:var(--font);font-size:17px;font-weight:900;color:#fff;flex:1}
+.allstar-note{font-family:var(--font);font-size:10px;font-weight:700;letter-spacing:.8px;color:var(--muted2);text-transform:uppercase;text-align:right}
+
+@media(max-width:700px){
+  nav{padding:0 16px}
+  .page-header{padding:90px 20px 36px}
+  .awards-wrap{padding:0 20px 60px}
+  .award-row,.allstar-row{flex-wrap:wrap;gap:6px}
+  .award-note,.allstar-note{text-align:left}
+}
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="index.html" class="nav-logo">
+    <img src="UMass_Hockey_2_.png" alt="UMass Hockey">
+  </a>
+  <div class="nav-links">
+    <a href="index.html#rosters" class="nav-link">Rosters</a>
+    <a href="ncaa_nhl_pipeline.html" class="nav-link">NCAA Pipeline</a>
+    <a href="career_stats.html" class="nav-link">Career Stats</a>
+    <a href="recruiting_classes.html" class="nav-link">Draft</a>
+    <a href="alltime_records.html" class="nav-link">Records</a>
+    <a href="awards.html" class="nav-link active">Awards</a>
+    <a href="https://umasshockeyblog.substack.com/" class="nav-link external" target="_blank" rel="noopener">Blog ↗</a>
+  </div>
+</nav>
+
+<div class="page-header">
+  <div class="page-label">Hockey East · 1993–present</div>
+  <h1 class="page-title">Individual Awards</h1>
+  <p class="page-sub">Every honor earned by a Minuteman — conference awards, all-star selections, and national recognition.</p>
+</div>
+
+<div class="awards-wrap">
+
+  <!-- ── PLAYER OF THE YEAR ── -->
+  <div class="award-section">
+    <button class="section-trigger open" onclick="toggle(this)">
+      <span class="trigger-label">Hockey East Player of the Year</span>
+      <span class="trigger-count">3 winners</span>
+      <span class="trigger-arrow">▾</span>
+    </button>
+    <div class="section-body open">
+      <div class="award-row gold-row">
+        <div class="award-year">2025–26</div>
+        <div class="award-person">Michael Hrabal <span class="tag tag-first">First Minuteman Goalie Ever</span></div>
+        <div class="award-note">1.95 GAA · .937 SV%</div>
+      </div>
+      <div class="award-row milestone">
+        <div class="award-year">2021–22</div>
+        <div class="award-person">Bobby Trivigno</div>
+        <div class="award-note">51 pts in 37 gp</div>
+      </div>
+      <div class="award-row milestone">
+        <div class="award-year">2018–19</div>
+        <div class="award-person">Cale Makar <span class="tag tag-first">First UMass Winner</span> <span class="tag tag-unan">Unanimous</span></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── GOALIE OF THE YEAR ── -->
+  <div class="award-section">
+    <button class="section-trigger open" onclick="toggle(this)">
+      <span class="trigger-label">Hockey East Goalie of the Year</span>
+      <span class="trigger-count">1 winner</span>
+      <span class="trigger-arrow">▾</span>
+    </button>
+    <div class="section-body open">
+      <div class="award-row gold-row">
+        <div class="award-year">2025–26</div>
+        <div class="award-person">Michael Hrabal <span class="tag tag-first">First Minuteman Ever</span></div>
+        <div class="award-note">1.95 GAA · .937 SV%</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── ROOKIE OF THE YEAR ── -->
+  <div class="award-section">
+    <button class="section-trigger" onclick="toggle(this)">
+      <span class="trigger-label">Hockey East Rookie of the Year</span>
+      <span class="trigger-count">1 winner</span>
+      <span class="trigger-arrow">▾</span>
+    </button>
+    <div class="section-body">
+      <div class="award-row milestone">
+        <div class="award-year">2020–21</div>
+        <div class="award-person">Josh Lopina <span class="tag tag-first">First UMass Winner</span> <span class="tag tag-unan">Co-Winner</span></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── COACH OF THE YEAR ── -->
+  <div class="award-section">
+    <button class="section-trigger" onclick="toggle(this)">
+      <span class="trigger-label">Hockey East Coach of the Year</span>
+      <span class="trigger-count">2 winners</span>
+      <span class="trigger-arrow">▾</span>
+    </button>
+    <div class="section-body">
+      <div class="award-row milestone">
+        <div class="award-year">2018–19</div>
+        <div class="award-person">Greg Carvel</div>
+        <div class="award-note">Bob Kullen Award · 31-7-4</div>
+      </div>
+      <div class="award-row">
+        <div class="award-year">2002–03</div>
+        <div class="award-person">Don Cahoon</div>
+        <div class="award-note">Bob Kullen Award</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── NATIONAL COACHING ── -->
+  <div class="award-section">
+    <button class="section-trigger" onclick="toggle(this)">
+      <span class="trigger-label">National Coach of the Year</span>
+      <span class="trigger-count">1 winner</span>
+      <span class="trigger-arrow">▾</span>
+    </button>
+    <div class="section-body">
+      <div class="award-row milestone">
+        <div class="award-year">2018–19</div>
+        <div class="award-person">Greg Carvel <span class="tag tag-first">First UMass Winner</span></div>
+        <div class="award-note">Spencer Penrose Award</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── SPORTSMANSHIP ── -->
+  <div class="award-section">
+    <button class="section-trigger" onclick="toggle(this)">
+      <span class="trigger-label">Len Ceglarski Sportsmanship Award</span>
+      <span class="trigger-count">1 winner</span>
+      <span class="trigger-arrow">▾</span>
+    </button>
+    <div class="section-body">
+      <div class="award-row">
+        <div class="award-year">2023–24</div>
+        <div class="award-person">Ryan Ufko</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── HOCKEY EAST ALL-STARS ── -->
+  <div class="award-section">
+    <button class="section-trigger" onclick="toggle(this)">
+      <span class="trigger-label">Hockey East All-Star Teams</span>
+      <span class="trigger-count">22 seasons</span>
+      <span class="trigger-arrow">▾</span>
+    </button>
+    <div class="section-body">
+
+      <div class="allstar-season-header">2025–26</div>
+      <div class="allstar-row"><div class="allstar-season">2025–26</div><span class="allstar-team-badge b-spec">Player of Year</span><div class="allstar-name">Michael Hrabal</div></div>
+      <div class="allstar-row"><div class="allstar-season">2025–26</div><span class="allstar-team-badge b-spec">Goalie of Year</span><div class="allstar-name">Michael Hrabal</div></div>
+      <div class="allstar-row"><div class="allstar-season">2025–26</div><span class="allstar-team-badge b-2nd">2nd Team</span><div class="allstar-name">Jack Musa</div></div>
+      <div class="allstar-row"><div class="allstar-season">2025–26</div><span class="allstar-team-badge b-2nd">2nd Team</span><div class="allstar-name">Larry Keenan</div></div>
+
+      <div class="allstar-season-header">2024–25</div>
+      <div class="allstar-row"><div class="allstar-season">2024–25</div><span class="allstar-team-badge b-1st">1st Team</span><div class="allstar-name">Cole O'Hara</div></div>
+      <div class="allstar-row"><div class="allstar-season">2024–25</div><span class="allstar-team-badge b-3rd">3rd Team</span><div class="allstar-name">Michael Hrabal</div></div>
+      <div class="allstar-row"><div class="allstar-season">2024–25</div><span class="allstar-team-badge b-rk">All-Rookie</span><div class="allstar-name">Francesco Dell'Elce</div></div>
+
+      <div class="allstar-season-header">2023–24</div>
+      <div class="allstar-row"><div class="allstar-season">2023–24</div><span class="allstar-team-badge b-1st">1st Team</span><div class="allstar-name">Ryan Ufko</div></div>
+
+      <div class="allstar-season-header">2021–22</div>
+      <div class="allstar-row"><div class="allstar-season">2021–22</div><span class="allstar-team-badge b-1st">1st Team</span><div class="allstar-name">Bobby Trivigno</div></div>
+      <div class="allstar-row"><div class="allstar-season">2021–22</div><span class="allstar-team-badge b-1st">1st Team</span><div class="allstar-name">Scott Morrow</div></div>
+      <div class="allstar-row"><div class="allstar-season">2021–22</div><span class="allstar-team-badge b-rk">All-Rookie</span><div class="allstar-name">Scott Morrow</div></div>
+
+      <div class="allstar-season-header">2019–20</div>
+      <div class="allstar-row"><div class="allstar-season">2019–20</div><span class="allstar-team-badge b-1st">1st Team</span><div class="allstar-name">John Leonard</div></div>
+      <div class="allstar-row"><div class="allstar-season">2019–20</div><span class="allstar-team-badge b-3rd">3rd Team</span><div class="allstar-name">Jake McLaughlin</div></div>
+      <div class="allstar-row"><div class="allstar-season">2019–20</div><span class="allstar-team-badge b-rk">All-Rookie</span><div class="allstar-name">Zac Jones</div></div>
+
+      <div class="allstar-season-header">2018–19</div>
+      <div class="allstar-row"><div class="allstar-season">2018–19</div><span class="allstar-team-badge b-1st">1st Team</span><div class="allstar-name">Cale Makar</div></div>
+      <div class="allstar-row"><div class="allstar-season">2018–19</div><span class="allstar-team-badge b-2nd">2nd Team</span><div class="allstar-name">John Leonard</div></div>
+      <div class="allstar-row"><div class="allstar-season">2018–19</div><span class="allstar-team-badge b-2nd">2nd Team</span><div class="allstar-name">Jacob Pritchard</div></div>
+      <div class="allstar-row"><div class="allstar-season">2018–19</div><span class="allstar-team-badge b-3rd">3rd Team</span><div class="allstar-name">Marc Del Gaizo</div></div>
+      <div class="allstar-row"><div class="allstar-season">2018–19</div><span class="allstar-team-badge b-3rd">3rd Team</span><div class="allstar-name">Mario Ferraro</div></div>
+      <div class="allstar-row"><div class="allstar-season">2018–19</div><span class="allstar-team-badge b-rk">All-Rookie</span><div class="allstar-name">Marc Del Gaizo</div></div>
+
+      <div class="allstar-season-header">2017–18</div>
+      <div class="allstar-row"><div class="allstar-season">2017–18</div><span class="allstar-team-badge b-3rd">3rd Team</span><div class="allstar-name">Cale Makar</div></div>
+      <div class="allstar-row"><div class="allstar-season">2017–18</div><span class="allstar-team-badge b-rk">All-Rookie</span><div class="allstar-name">Cale Makar</div></div>
+      <div class="allstar-row"><div class="allstar-season">2017–18</div><span class="allstar-team-badge b-rk">All-Rookie</span><div class="allstar-name">Mario Ferraro</div></div>
+
+      <div class="allstar-season-header">2014–15</div>
+      <div class="allstar-row"><div class="allstar-season">2014–15</div><span class="allstar-team-badge b-rk">All-Rookie</span><div class="allstar-name">Brandon Montour</div></div>
+
+      <div class="allstar-season-header">2012–13</div>
+      <div class="allstar-row"><div class="allstar-season">2012–13</div><span class="allstar-team-badge b-hm">Hon. Mention</span><div class="allstar-name">Branden Gracel</div></div>
+
+      <div class="allstar-season-header">2011–12</div>
+      <div class="allstar-row"><div class="allstar-season">2011–12</div><span class="allstar-team-badge b-hm">Hon. Mention</span><div class="allstar-name">T.J. Syner</div></div>
+
+      <div class="allstar-season-header">2010–11</div>
+      <div class="allstar-row"><div class="allstar-season">2010–11</div><span class="allstar-team-badge b-rk">All-Rookie</span><div class="allstar-name">Michael Pereira</div></div>
+
+      <div class="allstar-season-header">2009–10</div>
+      <div class="allstar-row"><div class="allstar-season">2009–10</div><span class="allstar-team-badge b-1st">1st Team</span><div class="allstar-name">Justin Braun</div></div>
+      <div class="allstar-row"><div class="allstar-season">2009–10</div><span class="allstar-team-badge b-spec">Def. Defenseman</span><div class="allstar-name">Justin Braun</div><div class="allstar-note">First UMass winner</div></div>
+      <div class="allstar-row"><div class="allstar-season">2009–10</div><span class="allstar-team-badge b-2nd">2nd Team</span><div class="allstar-name">James Marcou</div></div>
+      <div class="allstar-row"><div class="allstar-season">2009–10</div><span class="allstar-team-badge b-hm">Hon. Mention</span><div class="allstar-name">Casey Wellman</div></div>
+
+      <div class="allstar-season-header">2008–09</div>
+      <div class="allstar-row"><div class="allstar-season">2008–09</div><span class="allstar-team-badge b-1st">1st Team</span><div class="allstar-name">James Marcou</div></div>
+      <div class="allstar-row"><div class="allstar-season">2008–09</div><span class="allstar-team-badge b-2nd">2nd Team</span><div class="allstar-name">Justin Braun</div></div>
+      <div class="allstar-row"><div class="allstar-season">2008–09</div><span class="allstar-team-badge b-rk">All-Rookie</span><div class="allstar-name">Casey Wellman</div></div>
+
+      <div class="allstar-season-header">2007–08</div>
+      <div class="allstar-row"><div class="allstar-season">2007–08</div><span class="allstar-team-badge b-2nd">2nd Team</span><div class="allstar-name">Mike Kostka</div></div>
+      <div class="allstar-row"><div class="allstar-season">2007–08</div><span class="allstar-team-badge b-rk">All-Rookie</span><div class="allstar-name">Paul Dainton</div></div>
+      <div class="allstar-row"><div class="allstar-season">2007–08</div><span class="allstar-team-badge b-rk">All-Rookie</span><div class="allstar-name">James Marcou</div></div>
+
+      <div class="allstar-season-header">2006–07</div>
+      <div class="allstar-row"><div class="allstar-season">2006–07</div><span class="allstar-team-badge b-2nd">2nd Team</span><div class="allstar-name">Jonathan Quick</div></div>
+      <div class="allstar-row"><div class="allstar-season">2006–07</div><span class="allstar-team-badge b-rk">All-Rookie</span><div class="allstar-name">Chris Capraro</div></div>
+      <div class="allstar-row"><div class="allstar-season">2006–07</div><span class="allstar-team-badge b-rk">All-Rookie</span><div class="allstar-name">Justin Braun</div></div>
+
+      <div class="allstar-season-header">2005–06</div>
+      <div class="allstar-row"><div class="allstar-season">2005–06</div><span class="allstar-team-badge b-1st">1st Team</span><div class="allstar-name">Marvin Degon</div></div>
+
+      <div class="allstar-season-header">2004–05</div>
+      <div class="allstar-row"><div class="allstar-season">2004–05</div><span class="allstar-team-badge b-rk">All-Rookie</span><div class="allstar-name">P.J. Fenton</div></div>
+      <div class="allstar-row"><div class="allstar-season">2004–05</div><span class="allstar-team-badge b-rk">All-Rookie</span><div class="allstar-name">David Leaderer</div></div>
+
+      <div class="allstar-season-header">2003–04</div>
+      <div class="allstar-row"><div class="allstar-season">2003–04</div><span class="allstar-team-badge b-1st">1st Team</span><div class="allstar-name">Thomas Pock</div><div class="allstar-note">First UMass 1st Team ever</div></div>
+      <div class="allstar-row"><div class="allstar-season">2003–04</div><span class="allstar-team-badge b-spec">Tournament</span><div class="allstar-name">Thomas Pock · Greg Mauldin · Mike Warner</div></div>
+
+      <div class="allstar-season-header">2002–03</div>
+      <div class="allstar-row"><div class="allstar-season">2002–03</div><span class="allstar-team-badge b-2nd">2nd Team</span><div class="allstar-name">Thomas Pock</div><div class="allstar-note">First UMass All-Conference ever</div></div>
+      <div class="allstar-row"><div class="allstar-season">2002–03</div><span class="allstar-team-badge b-hm">Hon. Mention</span><div class="allstar-name">Greg Mauldin</div></div>
+      <div class="allstar-row"><div class="allstar-season">2002–03</div><span class="allstar-team-badge b-rk">All-Rookie</span><div class="allstar-name">Stephen Werner <span class="tag tag-unan" style="font-size:8px">Unanimous</span></div></div>
+      <div class="allstar-row"><div class="allstar-season">2002–03</div><span class="allstar-team-badge b-spec">Tournament</span><div class="allstar-name">Stephen Werner</div></div>
+
+      <div class="allstar-season-header">1998–99</div>
+      <div class="allstar-row"><div class="allstar-season">1998–99</div><span class="allstar-team-badge b-hm">Hon. Mention</span><div class="allstar-name">Markus Helanen</div></div>
+
+      <div class="allstar-season-header">1994–95</div>
+      <div class="allstar-row"><div class="allstar-season">1994–95</div><span class="allstar-team-badge b-rk">All-Rookie</span><div class="allstar-name">Brian Regan</div></div>
+
+    </div>
+  </div>
+
+  <!-- ── NEW ENGLAND AWARDS ── -->
+  <div class="award-section">
+    <button class="section-trigger" onclick="toggle(this)">
+      <span class="trigger-label">New England Regional Awards</span>
+      <span class="trigger-count">7 honors</span>
+      <span class="trigger-arrow">▾</span>
+    </button>
+    <div class="section-body">
+      <div class="award-row milestone">
+        <div class="award-year">2021–22</div>
+        <div class="award-person">Bobby Trivigno</div>
+        <div class="award-note">Walter Brown Award</div>
+      </div>
+      <div class="award-row milestone">
+        <div class="award-year">2021–22</div>
+        <div class="award-person">Bobby Trivigno</div>
+        <div class="award-note">Leonard Fowle Award · New England MVP</div>
+      </div>
+      <div class="award-row milestone">
+        <div class="award-year">2021–22</div>
+        <div class="award-person">Bobby Trivigno</div>
+        <div class="award-note">Herb Gallagher Award · Best Forward</div>
+      </div>
+      <div class="award-row">
+        <div class="award-year">2019–20</div>
+        <div class="award-person">John Leonard <span class="tag tag-unan">Co-Recipient</span></div>
+        <div class="award-note">Walter Brown Award</div>
+      </div>
+      <div class="award-row">
+        <div class="award-year">2019–20</div>
+        <div class="award-person">John Leonard <span class="tag tag-unan">Co-Recipient</span></div>
+        <div class="award-note">Herb Gallagher Award · Best Forward</div>
+      </div>
+      <div class="award-row milestone">
+        <div class="award-year">2018–19</div>
+        <div class="award-person">Cale Makar</div>
+        <div class="award-note">Bob Monahan Award · Best Defenseman</div>
+      </div>
+      <div class="award-row milestone">
+        <div class="award-year">2018–19</div>
+        <div class="award-person">Cale Makar</div>
+        <div class="award-note">Leonard Fowle Award · New England MVP</div>
+      </div>
+      <div class="award-row">
+        <div class="award-year">2018–19</div>
+        <div class="award-person">Mitchell Chaffee</div>
+        <div class="award-note">Herb Gallagher Award · Best Forward</div>
+      </div>
+      <div class="award-row">
+        <div class="award-year">2017–18</div>
+        <div class="award-person">Cale Makar <span class="tag tag-unan">Co-Recipient</span></div>
+        <div class="award-note">George C. Carens Award · Rookie of Year</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── RICHTER AWARD ── -->
+  <div class="award-section">
+    <button class="section-trigger" onclick="toggle(this)">
+      <span class="trigger-label">Mike Richter Award (National Goalie of Year)</span>
+      <span class="trigger-count">1 finalist</span>
+      <span class="trigger-arrow">▾</span>
+    </button>
+    <div class="section-body">
+      <div class="award-row gold-row">
+        <div class="award-year">2025–26</div>
+        <div class="award-person">Michael Hrabal <span class="tag tag-first">First Minuteman Finalist Ever</span></div>
+        <div class="award-note">Finalist</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── MONTHLY HONORS ── -->
+  <div class="award-section">
+    <button class="section-trigger" onclick="toggle(this)">
+      <span class="trigger-label">Hockey East Player / Goaltender of the Month</span>
+      <span class="trigger-count">21 honors</span>
+      <span class="trigger-arrow">▾</span>
+    </button>
+    <div class="section-body">
+      <div class="award-row"><div class="award-year">2024–25</div><div class="award-person">Cole O'Hara</div><div class="award-note">Rookie of the Month · Multiple</div></div>
+      <div class="award-row"><div class="award-year">2022–23</div><div class="award-person">Kenny Connors</div><div class="award-note">Rookie · October</div></div>
+      <div class="award-row"><div class="award-year">2021–22</div><div class="award-person">Bobby Trivigno</div><div class="award-note">Player · February</div></div>
+      <div class="award-row"><div class="award-year">2021–22</div><div class="award-person">Scott Morrow</div><div class="award-note">Rookie · January</div></div>
+      <div class="award-row"><div class="award-year">2021–22</div><div class="award-person">Ryan Ufko</div><div class="award-note">Rookie · February</div></div>
+      <div class="award-row"><div class="award-year">2020–21</div><div class="award-person">Bobby Trivigno</div><div class="award-note">Player · Nov./Dec. · Mar./Apr.</div></div>
+      <div class="award-row"><div class="award-year">2020–21</div><div class="award-person">Josh Lopina</div><div class="award-note">Rookie · Nov./Dec. · Mar./Apr.</div></div>
+      <div class="award-row"><div class="award-year">2020–21</div><div class="award-person">Filip Lindberg</div><div class="award-note">Goaltender · Jan. · Feb. · Mar./Apr. (National)</div></div>
+      <div class="award-row"><div class="award-year">2018–19</div><div class="award-person">Cale Makar</div><div class="award-note">Player · October · Mar./Apr.</div></div>
+      <div class="award-row"><div class="award-year">2018–19</div><div class="award-person">Matt Murray</div><div class="award-note">Goaltender · November</div></div>
+      <div class="award-row"><div class="award-year">2018–19</div><div class="award-person">Filip Lindberg</div><div class="award-note">Goaltender · Mar./Apr. (National)</div></div>
+      <div class="award-row"><div class="award-year">2017–18</div><div class="award-person">John Leonard</div><div class="award-note">Rookie · March</div></div>
+      <div class="award-row"><div class="award-year">2015–16</div><div class="award-person">Dennis Kravchenko</div><div class="award-note">Player · October</div></div>
+      <div class="award-row"><div class="award-year">2014–15</div><div class="award-person">Frank Vatrano</div><div class="award-note">Player · December</div></div>
+      <div class="award-row"><div class="award-year">2014–15</div><div class="award-person">Brandon Montour</div><div class="award-note">Rookie · January</div></div>
+      <div class="award-row"><div class="award-year">2012–13</div><div class="award-person">Branden Gracel</div><div class="award-note">Player · December</div></div>
+      <div class="award-row"><div class="award-year">2010–11</div><div class="award-person">Michael Pereira</div><div class="award-note">Rookie · November</div></div>
+      <div class="award-row"><div class="award-year">2009–10</div><div class="award-person">James Marcou</div><div class="award-note">Player · October</div></div>
+      <div class="award-row"><div class="award-year">2009–10</div><div class="award-person">Paul Dainton</div><div class="award-note">Goaltender · November</div></div>
+      <div class="award-row"><div class="award-year">2008–09</div><div class="award-person">Casey Wellman</div><div class="award-note">Rookie · January</div></div>
+      <div class="award-row"><div class="award-year">2007–08</div><div class="award-person">James Marcou</div><div class="award-note">Rookie · December</div></div>
+    </div>
+  </div>
+
+  <!-- ── WEEKLY HONORS ── -->
+  <div class="award-section">
+    <button class="section-trigger" onclick="toggle(this)">
+      <span class="trigger-label">Hockey East Player of the Week (selected)</span>
+      <span class="trigger-count">Collapsed</span>
+      <span class="trigger-arrow">▾</span>
+    </button>
+    <div class="section-body">
+      <div class="award-row"><div class="award-year">2021–22</div><div class="award-person">Bobby Trivigno</div><div class="award-note">Player · Feb. 7 · Mar. 20</div></div>
+      <div class="award-row"><div class="award-year">2021–22</div><div class="award-person">Scott Morrow</div><div class="award-note">Defensive · Mar. 6 · Nov. 1</div></div>
+      <div class="award-row"><div class="award-year">2021–22</div><div class="award-person">Matt Murray</div><div class="award-note">Goaltender · Oct. 18 · Nov. 8 · Jan. 24 · Mar. 20</div></div>
+      <div class="award-row"><div class="award-year">2021–22</div><div class="award-person">Ryan Ufko</div><div class="award-note">Player · Feb. 13</div></div>
+      <div class="award-row"><div class="award-year">2021–22</div><div class="award-person">Anthony Del Gaizo</div><div class="award-note">Player · Dec. 6</div></div>
+      <div class="award-row"><div class="award-year">2020–21</div><div class="award-person">Josh Lopina</div><div class="award-note">Rookie of the Week · Multiple</div></div>
+      <div class="award-row"><div class="award-year">2020–21</div><div class="award-person">Filip Lindberg</div><div class="award-note">Defensive · Multiple</div></div>
+      <div class="award-row"><div class="award-year">2020–21</div><div class="award-person">Bobby Trivigno</div><div class="award-note">Player · Multiple</div></div>
+      <div class="award-row"><div class="award-year">2013–14</div><div class="award-person">Steve Mastalerz</div><div class="award-note">Defensive · Multiple</div></div>
+      <div class="award-row"><div class="award-year">2012–13</div><div class="award-person">Branden Gracel</div><div class="award-note">Player · Jan. 2 · Jan. 21</div></div>
+      <div class="award-row"><div class="award-year">2009–10</div><div class="award-person">James Marcou</div><div class="award-note">Player · Oct. 12</div></div>
+      <div class="award-row"><div class="award-year">2009–10</div><div class="award-person">Justin Braun</div><div class="award-note">Player · Nov. 30</div></div>
+    </div>
+  </div>
+
+</div>
+
+<script>
+function toggle(btn) {
+  btn.classList.toggle('open');
+  const body = btn.nextElementSibling;
+  body.classList.toggle('open');
+}
+</script>
+
+</body>
+</html>
