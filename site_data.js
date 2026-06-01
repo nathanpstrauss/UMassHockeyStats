@@ -405,7 +405,6 @@ const TRANSFER_IN_MAP = {
 
 const TRANSFER_OUT_MAP = {
   "Elias Zimmerman": "Colgate",
-  "Brad Norton": "Hobart",
   "Matthew Wilde": "RIT",
   "James Duerr": "Bentley",
   "Owen Mehlenbacher": "Ferris State",
