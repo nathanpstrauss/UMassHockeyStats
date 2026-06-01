@@ -1,8 +1,6 @@
-// ============================================================
-// UMass Hockey Stats — Shared Player Data
+// UMass Hockey Stats - Shared Player Data
 // Single source of truth for draft + transfer info
-// Edit here → all pages update automatically
-// ============================================================
+// Edit here -> all pages update automatically
 
 const DRAFT_MAP = {
   "Justin Braun": {
@@ -227,7 +225,7 @@ const DRAFT_MAP = {
     "pick": 159,
     "year": 2020
   },
-  "Cole O'Hara": {
+  "Cole O\u2019Hara": {
     "team": "NSH",
     "round": 4,
     "pick": 114,
@@ -239,13 +237,13 @@ const DRAFT_MAP = {
     "pick": 143,
     "year": 2022
   },
-  "Francesco Dell'Elce": {
+  "Francesco Dell\u2019Elce": {
     "team": "COL",
     "round": 3,
     "pick": 77,
     "year": 2025
   },
-  "Maxim Massé": {
+  "Maxim Mass\u00e9": {
     "team": "ANA",
     "round": 3,
     "pick": 66,
@@ -434,7 +432,7 @@ const TRANSFER_OUT_MAP = {
   "Jeremy Davidson": "Michigan State",
   "Marco Bozzo": "Northeastern",
   "Peyton Reeves": "Toronto",
-  "Sebastian Tčrnqvist": "Vermont",
+  "Sebastian T\u010drnqvist": "Vermont",
   "Eric DeDobbelaer": "Robert Morris",
   "Jonny Lazarus": "Mercyhurst",
   "Austin Albrecht": "AIC",
