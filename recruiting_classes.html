@@ -14,11 +14,30 @@
   --maroon:#881c1c;--maroon-bright:#b02828;--gold:#c8960a;
 }
 body{font-family:'Barlow',sans-serif;background:var(--bg);color:var(--text);min-height:100vh}
-.header{padding:40px 40px 32px;border-bottom:1px solid var(--border);
+nav{
+  position:fixed;top:0;left:0;right:0;z-index:100;
+  display:flex;align-items:center;gap:0;
+  padding:0 40px;height:56px;
+  background:rgba(7,9,14,.92);
+  border-bottom:1px solid var(--border);
+  backdrop-filter:blur(12px);
+}
+.nav-logo{
+  color:#fff;text-decoration:none;
+  display:flex;align-items:center;gap:10px;margin-right:32px;
+}
+.nav-links{display:flex;gap:4px;align-items:center}
+.nav-link{
+  padding:5px 12px;border-radius:5px;font-size:12px;font-weight:700;
+  letter-spacing:1.5px;color:var(--muted2);text-decoration:none;
+  transition:color .15s,background .15s;
+  font-family:'Barlow Condensed',sans-serif;text-transform:uppercase;
+}
+.nav-link:hover{color:#fff;background:var(--surface2)}
+.nav-link.active{color:#fff}
+.nav-link.external{color:var(--maroon-bright)}
+.header{padding:80px 40px 32px;border-bottom:1px solid var(--border);
   background:linear-gradient(180deg,rgba(136,28,28,.12) 0%,transparent 100%)}
-.back-link{display:inline-flex;align-items:center;gap:6px;font-family:'Barlow Condensed',sans-serif;
-  font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:1.5px;color:var(--muted);
-  text-decoration:none;margin-bottom:20px;transition:color .15s}
 .back-link:hover{color:var(--text)}
 .header-eyebrow{font-family:'Barlow Condensed',sans-serif;font-size:11px;font-weight:700;
   text-transform:uppercase;letter-spacing:2.5px;color:var(--maroon-bright);margin-bottom:10px}
@@ -119,8 +138,21 @@ body{font-family:'Barlow',sans-serif;background:var(--bg);color:var(--text);min-
 </head>
 <body>
 
+<nav>
+  <a href="index.html" class="nav-logo">
+    <img src="UMass_Hockey_2_.png" alt="UMass Hockey" style="height:36px;width:auto;display:block;" />
+  </a>
+  <div class="nav-links">
+    <a href="index.html#rosters" class="nav-link">Rosters</a>
+    <a href="ncaa_nhl_pipeline.html" class="nav-link">NCAA Pipeline</a>
+    <a href="career_stats.html" class="nav-link">Career Stats</a>
+    <a href="recruiting_classes.html" class="nav-link active">Draft</a>
+    <a href="alltime_records.html" class="nav-link">Records</a>
+    <a href="awards.html" class="nav-link">Awards</a>
+    <a href="https://umasshockeyblog.substack.com/" class="nav-link external" target="_blank" rel="noopener">Blog ↗</a>
+  </div>
+</nav>
 <div class="header">
-  <a class="back-link" href="index.html">← UMass Hockey Stats</a>
   <div class="header-eyebrow">Greg Carvel Era · 2016–Present</div>
   <h1 class="header-title">Recruiting Class<br>Draft Intelligence</h1>
   <p class="header-sub">Every NHL draft pick to play under Greg Carvel — by freshman class or by draft year. Which classes produced the most picks? Which drafts had the most Minutemen taken?</p>
