@@ -221,7 +221,7 @@ function makeCard(p){
   // Draft badge — use shared DRAFT_MAP as source of truth, fall back to p.draft
   var draftEntry = (typeof DRAFT_MAP !== 'undefined') ? DRAFT_MAP[p.name] : null;
   var draftText = draftEntry
-    ? draftEntry.team + ' R' + draftEntry.round + ' #' + draftEntry.pick + ' '' + String(draftEntry.year).slice(2)
+    ? draftEntry.team + " R" + draftEntry.round + " #" + draftEntry.pick + " '" + String(draftEntry.year).slice(2)
     : (p.draft && p.draft !== 'Undrafted' ? p.draft : 'Undrafted');
   var dr=document.createElement('div'); dr.className='player-draft'; dr.textContent=draftText;
   info.appendChild(nl); info.appendChild(dr);

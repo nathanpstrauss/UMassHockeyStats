@@ -227,7 +227,7 @@ const DRAFT_MAP = {
     "pick": 159,
     "year": 2020
   },
-  "Cole O'Hara": {
+  "Cole O’Hara": {
     "team": "NSH",
     "round": 4,
     "pick": 114,
@@ -239,7 +239,7 @@ const DRAFT_MAP = {
     "pick": 143,
     "year": 2022
   },
-  "Francesco Dell'Elce": {
+  "Francesco Dell’Elce": {
     "team": "COL",
     "round": 3,
     "pick": 77,
