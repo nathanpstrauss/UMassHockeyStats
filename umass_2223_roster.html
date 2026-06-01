@@ -110,6 +110,7 @@ body{font-family:'Barlow',sans-serif;background:var(--bg);color:var(--text);min-
 
 
 </style>
+  <script src="site_data.js"></script>
 </head>
 <body>
 <div class="header"><div class="header-top">
@@ -214,8 +215,28 @@ function makeCard(p){
   nm.textContent=(p.all_american?'★ ':'')+p.name;
   if(p.all_american) nm.style.color='#f5c518';
   nl.appendChild(pos); nl.appendChild(nm);
-  var dr=document.createElement('div'); dr.className='player-draft'; dr.textContent=p.draft;
-  info.appendChild(nl); info.appendChild(dr); card.appendChild(info);
+  // Draft badge — use shared DRAFT_MAP as source of truth, fall back to p.draft
+  var draftEntry = (typeof DRAFT_MAP !== 'undefined') ? DRAFT_MAP[p.name] : null;
+  var draftText = draftEntry
+    ? draftEntry.team + ' R' + draftEntry.round + ' #' + draftEntry.pick + ' '' + String(draftEntry.year).slice(2)
+    : (p.draft && p.draft !== 'Undrafted' ? p.draft : 'Undrafted');
+  var dr=document.createElement('div'); dr.className='player-draft'; dr.textContent=draftText;
+  info.appendChild(nl); info.appendChild(dr);
+
+  // Transfer badges
+  var xferWrap = document.createElement('div'); xferWrap.className='xfer-pills';
+  var xIn = (typeof TRANSFER_IN_MAP !== 'undefined') ? TRANSFER_IN_MAP[p.name] : null;
+  var xOut = (typeof TRANSFER_OUT_MAP !== 'undefined') ? TRANSFER_OUT_MAP[p.name] : null;
+  if(xIn){
+    var pi=document.createElement('span'); pi.className='xfer-pill xfer-pill-in';
+    pi.textContent='← '+xIn; xferWrap.appendChild(pi);
+  }
+  if(xOut){
+    var po=document.createElement('span'); po.className='xfer-pill xfer-pill-out';
+    po.textContent='→ '+xOut; xferWrap.appendChild(po);
+  }
+  if(xIn||xOut) info.appendChild(xferWrap);
+  card.appendChild(info);
   var badge=document.createElement('div'); badge.className='status-badge';
   var c=SC[p.status]||'#555';
   badge.style.background=c+'22'; badge.style.color=c; badge.style.border='1px solid '+c+'55';
