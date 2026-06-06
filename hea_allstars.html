@@ -90,8 +90,8 @@ nav{background:rgba(8,9,12,.95);border-bottom:1px solid var(--border);
   transition:background .12s;border-radius:0}
 .chart-row:hover{background:rgba(255,255,255,.03)}
 .chart-row.umass-row .school-label{color:#e07070}
-.school-label{font-family:var(--font-ui);font-size:11px;font-weight:700;
-  width:90px;text-align:right;padding-right:10px;color:var(--text);white-space:nowrap;
+.school-label{font-family:var(--font-ui);font-size:12px;font-weight:700;
+  width:148px;text-align:left;padding-left:8px;color:var(--text);white-space:nowrap;
   letter-spacing:.3px;flex-shrink:0}
 .bar-track{flex:1;display:flex;height:16px;border-radius:2px;overflow:hidden;gap:1px}
 .bar-seg{height:100%;border-radius:1px;transition:width .3s ease;min-width:0}
@@ -307,11 +307,12 @@ const LOGOS = {
 
 function logoImg(school, size){
   const src = LOGOS[school];
+  const szPx = size==='sm'?20:size==='xl'?32:28;
   if(!src){
     const ab = {'Notre Dame':'ND','Merrimack':'MCI'}[school]||school.slice(0,3).toUpperCase();
-    return `<div class="logo-placeholder${size==='sm'?'-sm':''}">${ab}</div>`;
+    return `<div class="logo-placeholder${size==='sm'?'-sm':''}" style="${size==='xl'?'width:32px;height:32px;font-size:9px':''}">${ab}</div>`;
   }
-  return `<img class="school-logo${size==='sm'?'-sm':''}" src="${src}" alt="${school}" onerror="this.style.display='none'">`;
+  return `<img class="school-logo${size==='sm'?'-sm':''}" style="width:${szPx}px;height:${szPx}px" src="${src}" alt="${school}" onerror="this.style.display='none'">`;
 }
 
 // ── DATA ─────────────────────────────────────────────────────────────────────
@@ -707,7 +708,7 @@ function renderChart(data){
       return seg;
     };
 
-    row.innerHTML = `${logoImg(school,'lg')}<span class="school-label" style="${isUmass?'color:#e07070':''}">${schoolAbbr(school)}</span>`;
+    row.innerHTML = `${logoImg(school,'lg')}<span class="school-label" style="${isUmass?'color:#e07070':''}">${school}</span>`;
 
     const track = document.createElement('div');
     track.className='bar-track';
