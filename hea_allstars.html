@@ -1,0 +1,820 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>UMass Hockey — Hockey East All-Stars</title>
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;600;700;800;900&family=Libre+Baskerville:wght@400;700&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#08090c;--surface:#0e1018;--surface2:#13161f;
+  --border:#1c2035;--border2:#252a40;
+  --text:#dde3f0;--muted:#5a6080;
+  --maroon:#881c1c;--maroon-bright:#c0392b;--maroon-light:rgba(136,28,28,.5);
+  --gold:#d4af37;--gold-dim:rgba(212,175,55,.15);--gold-border:rgba(212,175,55,.35);
+  --t1:#d4af37;--t1-bg:rgba(212,175,55,.12);--t1-border:rgba(212,175,55,.3);
+  --t2:#7aabee;--t2-bg:rgba(122,171,238,.1);--t2-border:rgba(122,171,238,.28);
+  --t3:#8a9bb5;--t3-bg:rgba(138,155,181,.08);--t3-border:rgba(138,155,181,.22);
+  --font-display:'Libre Baskerville',serif;
+  --font-ui:'Barlow Condensed',sans-serif;
+}
+body{background:var(--bg);color:var(--text);font-family:var(--font-ui);font-size:14px}
+a{color:inherit;text-decoration:none}
+
+/* NAV */
+nav{background:rgba(8,9,12,.95);border-bottom:1px solid var(--border);
+  padding:0 24px;display:flex;align-items:center;gap:0;position:sticky;top:0;z-index:100;
+  backdrop-filter:blur(8px)}
+.nav-logo{margin-right:20px;padding:10px 0}
+.nav-logo img{height:32px;display:block}
+.nav-links{display:flex;gap:2px;flex:1}
+.nav-links a{font-family:var(--font-ui);font-size:11px;font-weight:800;letter-spacing:1.2px;
+  text-transform:uppercase;padding:14px 12px;color:var(--muted);transition:color .15s;white-space:nowrap}
+.nav-links a:hover,.nav-links a.active{color:var(--text)}
+.nav-links a.active{border-bottom:2px solid var(--gold)}
+.nav-right a{font-family:var(--font-ui);font-size:11px;font-weight:700;letter-spacing:.8px;
+  text-transform:uppercase;color:var(--muted);padding:14px 0 14px 12px;opacity:.6}
+
+/* HEADER */
+.header{padding:36px 24px 24px;border-bottom:1px solid var(--border)}
+.header-eyebrow{font-family:var(--font-ui);font-size:10px;font-weight:800;letter-spacing:2px;
+  text-transform:uppercase;color:var(--muted);margin-bottom:8px}
+.header-title{font-family:var(--font-display);font-size:32px;font-weight:700;color:#fff;margin-bottom:6px}
+.header-sub{font-family:var(--font-ui);font-size:13px;color:var(--muted);margin-bottom:20px}
+
+/* STATS STRIP */
+.stats-strip{display:flex;gap:1px;background:var(--border);border:1px solid var(--border);border-radius:6px;overflow:hidden}
+.stat-cell{flex:1;background:var(--surface);padding:14px 16px}
+.stat-num{font-family:var(--font-ui);font-size:22px;font-weight:900;color:#fff;line-height:1}
+.stat-lbl{font-family:var(--font-ui);font-size:9px;font-weight:700;letter-spacing:1.2px;
+  text-transform:uppercase;color:var(--muted);margin-top:3px}
+
+/* CONTROLS */
+.controls{padding:16px 24px;border-bottom:1px solid var(--border);
+  display:flex;flex-wrap:wrap;gap:12px;align-items:center;background:var(--surface)}
+.ctrl-group{display:flex;align-items:center;gap:6px}
+.ctrl-label{font-family:var(--font-ui);font-size:9px;font-weight:800;letter-spacing:1.2px;
+  text-transform:uppercase;color:var(--muted)}
+.ctrl-select{font-family:var(--font-ui);font-size:12px;font-weight:700;letter-spacing:.5px;
+  text-transform:uppercase;background:rgba(255,255,255,.06);border:1px solid var(--border2);
+  color:#fff;padding:5px 10px;border-radius:4px;cursor:pointer;appearance:none;-webkit-appearance:none}
+.ctrl-select:focus{outline:none;border-color:var(--gold)}
+.toggle-group{display:flex;border:1px solid var(--border2);border-radius:4px;overflow:hidden}
+.toggle-btn{font-family:var(--font-ui);font-size:11px;font-weight:800;letter-spacing:.8px;
+  text-transform:uppercase;padding:5px 10px;background:transparent;border:none;
+  color:var(--muted);cursor:pointer;transition:all .15s}
+.toggle-btn:not(:last-child){border-right:1px solid var(--border2)}
+.toggle-btn.active{background:var(--gold);color:#000}
+.toggle-btn.active.t2{background:var(--t2);color:#000}
+.toggle-btn.active.t3{background:var(--t3);color:#000}
+.school-filter{display:flex;flex-wrap:wrap;gap:4px}
+.school-pill{font-family:var(--font-ui);font-size:10px;font-weight:800;letter-spacing:.8px;
+  text-transform:uppercase;padding:4px 8px;border-radius:3px;cursor:pointer;
+  background:rgba(255,255,255,.05);border:1px solid var(--border2);color:var(--muted);
+  transition:all .15s;white-space:nowrap}
+.school-pill:hover{color:var(--text)}
+.school-pill.active{background:var(--gold-dim);border-color:var(--gold-border);color:var(--gold)}
+.school-pill.umass{border-color:rgba(136,28,28,.4)}
+.school-pill.umass.active{background:rgba(136,28,28,.2);border-color:var(--maroon);color:#e07070}
+.ctrl-divider{width:1px;height:20px;background:var(--border2)}
+
+/* MAIN CONTENT */
+.main{display:flex;flex-direction:column;}
+
+/* SCHOOL CHART */
+.chart-panel{border-bottom:1px solid var(--border);padding:16px 0}
+.chart-title{font-family:var(--font-ui);font-size:9px;font-weight:800;letter-spacing:1.5px;
+  text-transform:uppercase;color:var(--muted);padding:0 20px 12px}
+.chart-row{display:flex;align-items:center;gap:0;padding:0 20px;margin-bottom:3px;cursor:pointer;
+  transition:background .12s;border-radius:0}
+.chart-row:hover{background:rgba(255,255,255,.03)}
+.chart-row.umass-row .school-label{color:#e07070}
+.school-label{font-family:var(--font-ui);font-size:11px;font-weight:700;
+  width:90px;text-align:right;padding-right:10px;color:var(--text);white-space:nowrap;
+  letter-spacing:.3px;flex-shrink:0}
+.bar-track{flex:1;display:flex;height:16px;border-radius:2px;overflow:hidden;gap:1px}
+.bar-seg{height:100%;border-radius:1px;transition:width .3s ease;min-width:0}
+.bar-seg.seg-t1{background:var(--t1)}
+.bar-seg.seg-t2{background:var(--t2)}
+.bar-seg.seg-t3{background:var(--t3)}
+.bar-count{font-family:var(--font-ui);font-size:11px;font-weight:800;
+  width:28px;text-align:right;padding-left:6px;color:var(--text);flex-shrink:0}
+
+.legend{display:flex;gap:12px;padding:16px 20px 4px;flex-wrap:wrap}
+.leg-item{display:flex;align-items:center;gap:5px;font-family:var(--font-ui);
+  font-size:9px;font-weight:700;letter-spacing:.8px;text-transform:uppercase;color:var(--muted)}
+.leg-dot{width:8px;height:8px;border-radius:1px;flex-shrink:0}
+
+/* TABLE PANEL */
+.table-panel{padding:0;overflow:auto}
+.result-meta{font-family:var(--font-ui);font-size:10px;font-weight:700;letter-spacing:.8px;
+  text-transform:uppercase;color:var(--muted);padding:12px 20px;border-bottom:1px solid var(--border)}
+table{width:100%;border-collapse:collapse}
+thead th{font-family:var(--font-ui);font-size:9px;font-weight:800;letter-spacing:1.2px;
+  text-transform:uppercase;color:var(--muted);padding:10px 12px;
+  border-bottom:1px solid var(--border);text-align:left;position:sticky;top:0;
+  background:var(--surface2);cursor:pointer;white-space:nowrap;user-select:none}
+thead th:hover{color:var(--text)}
+thead th.sorted{color:var(--gold)}
+thead th::after{content:''; margin-left:4px}
+thead th.asc::after{content:'↑';color:var(--gold)}
+thead th.desc::after{content:'↓';color:var(--gold)}
+tbody tr{border-bottom:1px solid rgba(28,32,53,.5);transition:background .1s;cursor:pointer}
+tbody tr:hover{background:rgba(255,255,255,.03)}
+tbody tr.umass-row{background:rgba(136,28,28,.06)}
+tbody tr.umass-row:hover{background:rgba(136,28,28,.12)}
+td{padding:8px 12px;font-family:var(--font-ui);font-size:13px;vertical-align:middle}
+.td-year{font-size:11px;font-weight:700;color:var(--muted);white-space:nowrap}
+.td-player{font-weight:700;color:var(--text)}
+.td-player.umass-player{color:#e07070}
+.td-pos{font-size:10px;font-weight:800;letter-spacing:.8px;
+  background:rgba(255,255,255,.06);border-radius:3px;padding:2px 6px;
+  color:var(--muted);text-align:center;width:32px;display:inline-block}
+.td-school{font-size:12px;color:var(--muted)}
+.td-school.umass-school{color:#c07070}
+.tier-badge{font-family:var(--font-ui);font-size:9px;font-weight:800;letter-spacing:.8px;
+  text-transform:uppercase;padding:3px 7px;border-radius:3px;white-space:nowrap}
+.tier-badge.t1{background:var(--t1-bg);color:var(--t1);border:1px solid var(--t1-border)}
+.tier-badge.t2{background:var(--t2-bg);color:var(--t2);border:1px solid var(--t2-border)}
+.tier-badge.t3{background:var(--t3-bg);color:var(--t3);border:1px solid var(--t3-border)}
+.empty-state{padding:48px;text-align:center;color:var(--muted);
+  font-family:var(--font-ui);font-size:13px;font-weight:700;letter-spacing:.5px}
+
+/* NO-DATA */
+.no-results{padding:60px 20px;text-align:center;color:var(--muted);
+  font-family:var(--font-ui);font-size:13px}
+
+
+
+/* ── School logos ─────────────────────────────────────────────── */
+.school-logo{
+  width:28px;height:28px;flex-shrink:0;
+  object-fit:contain;mix-blend-mode:lighten;
+  border-radius:3px;
+}
+.school-logo-sm{
+  width:20px;height:20px;flex-shrink:0;
+  object-fit:contain;mix-blend-mode:lighten;
+}
+.logo-placeholder{
+  width:28px;height:28px;flex-shrink:0;border-radius:3px;
+  background:rgba(255,255,255,.06);border:1px solid var(--border2);
+  display:flex;align-items:center;justify-content:center;
+  font-family:var(--font-ui);font-size:8px;font-weight:900;
+  letter-spacing:.5px;color:var(--muted);text-align:center;line-height:1.1;
+}
+.logo-placeholder-sm{
+  width:20px;height:20px;flex-shrink:0;border-radius:2px;
+  background:rgba(255,255,255,.06);border:1px solid var(--border2);
+  display:flex;align-items:center;justify-content:center;
+  font-family:var(--font-ui);font-size:7px;font-weight:900;color:var(--muted);
+}
+.school-with-logo{display:flex;align-items:center;gap:7px}
+
+/* ── Segment Tooltip ─────────────────────────────────────────────── */
+.seg-tooltip{
+  position:fixed;z-index:999;pointer-events:none;
+  background:#111620;border:1px solid var(--border2);
+  border-radius:6px;padding:10px 13px;min-width:180px;max-width:280px;
+  box-shadow:0 8px 24px rgba(0,0,0,.6);
+  opacity:0;transition:opacity .1s;
+}
+.seg-tooltip.visible{opacity:1}
+.seg-tooltip-header{
+  font-family:var(--font-ui);font-size:9px;font-weight:800;letter-spacing:1.2px;
+  text-transform:uppercase;margin-bottom:7px;padding-bottom:6px;
+  border-bottom:1px solid var(--border2);
+}
+.seg-tooltip-row{
+  font-family:var(--font-ui);font-size:12px;font-weight:600;
+  color:var(--text);padding:2px 0;display:flex;align-items:center;gap:6px;
+}
+.seg-tooltip-year{
+  font-size:10px;font-weight:700;color:var(--muted);
+}
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-logo"><img src="UMass_Hockey_2_.png" alt="UMass Hockey"></div>
+  <div class="nav-links">
+    <a href="index.html">Rosters</a>
+    <a href="ncaa_nhl_pipeline.html">NCAA Pipeline</a>
+    <a href="career_stats.html">Career Stats</a>
+    <a href="recruiting_classes.html">Draft</a>
+    <a href="hea_allstars.html" class="active">HEA All-Stars</a>
+    <a href="awards.html">Awards</a>
+  </div>
+  <div class="nav-right"><a href="https://umasshockeyblog.substack.com/" target="_blank" rel="noopener">Blog ↗</a></div>
+</nav>
+
+<div class="header">
+  <div class="header-eyebrow">Hockey East · 2016–17 to 2025–26</div>
+  <h1 class="header-title">All-Star Teams</h1>
+  <div class="stats-strip" id="stats-strip">
+    <div class="stat-cell"><div class="stat-num" id="stat-total">—</div><div class="stat-lbl">Total Selections</div></div>
+    <div class="stat-cell"><div class="stat-num" id="stat-umass">—</div><div class="stat-lbl">UMass Selections</div></div>
+    <div class="stat-cell"><div class="stat-num" id="stat-schools">—</div><div class="stat-lbl">Schools Represented</div></div>
+    <div class="stat-cell"><div class="stat-num" id="stat-seasons">—</div><div class="stat-lbl">Seasons</div></div>
+  </div>
+</div>
+
+<div class="controls">
+  <div class="ctrl-group">
+    <span class="ctrl-label">From</span>
+    <select class="ctrl-select" id="year-from" onchange="applyFilters()"></select>
+  </div>
+  <div class="ctrl-group">
+    <span class="ctrl-label">To</span>
+    <select class="ctrl-select" id="year-to" onchange="applyFilters()"></select>
+  </div>
+  <div class="ctrl-divider"></div>
+  <div class="ctrl-group">
+    <span class="ctrl-label">Team</span>
+    <div class="toggle-group">
+      <button class="toggle-btn active" id="tier-all" onclick="setTier('all')">All</button>
+      <button class="toggle-btn" id="tier-1" onclick="setTier(1)">1st</button>
+      <button class="toggle-btn" id="tier-2" onclick="setTier(2)">2nd</button>
+      <button class="toggle-btn" id="tier-3" onclick="setTier(3)">3rd</button>
+    </div>
+  </div>
+  <div class="ctrl-divider"></div>
+  <div class="ctrl-group">
+    <span class="ctrl-label">Pos</span>
+    <div class="toggle-group">
+      <button class="toggle-btn active" id="pos-all" onclick="setPos('all')">All</button>
+      <button class="toggle-btn" id="pos-G" onclick="setPos('G')">G</button>
+      <button class="toggle-btn" id="pos-D" onclick="setPos('D')">D</button>
+      <button class="toggle-btn" id="pos-F" onclick="setPos('F')">F</button>
+    </div>
+  </div>
+  <div class="ctrl-divider"></div>
+  <div class="ctrl-group">
+    <span class="ctrl-label">School</span>
+    <div class="school-filter" id="school-filter"></div>
+  </div>
+</div>
+
+<div class="main">
+  <!-- CHART PANEL -->
+  <div class="chart-panel">
+    <div class="chart-title">Selections by Program</div>
+    <div class="legend">
+      <div class="leg-item"><div class="leg-dot" style="background:var(--t1)"></div>1st Team</div>
+      <div class="leg-item"><div class="leg-dot" style="background:var(--t2)"></div>2nd Team</div>
+      <div class="leg-item"><div class="leg-dot" style="background:var(--t3)"></div>3rd Team</div>
+    </div>
+    <div id="chart-rows" style="margin-top:8px"></div>
+  </div>
+
+  <!-- TABLE PANEL -->
+  <div class="table-panel">
+    <div class="result-meta" id="result-meta"></div>
+    <table id="main-table">
+      <thead>
+        <tr>
+          <th onclick="sortBy('year')" id="th-year">Year</th>
+          <th onclick="sortBy('player')" id="th-player">Player</th>
+          <th onclick="sortBy('pos')" id="th-pos">Pos</th>
+          <th onclick="sortBy('school')" id="th-school">School</th>
+          <th onclick="sortBy('tier')" id="th-tier">Team</th>
+        </tr>
+      </thead>
+      <tbody id="table-body"></tbody>
+    </table>
+    <div class="no-results" id="no-results" style="display:none">No selections match your filters.</div>
+  </div>
+</div>
+
+<script>
+
+const LOGOS = {
+  'Massachusetts':    'umass.png',
+  'Boston College':   'BostonCollege.png',
+  'Boston University':'BostonUniversity.png',
+  'Northeastern':     'Northeastern.png',
+  'Providence':       'Providence.png',
+  'Maine':            'maine.png',
+  'UMass Lowell':     'UMassLowell.png',
+  'UConn':            'UConn.png',
+  'New Hampshire':    'UNH.png',
+  'Vermont':          'UVM.png',
+  'Notre Dame':       'NotreDame.png',
+  'Merrimack':        'Merrimack.png',
+};
+
+function logoImg(school, size){
+  const src = LOGOS[school];
+  if(!src){
+    const ab = {'Notre Dame':'ND','Merrimack':'MCI'}[school]||school.slice(0,3).toUpperCase();
+    return `<div class="logo-placeholder${size==='sm'?'-sm':''}">${ab}</div>`;
+  }
+  return `<img class="school-logo${size==='sm'?'-sm':''}" src="${src}" alt="${school}" onerror="this.style.display='none'">`;
+}
+
+// ── DATA ─────────────────────────────────────────────────────────────────────
+const RAW = [
+// 2016-17
+{year:'2016-17',player:'Cal Petersen',pos:'G',school:'Notre Dame',tier:1},
+{year:'2016-17',player:'Charlie McAvoy',pos:'D',school:'Boston University',tier:1},
+{year:'2016-17',player:'Jake Walman',pos:'D',school:'Providence',tier:1},
+{year:'2016-17',player:'Zach Aston-Reese',pos:'F',school:'Northeastern',tier:1},
+{year:'2016-17',player:'Anders Bjork',pos:'F',school:'Notre Dame',tier:1},
+{year:'2016-17',player:'Tyler Kelleher',pos:'F',school:'New Hampshire',tier:1},
+{year:'2016-17',player:'Jake Oettinger',pos:'G',school:'Boston University',tier:2},
+{year:'2016-17',player:'Michael Kapla',pos:'D',school:'UMass Lowell',tier:2},
+{year:'2016-17',player:'Dylan Zink',pos:'D',school:'UMass Lowell',tier:2},
+{year:'2016-17',player:'Joe Gambardella',pos:'F',school:'UMass Lowell',tier:2},
+{year:'2016-17',player:'Clayton Keller',pos:'F',school:'Boston University',tier:2},
+{year:'2016-17',player:'Dylan Sikura',pos:'F',school:'Northeastern',tier:2},
+{year:'2016-17',player:'Collin Delia',pos:'G',school:'Merrimack',tier:3},
+{year:'2016-17',player:'Dennis Gilbert',pos:'D',school:'Notre Dame',tier:3},
+{year:'2016-17',player:'Scott Savage',pos:'D',school:'Boston College',tier:3},
+{year:'2016-17',player:'Austin Cangelosi',pos:'F',school:'Boston College',tier:3},
+{year:'2016-17',player:'Adam Gaudette',pos:'F',school:'Northeastern',tier:3},
+{year:'2016-17',player:'Tage Thompson',pos:'F',school:'UConn',tier:3},
+// 2017-18
+{year:'2017-18',player:'Cayden Primeau',pos:'G',school:'Northeastern',tier:1},
+{year:'2017-18',player:'Jacob Bryson',pos:'D',school:'Providence',tier:1},
+{year:'2017-18',player:'Jérémy Davies',pos:'D',school:'Northeastern',tier:1},
+{year:'2017-18',player:'Erik Foley',pos:'F',school:'Providence',tier:1},
+{year:'2017-18',player:'Adam Gaudette',pos:'F',school:'Northeastern',tier:1},
+{year:'2017-18',player:'Dylan Sikura',pos:'F',school:'Northeastern',tier:1},
+{year:'2017-18',player:'Hayden Hawkey',pos:'G',school:'Providence',tier:2},
+{year:'2017-18',player:'Dante Fabbro',pos:'D',school:'Boston University',tier:2},
+{year:'2017-18',player:'Casey Fitzgerald',pos:'D',school:'Boston College',tier:2},
+{year:'2017-18',player:'Bobo Carpenter',pos:'F',school:'Boston University',tier:2},
+{year:'2017-18',player:'Maxim Letunov',pos:'F',school:'UConn',tier:2},
+{year:'2017-18',player:'Nolan Stevens',pos:'F',school:'Northeastern',tier:2},
+{year:'2017-18',player:'Joseph Woll',pos:'G',school:'Boston College',tier:3},
+{year:'2017-18',player:'Michael Kim',pos:'D',school:'Boston College',tier:3},
+{year:'2017-18',player:'Cale Makar',pos:'D',school:'Massachusetts',tier:3},
+{year:'2017-18',player:'Brett Seney',pos:'F',school:'Merrimack',tier:3},
+{year:'2017-18',player:'Brian Pinho',pos:'F',school:'Providence',tier:3},
+{year:'2017-18',player:'Jordan Greenway',pos:'F',school:'Boston University',tier:3},
+// 2018-19
+{year:'2018-19',player:'Cayden Primeau',pos:'G',school:'Northeastern',tier:1},
+{year:'2018-19',player:'Jérémy Davies',pos:'D',school:'Northeastern',tier:1},
+{year:'2018-19',player:'Cale Makar',pos:'D',school:'Massachusetts',tier:1},
+{year:'2018-19',player:'Mitchell Chaffee',pos:'F',school:'Massachusetts',tier:1},
+{year:'2018-19',player:'David Cotton',pos:'F',school:'Boston College',tier:1},
+{year:'2018-19',player:'Josh Wilkins',pos:'F',school:'Providence',tier:1},
+{year:'2018-19',player:'Stefanos Lekkas',pos:'G',school:'Vermont',tier:2},
+{year:'2018-19',player:'Jacob Bryson',pos:'D',school:'Providence',tier:2},
+{year:'2018-19',player:'Dante Fabbro',pos:'D',school:'Boston University',tier:2},
+{year:'2018-19',player:'John Leonard',pos:'F',school:'Massachusetts',tier:2},
+{year:'2018-19',player:'Chase Pearson',pos:'F',school:'Maine',tier:2},
+{year:'2018-19',player:'Jacob Pritchard',pos:'F',school:'Massachusetts',tier:2},
+{year:'2018-19',player:'Jeremy Swayman',pos:'G',school:'Maine',tier:3},
+{year:'2018-19',player:'Marc Del Gaizo',pos:'D',school:'Massachusetts',tier:3},
+{year:'2018-19',player:'Mario Ferraro',pos:'D',school:'Massachusetts',tier:3},
+{year:'2018-19',player:'Brady Keeper',pos:'D',school:'Maine',tier:3},
+{year:'2018-19',player:'Brandon Duhaime',pos:'F',school:'Providence',tier:3},
+{year:'2018-19',player:'Karl El-Mir',pos:'F',school:'UConn',tier:3},
+{year:'2018-19',player:'Mitchell Fossier',pos:'F',school:'Maine',tier:3},
+// 2019-20
+{year:'2019-20',player:'Jeremy Swayman',pos:'G',school:'Maine',tier:1},
+{year:'2019-20',player:'Michael Callahan',pos:'D',school:'Providence',tier:1},
+{year:'2019-20',player:'David Farrance',pos:'D',school:'Boston University',tier:1},
+{year:'2019-20',player:'Jack Dugan',pos:'F',school:'Providence',tier:1},
+{year:'2019-20',player:'John Leonard',pos:'F',school:'Massachusetts',tier:1},
+{year:'2019-20',player:'Tyler Madden',pos:'F',school:'Northeastern',tier:1},
+{year:'2019-20',player:'Spencer Knight',pos:'G',school:'Boston College',tier:2},
+{year:'2019-20',player:'Ben Finklestein',pos:'D',school:'Boston College',tier:2},
+{year:'2019-20',player:'Ryan Shea',pos:'D',school:'Northeastern',tier:2},
+{year:'2019-20',player:'Wyatt Newpower',pos:'D',school:'UConn',tier:2},
+{year:'2019-20',player:'Mitchell Fossier',pos:'F',school:'Maine',tier:2},
+{year:'2019-20',player:'Alex Newhook',pos:'F',school:'Boston College',tier:2},
+{year:'2019-20',player:'Tyler Wall',pos:'G',school:'UMass Lowell',tier:3},
+{year:'2019-20',player:'Max Gildon',pos:'D',school:'New Hampshire',tier:3},
+{year:'2019-20',player:'Jesper Mattila',pos:'D',school:'Boston College',tier:3},
+{year:'2019-20',player:'Jake McLaughlin',pos:'D',school:'Massachusetts',tier:3},
+{year:'2019-20',player:'David Cotton',pos:'F',school:'Boston College',tier:3},
+{year:'2019-20',player:'Patrick Harper',pos:'F',school:'Boston University',tier:3},
+{year:'2019-20',player:'Trevor Zegras',pos:'F',school:'Boston University',tier:3},
+// 2020-21
+{year:'2020-21',player:'Spencer Knight',pos:'G',school:'Boston College',tier:1},
+{year:'2020-21',player:'David Farrance',pos:'D',school:'Boston University',tier:1},
+{year:'2020-21',player:'Drew Helleson',pos:'D',school:'Boston College',tier:1},
+{year:'2020-21',player:'Matthew Boldy',pos:'F',school:'Boston College',tier:1},
+{year:'2020-21',player:'Jonny Evans',pos:'F',school:'UConn',tier:1},
+{year:'2020-21',player:'Bobby Trivigno',pos:'F',school:'Massachusetts',tier:1},
+{year:'2020-21',player:'Filip Lindberg',pos:'G',school:'Massachusetts',tier:2},
+{year:'2020-21',player:'Jordan Harris',pos:'D',school:'Northeastern',tier:2},
+{year:'2020-21',player:'Zac Jones',pos:'D',school:'Massachusetts',tier:2},
+{year:'2020-21',player:'Jackson Pierson',pos:'F',school:'New Hampshire',tier:2},
+{year:'2020-21',player:'Zach Solow',pos:'F',school:'Northeastern',tier:2},
+{year:'2020-21',player:'Tyce Thompson',pos:'F',school:'Providence',tier:2},
+{year:'2020-21',player:'Tomáš Vomáčka',pos:'G',school:'UConn',tier:3},
+{year:'2020-21',player:'Marc Del Gaizo',pos:'D',school:'Massachusetts',tier:3},
+{year:'2020-21',player:'Matthew Kessel',pos:'D',school:'Massachusetts',tier:3},
+{year:'2020-21',player:'Angus Crookshank',pos:'D',school:'New Hampshire',tier:3},
+{year:'2020-21',player:'Jáchym Kondelík',pos:'F',school:'UConn',tier:3},
+{year:'2020-21',player:'Marc McLaughlin',pos:'F',school:'Boston College',tier:3},
+// 2021-22
+{year:'2021-22',player:'Devon Levi',pos:'G',school:'Northeastern',tier:1},
+{year:'2021-22',player:'Jordan Harris',pos:'D',school:'Northeastern',tier:1},
+{year:'2021-22',player:'Scott Morrow',pos:'D',school:'Massachusetts',tier:1},
+{year:'2021-22',player:'Aidan McDonough',pos:'F',school:'Northeastern',tier:1},
+{year:'2021-22',player:'Bobby Trivigno',pos:'F',school:'Massachusetts',tier:1},
+{year:'2021-22',player:'Ryan Tverberg',pos:'F',school:'UConn',tier:1},
+{year:'2021-22',player:'Owen Savory',pos:'G',school:'UMass Lowell',tier:2},
+{year:'2021-22',player:'Declan Carlile',pos:'D',school:'Merrimack',tier:2},
+{year:'2021-22',player:'Domenick Fensore',pos:'D',school:'Boston University',tier:2},
+{year:'2021-22',player:'Jachym Kondelik',pos:'F',school:'UConn',tier:2},
+{year:'2021-22',player:'Jack McBain',pos:'F',school:'Boston College',tier:2},
+{year:'2021-22',player:'Wilmer Skoog',pos:'F',school:'Boston University',tier:2},
+{year:'2021-22',player:'Matt Murray',pos:'G',school:'Massachusetts',tier:3},
+{year:'2021-22',player:'Max Crozier',pos:'D',school:'Providence',tier:3},
+{year:'2021-22',player:'Matthew Kessel',pos:'D',school:'Massachusetts',tier:3},
+{year:'2021-22',player:'Jack St. Ivany',pos:'D',school:'Boston College',tier:3},
+{year:'2021-22',player:'Brett Berard',pos:'F',school:'Providence',tier:3},
+{year:'2021-22',player:'Carl Berglund',pos:'F',school:'UMass Lowell',tier:3},
+{year:'2021-22',player:'Andre Lee',pos:'F',school:'UMass Lowell',tier:3},
+// 2022-23
+{year:'2022-23',player:'Devon Levi',pos:'G',school:'Northeastern',tier:1},
+{year:'2022-23',player:'Domenick Fensore',pos:'D',school:'Boston University',tier:1},
+{year:'2022-23',player:'Lane Hutson',pos:'D',school:'Boston University',tier:1},
+{year:'2022-23',player:'Matt Brown',pos:'F',school:'Boston University',tier:1},
+{year:'2022-23',player:'Alex Jefferies',pos:'F',school:'Merrimack',tier:1},
+{year:'2022-23',player:'Aidan McDonough',pos:'F',school:'Northeastern',tier:1},
+{year:'2022-23',player:'Victor Östman',pos:'G',school:'Maine',tier:2},
+{year:'2022-23',player:'Scott Morrow',pos:'D',school:'Massachusetts',tier:2},
+{year:'2022-23',player:'Ryan Ufko',pos:'D',school:'Massachusetts',tier:2},
+{year:'2022-23',player:'Lynden Breen',pos:'F',school:'Maine',tier:2},
+{year:'2022-23',player:'Justin Hryckowian',pos:'F',school:'Northeastern',tier:2},
+{year:'2022-23',player:'Ryan Tverberg',pos:'F',school:'UConn',tier:2},
+{year:'2022-23',player:'Gustavs Davis Grigals',pos:'G',school:'UMass Lowell',tier:3},
+{year:'2022-23',player:'Hugo Ollas',pos:'G',school:'Merrimack',tier:3},
+{year:'2022-23',player:'Max Crozier',pos:'D',school:'Providence',tier:3},
+{year:'2022-23',player:'Jon McDonald',pos:'D',school:'UMass Lowell',tier:3},
+{year:'2022-23',player:'Cutter Gauthier',pos:'F',school:'Boston College',tier:3},
+{year:'2022-23',player:'Parker Ford',pos:'F',school:'Providence',tier:3},
+{year:'2022-23',player:'Wilmer Skoog',pos:'F',school:'Boston University',tier:3},
+// 2023-24
+{year:'2023-24',player:'Jacob Fowler',pos:'G',school:'Boston College',tier:1},
+{year:'2023-24',player:'Lane Hutson',pos:'D',school:'Boston University',tier:1},
+{year:'2023-24',player:'Ryan Ufko',pos:'D',school:'Massachusetts',tier:1},
+{year:'2023-24',player:'Macklin Celebrini',pos:'F',school:'Boston University',tier:1},
+{year:'2023-24',player:'Cutter Gauthier',pos:'F',school:'Boston College',tier:1},
+{year:'2023-24',player:'Will Smith',pos:'F',school:'Boston College',tier:1},
+{year:'2023-24',player:'Michael Hrabal',pos:'G',school:'Massachusetts',tier:2},
+{year:'2023-24',player:'Eamon Powell',pos:'D',school:'Boston College',tier:2},
+{year:'2023-24',player:'Tom Willander',pos:'D',school:'Boston University',tier:2},
+{year:'2023-24',player:'Ryan Leonard',pos:'F',school:'Boston College',tier:2},
+{year:'2023-24',player:'Bradly Nadeau',pos:'F',school:'Maine',tier:2},
+{year:'2023-24',player:'Gabe Perreault',pos:'F',school:'Boston College',tier:2},
+{year:'2023-24',player:'Mathieu Caron',pos:'G',school:'Boston University',tier:3},
+{year:'2023-24',player:'Alex Gagne',pos:'D',school:'New Hampshire',tier:3},
+{year:'2023-24',player:'Scott Morrow',pos:'D',school:'Massachusetts',tier:3},
+{year:'2023-24',player:'Alex Campbell',pos:'F',school:'Northeastern',tier:3},
+{year:'2023-24',player:'Justin Hryckowian',pos:'F',school:'Northeastern',tier:3},
+{year:'2023-24',player:'Josh Nadeau',pos:'F',school:'Maine',tier:3},
+// 2024-25
+{year:'2024-25',player:'Jacob Fowler',pos:'G',school:'Boston College',tier:1},
+{year:'2024-25',player:'Cole Hutson',pos:'D',school:'Boston University',tier:1},
+{year:'2024-25',player:'Eamon Powell',pos:'D',school:'Boston College',tier:1},
+{year:'2024-25',player:'Ryan Leonard',pos:'F',school:'Boston College',tier:1},
+{year:"2024-25",player:"Cole O'Hara",pos:'F',school:'Massachusetts',tier:1},
+{year:'2024-25',player:'Gabe Perreault',pos:'F',school:'Boston College',tier:1},
+{year:'2024-25',player:'Albin Boija',pos:'G',school:'Maine',tier:2},
+{year:'2024-25',player:'Tom Willander',pos:'D',school:'Boston University',tier:2},
+{year:'2024-25',player:'Guillaume Richard',pos:'D',school:'Providence',tier:2},
+{year:'2024-25',player:'Quinn Hutson',pos:'F',school:'Boston University',tier:2},
+{year:'2024-25',player:'Joey Muldowney',pos:'F',school:'UConn',tier:2},
+{year:'2024-25',player:'Hudson Schandor',pos:'F',school:'UConn',tier:2},
+{year:'2024-25',player:'Michael Hrabal',pos:'G',school:'Massachusetts',tier:3},
+{year:'2024-25',player:'Brandon Holt',pos:'D',school:'Maine',tier:3},
+{year:'2024-25',player:'Alex Gagne',pos:'D',school:'New Hampshire',tier:3},
+{year:'2024-25',player:'Ryan Greene',pos:'F',school:'Boston University',tier:3},
+{year:'2024-25',player:'Jake Richard',pos:'F',school:'UConn',tier:3},
+{year:'2024-25',player:'Cam Lund',pos:'F',school:'Northeastern',tier:3},
+// 2025-26
+{year:'2025-26',player:'Michael Hrabal',pos:'G',school:'Massachusetts',tier:1},
+{year:'2025-26',player:'Brandon Holt',pos:'D',school:'Maine',tier:1},
+{year:'2025-26',player:'Cole Hutson',pos:'D',school:'Boston University',tier:1},
+{year:'2025-26',player:'James Hagens',pos:'F',school:'Boston College',tier:1},
+{year:'2025-26',player:'Dylan Hryckowian',pos:'F',school:'Northeastern',tier:1},
+{year:'2025-26',player:'Josh Nadeau',pos:'F',school:'Maine',tier:1},
+{year:'2025-26',player:'Lawton Zacher',pos:'G',school:'Northeastern',tier:2},
+{year:'2025-26',player:'Vinny Borgesi',pos:'D',school:'Northeastern',tier:2},
+{year:'2025-26',player:'Larry Keenan',pos:'D',school:'Massachusetts',tier:2},
+{year:'2025-26',player:'Joey Muldowney',pos:'F',school:'UConn',tier:2},
+{year:'2025-26',player:'Jack Musa',pos:'F',school:'Massachusetts',tier:2},
+{year:'2025-26',player:'Ryan Tattle',pos:'F',school:'UConn',tier:2},
+{year:'2025-26',player:'Tyler Muszelik',pos:'G',school:'UConn',tier:3},
+{year:'2025-26',player:'Lukas Gustafsson',pos:'D',school:'Boston College',tier:3},
+{year:'2025-26',player:'Gavin McCarthy',pos:'D',school:'Boston University',tier:3},
+{year:'2025-26',player:'Tanner Adams',pos:'F',school:'Providence',tier:3},
+{year:'2025-26',player:'Colin Kessler',pos:'F',school:'Vermont',tier:3},
+{year:'2025-26',player:'Dean Letourneau',pos:'F',school:'Boston College',tier:3},
+{year:'2025-26',player:'Logan Sawyer',pos:'F',school:'Providence',tier:3},
+];
+
+// ── STATE ────────────────────────────────────────────────────────────────────
+const YEARS = [...new Set(RAW.map(d=>d.year))].sort();
+const ALL_SCHOOLS = [...new Set(RAW.map(d=>d.school))].sort();
+const UMASS = 'Massachusetts';
+
+let filterFrom = YEARS[0];
+let filterTo   = YEARS[YEARS.length-1];
+let filterTier = 'all';
+let filterPos  = 'all';
+let filterSchool = 'all'; // 'all' or school name
+let sortCol = 'year';
+let sortDir = 1; // 1 = asc, -1 = desc
+
+// ── INIT ─────────────────────────────────────────────────────────────────────
+function init(){
+  // Populate year dropdowns
+  const fromSel = document.getElementById('year-from');
+  const toSel   = document.getElementById('year-to');
+  YEARS.forEach(y=>{
+    fromSel.innerHTML += `<option value="${y}">${y}</option>`;
+    toSel.innerHTML   += `<option value="${y}">${y}</option>`;
+  });
+  toSel.value = YEARS[YEARS.length-1];
+
+  // School filter pills
+  const sf = document.getElementById('school-filter');
+  const allPill = document.createElement('button');
+  allPill.className='school-pill active';allPill.id='spill-all';
+  allPill.textContent='All';
+  allPill.onclick=()=>setSchool('all');
+  sf.appendChild(allPill);
+
+  ALL_SCHOOLS.forEach(s=>{
+    const btn = document.createElement('button');
+    btn.className='school-pill'+(s===UMASS?' umass':'');
+    btn.id='spill-'+s.replace(/\s+/g,'-');
+    if(LOGOS[s]){
+      btn.innerHTML = `<img class="school-logo-sm" src="${LOGOS[s]}" alt="${s}" style="vertical-align:middle;margin-right:3px"> ${schoolAbbr(s)}`;
+    } else {
+      btn.textContent = schoolAbbr(s);
+    }
+    btn.title = s;
+    btn.onclick=()=>setSchool(s);
+    sf.appendChild(btn);
+  });
+
+  applyFilters();
+}
+
+function schoolAbbr(s){
+  const map = {
+    'Boston College':'BC','Boston University':'BU','Northeastern':'NEU',
+    'Massachusetts':'UMass','Providence':'PC','Maine':'Maine',
+    'UMass Lowell':'UML','UConn':'UConn','Notre Dame':'ND',
+    'New Hampshire':'UNH','Vermont':'UVM','Merrimack':'MCI'
+  };
+  return map[s]||s;
+}
+
+// ── FILTERS ──────────────────────────────────────────────────────────────────
+function setTier(t){
+  filterTier=t;
+  ['all',1,2,3].forEach(v=>{
+    const btn=document.getElementById('tier-'+v);
+    btn.className='toggle-btn'+(v===t?' active'+(v===2?' t2':v===3?' t3':''):'');
+  });
+  applyFilters();
+}
+
+function setPos(p){
+  filterPos=p;
+  ['all','G','D','F'].forEach(v=>{
+    const btn=document.getElementById('pos-'+v);
+    btn.className='toggle-btn'+(v===p?' active':'');
+  });
+  applyFilters();
+}
+
+function setSchool(s){
+  filterSchool=s;
+  document.querySelectorAll('.school-pill').forEach(btn=>{
+    const isUmass=btn.classList.contains('umass');
+    btn.classList.remove('active');
+  });
+  const activeId = s==='all'?'spill-all':'spill-'+s.replace(/\s+/g,'-');
+  const activeBtn=document.getElementById(activeId);
+  if(activeBtn) activeBtn.classList.add('active');
+  applyFilters();
+}
+
+function applyFilters(){
+  filterFrom = document.getElementById('year-from').value;
+  filterTo   = document.getElementById('year-to').value;
+  // Enforce from <= to
+  if(filterFrom > filterTo){
+    document.getElementById('year-to').value = filterFrom;
+    filterTo = filterFrom;
+  }
+  renderAll();
+}
+
+function getFiltered(){
+  return RAW.filter(d=>{
+    if(d.year < filterFrom || d.year > filterTo) return false;
+    if(filterTier!=='all' && d.tier!==filterTier) return false;
+    if(filterPos!=='all' && d.pos!==filterPos) return false;
+    if(filterSchool!=='all' && d.school!==filterSchool) return false;
+    return true;
+  });
+}
+
+// ── SORT ─────────────────────────────────────────────────────────────────────
+function sortBy(col){
+  if(sortCol===col) sortDir*=-1;
+  else{sortCol=col;sortDir=1;}
+  renderAll();
+}
+
+function sorted(data){
+  return [...data].sort((a,b)=>{
+    let av=a[sortCol],bv=b[sortCol];
+    if(sortCol==='tier') return (av-bv)*sortDir;
+    return String(av).localeCompare(String(bv))*sortDir;
+  });
+}
+
+// ── RENDER ───────────────────────────────────────────────────────────────────
+function tierLabel(t){
+  if(t===1) return '<span class="tier-badge t1">1st Team</span>';
+  if(t===2) return '<span class="tier-badge t2">2nd Team</span>';
+  return '<span class="tier-badge t3">3rd Team</span>';
+}
+
+function renderAll(){
+  const data = getFiltered();
+  renderStats(data);
+  renderChart(data);
+  renderTable(data);
+}
+
+function renderStats(data){
+  const umassCount = data.filter(d=>d.school===UMASS).length;
+  const schools = new Set(data.map(d=>d.school));
+  const seasons = new Set(data.map(d=>d.year));
+  document.getElementById('stat-total').textContent   = data.length;
+  document.getElementById('stat-umass').textContent   = umassCount;
+  document.getElementById('stat-schools').textContent = schools.size;
+  document.getElementById('stat-seasons').textContent = seasons.size;
+}
+
+function renderChart(data){
+  // Aggregate by school
+  const schoolData = {};
+  data.forEach(d=>{
+    if(!schoolData[d.school]) schoolData[d.school]={t1:0,t2:0,t3:0,total:0};
+    schoolData[d.school]['t'+d.tier]++;
+    schoolData[d.school].total++;
+  });
+
+  const sorted = Object.entries(schoolData).sort((a,b)=>b[1].total-a[1].total);
+  const maxTotal = sorted.length?sorted[0][1].total:1;
+
+  const container = document.getElementById('chart-rows');
+  container.innerHTML='';
+
+  sorted.forEach(([school,counts])=>{
+    const isUmass = school===UMASS;
+    const row = document.createElement('div');
+    row.className='chart-row'+(isUmass?' umass-row':'');
+    row.onclick=()=>setSchool(filterSchool===school?'all':school);
+
+    const pct1 = (counts.t1/maxTotal)*100;
+    const pct2 = (counts.t2/maxTotal)*100;
+    const pct3 = (counts.t3/maxTotal)*100;
+
+    // Build per-tier player lists for tooltips
+    const players1 = data.filter(d=>d.school===school&&d.tier===1);
+    const players2 = data.filter(d=>d.school===school&&d.tier===2);
+    const players3 = data.filter(d=>d.school===school&&d.tier===3);
+
+    const makeSegHtml = (cls, pct, tierLabel, tierColor, players) => {
+      if(!players.length) return '';
+      const seg = document.createElement('div');
+      seg.className='bar-seg '+cls;
+      seg.style.width=pct+'%';
+      seg.style.cursor='default';
+      seg.addEventListener('mouseenter', function(e){
+        showSegTooltip(e, tierLabel, tierColor, players, school);
+      });
+      seg.addEventListener('mousemove', moveTooltip);
+      seg.addEventListener('mouseleave', hideSegTooltip);
+      return seg;
+    };
+
+    row.innerHTML = `${logoImg(school,'lg')}<span class="school-label" style="${isUmass?'color:#e07070':''}">${schoolAbbr(school)}</span>`;
+
+    const track = document.createElement('div');
+    track.className='bar-track';
+
+    const s1 = makeSegHtml('seg-t1', pct1, '1st Team', 'var(--t1)', players1);
+    const s2 = makeSegHtml('seg-t2', pct2, '2nd Team', 'var(--t2)', players2);
+    const s3 = makeSegHtml('seg-t3', pct3, '3rd Team', 'var(--t3)', players3);
+    if(s1) track.appendChild(s1);
+    if(s2) track.appendChild(s2);
+    if(s3) track.appendChild(s3);
+
+    const countSpan = document.createElement('span');
+    countSpan.className='bar-count';
+    countSpan.textContent=counts.total;
+
+    row.appendChild(track);
+    row.appendChild(countSpan);
+    container.appendChild(row);
+  });
+
+  if(!sorted.length){
+    container.innerHTML='<div class="no-results">No data for current filters.</div>';
+  }
+}
+
+function renderTable(data){
+  const rows = sorted(data);
+  const tbody = document.getElementById('table-body');
+  const noRes = document.getElementById('no-results');
+  const meta  = document.getElementById('result-meta');
+
+  // Update sort indicators
+  ['year','player','pos','school','tier'].forEach(col=>{
+    const th = document.getElementById('th-'+col);
+    if(!th) return;
+    th.className = col===sortCol?(sortDir===1?'sorted asc':'sorted desc'):'';
+  });
+
+  meta.textContent = rows.length + ' selection' + (rows.length!==1?'s':'') + ' shown';
+
+  if(!rows.length){
+    tbody.innerHTML='';
+    noRes.style.display='block';
+    document.getElementById('main-table').style.display='none';
+    return;
+  }
+  noRes.style.display='none';
+  document.getElementById('main-table').style.display='';
+
+  tbody.innerHTML = rows.map(d=>{
+    const isUmass=d.school===UMASS;
+    return `<tr class="${isUmass?'umass-row':''}">
+      <td class="td-year">${d.year}</td>
+      <td class="td-player ${isUmass?'umass-player':''}">${d.player}</td>
+      <td><span class="td-pos">${d.pos}</span></td>
+      <td><div class="school-with-logo">${logoImg(d.school,'sm')}<span class="td-school ${isUmass?'umass-school':''}">${d.school}</span></div></td>
+      <td>${tierLabel(d.tier)}</td>
+    </tr>`;
+  }).join('');
+}
+
+// ── Tooltip helpers ───────────────────────────────────────────────
+let _mouseX=0,_mouseY=0;
+document.addEventListener('mousemove',e=>{_mouseX=e.clientX;_mouseY=e.clientY;});
+
+function showSegTooltip(e, tierLabel, tierColor, players, school){
+  const tt = document.getElementById('seg-tooltip');
+  const rows = players.map(p=>
+    `<div class="seg-tooltip-row">
+      <span>${p.player}</span>
+      <span class="seg-tooltip-year">${p.year}</span>
+    </div>`
+  ).join('');
+  tt.innerHTML=`
+    <div class="seg-tooltip-header" style="color:${tierColor}">
+      ${school} · ${tierLabel} (${players.length})
+    </div>
+    ${rows}`;
+  positionTooltip(e.clientX, e.clientY);
+  tt.classList.add('visible');
+}
+
+function moveTooltip(e){
+  positionTooltip(e.clientX, e.clientY);
+}
+
+function positionTooltip(x, y){
+  const tt = document.getElementById('seg-tooltip');
+  const margin = 12;
+  const tw = tt.offsetWidth||200;
+  const th = tt.offsetHeight||100;
+  let left = x + margin;
+  let top  = y - th/2;
+  if(left + tw > window.innerWidth - 8) left = x - tw - margin;
+  if(top < 8) top = 8;
+  if(top + th > window.innerHeight - 8) top = window.innerHeight - th - 8;
+  tt.style.left = left+'px';
+  tt.style.top  = top+'px';
+}
+
+function hideSegTooltip(){
+  document.getElementById('seg-tooltip').classList.remove('visible');
+}
+
+
+init();
+</script>
+<div class="seg-tooltip" id="seg-tooltip"></div>
+</body>
+</html>
