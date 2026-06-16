@@ -694,8 +694,10 @@ function renderRows(rows){
     const scoreClass = g.r==='W'?'win-score':g.r==='L'?'loss-score':'tie-score';
     const rowClass   = g.r==='W'?'win-row':g.r==='L'?'loss-row':'';
     const isExp = expandedIdx===i;
-    // Box score lookup: key is "season:M/D" matching g.s and g.d format
-    const bsKey = `${g.s}:${g.d}`;
+    // Box score lookup — g.d may be "M/D" (pre-1997) or "M/D/YY" (post-1997)
+    // Key format in boxscores.js is always "season:M/D" with no year
+    const _dp = g.d.split('/');
+    const bsKey = `${g.s}:${parseInt(_dp[0])}/${parseInt(_dp[1])}`;
     const bs    = (typeof BOXSCORES !== 'undefined') ? (BOXSCORES[bsKey] || null) : null;
     const bsBadge = bs ? `<span class="bs-avail">BOX</span>` : '';
     html += `<tr class="${rowClass}${isExp?' expanded':''}" onclick="toggleExpand(${i})">
