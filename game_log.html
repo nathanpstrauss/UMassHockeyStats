@@ -677,6 +677,7 @@ function renderBoxScore(g, bs){
 }
 
 // ── RENDER ROWS ───────────────────────────────────────────────────────────────
+function renderRows(rows){
   const tbody = document.getElementById('table-body');
   const empty = document.getElementById('empty-state');
   if(!rows.length){
