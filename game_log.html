@@ -164,8 +164,9 @@ td{padding:8px 12px;font-family:var(--font-ui);font-size:13px;vertical-align:mid
   padding-bottom:8px;margin-bottom:10px;border-bottom:1px solid var(--border)}
 /* Scoring summary */
 .bs-scoring{margin-bottom:18px}
-.bs-goal{display:flex;align-items:baseline;gap:8px;padding:5px 2px;
-  border-bottom:1px solid rgba(28,32,53,.5)}
+.bs-goal{display:flex;align-items:baseline;gap:8px;padding:5px 2px 5px 6px;
+  border-bottom:1px solid rgba(28,32,53,.5);border-left:2px solid transparent}
+.bs-goal.uma-goal{border-left-color:#881c1c}
 .bs-goal:last-child{border-bottom:none}
 .bs-prd{font-size:10px;font-weight:700;color:var(--muted);width:28px;flex-shrink:0}
 .bs-time{font-size:11px;font-weight:800;color:var(--text);width:40px;flex-shrink:0}
@@ -174,10 +175,11 @@ td{padding:8px 12px;font-family:var(--font-ui);font-size:13px;vertical-align:mid
 .bs-team-dot.opp{background:var(--border2)}
 .bs-type{font-size:9px;font-weight:800;letter-spacing:.4px;
   padding:2px 5px;border-radius:2px;flex-shrink:0;min-width:22px;text-align:center}
-.bs-type-EVEN{background:rgba(255,255,255,.05);color:var(--muted)}
+.bs-type-EV{background:rgba(255,255,255,.05);color:var(--muted)}
 .bs-type-PP{background:rgba(212,175,55,.12);color:var(--gold);border:1px solid rgba(212,175,55,.2)}
 .bs-type-SH{background:rgba(46,204,113,.1);color:var(--win);border:1px solid rgba(46,204,113,.2)}
 .bs-type-EN{background:rgba(90,96,128,.12);color:var(--muted)}
+.bs-type-EA{background:rgba(90,96,128,.12);color:var(--muted)}
 .bs-scorer{font-size:13px;font-weight:700;flex-shrink:0}
 .bs-scorer.uma-scorer{color:#881c1c}
 .bs-scorer.opp-scorer{color:var(--text)}
@@ -200,12 +202,12 @@ td{padding:8px 12px;font-family:var(--font-ui);font-size:13px;vertical-align:mid
 .bs-shots-big.uma{color:#881c1c}
 .bs-shots-big.opp{color:var(--text)}
 /* Goalie entries */
-.bs-goalie-entry{margin-bottom:9px}
+.bs-goalie-entry{margin-bottom:10px;display:flex;flex-direction:column;gap:2px}
 .bs-goalie-line1{display:flex;align-items:center;gap:8px}
 .bs-goalie-name{font-size:13px;font-weight:700;color:var(--text)}
 .bs-goalie-name.uma{color:#881c1c}
 .bs-goalie-dec{font-size:11px;font-weight:800}
-.bs-goalie-sub{font-size:11px;color:var(--muted);padding-left:52px;margin-top:1px}
+.bs-goalie-sub{font-size:11px;color:var(--muted);padding-left:52px;margin-top:0}
 /* Shared value styles */
 .bs-uma-val{color:#881c1c;font-weight:700}
 .bs-opp-val{color:var(--text)}
@@ -223,8 +225,9 @@ td{padding:8px 12px;font-family:var(--font-ui);font-size:13px;vertical-align:mid
 .bs-pen-tag.opp{background:rgba(90,96,128,.1);color:var(--muted);border:1px solid rgba(90,96,128,.2)}
 .bs-pen-player{font-size:13px;font-weight:700;flex:1}
 .bs-pen-player.uma{color:#881c1c}
-.bs-pen-off{font-size:11px;color:var(--muted)}
-.bs-pen-min{font-size:11px;font-weight:700;color:var(--text);flex-shrink:0;white-space:nowrap}
+.bs-pen-off{font-size:11px;color:var(--subtext,#7a8199)}
+.bs-pen-min{font-size:10px;font-weight:800;color:var(--text);flex-shrink:0;white-space:nowrap;
+  background:rgba(255,255,255,.06);padding:2px 7px;border-radius:3px}
 /* Indicator badge on rows that have box scores */
 .bs-avail{font-size:8px;font-weight:800;letter-spacing:.4px;
   padding:1px 5px;border-radius:2px;margin-left:7px;vertical-align:middle;
@@ -623,19 +626,22 @@ function toggleExpand(idx){
 function renderBoxScore(g, bs){
   const opp = g.o;
 
+  // Normalize goal type codes: EVEN→EV, EX→EA (both = extra attacker)
+  const GOAL_TYPES = {'EVEN':'EV','EV':'EV','PP':'PP','SH':'SH','EN':'EN','EA':'EA','EX':'EA'};
+
   // ── Scoring summary ───────────────────────────────────────────────────────
   let goalsHtml = '';
   (bs.scoring || []).forEach(goal => {
     const uma = goal.tm === 'U';
-    const typeLabel = goal.ty === 'EVEN' ? 'EV' : (goal.ty || 'EV');
+    const ty  = GOAL_TYPES[goal.ty] || goal.ty || 'EV';
     const assists = (goal.a && goal.a.length)
       ? `<span class="bs-assists">${goal.a.join(', ')}</span>`
       : `<span class="bs-unassisted">Unassisted</span>`;
-    goalsHtml += `<div class="bs-goal">
+    goalsHtml += `<div class="bs-goal${uma?' uma-goal':''}">
       <span class="bs-prd">${goal.p}</span>
       <span class="bs-time">${goal.t}</span>
       <span class="bs-team-dot ${uma?'uma':'opp'}"></span>
-      <span class="bs-type bs-type-${goal.ty||'EVEN'}">${typeLabel}</span>
+      <span class="bs-type bs-type-${ty}">${ty}</span>
       <span class="bs-scorer ${uma?'uma-scorer':'opp-scorer'}">${goal.sc}</span>
       ${assists}
     </div>`;
