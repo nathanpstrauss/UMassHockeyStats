@@ -186,6 +186,7 @@ td{padding:8px 12px;font-family:var(--font-ui);font-size:13px;vertical-align:mid
 .bs-assists{font-size:12px;color:var(--muted);flex:1}
 .bs-assists::before{content:'·';margin-right:6px;color:var(--border2)}
 .bs-unassisted{font-size:10px;font-style:italic;color:var(--border2)}
+.bs-sn{font-size:10px;color:var(--muted);font-weight:600;margin-left:1px}
 /* Stats bar */
 .bs-stats-row{display:flex;gap:40px;flex-wrap:wrap;padding:14px 0 16px;
   border-top:1px solid var(--border)}
@@ -634,15 +635,19 @@ function renderBoxScore(g, bs){
   (bs.scoring || []).forEach(goal => {
     const uma = goal.tm === 'U';
     const ty  = GOAL_TYPES[goal.ty] || goal.ty || 'EV';
+    const scorerNum = goal.sn ? `<span class="bs-sn">(${goal.sn})</span>` : '';
     const assists = (goal.a && goal.a.length)
-      ? `<span class="bs-assists">${goal.a.join(', ')}</span>`
+      ? `<span class="bs-assists">${goal.a.map((name, i) => {
+          const n = (goal.an && goal.an[i]) ? `<span class="bs-sn">(${goal.an[i]})</span>` : '';
+          return name + ' ' + n;
+        }).join(', ')}</span>`
       : `<span class="bs-unassisted">Unassisted</span>`;
     goalsHtml += `<div class="bs-goal${uma?' uma-goal':''}">
       <span class="bs-prd">${goal.p}</span>
       <span class="bs-time">${goal.t}</span>
       <span class="bs-team-dot ${uma?'uma':'opp'}"></span>
       <span class="bs-type bs-type-${ty}">${ty}</span>
-      <span class="bs-scorer ${uma?'uma-scorer':'opp-scorer'}">${goal.sc}</span>
+      <span class="bs-scorer ${uma?'uma-scorer':'opp-scorer'}">${goal.sc}</span>${scorerNum}
       ${assists}
     </div>`;
   });
