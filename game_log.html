@@ -156,16 +156,18 @@ td{padding:8px 12px;font-family:var(--font-ui);font-size:13px;vertical-align:mid
 .bs-dot{width:6px;height:6px;border-radius:50%;background:var(--border2)}
 
 /* BOX SCORE PANEL */
-.bs-panel{padding:4px 0 8px}
-.bs-section-hdr{font-family:var(--font-ui);font-size:9px;font-weight:800;
+.bs-panel{padding:4px 0 12px}
+.bs-inner-wrap{max-width:900px;margin:0 auto}
+/* Section headers — larger */
+.bs-section-hdr{font-family:var(--font-ui);font-size:11px;font-weight:800;
   letter-spacing:1.5px;text-transform:uppercase;color:var(--muted);
-  padding-bottom:6px;margin-bottom:6px;border-bottom:1px solid var(--border)}
-.bs-scoring{margin-bottom:14px}
+  padding-bottom:8px;margin-bottom:10px;border-bottom:1px solid var(--border)}
+/* Scoring summary */
+.bs-scoring{margin-bottom:18px}
 .bs-goal{display:flex;align-items:baseline;gap:8px;padding:5px 2px;
   border-bottom:1px solid rgba(28,32,53,.5)}
 .bs-goal:last-child{border-bottom:none}
-.bs-goal.uma-goal{background:rgba(212,175,55,.02)}
-.bs-prd{font-size:10px;font-weight:700;color:var(--muted);width:30px;flex-shrink:0}
+.bs-prd{font-size:10px;font-weight:700;color:var(--muted);width:28px;flex-shrink:0}
 .bs-time{font-size:11px;font-weight:800;color:var(--text);width:40px;flex-shrink:0}
 .bs-team-dot{width:7px;height:7px;border-radius:50%;flex-shrink:0;position:relative;top:1px}
 .bs-team-dot.uma{background:var(--gold)}
@@ -177,23 +179,52 @@ td{padding:8px 12px;font-family:var(--font-ui);font-size:13px;vertical-align:mid
 .bs-type-SH{background:rgba(46,204,113,.1);color:var(--win);border:1px solid rgba(46,204,113,.2)}
 .bs-type-EN{background:rgba(90,96,128,.12);color:var(--muted)}
 .bs-scorer{font-size:13px;font-weight:700;flex-shrink:0}
-.bs-scorer.uma-scorer{color:var(--gold)}
+.bs-scorer.uma-scorer{color:#881c1c}
 .bs-scorer.opp-scorer{color:var(--text)}
 .bs-assists{font-size:11px;color:var(--muted);flex:1}
 .bs-assists::before{content:'·';margin-right:6px;color:var(--border2)}
 .bs-unassisted{font-size:10px;font-style:italic;color:var(--border2)}
-/* Stats row below scoring */
-.bs-stats-row{display:flex;gap:32px;flex-wrap:wrap;padding-top:12px;
-  border-top:1px solid var(--border);margin-top:2px}
-.bs-stat-block{min-width:90px}
-.bs-stat-lbl{font-family:var(--font-ui);font-size:9px;font-weight:800;
-  letter-spacing:1.2px;text-transform:uppercase;color:var(--muted);margin-bottom:5px}
-.bs-stat-line{font-family:var(--font-ui);font-size:12px;line-height:1.8;
-  display:flex;align-items:baseline;gap:5px}
-.bs-team-tag{font-size:9px;font-weight:700;color:var(--muted);min-width:36px;flex-shrink:0}
+/* Stats bar */
+.bs-stats-row{display:flex;gap:40px;flex-wrap:wrap;padding:14px 0 16px;
+  border-top:1px solid var(--border)}
+.bs-stat-block{min-width:100px}
+.bs-stat-lbl{font-family:var(--font-ui);font-size:11px;font-weight:800;
+  letter-spacing:1.2px;text-transform:uppercase;color:var(--muted);margin-bottom:8px}
+.bs-stat-row{display:flex;align-items:center;gap:8px;margin-bottom:5px;
+  font-family:var(--font-ui);font-size:12px}
+.bs-st{font-size:9px;font-weight:700;color:var(--muted);min-width:44px;flex-shrink:0}
+/* Shots: large totals */
+.bs-shots-row{display:flex;align-items:center;gap:10px;margin-bottom:6px}
+.bs-shots-prd{font-size:11px;color:var(--muted);flex:1}
+.bs-shots-big{font-size:26px;font-weight:900;line-height:1;flex-shrink:0;width:36px;text-align:right}
+.bs-shots-big.uma{color:var(--gold)}
+.bs-shots-big.opp{color:var(--text)}
+/* Goalie entries */
+.bs-goalie-entry{margin-bottom:9px}
+.bs-goalie-line1{display:flex;align-items:center;gap:8px}
+.bs-goalie-name{font-size:13px;font-weight:700;color:var(--text)}
+.bs-goalie-name.uma{color:var(--gold)}
+.bs-goalie-dec{font-size:11px;font-weight:800}
+.bs-goalie-sub{font-size:11px;color:var(--muted);padding-left:52px;margin-top:1px}
+/* Shared value styles */
 .bs-uma-val{color:var(--gold);font-weight:700}
 .bs-opp-val{color:var(--text)}
 .bs-dim{color:var(--muted);font-size:10px}
+/* Penalty section */
+.bs-pen-section{border-top:1px solid var(--border);padding-top:14px}
+.bs-pen-row{display:flex;align-items:center;gap:8px;padding:5px 2px;
+  border-bottom:1px solid rgba(28,32,53,.45);font-family:var(--font-ui)}
+.bs-pen-row:last-child{border-bottom:none}
+.bs-pen-prd{font-size:10px;font-weight:700;color:var(--muted);width:28px;flex-shrink:0}
+.bs-pen-time{font-size:11px;font-weight:700;color:var(--muted);width:42px;flex-shrink:0}
+.bs-pen-tag{font-size:9px;font-weight:800;letter-spacing:.5px;
+  padding:2px 7px;border-radius:2px;flex-shrink:0}
+.bs-pen-tag.uma{background:rgba(136,28,28,.18);color:#c0392b;border:1px solid rgba(136,28,28,.3)}
+.bs-pen-tag.opp{background:rgba(90,96,128,.1);color:var(--muted);border:1px solid rgba(90,96,128,.2)}
+.bs-pen-player{font-size:13px;font-weight:700;flex:1}
+.bs-pen-player.uma{color:#881c1c}
+.bs-pen-off{font-size:11px;color:var(--muted)}
+.bs-pen-min{font-size:11px;font-weight:700;color:var(--text);flex-shrink:0;white-space:nowrap}
 /* Indicator badge on rows that have box scores */
 .bs-avail{font-size:8px;font-weight:800;letter-spacing:.4px;
   padding:1px 5px;border-radius:2px;margin-left:7px;vertical-align:middle;
@@ -592,66 +623,98 @@ function toggleExpand(idx){
 function renderBoxScore(g, bs){
   const opp = g.o;
 
-  // Scoring summary
+  // ── Scoring summary ───────────────────────────────────────────────────────
   let goalsHtml = '';
-  const goals = bs.scoring || [];
-  if(goals.length){
-    goals.forEach(goal=>{
-      const uma = goal.tm === 'U';
-      const typeLabel = goal.ty === 'EVEN' ? 'EV' : (goal.ty || 'EV');
-      const typeClass = `bs-type-${goal.ty || 'EVEN'}`;
-      const assists = (goal.a && goal.a.length)
-        ? `<span class="bs-assists">${goal.a.join(', ')}</span>`
-        : `<span class="bs-unassisted">Unassisted</span>`;
-      goalsHtml += `<div class="bs-goal${uma?' uma-goal':''}">
-        <span class="bs-prd">${goal.p}</span>
-        <span class="bs-time">${goal.t}</span>
-        <span class="bs-team-dot ${uma?'uma':'opp'}"></span>
-        <span class="bs-type ${typeClass}">${typeLabel}</span>
-        <span class="bs-scorer ${uma?'uma-scorer':'opp-scorer'}">${goal.sc}</span>
-        ${assists}
+  (bs.scoring || []).forEach(goal => {
+    const uma = goal.tm === 'U';
+    const typeLabel = goal.ty === 'EVEN' ? 'EV' : (goal.ty || 'EV');
+    const assists = (goal.a && goal.a.length)
+      ? `<span class="bs-assists">${goal.a.join(', ')}</span>`
+      : `<span class="bs-unassisted">Unassisted</span>`;
+    goalsHtml += `<div class="bs-goal">
+      <span class="bs-prd">${goal.p}</span>
+      <span class="bs-time">${goal.t}</span>
+      <span class="bs-team-dot ${uma?'uma':'opp'}"></span>
+      <span class="bs-type bs-type-${goal.ty||'EVEN'}">${typeLabel}</span>
+      <span class="bs-scorer ${uma?'uma-scorer':'opp-scorer'}">${goal.sc}</span>
+      ${assists}
+    </div>`;
+  });
+  if(!goalsHtml) goalsHtml = `<div class="bs-dim" style="padding:6px 0">No scoring data</div>`;
+
+  // ── Shots by period (large totals) ─────────────────────────────────────────
+  const sh = bs.shots || {};
+  const su = sh.u || [], so = sh.o || [];
+  const suTot = su.reduce((a,b)=>a+b, 0);
+  const soTot = so.reduce((a,b)=>a+b, 0);
+  const shotsHtml = `
+    <div class="bs-shots-row">
+      <span class="bs-st">UMass</span>
+      <span class="bs-shots-prd">${su.length ? su.join(' · ') : '—'}</span>
+      ${su.length ? `<span class="bs-shots-big uma">${suTot}</span>` : ''}
+    </div>
+    <div class="bs-shots-row">
+      <span class="bs-st">${opp}</span>
+      <span class="bs-shots-prd">${so.length ? so.join(' · ') : '—'}</span>
+      ${so.length ? `<span class="bs-shots-big opp">${soTot}</span>` : ''}
+    </div>`;
+
+  // ── Power play (UMass from data; opponent derived) ─────────────────────────
+  const pp = bs.pp || {}, ppO = bs.pp_opp || {};
+  const ppUmaStr = pp.opp != null
+    ? `<span class="bs-uma-val">${pp.g}/${pp.opp}</span>${pp.sh != null ? `&nbsp;<span class="bs-dim">${pp.sh} sh</span>` : ''}`
+    : '<span class="bs-dim">—</span>';
+  const ppOppStr = ppO.opp != null
+    ? `<span class="bs-opp-val">${ppO.g}/${ppO.opp}</span>`
+    : '<span class="bs-dim">—</span>';
+  const ppHtml = `
+    <div class="bs-stat-row"><span class="bs-st">UMass</span>${ppUmaStr}</div>
+    <div class="bs-stat-row"><span class="bs-st">${opp}</span>${ppOppStr}</div>`;
+
+  // ── Penalty minutes ────────────────────────────────────────────────────────
+  const pim = bs.pim || {};
+  const pimHtml = `
+    <div class="bs-stat-row"><span class="bs-st">UMass</span><span class="bs-uma-val">${pim.u||0}</span></div>
+    <div class="bs-stat-row"><span class="bs-st">${opp}</span><span class="bs-opp-val">${pim.o||0}</span></div>`;
+
+  // ── Goalies (UMass + opponent) ─────────────────────────────────────────────
+  let goaliesHtml = '';
+  const buildGoalieEntry = (gl, isUma) => {
+    const dc = gl.dec==='W'?'var(--win)':gl.dec==='L'?'var(--loss)':'var(--tie)';
+    const svp = gl.svp ? (gl.svp*100).toFixed(1)+'%' : '';
+    return `<div class="bs-goalie-entry">
+      <div class="bs-goalie-line1">
+        <span class="bs-st">${isUma ? 'UMass' : opp}</span>
+        <span class="bs-goalie-name${isUma?' uma':''}">${gl.name}</span>
+        <span class="bs-goalie-dec" style="color:${dc}">${gl.dec}</span>
+      </div>
+      <div class="bs-goalie-sub">${gl.toi} · ${gl.sv}/${gl.sa}${svp?' · '+svp:''}</div>
+    </div>`;
+  };
+  (bs.goalies || []).forEach(gl => goaliesHtml += buildGoalieEntry(gl, true));
+  (bs.opp_goalies || []).forEach(gl => goaliesHtml += buildGoalieEntry(gl, false));
+  if(!goaliesHtml) goaliesHtml = '<div class="bs-dim">—</div>';
+
+  // ── Penalty summary ────────────────────────────────────────────────────────
+  let penHtml = '';
+  const pens = bs.pens || [];
+  if(pens.length){
+    pens.forEach(p => {
+      const uma = p.tm === 'U';
+      penHtml += `<div class="bs-pen-row">
+        <span class="bs-pen-prd">${p.p}</span>
+        <span class="bs-pen-time">${p.t}</span>
+        <span class="bs-pen-tag ${uma?'uma':'opp'}">${uma ? 'UMass' : opp}</span>
+        <span class="bs-pen-player${uma?' uma':''}">${p.pl}</span>
+        <span class="bs-pen-off">${p.of}</span>
+        <span class="bs-pen-min">${p.m} min</span>
       </div>`;
     });
   } else {
-    goalsHtml = `<div style="font-family:var(--font-ui);font-size:11px;color:var(--muted);padding:6px 0">No scoring data available</div>`;
+    penHtml = '<div class="bs-dim" style="padding:6px 0">No penalty data</div>';
   }
 
-  // Shots by period
-  const sh = bs.shots || {};
-  const su = sh.u || [], so = sh.o || [];
-  const shUma = su.length
-    ? `<span class="bs-uma-val">${su.join(' · ')}</span>&nbsp;<span class="bs-dim">(${su.reduce((a,b)=>a+b,0)})</span>`
-    : '<span class="bs-dim">—</span>';
-  const shOpp = so.length
-    ? `<span class="bs-opp-val">${so.join(' · ')}</span>&nbsp;<span class="bs-dim">(${so.reduce((a,b)=>a+b,0)})</span>`
-    : '<span class="bs-dim">—</span>';
-
-  // Power play
-  const pp = bs.pp || {};
-  const ppUma = pp.opp != null
-    ? `<span class="bs-uma-val">${pp.g}/${pp.opp}</span>${pp.sh != null ? `&nbsp;<span class="bs-dim">(${pp.sh} sh)</span>` : ''}`
-    : '<span class="bs-dim">—</span>';
-
-  // PIM
-  const pim = bs.pim || {};
-
-  // Goalie
-  let goalieBlock = '';
-  if(bs.goalies && bs.goalies.length){
-    const gl = bs.goalies[0];
-    const decColor = gl.dec==='W'?'var(--win)':gl.dec==='L'?'var(--loss)':'var(--tie)';
-    const svp = gl.svp ? (gl.svp*100).toFixed(1)+'%' : '';
-    goalieBlock = `<div class="bs-stat-block">
-      <div class="bs-stat-lbl">Goalie</div>
-      <div class="bs-stat-line">
-        <span class="bs-uma-val">${gl.name}</span>
-        <span style="color:${decColor};font-weight:800">${gl.dec}</span>
-      </div>
-      <div class="bs-stat-line bs-dim">${gl.toi} · ${gl.sv}/${gl.sa}${svp?' · '+svp:''}</div>
-    </div>`;
-  }
-
-  return `<div class="bs-panel">
+  return `<div class="bs-panel"><div class="bs-inner-wrap">
     <div class="bs-scoring">
       <div class="bs-section-hdr">Scoring Summary</div>
       ${goalsHtml}
@@ -659,21 +722,26 @@ function renderBoxScore(g, bs){
     <div class="bs-stats-row">
       <div class="bs-stat-block">
         <div class="bs-stat-lbl">Shots by Period</div>
-        <div class="bs-stat-line"><span class="bs-team-tag">UMass</span>${shUma}</div>
-        <div class="bs-stat-line"><span class="bs-team-tag">${opp}</span>${shOpp}</div>
+        ${shotsHtml}
       </div>
       <div class="bs-stat-block">
         <div class="bs-stat-lbl">Power Play</div>
-        <div class="bs-stat-line"><span class="bs-team-tag">UMass</span>${ppUma}</div>
+        ${ppHtml}
       </div>
       <div class="bs-stat-block">
         <div class="bs-stat-lbl">Penalty Min</div>
-        <div class="bs-stat-line"><span class="bs-team-tag">UMass</span><span class="bs-uma-val">${pim.u||0}</span></div>
-        <div class="bs-stat-line"><span class="bs-team-tag">${opp}</span><span class="bs-opp-val">${pim.o||0}</span></div>
+        ${pimHtml}
       </div>
-      ${goalieBlock}
+      <div class="bs-stat-block">
+        <div class="bs-stat-lbl">Goalies</div>
+        ${goaliesHtml}
+      </div>
     </div>
-  </div>`;
+    <div class="bs-pen-section">
+      <div class="bs-section-hdr">Penalties</div>
+      ${penHtml}
+    </div>
+  </div></div>`;
 }
 
 // ── RENDER ROWS ───────────────────────────────────────────────────────────────
