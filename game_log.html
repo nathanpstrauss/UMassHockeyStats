@@ -180,10 +180,10 @@ td{padding:8px 12px;font-family:var(--font-ui);font-size:13px;vertical-align:mid
 .bs-type-SH{background:rgba(46,204,113,.1);color:var(--win);border:1px solid rgba(46,204,113,.2)}
 .bs-type-EN{background:rgba(90,96,128,.12);color:var(--muted)}
 .bs-type-EA{background:rgba(90,96,128,.12);color:var(--muted)}
-.bs-scorer{font-size:13px;font-weight:700;flex-shrink:0}
+.bs-scorer{font-size:14px;font-weight:700;flex-shrink:0}
 .bs-scorer.uma-scorer{color:#881c1c}
 .bs-scorer.opp-scorer{color:var(--text)}
-.bs-assists{font-size:11px;color:var(--muted);flex:1}
+.bs-assists{font-size:12px;color:var(--muted);flex:1}
 .bs-assists::before{content:'·';margin-right:6px;color:var(--border2)}
 .bs-unassisted{font-size:10px;font-style:italic;color:var(--border2)}
 /* Stats bar */
@@ -192,12 +192,12 @@ td{padding:8px 12px;font-family:var(--font-ui);font-size:13px;vertical-align:mid
 .bs-stat-block{min-width:100px}
 .bs-stat-lbl{font-family:var(--font-ui);font-size:11px;font-weight:800;
   letter-spacing:1.2px;text-transform:uppercase;color:var(--muted);margin-bottom:8px}
-.bs-stat-row{display:flex;align-items:center;gap:8px;margin-bottom:5px;
-  font-family:var(--font-ui);font-size:12px}
-.bs-st{font-size:9px;font-weight:700;color:var(--muted);min-width:44px;flex-shrink:0}
+.bs-stat-row{display:flex;align-items:center;gap:8px;margin-bottom:6px;
+  font-family:var(--font-ui);font-size:13px}
+.bs-st{font-size:12px;font-weight:700;color:var(--muted);min-width:52px;flex-shrink:0}
 /* Shots: large totals */
-.bs-shots-row{display:flex;align-items:center;gap:10px;margin-bottom:6px}
-.bs-shots-prd{font-size:11px;color:var(--muted);flex:1}
+.bs-shots-row{display:flex;align-items:center;gap:10px;margin-bottom:8px}
+.bs-shots-prd{font-size:12px;color:var(--muted);flex:1}
 .bs-shots-big{font-size:26px;font-weight:900;line-height:1;flex-shrink:0;width:36px;text-align:right}
 .bs-shots-big.uma{color:#881c1c}
 .bs-shots-big.opp{color:var(--text)}
@@ -207,7 +207,7 @@ td{padding:8px 12px;font-family:var(--font-ui);font-size:13px;vertical-align:mid
 .bs-goalie-name{font-size:13px;font-weight:700;color:var(--text)}
 .bs-goalie-name.uma{color:#881c1c}
 .bs-goalie-dec{font-size:11px;font-weight:800}
-.bs-goalie-sub{font-size:11px;color:var(--muted);padding-left:52px;margin-top:0}
+.bs-goalie-sub{font-size:12px;color:var(--muted);padding-left:56px;margin-top:0}
 /* Shared value styles */
 .bs-uma-val{color:#881c1c;font-weight:700}
 .bs-opp-val{color:var(--text)}
@@ -218,14 +218,14 @@ td{padding:8px 12px;font-family:var(--font-ui);font-size:13px;vertical-align:mid
   border-bottom:1px solid rgba(28,32,53,.45);font-family:var(--font-ui)}
 .bs-pen-row:last-child{border-bottom:none}
 .bs-pen-prd{font-size:10px;font-weight:700;color:var(--muted);width:28px;flex-shrink:0}
-.bs-pen-time{font-size:11px;font-weight:700;color:var(--muted);width:42px;flex-shrink:0}
+.bs-pen-time{font-size:12px;font-weight:700;color:var(--muted);width:42px;flex-shrink:0}
 .bs-pen-tag{font-size:9px;font-weight:800;letter-spacing:.5px;
   padding:2px 7px;border-radius:2px;flex-shrink:0}
 .bs-pen-tag.uma{background:rgba(136,28,28,.18);color:#c0392b;border:1px solid rgba(136,28,28,.3)}
 .bs-pen-tag.opp{background:rgba(90,96,128,.1);color:var(--muted);border:1px solid rgba(90,96,128,.2)}
-.bs-pen-player{font-size:13px;font-weight:700;flex:1}
+.bs-pen-player{font-size:14px;font-weight:700;flex:1}
 .bs-pen-player.uma{color:#881c1c}
-.bs-pen-off{font-size:11px;color:var(--subtext,#7a8199)}
+.bs-pen-off{font-size:12px;color:var(--subtext,#7a8199)}
 .bs-pen-min{font-size:10px;font-weight:800;color:var(--text);flex-shrink:0;white-space:nowrap;
   background:rgba(255,255,255,.06);padding:2px 7px;border-radius:3px}
 /* Indicator badge on rows that have box scores */
@@ -671,7 +671,7 @@ function renderBoxScore(g, bs){
     ? `<span class="bs-uma-val">${pp.g}/${pp.opp}</span>${pp.sh != null ? `&nbsp;<span class="bs-dim">${pp.sh} sh</span>` : ''}`
     : '<span class="bs-dim">—</span>';
   const ppOppStr = ppO.opp != null
-    ? `<span class="bs-opp-val">${ppO.g}/${ppO.opp}</span>`
+    ? `<span class="bs-opp-val">${ppO.g}/${ppO.opp}</span>${ppO.sh != null ? `&nbsp;<span class="bs-dim">${ppO.sh} sh</span>` : ''}`
     : '<span class="bs-dim">—</span>';
   const ppHtml = `
     <div class="bs-stat-row"><span class="bs-st">UMass</span>${ppUmaStr}</div>
