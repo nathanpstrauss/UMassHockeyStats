@@ -658,15 +658,22 @@ function renderBoxScore(g, bs){
   const su = sh.u || [], so = sh.o || [];
   const suTot = su.reduce((a,b)=>a+b, 0);
   const soTot = so.reduce((a,b)=>a+b, 0);
+  const fmtPeriods = arr => {
+    if(!arr.length) return '—';
+    const reg = arr.slice(0,3).join(' · ');
+    if(arr.length <= 3) return reg;
+    const ot = arr.slice(3).map((v,i) => `${v}<span class="bs-dim"> ${arr.length>4?i+1+'OT':'OT'}</span>`).join(' · ');
+    return `${reg} · ${ot}`;
+  };
   const shotsHtml = `
     <div class="bs-shots-row">
       <span class="bs-st">UMass</span>
-      <span class="bs-shots-prd">${su.length ? su.join(' · ') : '—'}</span>
+      <span class="bs-shots-prd">${su.length ? fmtPeriods(su) : '—'}</span>
       ${su.length ? `<span class="bs-shots-big uma">${suTot}</span>` : ''}
     </div>
     <div class="bs-shots-row">
       <span class="bs-st">${opp}</span>
-      <span class="bs-shots-prd">${so.length ? so.join(' · ') : '—'}</span>
+      <span class="bs-shots-prd">${so.length ? fmtPeriods(so) : '—'}</span>
       ${so.length ? `<span class="bs-shots-big opp">${soTot}</span>` : ''}
     </div>`;
 
