@@ -1,0 +1,617 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Game Recap — UMass Hockey</title>
+<link rel="icon" href="UMass_Hockey_2_.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:ital,wght@0,400;0,600;0,700;0,800;0,900&family=Libre+Baskerville:wght@400;700&display=swap" rel="stylesheet">
+<script src="boxscores.js"></script>
+<script src="game_meta.js"></script>
+<!-- sl_xg.js will be loaded here in Phase 2 -->
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#08090c;--surface:#0e1018;--surface2:#13161f;
+  --border:#1c2035;--border2:#252a40;
+  --text:#dde3f0;--muted:#5a6080;--muted2:#7a85a0;
+  --maroon:#881c1c;--maroon2:#a02222;--maroon-dim:rgba(136,28,28,.15);
+  --gold:#d4af37;--gold-dim:rgba(212,175,55,.13);--gold-border:rgba(212,175,55,.3);
+  --green:#4a9e6a;--red:#b84a4a;--blue:#4a7ebf;
+  --font-display:'Libre Baskerville',serif;
+  --font-ui:'Barlow Condensed',sans-serif;
+}
+body{background:var(--bg);color:var(--text);font-family:var(--font-ui);font-size:14px;min-height:100vh}
+a{color:inherit;text-decoration:none}
+
+/* ── NAV ─────────────────────────────────────────────────────────────────── */
+nav{background:rgba(8,9,12,.95);border-bottom:1px solid var(--border);
+  padding:0 24px;display:flex;align-items:center;position:sticky;top:0;z-index:100;
+  backdrop-filter:blur(8px)}
+.nav-logo{margin-right:20px;padding:10px 0}
+.nav-logo img{height:32px;display:block}
+.nav-links{display:flex;gap:2px;flex:1}
+.nav-links a{font-family:var(--font-ui);font-size:11px;font-weight:800;letter-spacing:1.2px;
+  text-transform:uppercase;padding:14px 11px;color:var(--muted);transition:color .15s;white-space:nowrap}
+.nav-links a:hover{color:var(--text)}
+.nav-links a.active{color:var(--text);border-bottom:2px solid var(--gold)}
+.nav-right a{font-family:var(--font-ui);font-size:11px;font-weight:700;letter-spacing:.8px;
+  text-transform:uppercase;color:var(--muted);padding:14px 0 14px 12px;opacity:.6}
+
+/* ── GAME HEADER ─────────────────────────────────────────────────────────── */
+.gh{background:linear-gradient(180deg,#110608 0%,#0a0b10 100%);
+  border-bottom:1px solid var(--border);padding:28px 24px 22px}
+.gh-top{display:flex;align-items:center;justify-content:space-between;gap:16px;max-width:860px;margin:0 auto}
+.gh-team{flex:1}
+.gh-team-name{font-family:var(--font-display);font-size:15px;font-weight:700;color:var(--text);line-height:1.2}
+.gh-team-sub{font-size:10px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:var(--muted);margin-top:3px}
+.gh-score-block{text-align:center;flex-shrink:0}
+.gh-score{display:flex;align-items:center;gap:0;justify-content:center}
+.gh-score-n{font-family:var(--font-display);font-size:64px;font-weight:700;line-height:1;min-width:56px;text-align:center}
+.gh-score-n.umass{color:#fff}
+.gh-score-n.opp{color:rgba(255,255,255,.35)}
+.gh-score-sep{font-size:36px;color:var(--border2);padding:0 8px;line-height:1}
+.gh-result{margin-top:8px;display:flex;align-items:center;justify-content:center;gap:6px}
+.gh-badge{display:inline-block;font-size:10px;font-weight:800;letter-spacing:1px;
+  text-transform:uppercase;padding:3px 8px;border-radius:3px}
+.badge-w{background:rgba(74,158,106,.18);color:#5db85d;border:1px solid rgba(74,158,106,.3)}
+.badge-l{background:rgba(184,74,74,.18);color:#d06060;border:1px solid rgba(184,74,74,.3)}
+.badge-t{background:rgba(90,96,128,.18);color:var(--muted2);border:1px solid var(--border2)}
+.badge-ot{background:rgba(74,126,191,.15);color:#7aaee8;border:1px solid rgba(74,126,191,.3)}
+.badge-sl{background:var(--gold-dim);color:var(--gold);border:1px solid var(--gold-border);font-size:9px}
+.badge-conf{background:var(--maroon-dim);color:#c04040;border:1px solid rgba(136,28,28,.35);font-size:9px}
+.gh-opp-right{text-align:right}
+.gh-meta-row{max-width:860px;margin:14px auto 0;display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+.gh-meta-item{font-size:11px;color:var(--muted);display:flex;align-items:center;gap:5px}
+.gh-meta-item svg{opacity:.5}
+.gh-meta-sep{color:var(--border2);font-size:10px}
+.gh-back{font-size:10px;font-weight:700;letter-spacing:.8px;text-transform:uppercase;
+  color:var(--muted);opacity:.6;margin-left:auto;display:flex;align-items:center;gap:4px}
+.gh-back:hover{opacity:1;color:var(--text)}
+
+/* ── SECTION WRAPPER ─────────────────────────────────────────────────────── */
+.page{max-width:860px;margin:0 auto;padding:0 24px 60px}
+.sec{border-top:1px solid var(--border);padding-top:20px;margin-top:20px}
+.sec-hdr{display:flex;align-items:center;gap:8px;margin-bottom:14px}
+.sec-title{font-size:10px;font-weight:800;letter-spacing:1.4px;text-transform:uppercase;color:var(--muted)}
+.sec-badge{font-size:9px;font-weight:800;letter-spacing:.8px;text-transform:uppercase;
+  padding:2px 7px;border-radius:3px}
+
+/* ── SHOTS TABLE ─────────────────────────────────────────────────────────── */
+.shots-table{width:100%;border-collapse:collapse}
+.shots-table th{font-size:10px;font-weight:700;letter-spacing:.8px;text-transform:uppercase;
+  color:var(--muted);padding:6px 10px;text-align:center;border-bottom:1px solid var(--border)}
+.shots-table th:first-child{text-align:left}
+.shots-table td{font-size:15px;font-weight:700;padding:8px 10px;text-align:center;
+  border-top:1px solid rgba(255,255,255,.03)}
+.shots-table td:first-child{font-size:12px;font-weight:800;letter-spacing:.5px;color:var(--text);text-align:left}
+.shots-table tr.umass-row td{color:#fff}
+.shots-table tr.opp-row td{color:var(--muted2)}
+.shots-table td.total-col{font-size:17px;font-weight:900;color:#fff}
+.shots-table tr.opp-row td.total-col{color:var(--muted2)}
+
+/* ── SCORING ─────────────────────────────────────────────────────────────── */
+.period-hdr{font-size:9px;font-weight:800;letter-spacing:1.2px;text-transform:uppercase;
+  color:var(--muted);padding:6px 0 6px;border-top:1px solid var(--border);margin-top:8px}
+.period-hdr:first-child{border-top:none;margin-top:0}
+.goal-row{display:grid;grid-template-columns:44px 1fr auto;gap:0 12px;align-items:start;
+  padding:9px 0;border-top:1px solid rgba(255,255,255,.04)}
+.goal-time{font-size:13px;font-weight:700;color:var(--muted2);font-variant-numeric:tabular-nums;padding-top:1px}
+.goal-body{}
+.goal-team{font-size:9px;font-weight:800;letter-spacing:1px;text-transform:uppercase;margin-bottom:2px}
+.goal-team.umass{color:var(--gold)}
+.goal-team.opp{color:var(--muted)}
+.goal-scorer{font-size:14px;font-weight:700;color:var(--text)}
+.goal-scorer-num{font-size:11px;color:var(--muted2);font-weight:600}
+.goal-assists{font-size:12px;color:var(--muted2);margin-top:2px}
+.goal-assist-num{font-size:10px;color:var(--muted);font-weight:600}
+.goal-type{align-self:start;padding-top:2px}
+.gtype{font-size:9px;font-weight:800;letter-spacing:.6px;padding:2px 6px;border-radius:3px;white-space:nowrap}
+.gtype-EV{background:rgba(90,96,128,.12);color:var(--muted2)}
+.gtype-PP{background:var(--gold-dim);color:var(--gold);border:1px solid var(--gold-border)}
+.gtype-SH{background:rgba(74,126,191,.12);color:#7aaee8;border:1px solid rgba(74,126,191,.25)}
+.gtype-EN{background:rgba(90,96,128,.1);color:var(--muted)}
+.gtype-EX{background:rgba(90,96,128,.1);color:var(--muted)}
+.no-scoring{font-size:12px;color:var(--muted);padding:12px 0;font-style:italic}
+
+/* ── SPECIAL TEAMS ───────────────────────────────────────────────────────── */
+.st-grid{display:grid;grid-template-columns:1fr 1fr;gap:1px;background:var(--border)}
+.st-side{background:var(--surface);padding:14px 16px}
+.st-team{font-size:9px;font-weight:800;letter-spacing:1.2px;text-transform:uppercase;
+  margin-bottom:10px}
+.st-team.umass{color:var(--gold)}
+.st-team.opp{color:var(--muted)}
+.st-row{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:6px}
+.st-label{font-size:11px;color:var(--muted2)}
+.st-val{font-size:16px;font-weight:900;color:#fff}
+.st-pct{font-size:11px;font-weight:600;color:var(--muted);margin-left:4px}
+.st-row.opp .st-val{color:var(--muted2)}
+.st-pim{margin-top:8px;padding-top:8px;border-top:1px solid var(--border)}
+.st-pim-label{font-size:10px;color:var(--muted);text-transform:uppercase;letter-spacing:.8px}
+.st-pim-val{font-size:13px;font-weight:700;color:var(--muted2)}
+
+/* ── GOALIES ─────────────────────────────────────────────────────────────── */
+table.gtable{width:100%;border-collapse:collapse}
+table.gtable th{font-size:9px;font-weight:700;letter-spacing:.8px;text-transform:uppercase;
+  color:var(--muted);padding:6px 10px;text-align:right;border-bottom:1px solid var(--border);white-space:nowrap}
+table.gtable th:first-child{text-align:left}
+table.gtable td{font-size:13px;padding:8px 10px;text-align:right;
+  border-top:1px solid rgba(255,255,255,.03);color:var(--text)}
+table.gtable td:first-child{text-align:left}
+table.gtable td.dec-W{color:var(--green);font-weight:800}
+table.gtable td.dec-L{color:var(--red);font-weight:800}
+table.gtable td.dec-T{color:var(--muted2);font-weight:800}
+table.gtable td.name{font-weight:700}
+table.gtable td.team-label{font-size:9px;font-weight:800;letter-spacing:1px;
+  text-transform:uppercase;padding-right:4px}
+table.gtable td.team-label.umass{color:var(--gold)}
+table.gtable td.team-label.opp{color:var(--muted)}
+table.gtable td.gsax-pos{color:var(--green);font-weight:700}
+table.gtable td.gsax-neg{color:var(--red);font-weight:700}
+table.gtable td.gsax-na{color:var(--muted);font-style:italic}
+.gsax-note{font-size:10px;color:var(--muted);margin-top:8px;font-style:italic}
+
+/* ── PENALTIES ───────────────────────────────────────────────────────────── */
+table.ptable{width:100%;border-collapse:collapse}
+table.ptable th{font-size:9px;font-weight:700;letter-spacing:.8px;text-transform:uppercase;
+  color:var(--muted);padding:5px 8px;border-bottom:1px solid var(--border);text-align:left;white-space:nowrap}
+table.ptable td{font-size:12px;padding:6px 8px;border-top:1px solid rgba(255,255,255,.03);color:var(--text)}
+table.ptable td.p-time{color:var(--muted2);font-variant-numeric:tabular-nums;white-space:nowrap}
+table.ptable td.p-team.umass{color:var(--gold);font-weight:700;font-size:9px;text-transform:uppercase;letter-spacing:.8px}
+table.ptable td.p-team.opp{color:var(--muted2);font-weight:700;font-size:9px;text-transform:uppercase;letter-spacing:.8px}
+table.ptable td.p-player{font-weight:600}
+table.ptable td.p-min{text-align:right;color:var(--muted2);font-size:11px;white-space:nowrap}
+table.ptable .pd-row td{background:var(--surface);font-size:9px;font-weight:800;
+  letter-spacing:1px;text-transform:uppercase;color:var(--muted);padding:4px 8px;
+  border-top:1px solid var(--border)}
+
+/* ── SL PLACEHOLDER ──────────────────────────────────────────────────────── */
+.sl-placeholder{border:1px dashed var(--border2);border-radius:4px;padding:16px 20px;
+  display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap}
+.sl-ph-left{display:flex;align-items:center;gap:10px}
+.sl-ph-icon{font-size:20px;color:var(--muted);opacity:.5}
+.sl-ph-text{font-size:13px;color:var(--muted2);font-weight:600}
+.sl-ph-sub{font-size:11px;color:var(--muted);margin-top:2px}
+
+/* ── ERROR STATE ─────────────────────────────────────────────────────────── */
+.error-state{text-align:center;padding:80px 24px}
+.error-state h2{font-family:var(--font-display);font-size:22px;color:var(--text);margin-bottom:8px}
+.error-state p{font-size:13px;color:var(--muted)}
+.error-state a{color:var(--gold)}
+
+/* ── RESPONSIVE ──────────────────────────────────────────────────────────── */
+@media(max-width:600px){
+  .gh-score-n{font-size:48px}
+  .gh-team-name{font-size:13px}
+  .st-grid{grid-template-columns:1fr}
+  .gh-meta-row{gap:8px}
+  .goal-row{grid-template-columns:40px 1fr auto;gap:0 8px}
+  .page{padding:0 14px 48px}
+  .gh{padding:20px 14px 16px}
+}
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-logo"><img src="UMass_Hockey_2_.png" alt="UMass Hockey"></div>
+  <div class="nav-links">
+    <a href="index.html">Rosters</a>
+    <a href="ncaa_nhl_pipeline.html">NCAA Pipeline</a>
+    <a href="career_stats.html">Career Stats</a>
+    <a href="recruiting_classes.html">Draft</a>
+    <a href="hea_allstars.html">HEA All-Stars</a>
+    <a href="awards.html">Awards</a>
+    <a href="game_log.html">Game Log</a>
+  </div>
+  <div class="nav-right"><a href="https://umasshockeyblog.substack.com/" target="_blank" rel="noopener">Blog ↗</a></div>
+</nav>
+
+<div id="app"></div>
+
+<script>
+// ── Helpers ─────────────────────────────────────────────────────────────────
+
+const MONTHS = ['','January','February','March','April','May','June',
+                'July','August','September','October','November','December'];
+
+const MONTH_ABBR = ['','Jan','Feb','Mar','Apr','May','Jun',
+                    'Jul','Aug','Sep','Oct','Nov','Dec'];
+
+function gameYear(season, month) {
+  const start = parseInt(season.split('-')[0]);
+  return month >= 7 ? start : start + 1;
+}
+
+function keyToDate(key) {
+  const [season, md] = key.split(':');
+  const [m, d] = md.split('/').map(Number);
+  const year = gameYear(season, m);
+  return { m, d, year,
+    long: `${MONTHS[m]} ${d}, ${year}`,
+    short: `${MONTH_ABBR[m]} ${d}, ${year}` };
+}
+
+function fmtSvp(v) {
+  if (v == null || isNaN(v)) return '---';
+  return v.toFixed(3).replace('0.', '.');
+}
+
+function isDec(dec) { return ['W','L','T'].includes(dec); }
+
+function pctStr(g, opp) {
+  if (!opp) return '—';
+  return (g / opp * 100).toFixed(1) + '%';
+}
+
+function e(tag, cls, html) {
+  const el = document.createElement(tag);
+  if (cls) el.className = cls;
+  if (html != null) el.innerHTML = html;
+  return el;
+}
+
+function esc(s) {
+  if (!s) return '';
+  return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+}
+
+// ── Main render ──────────────────────────────────────────────────────────────
+
+function init() {
+  const app    = document.getElementById('app');
+  const params = new URLSearchParams(location.search);
+  const KEY    = params.get('id');
+
+  if (!KEY) {
+    app.innerHTML = `<div class="error-state">
+      <h2>No game specified</h2>
+      <p>Use <code>game.html?id=2025-26:10/4</code> format,
+         or <a href="game_log.html">browse the game log</a>.</p>
+    </div>`;
+    return;
+  }
+
+  const box  = (typeof BOXSCORES !== 'undefined') ? BOXSCORES[KEY] : null;
+  const meta = (typeof GAME_META  !== 'undefined') ? GAME_META[KEY]  : null;
+
+  if (!box || !meta) {
+    app.innerHTML = `<div class="error-state">
+      <h2>Game not found</h2>
+      <p>No data found for <strong>${esc(KEY)}</strong>.
+         Only 2022-23 through 2025-26 games are supported.
+         <a href="game_log.html">← Back to game log</a></p>
+    </div>`;
+    return;
+  }
+
+  // ── Derived values ───────────────────────────────────────────────────────
+  const date   = keyToDate(KEY);
+  const isOT   = box.shots.u.length > 3;
+  const isHome = meta.v === 'H';
+  const isAway = meta.v === 'A';
+  const uGoals = meta.ug;
+  const oGoals = meta.og;
+  const result = meta.r; // W / L / T
+
+  const uSOG = box.shots.u.reduce((a,b) => a+b, 0);
+  const oSOG = box.shots.o.reduce((a,b) => a+b, 0);
+
+  // Venue display
+  let venueStr = '';
+  if (isHome)    venueStr = `${meta.arena || 'Mullins Center'} · ${meta.city || 'Amherst'}`;
+  else if (isAway) venueStr = `at ${meta.arena || '—'}${meta.city ? ' · ' + meta.city : ''}`;
+  else           venueStr = `${meta.arena || 'Neutral Site'}${meta.city ? ' · ' + meta.city : ''}`;
+
+  // Season record context (just show season)
+  const seasonLabel = KEY.split(':')[0];
+
+  // Has SL coverage?
+  const hasSL = !!meta.sl_id;
+
+  // ── Build header ─────────────────────────────────────────────────────────
+  const resultBadge = result === 'W'
+    ? `<span class="gh-badge badge-w">Win</span>`
+    : result === 'L'
+    ? `<span class="gh-badge badge-l">Loss</span>`
+    : `<span class="gh-badge badge-t">Tie</span>`;
+  const otBadge = isOT ? `<span class="gh-badge badge-ot">OT</span>` : '';
+  const confBadge = meta.conf ? `<span class="gh-badge badge-conf">Hockey East</span>` : '';
+  const slBadge = hasSL ? `<span class="gh-badge badge-sl">SportLogiq</span>` : '';
+
+  const headerHTML = `
+<div class="gh">
+  <div class="gh-top">
+    <div class="gh-team">
+      <div class="gh-team-name">UMass Minutemen</div>
+      <div class="gh-team-sub">${seasonLabel}</div>
+    </div>
+    <div class="gh-score-block">
+      <div class="gh-score">
+        <span class="gh-score-n umass">${uGoals}</span>
+        <span class="gh-score-sep">–</span>
+        <span class="gh-score-n opp">${oGoals}</span>
+      </div>
+      <div class="gh-result">
+        ${resultBadge}${otBadge}${confBadge}${slBadge}
+      </div>
+    </div>
+    <div class="gh-team gh-opp-right">
+      <div class="gh-team-name">${esc(meta.opp)}</div>
+      <div class="gh-team-sub">&nbsp;</div>
+    </div>
+  </div>
+  <div class="gh-meta-row">
+    <span class="gh-meta-item">${date.long}</span>
+    <span class="gh-meta-sep">·</span>
+    <span class="gh-meta-item">${esc(venueStr)}</span>
+    <a class="gh-back" href="game_log.html">← Game Log</a>
+  </div>
+</div>`;
+
+  // ── Shots by period ──────────────────────────────────────────────────────
+  const periods = isOT ? ['1st','2nd','3rd','OT'] : ['1st','2nd','3rd'];
+  const periodCols = periods.map(p => `<th>${p}</th>`).join('');
+  const uPeriodCells = box.shots.u.map(n => `<td>${n}</td>`).join('');
+  const oPeriodCells = box.shots.o.map(n => `<td>${n}</td>`).join('');
+
+  const shotsHTML = `
+<div class="sec">
+  <div class="sec-hdr"><span class="sec-title">Shots on goal</span></div>
+  <table class="shots-table">
+    <thead><tr><th></th>${periodCols}<th>Total</th></tr></thead>
+    <tbody>
+      <tr class="umass-row">
+        <td>UMass</td>${uPeriodCells}<td class="total-col">${uSOG}</td>
+      </tr>
+      <tr class="opp-row">
+        <td>${esc(meta.opp)}</td>${oPeriodCells}<td class="total-col">${oSOG}</td>
+      </tr>
+    </tbody>
+  </table>
+</div>`;
+
+  // ── SportLogiq placeholder ────────────────────────────────────────────────
+  const slHTML = hasSL ? `
+<div class="sec">
+  <div class="sec-hdr">
+    <span class="sec-title">Advanced analytics</span>
+    <span class="sec-badge badge-sl">SportLogiq · Game ${meta.sl_id}</span>
+  </div>
+  <div class="sl-placeholder">
+    <div class="sl-ph-left">
+      <div>
+        <div class="sl-ph-text">xG, scoring chances, shot chart</div>
+        <div class="sl-ph-sub">SportLogiq data available — panel coming in Phase 2</div>
+      </div>
+    </div>
+  </div>
+</div>` : '';
+
+  // ── Scoring summary ───────────────────────────────────────────────────────
+  function renderScoring(scoring) {
+    if (!scoring || !scoring.length) {
+      return `<p class="no-scoring">No scoring data available.</p>`;
+    }
+
+    const TYPE_LABEL = { EVEN:'EV', PP:'PP', SH:'SH', EN:'EN', EX:'EX' };
+    const PD_LABEL   = { '1st':'1st Period','2nd':'2nd Period',
+                         '3rd':'3rd Period','OT':'Overtime','SO':'Shootout' };
+
+    let html = '';
+    let curPeriod = null;
+
+    for (const g of scoring) {
+      if (g.p !== curPeriod) {
+        curPeriod = g.p;
+        html += `<div class="period-hdr">${PD_LABEL[g.p] || g.p}</div>`;
+      }
+
+      if (!g.sc && g.sn == null) continue; // skip blank placeholders
+
+      const isU    = g.tm === 'U';
+      const tyCode = g.ty || 'EVEN';
+      const tyLbl  = TYPE_LABEL[tyCode] || tyCode;
+
+      const scorerName = g.sc || 'Unknown';
+      const snStr = (g.sn != null) ? ` <span class="goal-scorer-num">(${g.sn})</span>` : '';
+
+      // Build assists string
+      let assistStr = '';
+      if (g.a && g.a.length) {
+        assistStr = g.a.map((name, i) => {
+          const num = (g.an && g.an[i] != null)
+            ? ` <span class="goal-assist-num">(${g.an[i]})</span>` : '';
+          return esc(name) + num;
+        }).join(', ');
+      } else {
+        assistStr = '<span style="color:var(--muted)">Unassisted</span>';
+      }
+
+      const enFlag = g.en ? ' <span class="gtype gtype-EN" style="margin-left:4px">EN</span>' : '';
+
+      html += `
+<div class="goal-row">
+  <div class="goal-time">${esc(g.t)}</div>
+  <div class="goal-body">
+    <div class="goal-team ${isU ? 'umass' : 'opp'}">${isU ? 'UMass' : esc(meta.opp)}</div>
+    <div class="goal-scorer">${esc(scorerName)}${snStr}${enFlag}</div>
+    <div class="goal-assists">${assistStr}</div>
+  </div>
+  <div class="goal-type"><span class="gtype gtype-${tyCode}">${tyLbl}</span></div>
+</div>`;
+    }
+
+    return html;
+  }
+
+  const scoringHTML = `
+<div class="sec">
+  <div class="sec-hdr"><span class="sec-title">Scoring summary</span></div>
+  ${renderScoring(box.scoring)}
+</div>`;
+
+  // ── Special teams ─────────────────────────────────────────────────────────
+  const uPPg   = box.pp.g,      uPPopp  = box.pp.opp;
+  const oPPg   = box.pp_opp.g,  oPPopp  = box.pp_opp.opp;
+  const uPKg   = oPPopp - oPPg; // times UMass killed a penalty
+  const oPKg   = uPPopp - uPPg;
+
+  function ppStr(g, opp) {
+    return `${g}/${opp}`;
+  }
+
+  const stHTML = `
+<div class="sec">
+  <div class="sec-hdr"><span class="sec-title">Special teams</span></div>
+  <div class="st-grid">
+    <div class="st-side">
+      <div class="st-team umass">UMass</div>
+      <div class="st-row">
+        <span class="st-label">Power play</span>
+        <span class="st-val">${ppStr(uPPg, uPPopp)}
+          <span class="st-pct">${pctStr(uPPg, uPPopp)}</span>
+        </span>
+      </div>
+      <div class="st-row">
+        <span class="st-label">Penalty kill</span>
+        <span class="st-val">${ppStr(uPKg, oPPopp)}
+          <span class="st-pct">${pctStr(uPKg, oPPopp)}</span>
+        </span>
+      </div>
+      <div class="st-pim">
+        <span class="st-pim-label">Penalty minutes</span>
+        <span class="st-pim-val"> ${box.pim.u}</span>
+      </div>
+    </div>
+    <div class="st-side">
+      <div class="st-team opp">${esc(meta.opp)}</div>
+      <div class="st-row opp">
+        <span class="st-label">Power play</span>
+        <span class="st-val">${ppStr(oPPg, oPPopp)}
+          <span class="st-pct">${pctStr(oPPg, oPPopp)}</span>
+        </span>
+      </div>
+      <div class="st-row opp">
+        <span class="st-label">Penalty kill</span>
+        <span class="st-val">${ppStr(oPKg, uPPopp)}
+          <span class="st-pct">${pctStr(oPKg, uPPopp)}</span>
+        </span>
+      </div>
+      <div class="st-pim">
+        <span class="st-pim-label">Penalty minutes</span>
+        <span class="st-pim-val"> ${box.pim.o}</span>
+      </div>
+    </div>
+  </div>
+</div>`;
+
+  // ── Goalies ───────────────────────────────────────────────────────────────
+  // GSAx = xG Against - Goals Against (positive = better than expected)
+  // Phase 1: show -- for GSAx; Phase 2: populate from sl_xg.js
+
+  function goalieRows(goalies, teamCls, teamLabel, isUMass) {
+    if (!goalies || !goalies.length) return '';
+    return goalies.map(g => {
+      const dec    = isDec(g.dec) ? g.dec : '';
+      const decCls = dec ? `dec-${dec}` : '';
+      const svpStr = fmtSvp(g.svp);
+      return `<tr>
+        <td class="team-label ${teamCls}">${teamLabel}</td>
+        <td class="name">${esc(g.name)}</td>
+        <td class="${decCls}">${dec || '—'}</td>
+        <td>${g.sa != null ? g.sa : '—'}</td>
+        <td>${g.sv != null ? g.sv : '—'}</td>
+        <td>${svpStr}</td>
+        <td>${esc(g.toi || '—')}</td>
+        <td class="gsax-na">—</td>
+      </tr>`;
+    }).join('');
+  }
+
+  const gsaxNote = hasSL
+    ? `<p class="gsax-note">GSAx (Goals Saved Above Expected) requires SportLogiq xG data — available in Phase 2.</p>`
+    : '';
+
+  const goaliesHTML = `
+<div class="sec">
+  <div class="sec-hdr">
+    <span class="sec-title">Goalies</span>
+    ${hasSL ? `<span class="sec-badge badge-sl">GSAx via SportLogiq in Phase 2</span>` : ''}
+  </div>
+  <table class="gtable">
+    <thead>
+      <tr>
+        <th></th><th style="text-align:left">Goalie</th>
+        <th>Dec</th><th>SA</th><th>SV</th><th>SV%</th><th>TOI</th><th>GSAx</th>
+      </tr>
+    </thead>
+    <tbody>
+      ${goalieRows(box.goalies,    'umass', 'UMass',       true)}
+      ${goalieRows(box.opp_goalies,'opp',   meta.opp.split(' ').pop(), false)}
+    </tbody>
+  </table>
+  ${gsaxNote}
+</div>`;
+
+  // ── Penalties ─────────────────────────────────────────────────────────────
+  function renderPenalties(pens) {
+    if (!pens || !pens.length) {
+      return `<p class="no-scoring">No penalties recorded.</p>`;
+    }
+
+    const PD_LABEL = { '1st':'1st Period','2nd':'2nd Period',
+                       '3rd':'3rd Period','OT':'Overtime' };
+    let html = `<table class="ptable">
+      <thead><tr>
+        <th>Time</th><th>Team</th><th>Player</th><th>Infraction</th><th style="text-align:right">Min</th>
+      </tr></thead>
+      <tbody>`;
+
+    let curPd = null;
+    for (const p of pens) {
+      if (p.p !== curPd) {
+        curPd = p.p;
+        html += `<tr class="pd-row"><td colspan="5">${PD_LABEL[p.p] || p.p}</td></tr>`;
+      }
+      const isU   = p.tm === 'U';
+      const tmLbl = isU ? 'UMass' : (meta.opp.split(' ').pop());
+      html += `<tr>
+        <td class="p-time">${esc(p.t)}</td>
+        <td class="p-team ${isU ? 'umass' : 'opp'}">${tmLbl}</td>
+        <td class="p-player">${esc(p.pl || '—')}</td>
+        <td>${esc(p.of || '—')}</td>
+        <td class="p-min">${p.m}'</td>
+      </tr>`;
+    }
+    html += '</tbody></table>';
+    return html;
+  }
+
+  const penaltiesHTML = `
+<div class="sec">
+  <div class="sec-hdr"><span class="sec-title">Penalties</span></div>
+  ${renderPenalties(box.pens)}
+</div>`;
+
+  // ── Assemble page ─────────────────────────────────────────────────────────
+  app.innerHTML = `
+${headerHTML}
+<div class="page">
+  ${shotsHTML}
+  ${slHTML}
+  ${scoringHTML}
+  ${stHTML}
+  ${goaliesHTML}
+  ${penaltiesHTML}
+</div>`;
+
+  // Update page title
+  document.title = `${meta.opp} · ${date.short} — UMass Hockey`;
+}
+
+document.addEventListener('DOMContentLoaded', init);
+</script>
+</body>
+</html>
