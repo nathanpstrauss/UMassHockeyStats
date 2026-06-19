@@ -11,15 +11,15 @@ const LOGO_MAP = {
   // Hockey East (existing filenames preserved)
   'Boston College':          'BostonCollege.png',
   'Boston University':       'BostonUniversity.png',
-  'Connecticut':             'uconn.png',
+  'Connecticut':             'UConn.png',
   'Maine':                   'maine.png',
   'Massachusetts-Lowell':    'UMassLowell.png',
   'UMass Lowell':            'UMassLowell.png',
-  'Merrimack':               'merrimack.png',
-  'New Hampshire':           'unh.png',
-  'Northeastern':            'northeastern.png',
-  'Providence':              'providence.png',
-  'Vermont':                 'uvm.png',
+  'Merrimack':               'Merrimack.png',
+  'New Hampshire':           'UNH.png',
+  'Northeastern':            'Northeastern.png',
+  'Providence':              'Providence.png',
+  'Vermont':                 'UVM.png',
 
   // New logos
   'AIC':                     'aic.png',
