@@ -7,6 +7,7 @@
 <link rel="icon" href="UMass_Hockey_2_.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:ital,wght@0,400;0,600;0,700;0,800;0,900&family=Libre+Baskerville:wght@400;700&display=swap" rel="stylesheet">
+<script src="logo_map.js"></script>
 <script src="boxscores.js"></script>
 <script src="game_meta.js"></script>
 <!-- sl_xg.js will be loaded here in Phase 2 -->
@@ -44,6 +45,7 @@ nav{background:rgba(8,9,12,.95);border-bottom:1px solid var(--border);
   border-bottom:1px solid var(--border);padding:28px 24px 22px}
 .gh-top{display:flex;align-items:center;justify-content:space-between;gap:16px;max-width:860px;margin:0 auto}
 .gh-team{flex:1}
+.gh-logo{height:72px;width:72px;object-fit:contain;display:block;flex-shrink:0}
 .gh-team-name{font-family:var(--font-display);font-size:15px;font-weight:700;color:var(--text);line-height:1.2}
 .gh-team-sub{font-size:10px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:var(--muted);margin-top:3px}
 .gh-score-block{text-align:center;flex-shrink:0}
@@ -310,6 +312,18 @@ function init() {
   // Has SL coverage?
   const hasSL = !!meta.sl_id;
 
+  // ── Logo helper ──────────────────────────────────────────────────────────
+  function ghTeam(name, sub, alignRight=false) {
+    const src = (typeof LOGO_MAP !== 'undefined') ? LOGO_MAP[name] : null;
+    const logoHtml = src
+      ? `<img src="${src}" class="gh-logo" alt="${esc(name)}">`
+      : `<div class="gh-team-name">${esc(name)}</div>`;
+    return `<div class="gh-team${alignRight ? ' gh-opp-right' : ''}">
+      ${logoHtml}
+      <div class="gh-team-sub">${esc(sub)}</div>
+    </div>`;
+  }
+
   // ── Build header ─────────────────────────────────────────────────────────
   const resultBadge = result === 'W'
     ? `<span class="gh-badge badge-w">Win</span>`
@@ -323,10 +337,7 @@ function init() {
   const headerHTML = `
 <div class="gh">
   <div class="gh-top">
-    <div class="gh-team">
-      <div class="gh-team-name">UMass Minutemen</div>
-      <div class="gh-team-sub">${seasonLabel}</div>
-    </div>
+    ${ghTeam('UMass Minutemen', seasonLabel)}
     <div class="gh-score-block">
       <div class="gh-score">
         <span class="gh-score-n umass">${uGoals}</span>
@@ -337,10 +348,7 @@ function init() {
         ${resultBadge}${otBadge}${confBadge}${slBadge}
       </div>
     </div>
-    <div class="gh-team gh-opp-right">
-      <div class="gh-team-name">${esc(meta.opp)}</div>
-      <div class="gh-team-sub">&nbsp;</div>
-    </div>
+    ${ghTeam(meta.opp, '\u00a0', true)}
   </div>
   <div class="gh-meta-row">
     <span class="gh-meta-item">${date.long}</span>
