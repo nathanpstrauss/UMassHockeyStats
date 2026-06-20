@@ -10,7 +10,8 @@
 <script src="logo_map.js"></script>
 <script src="boxscores.js"></script>
 <script src="game_meta.js"></script>
-<!-- sl_xg.js will be loaded here in Phase 2 -->
+<script src="sl_xg.js"></script>
+<script src="sl_shots.js"></script>
 <style>
 *{box-sizing:border-box;margin:0;padding:0}
 :root{
@@ -168,13 +169,35 @@ table.ptable .pd-row td{background:var(--surface);font-size:9px;font-weight:800;
   letter-spacing:1px;text-transform:uppercase;color:var(--muted);padding:4px 8px;
   border-top:1px solid var(--border)}
 
-/* ── SL PLACEHOLDER ──────────────────────────────────────────────────────── */
-.sl-placeholder{border:1px dashed var(--border2);border-radius:4px;padding:16px 20px;
-  display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap}
-.sl-ph-left{display:flex;align-items:center;gap:10px}
-.sl-ph-icon{font-size:20px;color:var(--muted);opacity:.5}
-.sl-ph-text{font-size:13px;color:var(--muted2);font-weight:600}
-.sl-ph-sub{font-size:11px;color:var(--muted);margin-top:2px}
+/* ── ADVANCED STATS (Phase 2) ────────────────────────────────────────────── */
+.adv-grid{display:grid;grid-template-columns:1fr 140px 1fr;border-top:1px solid var(--border)}
+.adv-l{text-align:right;font-size:20px;font-weight:900;color:#fff;padding:9px 14px;
+  border-top:1px solid var(--border)}
+.adv-r{font-size:20px;font-weight:900;color:var(--muted2);padding:9px 14px;
+  border-top:1px solid var(--border)}
+.adv-c{text-align:center;padding:9px 8px;border-top:1px solid var(--border)}
+.adv-name{font-size:9px;font-weight:700;letter-spacing:.8px;text-transform:uppercase;
+  color:var(--muted);display:block}
+.adv-bar{height:3px;background:rgba(255,255,255,.06);border-radius:2px;margin-top:5px;
+  display:flex;overflow:hidden}
+.adv-bar-l{background:var(--maroon)}
+.adv-bar-r{background:rgba(255,255,255,.15)}
+.adv-l.lead{color:#fff}.adv-r.lead{color:var(--muted2)}
+
+/* ── SHOT CHART (Phase 2) ────────────────────────────────────────────────── */
+.shot-tabs{display:flex;gap:4px;margin-bottom:10px}
+.stab{font-size:10px;font-weight:700;letter-spacing:.5px;text-transform:uppercase;
+  padding:4px 12px;border-radius:4px;cursor:pointer;border:1px solid rgba(255,255,255,.1);
+  color:var(--muted2);background:none}
+.stab.on{background:var(--maroon);color:#fff;border-color:var(--maroon)}
+.shot-leg{display:flex;gap:12px;margin-top:8px;flex-wrap:wrap}
+.sl-item{display:flex;align-items:center;gap:5px;font-size:10px;color:var(--muted2)}
+.sl-dot{width:9px;height:9px;border-radius:50%;flex-shrink:0}
+
+/* ── GSAX (Phase 2) ──────────────────────────────────────────────────────── */
+.gsax-pos{color:#4a9e6a;font-weight:700}
+.gsax-neg{color:#b84a4a;font-weight:700}
+.gsax-na{color:var(--muted);font-style:italic}
 
 /* ── ERROR STATE ─────────────────────────────────────────────────────────── */
 .error-state{text-align:center;padding:80px 24px}
@@ -380,22 +403,161 @@ function init() {
   </table>
 </div>`;
 
-  // ── SportLogiq placeholder ────────────────────────────────────────────────
-  const slHTML = hasSL ? `
+  // ── SL data ──────────────────────────────────────────────────────────────
+  const slXG    = (typeof SL_XG    !== 'undefined') ? SL_XG[KEY]    : null;
+  const slShots = (typeof SL_SHOTS !== 'undefined') ? SL_SHOTS[KEY] : null;
+
+  function fmtSec(s) {
+    if (!s) return '—';
+    const m = Math.floor(s / 60), sec = s % 60;
+    return `${m}:${String(sec).padStart(2,'0')}`;
+  }
+
+  function barPct(u, o) {
+    const tot = (u || 0) + (o || 0);
+    if (!tot) return [50, 50];
+    return [Math.round(u/tot*100), Math.round(o/tot*100)];
+  }
+
+  function advRow(labelU, labelO, label) {
+    const nu = parseFloat(labelU) || 0, no = parseFloat(labelO) || 0;
+    const [pu, po] = barPct(nu, no);
+    const leadU = nu > no;
+    return `
+      <div class="adv-l${leadU?' lead':''}">
+        ${typeof labelU === 'string' && labelU.includes(':') ? labelU : labelU}
+      </div>
+      <div class="adv-c">
+        <span class="adv-name">${label}</span>
+        <div class="adv-bar">
+          <div class="adv-bar-l" style="width:${pu}%"></div>
+          <div class="adv-bar-r" style="width:${po}%"></div>
+        </div>
+      </div>
+      <div class="adv-r${!leadU?' lead':''}">
+        ${typeof labelO === 'string' && labelO.includes(':') ? labelO : labelO}
+      </div>`;
+  }
+
+  // ── SportLogiq advanced stats section ────────────────────────────────────
+  let slHTML = '';
+  if (slXG) {
+    slHTML = `
 <div class="sec">
   <div class="sec-hdr">
     <span class="sec-title">Advanced analytics</span>
     <span class="sec-badge badge-sl">SportLogiq · Game ${meta.sl_id}</span>
   </div>
-  <div class="sl-placeholder">
-    <div class="sl-ph-left">
-      <div>
-        <div class="sl-ph-text">xG, scoring chances, shot chart</div>
-        <div class="sl-ph-sub">SportLogiq data available — panel coming in Phase 2</div>
-      </div>
+  <div class="adv-grid">
+    ${advRow(slXG.xg_u.toFixed(2), slXG.xg_o.toFixed(2), 'Expected Goals (xG)')}
+    ${slXG.sc_u || slXG.sc_o ? advRow(slXG.sc_u, slXG.sc_o, 'Scoring chances') : ''}
+    ${slXG.ga_u || slXG.ga_o ? advRow(slXG.ga_u, slXG.ga_o, 'Grade A chances') : ''}
+    ${slXG.oz_u || slXG.oz_o ? advRow(fmtSec(slXG.oz_u), fmtSec(slXG.oz_o), 'OZ possession') : ''}
+  </div>
+</div>`;
+  } else if (hasSL) {
+    slHTML = `
+<div class="sec">
+  <div class="sec-hdr">
+    <span class="sec-title">Advanced analytics</span>
+    <span class="sec-badge badge-sl">SportLogiq · Game ${meta.sl_id}</span>
+  </div>
+  <div style="padding:14px 0;font-size:12px;color:var(--muted)">
+    Run <code>build_sl_xg.py</code> to generate <code>sl_xg.js</code>.
+  </div>
+</div>`;
+  }
+
+  // ── Shot chart section ────────────────────────────────────────────────────
+  let shotHTML = '';
+  if (slShots) {
+    // Coordinate scale: rink 200×85ft, SVG 600×255, center at (300,127.5), 3px/ft
+    function shotDot(s) {
+      const [team, x, y, outcome, period] = s;
+      // team 0=UMass → right OZ, team 1=opp → left OZ
+      const svgX = team === 0 ? 300 + x * 3 : 300 - x * 3;
+      const svgY = 127.5 - y * 3;
+      // Clip to rink bounds (rough check)
+      if (svgX < 5 || svgX > 595 || svgY < 5 || svgY > 250) return '';
+      let fill, stroke, r = 5.5, sw = 0;
+      if (outcome === 0) {        // goal — gold always
+        fill = '#d4af37'; r = 7;
+      } else if (team === 0) {    // UMass on-net
+        fill = '#881c1c';
+      } else {                   // opp on-net
+        fill = '#5a7099';
+      }
+      if (outcome === 2 || outcome === 3) {  // miss/block → outline only
+        stroke = fill; fill = 'none'; sw = 1.5;
+      }
+      return `<circle cx="${svgX.toFixed(1)}" cy="${svgY.toFixed(1)}" r="${r}" `
+           + `fill="${fill}" stroke="${stroke||'none'}" stroke-width="${sw}" opacity=".85"/>`;
+    }
+
+    // Build dot markup for each view mode
+    const allDots = slShots.map(shotDot).join('');
+    const uDots   = slShots.filter(s => s[0] === 0).map(shotDot).join('');
+    const oDots   = slShots.filter(s => s[0] === 1).map(shotDot).join('');
+
+    const rinkSVG = (dots) => `
+<svg viewBox="0 0 600 255" width="100%">
+  <defs><clipPath id="rc"><rect x="1" y="1" width="598" height="253" rx="82"/></clipPath></defs>
+  <rect x="0" y="0" width="600" height="255" rx="83" fill="#0c1824"/>
+  <g clip-path="url(#rc)">
+    <rect x="0" y="0" width="600" height="255" fill="#0d1e30"/>
+    <line x1="33" y1="0" x2="33" y2="255" stroke="#cc2233" stroke-width="2" opacity=".7"/>
+    <line x1="567" y1="0" x2="567" y2="255" stroke="#cc2233" stroke-width="2" opacity=".7"/>
+    <line x1="300" y1="0" x2="300" y2="255" stroke="#cc2233" stroke-width="3" opacity=".8"/>
+    <line x1="225" y1="0" x2="225" y2="255" stroke="#1a44b8" stroke-width="5" opacity=".8"/>
+    <line x1="375" y1="0" x2="375" y2="255" stroke="#1a44b8" stroke-width="5" opacity=".8"/>
+    <circle cx="300" cy="127.5" r="46" fill="none" stroke="#cc2233" stroke-width="1.5" opacity=".5"/>
+    <circle cx="300" cy="127.5" r="3" fill="#cc2233" opacity=".7"/>
+    <circle cx="93" cy="62" r="46" fill="none" stroke="#cc2233" stroke-width="1.5" opacity=".35"/>
+    <circle cx="93" cy="62" r="3" fill="#cc2233" opacity=".5"/>
+    <circle cx="93" cy="193" r="46" fill="none" stroke="#cc2233" stroke-width="1.5" opacity=".35"/>
+    <circle cx="93" cy="193" r="3" fill="#cc2233" opacity=".5"/>
+    <circle cx="507" cy="62" r="46" fill="none" stroke="#cc2233" stroke-width="1.5" opacity=".35"/>
+    <circle cx="507" cy="62" r="3" fill="#cc2233" opacity=".5"/>
+    <circle cx="507" cy="193" r="46" fill="none" stroke="#cc2233" stroke-width="1.5" opacity=".35"/>
+    <circle cx="507" cy="193" r="3" fill="#cc2233" opacity=".5"/>
+    <circle cx="240" cy="62" r="3" fill="#cc2233" opacity=".5"/>
+    <circle cx="240" cy="193" r="3" fill="#cc2233" opacity=".5"/>
+    <circle cx="360" cy="62" r="3" fill="#cc2233" opacity=".5"/>
+    <circle cx="360" cy="193" r="3" fill="#cc2233" opacity=".5"/>
+    <path d="M33,114 Q53,114 53,127.5 Q53,141 33,141 Z" fill="rgba(100,160,255,.1)" stroke="rgba(100,160,255,.35)" stroke-width="1"/>
+    <path d="M567,114 Q547,114 547,127.5 Q547,141 567,141 Z" fill="rgba(100,160,255,.1)" stroke="rgba(100,160,255,.35)" stroke-width="1"/>
+    <rect x="21" y="123" width="12" height="9" fill="none" stroke="rgba(255,255,255,.35)" stroke-width="1.5"/>
+    <rect x="567" y="123" width="12" height="9" fill="none" stroke="rgba(255,255,255,.35)" stroke-width="1.5"/>
+    ${dots}
+  </g>
+  <rect x="0" y="0" width="600" height="255" rx="83" fill="none" stroke="rgba(255,255,255,.1)" stroke-width="2"/>
+</svg>`;
+
+    shotHTML = `
+<div class="sec">
+  <div class="sec-hdr">
+    <span class="sec-title">Shot chart</span>
+    <span class="sec-badge badge-sl">SportLogiq</span>
+  </div>
+  <div style="padding:0 0 4px">
+    <div class="shot-tabs">
+      <span class="stab" onclick="setTab(this,'u')" id="stab-u">UMass</span>
+      <span class="stab" onclick="setTab(this,'o')" id="stab-o">${esc(meta.opp)}</span>
+      <span class="stab on" onclick="setTab(this,'both')" id="stab-both">Both</span>
+    </div>
+    <div id="chart-u" style="display:none">${rinkSVG(uDots)}</div>
+    <div id="chart-o" style="display:none">${rinkSVG(oDots)}</div>
+    <div id="chart-both">${rinkSVG(allDots)}</div>
+    <div class="shot-leg">
+      <div class="sl-item"><div class="sl-dot" style="background:#d4af37"></div>Goal</div>
+      <div class="sl-item"><div class="sl-dot" style="background:#881c1c"></div>UMass on net</div>
+      <div class="sl-item"><div class="sl-dot" style="background:none;border:1.5px solid #881c1c;opacity:.7"></div>UMass miss</div>
+      <div class="sl-item"><div class="sl-dot" style="background:#5a7099"></div>${esc(meta.opp)} on net</div>
+      <div class="sl-item"><div class="sl-dot" style="background:none;border:1.5px solid #5a7099;opacity:.7"></div>${esc(meta.opp)} miss</div>
     </div>
   </div>
-</div>` : '';
+</div>`;
+  }
 
   // ── Scoring summary ───────────────────────────────────────────────────────
   function renderScoring(scoring) {
@@ -515,16 +677,38 @@ function init() {
   </div>
 </div>`;
 
-  // ── Goalies ───────────────────────────────────────────────────────────────
-  // GSAx = xG Against - Goals Against (positive = better than expected)
-  // Phase 1: show -- for GSAx; Phase 2: populate from sl_xg.js
+  // ── Goalies with real GSAx ────────────────────────────────────────────────
+  // GSAx = xG Against − Goals Against (positive = better than expected)
+  // Uses team-level xG since we don't split per-goalie at this resolution.
+  function gsaxCell(xgAgainst, goalsAllowed, hasData) {
+    if (!hasData || xgAgainst == null) {
+      return `<td class="r gsax-na">—</td>`;
+    }
+    const val = parseFloat((xgAgainst - goalsAllowed).toFixed(2));
+    const cls = val > 0 ? 'gsax-pos' : val < 0 ? 'gsax-neg' : '';
+    const str = val > 0 ? `+${val}` : `${val}`;
+    return `<td class="r ${cls}">${str}</td>`;
+  }
 
   function goalieRows(goalies, teamCls, teamLabel, isUMass) {
     if (!goalies || !goalies.length) return '';
-    return goalies.map(g => {
+    // For multi-goalie games, show GSAx only on the primary goalie (first by TOI/dec)
+    const primary = goalies[0];
+    return goalies.map((g, idx) => {
       const dec    = isDec(g.dec) ? g.dec : '';
       const decCls = dec ? `dec-${dec}` : '';
       const svpStr = fmtSvp(g.svp);
+      // GSAx: only for first goalie if we have xG data
+      let gsaxTd;
+      if (slXG && idx === 0) {
+        const xgAgainst  = isUMass ? slXG.xg_o : slXG.xg_u;
+        const goalsAllowed = isUMass ? meta.og : meta.ug;
+        gsaxTd = gsaxCell(xgAgainst, goalsAllowed, true);
+      } else if (slXG && idx > 0) {
+        gsaxTd = `<td class="r gsax-na" title="Multi-goalie game — GSAx shown for primary goalie only">—</td>`;
+      } else {
+        gsaxTd = `<td class="r gsax-na">—</td>`;
+      }
       return `<tr>
         <td class="team-label ${teamCls}">${teamLabel}</td>
         <td class="name">${esc(g.name)}</td>
@@ -533,28 +717,28 @@ function init() {
         <td>${g.sv != null ? g.sv : '—'}</td>
         <td>${svpStr}</td>
         <td>${esc(g.toi || '—')}</td>
-        <td class="gsax-na">—</td>
+        ${gsaxTd}
       </tr>`;
     }).join('');
   }
 
-  const gsaxNote = hasSL
-    ? `<p class="gsax-note">GSAx (Goals Saved Above Expected) requires SportLogiq xG data — available in Phase 2.</p>`
+  const gsaxNote = slXG
+    ? `<p class="gsax-note">GSAx = xG against minus goals allowed · positive = better than expected.</p>`
+    : hasSL
+    ? `<p class="gsax-note">GSAx requires <code>sl_xg.js</code> — run <code>build_sl_xg.py</code> to generate it.</p>`
     : '';
 
   const goaliesHTML = `
 <div class="sec">
   <div class="sec-hdr">
     <span class="sec-title">Goalies</span>
-    ${hasSL ? `<span class="sec-badge badge-sl">GSAx via SportLogiq in Phase 2</span>` : ''}
+    <span class="sec-badge badge-sl">GSAx via SportLogiq</span>
   </div>
   <table class="gtable">
-    <thead>
-      <tr>
-        <th></th><th style="text-align:left">Goalie</th>
-        <th>Dec</th><th>SA</th><th>SV</th><th>SV%</th><th>TOI</th><th>GSAx</th>
-      </tr>
-    </thead>
+    <thead><tr>
+      <th></th><th style="text-align:left">Goalie</th>
+      <th>Dec</th><th>SA</th><th>SV</th><th>SV%</th><th>TOI</th><th>GSAx</th>
+    </tr></thead>
     <tbody>
       ${goalieRows(box.goalies,    'umass', 'UMass',       true)}
       ${goalieRows(box.opp_goalies,'opp',   meta.opp.split(' ').pop(), false)}
@@ -609,11 +793,22 @@ ${headerHTML}
 <div class="page">
   ${shotsHTML}
   ${slHTML}
+  ${shotHTML}
   ${scoringHTML}
   ${stHTML}
   ${goaliesHTML}
   ${penaltiesHTML}
 </div>`;
+
+  // Tab switcher for shot chart
+  window.setTab = function(btn, mode) {
+    document.querySelectorAll('.stab').forEach(b => b.classList.remove('on'));
+    btn.classList.add('on');
+    ['u','o','both'].forEach(m => {
+      const el = document.getElementById('chart-' + m);
+      if (el) el.style.display = m === mode ? '' : 'none';
+    });
+  };
 
   // Update page title
   document.title = `${meta.opp} · ${date.short} — UMass Hockey`;
