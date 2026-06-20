@@ -201,6 +201,10 @@ table.ptable .pd-row td{background:var(--surface);font-size:9px;font-weight:800;
 .shot-wrap.hide-miss .shot-miss{display:none}
 .shot-wrap.hide-block .shot-block{display:none}
 .shot-wrap.hide-save .shot-save{display:none}
+.shot-wrap.hide-p1 .shot-p1{display:none}
+.shot-wrap.hide-p2 .shot-p2{display:none}
+.shot-wrap.hide-p3 .shot-p3{display:none}
+.shot-wrap.hide-p4 .shot-p4{display:none}
 .shot-leg{display:flex;gap:12px;margin-top:8px;flex-wrap:wrap}
 .sl-item{display:flex;align-items:center;gap:5px;font-size:10px;color:var(--muted2)}
 .sl-dot{width:9px;height:9px;border-radius:50%;flex-shrink:0}
@@ -519,7 +523,7 @@ function init() {
       if (outcome === 0) { fill = '#d4af37'; stroke = '#6a4c00'; sw = 1; r = 7; }
       else if (outcome === 2 || outcome === 3) { fill = 'none'; stroke = teamColor; sw = 1.8; }
 
-      const cls  = OUT_CLASS[outcome] || '';
+      const cls  = `${OUT_CLASS[outcome] || ''} shot-p${period}`;
       const pName = playerId ? (PLAYERS[playerId] || '') : '';
       const pd   = PD_LABEL[period] || `P${period}`;
       const tm   = timeSec != null ? fmtTime(timeSec) : '';
@@ -574,26 +578,28 @@ function init() {
     <line x1="33"  y1="160.5" x2="0"   y2="169.5" stroke="#cc1e1e" stroke-width="1.5"/>
     <line x1="567" y1="94.5"  x2="600" y2="85.5"  stroke="#cc1e1e" stroke-width="1.5"/>
     <line x1="567" y1="160.5" x2="600" y2="169.5" stroke="#cc1e1e" stroke-width="1.5"/>
-    <!-- Left crease: NHL D-shape, semicircle r=13.5 toward center -->
-    <path d="M 33,114 A 13.5,13.5 0 0 1 33,141 Z"
-          fill="rgba(160,210,245,0.55)" stroke="#3399cc" stroke-width="1.5"/>
+    <!-- Left crease: NHL semicircle r=18px (6ft) from center of goal line -->
+    <path d="M 33,109.5 A 18,18 0 0 1 33,145.5 Z"
+          fill="rgba(160,210,245,0.6)" stroke="#3399cc" stroke-width="1.5"/>
     <!-- Right crease -->
-    <path d="M 567,114 A 13.5,13.5 0 0 0 567,141 Z"
-          fill="rgba(160,210,245,0.55)" stroke="#3399cc" stroke-width="1.5"/>
-    <!-- Left goal: posts + net frame -->
-    <rect  x="21"  y="121.5" width="12" height="12" fill="rgba(255,255,255,0.55)"/>
-    <line  x1="33"  y1="121.5" x2="21"  y2="121.5" stroke="#cc1e1e" stroke-width="2"/>
-    <line  x1="33"  y1="133.5" x2="21"  y2="133.5" stroke="#cc1e1e" stroke-width="2"/>
-    <line  x1="21"  y1="121.5" x2="21"  y2="133.5" stroke="#cc1e1e" stroke-width="2"/>
-    <circle cx="33" cy="121.5" r="2.5" fill="#cc1e1e"/>
-    <circle cx="33" cy="133.5" r="2.5" fill="#cc1e1e"/>
+    <path d="M 567,109.5 A 18,18 0 0 0 567,145.5 Z"
+          fill="rgba(160,210,245,0.6)" stroke="#3399cc" stroke-width="1.5"/>
+    <!-- Left goal: 6ft wide (18px), curved back net, posts at ±9px -->
+    <path d="M 33,118.5 L 21,118.5 Q 12,127.5 21,136.5 L 33,136.5"
+          fill="rgba(238,245,250,0.65)" stroke="none"/>
+    <line  x1="33"  y1="118.5" x2="21"  y2="118.5" stroke="#cc1e1e" stroke-width="2"/>
+    <line  x1="33"  y1="136.5" x2="21"  y2="136.5" stroke="#cc1e1e" stroke-width="2"/>
+    <path  d="M 21,118.5 Q 12,127.5 21,136.5" stroke="#cc1e1e" fill="none" stroke-width="2"/>
+    <circle cx="33" cy="118.5" r="3" fill="#cc1e1e"/>
+    <circle cx="33" cy="136.5" r="3" fill="#cc1e1e"/>
     <!-- Right goal -->
-    <rect  x="567" y="121.5" width="12" height="12" fill="rgba(255,255,255,0.55)"/>
-    <line  x1="567" y1="121.5" x2="579" y2="121.5" stroke="#cc1e1e" stroke-width="2"/>
-    <line  x1="567" y1="133.5" x2="579" y2="133.5" stroke="#cc1e1e" stroke-width="2"/>
-    <line  x1="579" y1="121.5" x2="579" y2="133.5" stroke="#cc1e1e" stroke-width="2"/>
-    <circle cx="567" cy="121.5" r="2.5" fill="#cc1e1e"/>
-    <circle cx="567" cy="133.5" r="2.5" fill="#cc1e1e"/>
+    <path d="M 567,118.5 L 579,118.5 Q 588,127.5 579,136.5 L 567,136.5"
+          fill="rgba(238,245,250,0.65)" stroke="none"/>
+    <line  x1="567" y1="118.5" x2="579" y2="118.5" stroke="#cc1e1e" stroke-width="2"/>
+    <line  x1="567" y1="136.5" x2="579" y2="136.5" stroke="#cc1e1e" stroke-width="2"/>
+    <path  d="M 579,118.5 Q 588,127.5 579,136.5" stroke="#cc1e1e" fill="none" stroke-width="2"/>
+    <circle cx="567" cy="118.5" r="3" fill="#cc1e1e"/>
+    <circle cx="567" cy="136.5" r="3" fill="#cc1e1e"/>
     <!-- Shots -->
     ${dots}
   </g>
@@ -605,6 +611,7 @@ function init() {
     const uDots   = slShots.filter(s => s[0] === 0).map(shotDot).join('');
     const oDots   = slShots.filter(s => s[0] === 1).map(shotDot).join('');
 
+    const hasOT   = slShots.some(s => s[4] >= 4);
     const oppName = esc(meta.opp);
     shotHTML = `
 <div class="sec">
@@ -619,7 +626,14 @@ function init() {
       <span class="stab on" onclick="setTab(this,'both')" id="stab-both">Both</span>
     </div>
     <div class="shot-filters">
-      <span class="sfilt-label">Show:</span>
+      <span class="sfilt-label">Period:</span>
+      <button class="sfilt" data-period="1" onclick="togglePeriod(this)">1st</button>
+      <button class="sfilt" data-period="2" onclick="togglePeriod(this)">2nd</button>
+      <button class="sfilt" data-period="3" onclick="togglePeriod(this)">3rd</button>
+      ${hasOT ? '<button class="sfilt" data-period="4" onclick="togglePeriod(this)">OT</button>' : ''}
+    </div>
+    <div class="shot-filters" style="margin-top:4px">
+      <span class="sfilt-label">Type:</span>
       <button class="sfilt" data-hide="miss"  onclick="toggleShots(this)">Missed</button>
       <button class="sfilt" data-hide="block" onclick="toggleShots(this)">Blocked</button>
       <button class="sfilt" data-hide="save"  onclick="toggleShots(this)">On net</button>
@@ -897,6 +911,15 @@ ${headerHTML}
     const wrap  = document.getElementById('shot-chart-wrap');
     const cls   = 'hide-' + hide;
     const isOff = wrap.classList.toggle(cls);
+    btn.classList.toggle('off', isOff);
+  };
+
+  // Toggle period visibility
+  window.togglePeriod = function(btn) {
+    const period = btn.dataset.period;
+    const wrap   = document.getElementById('shot-chart-wrap');
+    const cls    = 'hide-p' + period;
+    const isOff  = wrap.classList.toggle(cls);
     btn.classList.toggle('off', isOff);
   };
 
