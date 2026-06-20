@@ -66,6 +66,10 @@ nav{background:rgba(8,9,12,.95);border-bottom:1px solid var(--border);
 .badge-sl{background:var(--gold-dim);color:var(--gold);border:1px solid var(--gold-border);font-size:9px}
 .badge-conf{background:var(--maroon-dim);color:#c04040;border:1px solid rgba(136,28,28,.35);font-size:9px}
 .gh-opp-right{text-align:right}
+.gh-team{display:flex;align-items:center;gap:14px}
+.gh-team.gh-right{justify-content:flex-end;flex-direction:row-reverse}
+.gh-team-info{}
+.gh-team-info.align-right{text-align:right}
 .gh-meta-row{max-width:860px;margin:14px auto 0;display:flex;align-items:center;gap:12px;flex-wrap:wrap}
 .gh-meta-item{font-size:11px;color:var(--muted);display:flex;align-items:center;gap:5px}
 .gh-meta-item svg{opacity:.5}
@@ -100,7 +104,8 @@ nav{background:rgba(8,9,12,.95);border-bottom:1px solid var(--border);
   color:var(--muted);padding:6px 0 6px;border-top:1px solid var(--border);margin-top:8px}
 .period-hdr:first-child{border-top:none;margin-top:0}
 .goal-row{display:grid;grid-template-columns:44px 1fr auto;gap:0 12px;align-items:start;
-  padding:9px 0;border-top:1px solid rgba(255,255,255,.04)}
+  padding:6px 0 6px 8px;border-top:1px solid rgba(255,255,255,.04);border-left:3px solid transparent}
+.goal-row.u-goal{border-left-color:rgba(136,28,28,.5)}
 .goal-time{font-size:13px;font-weight:700;color:var(--muted2);font-variant-numeric:tabular-nums;padding-top:1px}
 .goal-body{}
 .goal-team{font-size:9px;font-weight:800;letter-spacing:1px;text-transform:uppercase;margin-bottom:2px}
@@ -171,6 +176,9 @@ table.ptable .pd-row td{background:var(--surface);font-size:9px;font-weight:800;
   border-top:1px solid var(--border)}
 
 /* ── ADVANCED STATS (Phase 2) ────────────────────────────────────────────── */
+.adv-team-hdr{font-size:10px;font-weight:800;letter-spacing:.8px;text-transform:uppercase;
+  color:var(--muted2);padding:8px 14px 4px;display:flex;align-items:center;gap:6px}
+.adv-team-hdr-r{justify-content:flex-end}
 .adv-grid{display:grid;grid-template-columns:1fr 140px 1fr;border-top:1px solid var(--border)}
 .adv-l{text-align:right;font-size:20px;font-weight:900;color:#fff;padding:9px 14px;
   border-top:1px solid var(--border)}
@@ -360,15 +368,23 @@ function init() {
   const hasSL = !!meta.sl_id;
 
   // ── Logo helper ──────────────────────────────────────────────────────────
+  const lm = (typeof LOGO_MAP !== 'undefined') ? LOGO_MAP : {};
+  function tLogo(name, h=20) {
+    const src = lm[name];
+    return src ? `<img src="${src}" height="${h}" style="vertical-align:middle;object-fit:contain;flex-shrink:0">` : '';
+  }
+
   function ghTeam(name, sub, alignRight=false) {
-    const src = (typeof LOGO_MAP !== 'undefined') ? LOGO_MAP[name] : null;
-    const logoHtml = src
+    const src = lm[name];
+    const logoEl = src
       ? `<img src="${src}" class="gh-logo" alt="${esc(name)}">`
-      : `<div class="gh-team-name">${esc(name)}</div>`;
-    return `<div class="gh-team${alignRight ? ' gh-opp-right' : ''}">
-      ${logoHtml}
-      <div class="gh-team-sub">${esc(sub)}</div>
-    </div>`;
+      : `<div class="gh-logo" style="background:rgba(255,255,255,.04);border-radius:6px;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:800;color:var(--muted)">${esc(name.slice(0,3).toUpperCase())}</div>`;
+    const displayName = name === 'UMass Minutemen' ? 'UMass' : name;
+    const infoEl = `<div class="gh-team-info${alignRight ? ' align-right' : ''}">
+        <div class="gh-team-name">${esc(displayName)}</div>
+        ${sub && sub.trim() ? `<div class="gh-team-sub">${esc(sub)}</div>` : ''}
+      </div>`;
+    return `<div class="gh-team${alignRight ? ' gh-right' : ''}">${logoEl}${infoEl}</div>`;
   }
 
   // ── Build header ─────────────────────────────────────────────────────────
@@ -418,10 +434,10 @@ function init() {
     <thead><tr><th></th>${periodCols}<th>Total</th></tr></thead>
     <tbody>
       <tr class="umass-row">
-        <td>UMass</td>${uPeriodCells}<td class="total-col">${uSOG}</td>
+        <td>${tLogo('UMass Minutemen', 18)} UMass</td>${uPeriodCells}<td class="total-col">${uSOG}</td>
       </tr>
       <tr class="opp-row">
-        <td>${esc(meta.opp)}</td>${oPeriodCells}<td class="total-col">${oSOG}</td>
+        <td>${tLogo(meta.opp, 18)} ${esc(meta.opp)}</td>${oPeriodCells}<td class="total-col">${oSOG}</td>
       </tr>
     </tbody>
   </table>
@@ -473,6 +489,9 @@ function init() {
     <span class="sec-badge badge-sl">SportLogiq · Game ${meta.sl_id}</span>
   </div>
   <div class="adv-grid">
+    <div class="adv-team-hdr">${tLogo('UMass Minutemen',20)} UMass</div>
+    <div></div>
+    <div class="adv-team-hdr adv-team-hdr-r">${esc(meta.opp)} ${tLogo(meta.opp,20)}</div>
     ${advRow(slXG.xg_u.toFixed(2), slXG.xg_o.toFixed(2), 'Expected Goals (xG)')}
     ${slXG.sc_u || slXG.sc_o ? advRow(slXG.sc_u, slXG.sc_o, 'Scoring chances') : ''}
     ${slXG.ga_u || slXG.ga_o ? advRow(slXG.ga_u, slXG.ga_o, 'Grade A chances') : ''}
@@ -697,7 +716,7 @@ function init() {
       const enFlag = g.en ? ' <span class="gtype gtype-EN" style="margin-left:4px">EN</span>' : '';
 
       html += `
-<div class="goal-row">
+<div class="goal-row${isU ? ' u-goal' : ''}">
   <div class="goal-time">${esc(g.t)}</div>
   <div class="goal-body">
     <div class="goal-team ${isU ? 'umass' : 'opp'}">${isU ? 'UMass' : esc(meta.opp)}</div>
@@ -805,7 +824,7 @@ function init() {
         gsaxTd = `<td class="r gsax-na">—</td>`;
       }
       return `<tr>
-        <td class="team-label ${teamCls}">${teamLabel}</td>
+        <td class="team-label ${teamCls}">${tLogo(isUMass ? 'UMass Minutemen' : teamLabel, 16)} ${teamLabel}</td>
         <td class="name">${esc(g.name)}</td>
         <td class="${decCls}">${dec || '—'}</td>
         <td>${g.sa != null ? g.sa : '—'}</td>
@@ -836,7 +855,7 @@ function init() {
     </tr></thead>
     <tbody>
       ${goalieRows(box.goalies,    'umass', 'UMass',       true)}
-      ${goalieRows(box.opp_goalies,'opp',   meta.opp.split(' ').pop(), false)}
+      ${goalieRows(box.opp_goalies,'opp',   meta.opp, false)}
     </tbody>
   </table>
   ${gsaxNote}
@@ -886,8 +905,8 @@ function init() {
   app.innerHTML = `
 ${headerHTML}
 <div class="page">
-  ${shotsHTML}
   ${slHTML}
+  ${shotsHTML}
   ${shotHTML}
   ${scoringHTML}
   ${stHTML}
