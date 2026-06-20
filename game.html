@@ -67,7 +67,7 @@ nav{background:rgba(8,9,12,.95);border-bottom:1px solid var(--border);
 .badge-conf{background:var(--maroon-dim);color:#c04040;border:1px solid rgba(136,28,28,.35);font-size:9px}
 .gh-opp-right{text-align:right}
 .gh-team{display:flex;align-items:center;gap:14px}
-.gh-team.gh-right{justify-content:flex-end;flex-direction:row-reverse}
+.gh-team.gh-right{justify-content:flex-end}
 .gh-team-info{}
 .gh-team-info.align-right{text-align:right}
 .gh-meta-row{max-width:860px;margin:14px auto 0;display:flex;align-items:center;gap:12px;flex-wrap:wrap}
@@ -176,16 +176,16 @@ table.ptable .pd-row td{background:var(--surface);font-size:9px;font-weight:800;
   border-top:1px solid var(--border)}
 
 /* ── ADVANCED STATS (Phase 2) ────────────────────────────────────────────── */
-.adv-team-hdr{font-size:10px;font-weight:800;letter-spacing:.8px;text-transform:uppercase;
-  color:var(--muted2);padding:8px 14px 4px;display:flex;align-items:center;gap:6px}
+.adv-team-hdr{font-size:13px;font-weight:800;letter-spacing:.5px;text-transform:uppercase;
+  color:var(--text);padding:10px 14px 6px;display:flex;align-items:center;gap:8px}
 .adv-team-hdr-r{justify-content:flex-end}
-.adv-grid{display:grid;grid-template-columns:1fr 140px 1fr;border-top:1px solid var(--border)}
-.adv-l{text-align:right;font-size:20px;font-weight:900;color:#fff;padding:9px 14px;
+.adv-grid{display:grid;grid-template-columns:1fr 160px 1fr;border-top:1px solid var(--border)}
+.adv-l{text-align:right;font-size:22px;font-weight:900;color:#fff;padding:9px 14px;
   border-top:1px solid var(--border)}
-.adv-r{font-size:20px;font-weight:900;color:var(--muted2);padding:9px 14px;
+.adv-r{font-size:22px;font-weight:900;color:var(--muted2);padding:9px 14px;
   border-top:1px solid var(--border)}
 .adv-c{text-align:center;padding:9px 8px;border-top:1px solid var(--border)}
-.adv-name{font-size:9px;font-weight:700;letter-spacing:.8px;text-transform:uppercase;
+.adv-name{font-size:10px;font-weight:700;letter-spacing:.8px;text-transform:uppercase;
   color:var(--muted);display:block}
 .adv-bar{height:3px;background:rgba(255,255,255,.06);border-radius:2px;margin-top:5px;
   display:flex;overflow:hidden}
@@ -384,7 +384,9 @@ function init() {
         <div class="gh-team-name">${esc(displayName)}</div>
         ${sub && sub.trim() ? `<div class="gh-team-sub">${esc(sub)}</div>` : ''}
       </div>`;
-    return `<div class="gh-team${alignRight ? ' gh-right' : ''}">${logoEl}${infoEl}</div>`;
+    // Left: [name][logo]  Score  [logo][name] :Right
+    const content = alignRight ? `${logoEl}${infoEl}` : `${infoEl}${logoEl}`;
+    return `<div class="gh-team${alignRight ? ' gh-right' : ''}">${content}</div>`;
   }
 
   // ── Build header ─────────────────────────────────────────────────────────
@@ -489,9 +491,9 @@ function init() {
     <span class="sec-badge badge-sl">SportLogiq · Game ${meta.sl_id}</span>
   </div>
   <div class="adv-grid">
-    <div class="adv-team-hdr">${tLogo('UMass Minutemen',20)} UMass</div>
+    <div class="adv-team-hdr adv-team-hdr-r">UMass ${tLogo('UMass Minutemen',22)}</div>
     <div></div>
-    <div class="adv-team-hdr adv-team-hdr-r">${esc(meta.opp)} ${tLogo(meta.opp,20)}</div>
+    <div class="adv-team-hdr">${tLogo(meta.opp,22)} ${esc(meta.opp)}</div>
     ${advRow(slXG.xg_u.toFixed(2), slXG.xg_o.toFixed(2), 'Expected Goals (xG)')}
     ${slXG.sc_u || slXG.sc_o ? advRow(slXG.sc_u, slXG.sc_o, 'Scoring chances') : ''}
     ${slXG.ga_u || slXG.ga_o ? advRow(slXG.ga_u, slXG.ga_o, 'Grade A chances') : ''}
