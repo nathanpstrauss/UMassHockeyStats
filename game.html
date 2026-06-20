@@ -12,6 +12,7 @@
 <script src="game_meta.js"></script>
 <script src="sl_xg.js"></script>
 <script src="sl_shots.js"></script>
+<script src="sl_players.js"></script>
 <style>
 *{box-sizing:border-box;margin:0;padding:0}
 :root{
@@ -184,15 +185,34 @@ table.ptable .pd-row td{background:var(--surface);font-size:9px;font-weight:800;
 .adv-bar-r{background:rgba(255,255,255,.15)}
 .adv-l.lead{color:#fff}.adv-r.lead{color:var(--muted2)}
 
-/* ── SHOT CHART (Phase 2) ────────────────────────────────────────────────── */
-.shot-tabs{display:flex;gap:4px;margin-bottom:10px}
+/* ── SHOT CHART ──────────────────────────────────────────────────────────── */
+.shot-tabs{display:flex;gap:4px;margin-bottom:8px}
 .stab{font-size:10px;font-weight:700;letter-spacing:.5px;text-transform:uppercase;
   padding:4px 12px;border-radius:4px;cursor:pointer;border:1px solid rgba(255,255,255,.1);
   color:var(--muted2);background:none}
 .stab.on{background:var(--maroon);color:#fff;border-color:var(--maroon)}
+.shot-filters{display:flex;gap:6px;margin-bottom:8px;align-items:center}
+.sfilt-label{font-size:9px;font-weight:700;letter-spacing:.8px;text-transform:uppercase;color:var(--muted)}
+.sfilt{font-size:9px;font-weight:800;letter-spacing:.6px;text-transform:uppercase;
+  padding:3px 9px;border-radius:3px;cursor:pointer;border:1px solid rgba(255,255,255,.15);
+  color:var(--text);background:rgba(255,255,255,.07);transition:all .15s}
+.sfilt.off{color:var(--muted);background:none;border-color:rgba(255,255,255,.07);text-decoration:line-through}
+/* CSS-driven shot visibility */
+.shot-wrap.hide-miss .shot-miss{display:none}
+.shot-wrap.hide-block .shot-block{display:none}
+.shot-wrap.hide-save .shot-save{display:none}
 .shot-leg{display:flex;gap:12px;margin-top:8px;flex-wrap:wrap}
 .sl-item{display:flex;align-items:center;gap:5px;font-size:10px;color:var(--muted2)}
 .sl-dot{width:9px;height:9px;border-radius:50%;flex-shrink:0}
+/* Shot tooltip */
+#shot-tip{position:fixed;display:none;z-index:9999;pointer-events:none;
+  background:#111827;border:1px solid #2a3555;border-radius:6px;
+  padding:8px 12px;font-family:var(--font-ui);min-width:120px;
+  box-shadow:0 8px 24px rgba(0,0,0,.6)}
+#shot-tip .st-name{font-size:13px;font-weight:700;color:#e8eaf0}
+#shot-tip .st-time{font-size:11px;color:var(--muted2);margin-top:2px}
+#shot-tip .st-type{font-size:9px;font-weight:800;letter-spacing:.6px;
+  text-transform:uppercase;margin-top:4px;padding:2px 5px;border-radius:3px;display:inline-block}
 
 /* ── GSAX (Phase 2) ──────────────────────────────────────────────────────── */
 .gsax-pos{color:#4a9e6a;font-weight:700}
@@ -471,68 +491,121 @@ function init() {
   // ── Shot chart section ────────────────────────────────────────────────────
   let shotHTML = '';
   if (slShots) {
-    // Coordinate scale: rink 200×85ft, SVG 600×255, center at (300,127.5), 3px/ft
-    function shotDot(s) {
-      const [team, x, y, outcome, period] = s;
-      // team 0=UMass → right OZ, team 1=opp → left OZ
-      const svgX = team === 0 ? 300 + x * 3 : 300 - x * 3;
-      const svgY = 127.5 - y * 3;
-      // Clip to rink bounds (rough check)
-      if (svgX < 5 || svgX > 595 || svgY < 5 || svgY > 250) return '';
-      let fill, stroke, r = 5.5, sw = 0;
-      if (outcome === 0) {        // goal — gold always
-        fill = '#d4af37'; r = 7;
-      } else if (team === 0) {    // UMass on-net
-        fill = '#881c1c';
-      } else {                   // opp on-net
-        fill = '#5a7099';
-      }
-      if (outcome === 2 || outcome === 3) {  // miss/block → outline only
-        stroke = fill; fill = 'none'; sw = 1.5;
-      }
-      return `<circle cx="${svgX.toFixed(1)}" cy="${svgY.toFixed(1)}" r="${r}" `
-           + `fill="${fill}" stroke="${stroke||'none'}" stroke-width="${sw}" opacity=".85"/>`;
+    const PLAYERS   = (typeof SL_PLAYERS !== 'undefined') ? SL_PLAYERS : {};
+    const PD_LABEL  = {1:'1st',2:'2nd',3:'3rd',4:'OT',5:'OT2'};
+    const OUT_CLASS = {0:'shot-goal',1:'shot-save',2:'shot-miss',3:'shot-block'};
+    const OUT_LABEL = {0:'Goal',1:'On net',2:'Missed',3:'Blocked'};
+    const OUT_COLOR = {0:'#d4af37',1:null,2:null,3:null};  // null = use team color
+
+    function fmtTime(sec) {
+      if (sec == null) return '';
+      const m = Math.floor(sec / 60), s = Math.floor(sec % 60);
+      return `${m}:${String(s).padStart(2,'0')}`;
     }
 
-    // Build dot markup for each view mode
+    function shotDot(s) {
+      const [team, x, y, outcome, period] = s;
+      const timeSec  = s.length > 5 ? s[5] : null;
+      const playerId = s.length > 6 ? s[6] : null;
+
+      // Coordinate mapping: right OZ for UMass, left OZ for opp
+      const svgX = team === 0 ? 300 + x * 3 : 300 - x * 3;
+      const svgY = 127.5 - y * 3;
+      if (svgX < 4 || svgX > 596 || svgY < 4 || svgY > 251) return '';
+
+      // Colors on white ice
+      const teamColor = team === 0 ? '#881c1c' : '#1c3a6e';
+      let fill = teamColor, stroke = 'none', sw = 0, r = 5;
+      if (outcome === 0) { fill = '#d4af37'; stroke = '#6a4c00'; sw = 1; r = 7; }
+      else if (outcome === 2 || outcome === 3) { fill = 'none'; stroke = teamColor; sw = 1.8; }
+
+      const cls  = OUT_CLASS[outcome] || '';
+      const pName = playerId ? (PLAYERS[playerId] || '') : '';
+      const pd   = PD_LABEL[period] || `P${period}`;
+      const tm   = timeSec != null ? fmtTime(timeSec) : '';
+      const tip  = JSON.stringify({name:pName, time:`${pd} ${tm}`.trim(),
+                                   type:OUT_LABEL[outcome]||'', team:team});
+
+      return `<circle cx="${svgX.toFixed(1)}" cy="${svgY.toFixed(1)}" r="${r}" `
+           + `fill="${fill}" stroke="${stroke}" stroke-width="${sw}" opacity=".9" `
+           + `class="shot-dot ${cls}" data-tip='${tip}'/>`;
+    }
+
+    // White-ice rink SVG — unique clipPath ID per instance to avoid conflicts
+    let rinkIdx = 0;
+    const rinkSVG = (dots) => {
+      const id = `rc${++rinkIdx}`;
+      return `
+<svg viewBox="0 0 600 255" width="100%" style="display:block;border-radius:83px;overflow:visible">
+  <defs>
+    <clipPath id="${id}"><rect x="1" y="1" width="598" height="253" rx="80"/></clipPath>
+  </defs>
+  <rect x="0" y="0" width="600" height="255" rx="81" fill="#0e1520"/>
+  <g clip-path="url(#${id})">
+    <!-- Ice -->
+    <rect x="0" y="0" width="600" height="255" fill="#e8f4f9"/>
+    <!-- Goal lines -->
+    <line x1="33"  y1="0" x2="33"  y2="255" stroke="#cc1e1e" stroke-width="2"/>
+    <line x1="567" y1="0" x2="567" y2="255" stroke="#cc1e1e" stroke-width="2"/>
+    <!-- Center line -->
+    <line x1="300" y1="0" x2="300" y2="255" stroke="#cc1e1e" stroke-width="4"/>
+    <!-- Blue lines -->
+    <line x1="225" y1="0" x2="225" y2="255" stroke="#1a44c8" stroke-width="7"/>
+    <line x1="375" y1="0" x2="375" y2="255" stroke="#1a44c8" stroke-width="7"/>
+    <!-- OZ faceoff circles -->
+    <circle cx="93"  cy="62"  r="46" fill="none" stroke="#cc1e1e" stroke-width="1.5"/>
+    <circle cx="93"  cy="62"  r="3"  fill="#cc1e1e"/>
+    <circle cx="93"  cy="193" r="46" fill="none" stroke="#cc1e1e" stroke-width="1.5"/>
+    <circle cx="93"  cy="193" r="3"  fill="#cc1e1e"/>
+    <circle cx="507" cy="62"  r="46" fill="none" stroke="#cc1e1e" stroke-width="1.5"/>
+    <circle cx="507" cy="62"  r="3"  fill="#cc1e1e"/>
+    <circle cx="507" cy="193" r="46" fill="none" stroke="#cc1e1e" stroke-width="1.5"/>
+    <circle cx="507" cy="193" r="3"  fill="#cc1e1e"/>
+    <!-- NZ faceoff dots -->
+    <circle cx="240" cy="62"  r="3" fill="#cc1e1e"/>
+    <circle cx="240" cy="193" r="3" fill="#cc1e1e"/>
+    <circle cx="360" cy="62"  r="3" fill="#cc1e1e"/>
+    <circle cx="360" cy="193" r="3" fill="#cc1e1e"/>
+    <!-- Center circle -->
+    <circle cx="300" cy="127.5" r="46" fill="none" stroke="#cc1e1e" stroke-width="1.5"/>
+    <circle cx="300" cy="127.5" r="3"  fill="#cc1e1e"/>
+    <!-- Trapezoids (goalie restricted area behind goal lines) -->
+    <line x1="33"  y1="94.5"  x2="0"   y2="85.5"  stroke="#cc1e1e" stroke-width="1.5"/>
+    <line x1="33"  y1="160.5" x2="0"   y2="169.5" stroke="#cc1e1e" stroke-width="1.5"/>
+    <line x1="567" y1="94.5"  x2="600" y2="85.5"  stroke="#cc1e1e" stroke-width="1.5"/>
+    <line x1="567" y1="160.5" x2="600" y2="169.5" stroke="#cc1e1e" stroke-width="1.5"/>
+    <!-- Left crease: NHL D-shape, semicircle r=13.5 toward center -->
+    <path d="M 33,114 A 13.5,13.5 0 0 1 33,141 Z"
+          fill="rgba(160,210,245,0.55)" stroke="#3399cc" stroke-width="1.5"/>
+    <!-- Right crease -->
+    <path d="M 567,114 A 13.5,13.5 0 0 0 567,141 Z"
+          fill="rgba(160,210,245,0.55)" stroke="#3399cc" stroke-width="1.5"/>
+    <!-- Left goal: posts + net frame -->
+    <rect  x="21"  y="121.5" width="12" height="12" fill="rgba(255,255,255,0.55)"/>
+    <line  x1="33"  y1="121.5" x2="21"  y2="121.5" stroke="#cc1e1e" stroke-width="2"/>
+    <line  x1="33"  y1="133.5" x2="21"  y2="133.5" stroke="#cc1e1e" stroke-width="2"/>
+    <line  x1="21"  y1="121.5" x2="21"  y2="133.5" stroke="#cc1e1e" stroke-width="2"/>
+    <circle cx="33" cy="121.5" r="2.5" fill="#cc1e1e"/>
+    <circle cx="33" cy="133.5" r="2.5" fill="#cc1e1e"/>
+    <!-- Right goal -->
+    <rect  x="567" y="121.5" width="12" height="12" fill="rgba(255,255,255,0.55)"/>
+    <line  x1="567" y1="121.5" x2="579" y2="121.5" stroke="#cc1e1e" stroke-width="2"/>
+    <line  x1="567" y1="133.5" x2="579" y2="133.5" stroke="#cc1e1e" stroke-width="2"/>
+    <line  x1="579" y1="121.5" x2="579" y2="133.5" stroke="#cc1e1e" stroke-width="2"/>
+    <circle cx="567" cy="121.5" r="2.5" fill="#cc1e1e"/>
+    <circle cx="567" cy="133.5" r="2.5" fill="#cc1e1e"/>
+    <!-- Shots -->
+    ${dots}
+  </g>
+  <rect x="0" y="0" width="600" height="255" rx="81" fill="none" stroke="rgba(255,255,255,.12)" stroke-width="2"/>
+</svg>`;
+    };
+
     const allDots = slShots.map(shotDot).join('');
     const uDots   = slShots.filter(s => s[0] === 0).map(shotDot).join('');
     const oDots   = slShots.filter(s => s[0] === 1).map(shotDot).join('');
 
-    const rinkSVG = (dots) => `
-<svg viewBox="0 0 600 255" width="100%">
-  <defs><clipPath id="rc"><rect x="1" y="1" width="598" height="253" rx="82"/></clipPath></defs>
-  <rect x="0" y="0" width="600" height="255" rx="83" fill="#0c1824"/>
-  <g clip-path="url(#rc)">
-    <rect x="0" y="0" width="600" height="255" fill="#0d1e30"/>
-    <line x1="33" y1="0" x2="33" y2="255" stroke="#cc2233" stroke-width="2" opacity=".7"/>
-    <line x1="567" y1="0" x2="567" y2="255" stroke="#cc2233" stroke-width="2" opacity=".7"/>
-    <line x1="300" y1="0" x2="300" y2="255" stroke="#cc2233" stroke-width="3" opacity=".8"/>
-    <line x1="225" y1="0" x2="225" y2="255" stroke="#1a44b8" stroke-width="5" opacity=".8"/>
-    <line x1="375" y1="0" x2="375" y2="255" stroke="#1a44b8" stroke-width="5" opacity=".8"/>
-    <circle cx="300" cy="127.5" r="46" fill="none" stroke="#cc2233" stroke-width="1.5" opacity=".5"/>
-    <circle cx="300" cy="127.5" r="3" fill="#cc2233" opacity=".7"/>
-    <circle cx="93" cy="62" r="46" fill="none" stroke="#cc2233" stroke-width="1.5" opacity=".35"/>
-    <circle cx="93" cy="62" r="3" fill="#cc2233" opacity=".5"/>
-    <circle cx="93" cy="193" r="46" fill="none" stroke="#cc2233" stroke-width="1.5" opacity=".35"/>
-    <circle cx="93" cy="193" r="3" fill="#cc2233" opacity=".5"/>
-    <circle cx="507" cy="62" r="46" fill="none" stroke="#cc2233" stroke-width="1.5" opacity=".35"/>
-    <circle cx="507" cy="62" r="3" fill="#cc2233" opacity=".5"/>
-    <circle cx="507" cy="193" r="46" fill="none" stroke="#cc2233" stroke-width="1.5" opacity=".35"/>
-    <circle cx="507" cy="193" r="3" fill="#cc2233" opacity=".5"/>
-    <circle cx="240" cy="62" r="3" fill="#cc2233" opacity=".5"/>
-    <circle cx="240" cy="193" r="3" fill="#cc2233" opacity=".5"/>
-    <circle cx="360" cy="62" r="3" fill="#cc2233" opacity=".5"/>
-    <circle cx="360" cy="193" r="3" fill="#cc2233" opacity=".5"/>
-    <path d="M33,114 Q53,114 53,127.5 Q53,141 33,141 Z" fill="rgba(100,160,255,.1)" stroke="rgba(100,160,255,.35)" stroke-width="1"/>
-    <path d="M567,114 Q547,114 547,127.5 Q547,141 567,141 Z" fill="rgba(100,160,255,.1)" stroke="rgba(100,160,255,.35)" stroke-width="1"/>
-    <rect x="21" y="123" width="12" height="9" fill="none" stroke="rgba(255,255,255,.35)" stroke-width="1.5"/>
-    <rect x="567" y="123" width="12" height="9" fill="none" stroke="rgba(255,255,255,.35)" stroke-width="1.5"/>
-    ${dots}
-  </g>
-  <rect x="0" y="0" width="600" height="255" rx="83" fill="none" stroke="rgba(255,255,255,.1)" stroke-width="2"/>
-</svg>`;
-
+    const oppName = esc(meta.opp);
     shotHTML = `
 <div class="sec">
   <div class="sec-hdr">
@@ -542,18 +615,26 @@ function init() {
   <div style="padding:0 0 4px">
     <div class="shot-tabs">
       <span class="stab" onclick="setTab(this,'u')" id="stab-u">UMass</span>
-      <span class="stab" onclick="setTab(this,'o')" id="stab-o">${esc(meta.opp)}</span>
+      <span class="stab" onclick="setTab(this,'o')" id="stab-o">${oppName}</span>
       <span class="stab on" onclick="setTab(this,'both')" id="stab-both">Both</span>
     </div>
-    <div id="chart-u" style="display:none">${rinkSVG(uDots)}</div>
-    <div id="chart-o" style="display:none">${rinkSVG(oDots)}</div>
-    <div id="chart-both">${rinkSVG(allDots)}</div>
+    <div class="shot-filters">
+      <span class="sfilt-label">Show:</span>
+      <button class="sfilt" data-hide="miss"  onclick="toggleShots(this)">Missed</button>
+      <button class="sfilt" data-hide="block" onclick="toggleShots(this)">Blocked</button>
+      <button class="sfilt" data-hide="save"  onclick="toggleShots(this)">On net</button>
+    </div>
+    <div id="shot-chart-wrap" class="shot-wrap">
+      <div id="chart-u" style="display:none">${rinkSVG(uDots)}</div>
+      <div id="chart-o" style="display:none">${rinkSVG(oDots)}</div>
+      <div id="chart-both">${rinkSVG(allDots)}</div>
+    </div>
     <div class="shot-leg">
-      <div class="sl-item"><div class="sl-dot" style="background:#d4af37"></div>Goal</div>
+      <div class="sl-item"><div class="sl-dot" style="background:#d4af37;border:1px solid #6a4c00"></div>Goal</div>
       <div class="sl-item"><div class="sl-dot" style="background:#881c1c"></div>UMass on net</div>
-      <div class="sl-item"><div class="sl-dot" style="background:none;border:1.5px solid #881c1c;opacity:.7"></div>UMass miss</div>
-      <div class="sl-item"><div class="sl-dot" style="background:#5a7099"></div>${esc(meta.opp)} on net</div>
-      <div class="sl-item"><div class="sl-dot" style="background:none;border:1.5px solid #5a7099;opacity:.7"></div>${esc(meta.opp)} miss</div>
+      <div class="sl-item"><div class="sl-dot" style="background:none;border:1.5px solid #881c1c"></div>UMass miss/block</div>
+      <div class="sl-item"><div class="sl-dot" style="background:#1c3a6e"></div>${oppName} on net</div>
+      <div class="sl-item"><div class="sl-dot" style="background:none;border:1.5px solid #1c3a6e"></div>${oppName} miss/block</div>
     </div>
   </div>
 </div>`;
@@ -809,6 +890,66 @@ ${headerHTML}
       if (el) el.style.display = m === mode ? '' : 'none';
     });
   };
+
+  // Toggle missed/blocked/save visibility
+  window.toggleShots = function(btn) {
+    const hide  = btn.dataset.hide;
+    const wrap  = document.getElementById('shot-chart-wrap');
+    const cls   = 'hide-' + hide;
+    const isOff = wrap.classList.toggle(cls);
+    btn.classList.toggle('off', isOff);
+  };
+
+  // Shot hover tooltip
+  (function() {
+    // Create tooltip div once
+    let tip = document.getElementById('shot-tip');
+    if (!tip) {
+      tip = document.createElement('div');
+      tip.id = 'shot-tip';
+      document.body.appendChild(tip);
+    }
+
+    const OUT_COLOR = {'Goal':'#d4af37','On net':'#5db85d','Missed':'#888','Blocked':'#888'};
+    const TEAM_LABEL = {0:'UMass',1:'${esc(meta.opp)}'};
+
+    function showTip(e, dot) {
+      let data;
+      try { data = JSON.parse(dot.dataset.tip); } catch(ex) { return; }
+      const nameStr = data.name || (data.team === 0 ? 'UMass' : '${esc(meta.opp)}');
+      const col = OUT_COLOR[data.type] || '#888';
+      tip.innerHTML =
+        `<div class="st-name">${nameStr}</div>` +
+        `<div class="st-time">${data.time}</div>` +
+        `<span class="st-type" style="background:${col}22;color:${col}">${data.type}</span>`;
+      tip.style.display = 'block';
+      moveTip(e);
+    }
+
+    function moveTip(e) {
+      let x = e.clientX + 14, y = e.clientY - 10;
+      if (x + 160 > window.innerWidth)  x = e.clientX - 165;
+      if (y + 80  > window.innerHeight) y = e.clientY - 85;
+      tip.style.left = x + 'px';
+      tip.style.top  = y + 'px';
+    }
+
+    const wrap = document.getElementById('shot-chart-wrap');
+    if (wrap) {
+      wrap.addEventListener('mouseover', e => {
+        const dot = e.target.closest('.shot-dot');
+        if (dot) showTip(e, dot);
+      });
+      wrap.addEventListener('mousemove', e => {
+        if (tip.style.display !== 'none') moveTip(e);
+      });
+      wrap.addEventListener('mouseout', e => {
+        if (!e.relatedTarget || !e.relatedTarget.closest?.('.shot-dot')) {
+          tip.style.display = 'none';
+        }
+      });
+    }
+  })();
 
   // Update page title
   document.title = `${meta.opp} · ${date.short} — UMass Hockey`;
