@@ -4,35 +4,43 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1.0">
 <title>UMass Hockey — Hockey East All-Stars</title>
-<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;600;700;800;900&family=Libre+Baskerville:wght@400;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Zilla+Slab:wght@400;700&family=Oswald:wght@400;500;600;700;800;900&family=Source+Sans+3:wght@400;600&display=swap" rel="stylesheet">
 <style>
 *{box-sizing:border-box;margin:0;padding:0}
 :root{
-  --bg:#08090c;--surface:#0e1018;--surface2:#13161f;
-  --border:#1c2035;--border2:#252a40;
-  --text:#dde3f0;--muted:#5a6080;
-  --maroon:#881c1c;--maroon-bright:#c0392b;--maroon-light:rgba(136,28,28,.5);
-  --gold:#d4af37;--gold-dim:rgba(212,175,55,.15);--gold-border:rgba(212,175,55,.35);
-  --t1:#d4af37;--t1-bg:rgba(212,175,55,.12);--t1-border:rgba(212,175,55,.3);
-  --t2:#7aabee;--t2-bg:rgba(122,171,238,.1);--t2-border:rgba(122,171,238,.28);
-  --t3:#8a9bb5;--t3-bg:rgba(138,155,181,.08);--t3-border:rgba(138,155,181,.22);
-  --font-display:'Libre Baskerville',serif;
-  --font-ui:'Barlow Condensed',sans-serif;
+  /* Design system palette */
+  --bg:#F7F5F1;--surface:#FFFFFF;--surface2:#FAF8F4;--surface3:#EFEBE3;
+  --border:#E4DFD7;--border2:#CEC8BD;--border-faint:#EFEBE4;
+  --text:#1B1714;--muted:#8B847A;--muted2:#A9A299;
+  --maroon:#881C1C;--maroon-bright:#A82626;--maroon-dark:#5A1010;
+  --maroon-light:#F4E7E7;--maroon-line:#E2C4C4;
+  --gold:#B0892E;--gold-dim:#F6EFDD;--gold-border:#E6D5A8;
+  /* All-star tier tokens */
+  --t1:#B0892E;--t1-bg:#F6EFDD;--t1-border:#E6D5A8;
+  --t2:#2E5E9E;--t2-bg:#E5ECF5;--t2-border:#C5D5EA;
+  --t3:#8B847A;--t3-bg:#EFEBE3;--t3-border:#CEC8BD;
+  /* Fonts — Oswald replaces Barlow Condensed, Zilla Slab replaces Libre Baskerville */
+  --font-display:'Zilla Slab',Georgia,'Times New Roman',serif;
+  --font-ui:'Oswald','Arial Narrow',sans-serif;
+  --font-body:'Source Sans 3',system-ui,-apple-system,sans-serif;
+  /* Shadows (warm brown-black) */
+  --shadow-xs:0 1px 2px rgba(40,30,20,.05);
+  --shadow-sm:0 1px 3px rgba(40,30,20,.07),0 1px 2px rgba(40,30,20,.04);
 }
 body{background:var(--bg);color:var(--text);font-family:var(--font-ui);font-size:14px}
 a{color:inherit;text-decoration:none}
 
 /* NAV */
-nav{background:rgba(8,9,12,.95);border-bottom:1px solid var(--border);
+nav{background:rgba(247,245,241,.92);border-bottom:1px solid var(--border);
   padding:0 24px;display:flex;align-items:center;gap:0;position:sticky;top:0;z-index:100;
-  backdrop-filter:blur(8px)}
+  backdrop-filter:blur(10px);box-shadow:var(--shadow-xs)}
 .nav-logo{margin-right:20px;padding:10px 0}
 .nav-logo img{height:32px;display:block}
 .nav-links{display:flex;gap:2px;flex:1}
 .nav-links a{font-family:var(--font-ui);font-size:11px;font-weight:800;letter-spacing:1.2px;
   text-transform:uppercase;padding:14px 12px;color:var(--muted);transition:color .15s;white-space:nowrap}
 .nav-links a:hover,.nav-links a.active{color:var(--text)}
-.nav-links a.active{border-bottom:2px solid var(--gold)}
+.nav-links a.active{border-bottom:2px solid var(--maroon)}
 .nav-right a{font-family:var(--font-ui);font-size:11px;font-weight:700;letter-spacing:.8px;
   text-transform:uppercase;color:var(--muted);padding:14px 0 14px 12px;opacity:.6}
 
@@ -44,7 +52,7 @@ nav{background:rgba(8,9,12,.95);border-bottom:1px solid var(--border);
 .header-sub{font-family:var(--font-ui);font-size:13px;color:var(--muted);margin-bottom:20px}
 
 /* STATS STRIP */
-.stats-strip{display:flex;gap:1px;background:var(--border);border:1px solid var(--border);border-radius:6px;overflow:hidden}
+.stats-strip{display:flex;gap:1px;background:var(--border);border:1px solid var(--border);border-radius:6px;overflow:hidden;box-shadow:var(--shadow-xs)}
 .stat-cell{flex:1;background:var(--surface);padding:14px 16px}
 .stat-num{font-family:var(--font-ui);font-size:22px;font-weight:900;color:#fff;line-height:1}
 .stat-lbl{font-family:var(--font-ui);font-size:9px;font-weight:700;letter-spacing:1.2px;
@@ -57,26 +65,26 @@ nav{background:rgba(8,9,12,.95);border-bottom:1px solid var(--border);
 .ctrl-label{font-family:var(--font-ui);font-size:9px;font-weight:800;letter-spacing:1.2px;
   text-transform:uppercase;color:var(--muted)}
 .ctrl-select{font-family:var(--font-ui);font-size:12px;font-weight:700;letter-spacing:.5px;
-  text-transform:uppercase;background:rgba(255,255,255,.06);border:1px solid var(--border2);
-  color:#fff;padding:5px 10px;border-radius:4px;cursor:pointer;appearance:none;-webkit-appearance:none}
-.ctrl-select:focus{outline:none;border-color:var(--gold)}
+  text-transform:uppercase;background:var(--surface);border:1px solid var(--border2);
+  color:var(--text);padding:5px 10px;border-radius:4px;cursor:pointer;appearance:none;-webkit-appearance:none}
+.ctrl-select:focus{outline:none;border-color:var(--maroon)}
 .toggle-group{display:flex;border:1px solid var(--border2);border-radius:4px;overflow:hidden}
 .toggle-btn{font-family:var(--font-ui);font-size:11px;font-weight:800;letter-spacing:.8px;
   text-transform:uppercase;padding:5px 10px;background:transparent;border:none;
   color:var(--muted);cursor:pointer;transition:all .15s}
 .toggle-btn:not(:last-child){border-right:1px solid var(--border2)}
-.toggle-btn.active{background:var(--gold);color:#000}
-.toggle-btn.active.t2{background:var(--t2);color:#000}
-.toggle-btn.active.t3{background:var(--t3);color:#000}
+.toggle-btn.active{background:var(--maroon);color:#fff}
+.toggle-btn.active.t2{background:var(--t2);color:#fff}
+.toggle-btn.active.t3{background:var(--t3);color:#fff}
 .school-filter{display:flex;flex-wrap:wrap;gap:4px}
 .school-pill{font-family:var(--font-ui);font-size:10px;font-weight:800;letter-spacing:.8px;
   text-transform:uppercase;padding:4px 8px;border-radius:3px;cursor:pointer;
-  background:rgba(255,255,255,.05);border:1px solid var(--border2);color:var(--muted);
+  background:var(--surface);border:1px solid var(--border2);color:var(--muted);
   transition:all .15s;white-space:nowrap}
 .school-pill:hover{color:var(--text)}
 .school-pill.active{background:var(--gold-dim);border-color:var(--gold-border);color:var(--gold)}
-.school-pill.umass{border-color:rgba(136,28,28,.4)}
-.school-pill.umass.active{background:rgba(136,28,28,.2);border-color:var(--maroon);color:#e07070}
+.school-pill.umass{border-color:var(--maroon-line)}
+.school-pill.umass.active{background:var(--maroon-light);border-color:var(--maroon-line);color:var(--maroon)}
 .ctrl-divider{width:1px;height:20px;background:var(--border2)}
 
 /* MAIN CONTENT */
@@ -89,11 +97,11 @@ nav{background:rgba(8,9,12,.95);border-bottom:1px solid var(--border);
 .chart-row{display:flex;align-items:center;gap:0;padding:0 20px;margin-bottom:3px;cursor:pointer;
   transition:background .12s;border-radius:0}
 .chart-row:hover{background:rgba(255,255,255,.03)}
-.chart-row.umass-row .school-label{color:#e07070}
+.chart-row.umass-row .school-label{color:var(--maroon)}
 .school-label{font-family:var(--font-ui);font-size:12px;font-weight:700;
   width:148px;text-align:left;padding-left:8px;color:var(--text);white-space:nowrap;
   letter-spacing:.3px;flex-shrink:0}
-.bar-track{flex:1;display:flex;height:16px;border-radius:2px;overflow:hidden;gap:1px}
+.bar-track{flex:1;display:flex;height:16px;border-radius:2px;overflow:hidden;gap:1px;background:var(--surface3)}
 .bar-seg{height:100%;border-radius:1px;transition:width .3s ease;min-width:0}
 .bar-seg.seg-t1{background:var(--t1)}
 .bar-seg.seg-t2{background:var(--t2)}
@@ -107,32 +115,33 @@ nav{background:rgba(8,9,12,.95);border-bottom:1px solid var(--border);
 .leg-dot{width:8px;height:8px;border-radius:1px;flex-shrink:0}
 
 /* TABLE PANEL */
-.table-panel{padding:0;overflow:auto}
+.table-panel{padding:0;overflow:auto;box-shadow:var(--shadow-sm)}
 .result-meta{font-family:var(--font-ui);font-size:10px;font-weight:700;letter-spacing:.8px;
   text-transform:uppercase;color:var(--muted);padding:12px 20px;border-bottom:1px solid var(--border)}
 table{width:100%;border-collapse:collapse}
 thead th{font-family:var(--font-ui);font-size:9px;font-weight:800;letter-spacing:1.2px;
   text-transform:uppercase;color:var(--muted);padding:10px 12px;
-  border-bottom:1px solid var(--border);text-align:left;position:sticky;top:0;
+  border-bottom:2px solid var(--border2);text-align:left;position:sticky;top:0;
   background:var(--surface2);cursor:pointer;white-space:nowrap;user-select:none}
 thead th:hover{color:var(--text)}
-thead th.sorted{color:var(--gold)}
+thead th.sorted{color:var(--maroon)}
 thead th::after{content:''; margin-left:4px}
-thead th.asc::after{content:'↑';color:var(--gold)}
-thead th.desc::after{content:'↓';color:var(--gold)}
-tbody tr{border-bottom:1px solid rgba(28,32,53,.5);transition:background .1s;cursor:pointer}
-tbody tr:hover{background:rgba(255,255,255,.03)}
-tbody tr.umass-row{background:rgba(136,28,28,.06)}
-tbody tr.umass-row:hover{background:rgba(136,28,28,.12)}
+thead th.asc::after{content:'↑';color:var(--maroon)}
+thead th.desc::after{content:'↓';color:var(--maroon)}
+tbody tr{border-bottom:1px solid var(--border-faint);transition:background .1s;cursor:pointer}
+tbody tr:hover{background:var(--surface2)}
+tbody tr.umass-row{background:var(--maroon-light)}
+tbody tr.umass-row:hover{background:#EDD9D9}
 td{padding:8px 12px;font-family:var(--font-ui);font-size:13px;vertical-align:middle}
 .td-year{font-size:11px;font-weight:700;color:var(--muted);white-space:nowrap}
 .td-player{font-weight:700;color:var(--text)}
-.td-player.umass-player{color:#e07070}
+.td-player.umass-player{color:var(--maroon)}
 .td-pos{font-size:10px;font-weight:800;letter-spacing:.8px;
-  background:rgba(255,255,255,.06);border-radius:3px;padding:2px 6px;
+  background:var(--surface3);border:1px solid var(--border);
+  border-radius:3px;padding:2px 6px;
   color:var(--muted);text-align:center;width:32px;display:inline-block}
 .td-school{font-size:12px;color:var(--muted)}
-.td-school.umass-school{color:#c07070}
+.td-school.umass-school{color:var(--maroon)}
 .tier-badge{font-family:var(--font-ui);font-size:9px;font-weight:800;letter-spacing:.8px;
   text-transform:uppercase;padding:3px 7px;border-radius:3px;white-space:nowrap}
 .tier-badge.t1{background:var(--t1-bg);color:var(--t1);border:1px solid var(--t1-border)}
@@ -150,23 +159,23 @@ td{padding:8px 12px;font-family:var(--font-ui);font-size:13px;vertical-align:mid
 /* ── School logos ─────────────────────────────────────────────── */
 .school-logo{
   width:28px;height:28px;flex-shrink:0;
-  object-fit:contain;mix-blend-mode:lighten;
+  object-fit:contain;
   border-radius:3px;
 }
 .school-logo-sm{
   width:20px;height:20px;flex-shrink:0;
-  object-fit:contain;mix-blend-mode:lighten;
+  object-fit:contain;
 }
 .logo-placeholder{
   width:28px;height:28px;flex-shrink:0;border-radius:3px;
-  background:rgba(255,255,255,.06);border:1px solid var(--border2);
+  background:var(--surface3);border:1px solid var(--border2);
   display:flex;align-items:center;justify-content:center;
   font-family:var(--font-ui);font-size:8px;font-weight:900;
   letter-spacing:.5px;color:var(--muted);text-align:center;line-height:1.1;
 }
 .logo-placeholder-sm{
   width:20px;height:20px;flex-shrink:0;border-radius:2px;
-  background:rgba(255,255,255,.06);border:1px solid var(--border2);
+  background:var(--surface3);border:1px solid var(--border2);
   display:flex;align-items:center;justify-content:center;
   font-family:var(--font-ui);font-size:7px;font-weight:900;color:var(--muted);
 }
@@ -175,16 +184,16 @@ td{padding:8px 12px;font-family:var(--font-ui);font-size:13px;vertical-align:mid
 /* ── Segment Tooltip ─────────────────────────────────────────────── */
 .seg-tooltip{
   position:fixed;z-index:999;pointer-events:none;
-  background:#111620;border:1px solid var(--border2);
+  background:var(--surface);border:1px solid var(--border2);
   border-radius:6px;padding:10px 13px;min-width:180px;max-width:280px;
-  box-shadow:0 8px 24px rgba(0,0,0,.6);
+  box-shadow:var(--shadow-sm);
   opacity:0;transition:opacity .1s;
 }
 .seg-tooltip.visible{opacity:1}
 .seg-tooltip-header{
   font-family:var(--font-ui);font-size:9px;font-weight:800;letter-spacing:1.2px;
   text-transform:uppercase;margin-bottom:7px;padding-bottom:6px;
-  border-bottom:1px solid var(--border2);
+  border-bottom:1px solid var(--border);
 }
 .seg-tooltip-row{
   font-family:var(--font-ui);font-size:12px;font-weight:600;
@@ -709,7 +718,7 @@ function renderChart(data){
       return seg;
     };
 
-    row.innerHTML = `${logoImg(school,'lg')}<span class="school-label" style="${isUmass?'color:#e07070':''}">${school}</span>`;
+    row.innerHTML = `${logoImg(school,'lg')}<span class="school-label" style="${isUmass?'color:var(--maroon)':''}">${school}</span>`;
 
     const track = document.createElement('div');
     track.className='bar-track';
