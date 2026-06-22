@@ -6,7 +6,7 @@
 <title>Game Recap — UMass Hockey</title>
 <link rel="icon" href="UMass_Hockey_2_.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:ital,wght@0,400;0,600;0,700;0,800;0,900&family=Libre+Baskerville:wght@400;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Zilla+Slab:wght@400;700&family=Oswald:wght@400;500;600;700;800;900&family=Source+Sans+3:wght@400;600&display=swap" rel="stylesheet">
 <script src="logo_map.js"></script>
 <script src="boxscores.js"></script>
 <script src="game_meta.js"></script>
@@ -16,35 +16,38 @@
 <style>
 *{box-sizing:border-box;margin:0;padding:0}
 :root{
-  --bg:#08090c;--surface:#0e1018;--surface2:#13161f;
-  --border:#1c2035;--border2:#252a40;
-  --text:#dde3f0;--muted:#5a6080;--muted2:#7a85a0;
-  --maroon:#881c1c;--maroon2:#a02222;--maroon-dim:rgba(136,28,28,.15);
-  --gold:#d4af37;--gold-dim:rgba(212,175,55,.13);--gold-border:rgba(212,175,55,.3);
-  --green:#4a9e6a;--red:#b84a4a;--blue:#4a7ebf;
-  --font-display:'Libre Baskerville',serif;
-  --font-ui:'Barlow Condensed',sans-serif;
+  --bg:#F7F5F1;--surface:#FFFFFF;--surface2:#FAF8F4;--surface3:#EFEBE3;
+  --border:#E4DFD7;--border2:#CEC8BD;--border-faint:#EFEBE4;
+  --text:#1B1714;--muted:#8B847A;--muted2:#A9A299;
+  --maroon:#881C1C;--maroon2:#A82626;--maroon-dim:#F4E7E7;--maroon-line:#E2C4C4;
+  --gold:#B0892E;--gold-dim:#F6EFDD;--gold-border:#E6D5A8;
+  --green:#1F7A4D;--red:#B23A3A;--blue:#2E5E9E;
+  --font-display:'Zilla Slab',Georgia,'Times New Roman',serif;
+  --font-ui:'Oswald','Arial Narrow',sans-serif;
+  --font-body:'Source Sans 3',system-ui,-apple-system,sans-serif;
+  --shadow-xs:0 1px 2px rgba(40,30,20,.05);
+  --shadow-sm:0 1px 3px rgba(40,30,20,.07),0 1px 2px rgba(40,30,20,.04);
 }
 body{background:var(--bg);color:var(--text);font-family:var(--font-ui);font-size:14px;min-height:100vh}
 a{color:inherit;text-decoration:none}
 
 /* ── NAV ─────────────────────────────────────────────────────────────────── */
-nav{background:rgba(8,9,12,.95);border-bottom:1px solid var(--border);
+nav{background:rgba(247,245,241,.92);border-bottom:1px solid var(--border);
   padding:0 24px;display:flex;align-items:center;position:sticky;top:0;z-index:100;
-  backdrop-filter:blur(8px)}
+  backdrop-filter:blur(10px);box-shadow:var(--shadow-xs)}
 .nav-logo{margin-right:20px;padding:10px 0}
 .nav-logo img{height:32px;display:block}
 .nav-links{display:flex;gap:2px;flex:1}
 .nav-links a{font-family:var(--font-ui);font-size:11px;font-weight:800;letter-spacing:1.2px;
   text-transform:uppercase;padding:14px 11px;color:var(--muted);transition:color .15s;white-space:nowrap}
 .nav-links a:hover{color:var(--text)}
-.nav-links a.active{color:var(--text);border-bottom:2px solid var(--gold)}
+.nav-links a.active{color:var(--text);border-bottom:2px solid var(--maroon)}
 .nav-right a{font-family:var(--font-ui);font-size:11px;font-weight:700;letter-spacing:.8px;
   text-transform:uppercase;color:var(--muted);padding:14px 0 14px 12px;opacity:.6}
 
 /* ── GAME HEADER ─────────────────────────────────────────────────────────── */
-.gh{background:linear-gradient(180deg,#110608 0%,#0a0b10 100%);
-  border-bottom:1px solid var(--border);padding:28px 24px 22px}
+.gh{background:linear-gradient(180deg,#F4E7E7 0%,#F7F5F1 65%);
+  border-bottom:1px solid var(--maroon-line);padding:28px 24px 22px}
 .gh-top{display:flex;align-items:center;justify-content:space-between;gap:16px;max-width:860px;margin:0 auto}
 .gh-team{flex:1}
 .gh-logo{height:72px;width:72px;object-fit:contain;display:block;flex-shrink:0}
@@ -53,18 +56,18 @@ nav{background:rgba(8,9,12,.95);border-bottom:1px solid var(--border);
 .gh-score-block{text-align:center;flex-shrink:0}
 .gh-score{display:flex;align-items:center;gap:0;justify-content:center}
 .gh-score-n{font-family:var(--font-display);font-size:64px;font-weight:700;line-height:1;min-width:56px;text-align:center}
-.gh-score-n.umass{color:#fff}
-.gh-score-n.opp{color:rgba(255,255,255,.35)}
+.gh-score-n.umass{color:var(--maroon)}
+.gh-score-n.opp{color:var(--muted2)}
 .gh-score-sep{font-size:36px;color:var(--border2);padding:0 8px;line-height:1}
 .gh-result{margin-top:8px;display:flex;align-items:center;justify-content:center;gap:6px}
 .gh-badge{display:inline-block;font-size:10px;font-weight:800;letter-spacing:1px;
   text-transform:uppercase;padding:3px 8px;border-radius:3px}
-.badge-w{background:rgba(74,158,106,.18);color:#5db85d;border:1px solid rgba(74,158,106,.3)}
-.badge-l{background:rgba(184,74,74,.18);color:#d06060;border:1px solid rgba(184,74,74,.3)}
-.badge-t{background:rgba(90,96,128,.18);color:var(--muted2);border:1px solid var(--border2)}
-.badge-ot{background:rgba(74,126,191,.15);color:#7aaee8;border:1px solid rgba(74,126,191,.3)}
+.badge-w{background:rgba(31,122,77,.12);color:#1F7A4D;border:1px solid rgba(31,122,77,.25)}
+.badge-l{background:rgba(178,58,58,.12);color:#B23A3A;border:1px solid rgba(178,58,58,.25)}
+.badge-t{background:var(--surface3);color:var(--muted2);border:1px solid var(--border2)}
+.badge-ot{background:#E5ECF5;color:#2E5E9E;border:1px solid #C5D5EA}
 .badge-sl{background:var(--gold-dim);color:var(--gold);border:1px solid var(--gold-border);font-size:9px}
-.badge-conf{background:var(--maroon-dim);color:#c04040;border:1px solid rgba(136,28,28,.35);font-size:9px}
+.badge-conf{background:var(--maroon-dim);color:var(--maroon);border:1px solid var(--maroon-line);font-size:9px}
 .gh-opp-right{text-align:right}
 .gh-team{display:flex;align-items:center;gap:14px}
 .gh-team.gh-right{justify-content:flex-end}
@@ -92,11 +95,11 @@ nav{background:rgba(8,9,12,.95);border-bottom:1px solid var(--border);
   color:var(--muted);padding:6px 10px;text-align:center;border-bottom:1px solid var(--border)}
 .shots-table th:first-child{text-align:left}
 .shots-table td{font-size:15px;font-weight:700;padding:8px 10px;text-align:center;
-  border-top:1px solid rgba(255,255,255,.03)}
+  border-top:1px solid var(--border-faint)}
 .shots-table td:first-child{font-size:12px;font-weight:800;letter-spacing:.5px;color:var(--text);text-align:left}
-.shots-table tr.umass-row td{color:#fff}
+.shots-table tr.umass-row td{color:var(--maroon)}
 .shots-table tr.opp-row td{color:var(--muted2)}
-.shots-table td.total-col{font-size:17px;font-weight:900;color:#fff}
+.shots-table td.total-col{font-size:17px;font-weight:900;color:var(--text)}
 .shots-table tr.opp-row td.total-col{color:var(--muted2)}
 
 /* ── SCORING ─────────────────────────────────────────────────────────────── */
@@ -104,12 +107,12 @@ nav{background:rgba(8,9,12,.95);border-bottom:1px solid var(--border);
   color:var(--muted);padding:6px 0 6px;border-top:1px solid var(--border);margin-top:8px}
 .period-hdr:first-child{border-top:none;margin-top:0}
 .goal-row{display:grid;grid-template-columns:44px 1fr auto;gap:0 12px;align-items:start;
-  padding:6px 0 6px 8px;border-top:1px solid rgba(255,255,255,.04);border-left:3px solid transparent}
-.goal-row.u-goal{border-left-color:rgba(136,28,28,.5)}
+  padding:6px 0 6px 8px;border-top:1px solid var(--border-faint);border-left:3px solid transparent}
+.goal-row.u-goal{border-left-color:var(--maroon)}
 .goal-time{font-size:13px;font-weight:700;color:var(--muted2);font-variant-numeric:tabular-nums;padding-top:1px}
 .goal-body{}
 .goal-team{font-size:9px;font-weight:800;letter-spacing:1px;text-transform:uppercase;margin-bottom:2px}
-.goal-team.umass{color:var(--gold)}
+.goal-team.umass{color:var(--maroon)}
 .goal-team.opp{color:var(--muted)}
 .goal-scorer{font-size:14px;font-weight:700;color:var(--text)}
 .goal-scorer-num{font-size:11px;color:var(--muted2);font-weight:600}
@@ -117,11 +120,11 @@ nav{background:rgba(8,9,12,.95);border-bottom:1px solid var(--border);
 .goal-assist-num{font-size:10px;color:var(--muted);font-weight:600}
 .goal-type{align-self:start;padding-top:2px}
 .gtype{font-size:9px;font-weight:800;letter-spacing:.6px;padding:2px 6px;border-radius:3px;white-space:nowrap}
-.gtype-EV{background:rgba(90,96,128,.12);color:var(--muted2)}
+.gtype-EV{background:var(--surface3);color:var(--muted2)}
 .gtype-PP{background:var(--gold-dim);color:var(--gold);border:1px solid var(--gold-border)}
-.gtype-SH{background:rgba(74,126,191,.12);color:#7aaee8;border:1px solid rgba(74,126,191,.25)}
-.gtype-EN{background:rgba(90,96,128,.1);color:var(--muted)}
-.gtype-EX{background:rgba(90,96,128,.1);color:var(--muted)}
+.gtype-SH{background:#E5ECF5;color:#2E5E9E;border:1px solid #C5D5EA}
+.gtype-EN{background:var(--surface3);color:var(--muted)}
+.gtype-EX{background:var(--surface3);color:var(--muted)}
 .no-scoring{font-size:12px;color:var(--muted);padding:12px 0;font-style:italic}
 
 /* ── SPECIAL TEAMS ───────────────────────────────────────────────────────── */
@@ -129,11 +132,11 @@ nav{background:rgba(8,9,12,.95);border-bottom:1px solid var(--border);
 .st-side{background:var(--surface);padding:14px 16px}
 .st-team{font-size:9px;font-weight:800;letter-spacing:1.2px;text-transform:uppercase;
   margin-bottom:10px}
-.st-team.umass{color:var(--gold)}
+.st-team.umass{color:var(--maroon)}
 .st-team.opp{color:var(--muted)}
 .st-row{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:6px}
 .st-label{font-size:11px;color:var(--muted2)}
-.st-val{font-size:16px;font-weight:900;color:#fff}
+.st-val{font-size:16px;font-weight:900;color:var(--text)}
 .st-pct{font-size:11px;font-weight:600;color:var(--muted);margin-left:4px}
 .st-row.opp .st-val{color:var(--muted2)}
 .st-pim{margin-top:8px;padding-top:8px;border-top:1px solid var(--border)}
@@ -146,7 +149,7 @@ table.gtable th{font-size:9px;font-weight:700;letter-spacing:.8px;text-transform
   color:var(--muted);padding:6px 10px;text-align:right;border-bottom:1px solid var(--border);white-space:nowrap}
 table.gtable th:first-child{text-align:left}
 table.gtable td{font-size:13px;padding:8px 10px;text-align:right;
-  border-top:1px solid rgba(255,255,255,.03);color:var(--text)}
+  border-top:1px solid var(--border-faint);color:var(--text)}
 table.gtable td:first-child{text-align:left}
 table.gtable td.dec-W{color:var(--green);font-weight:800}
 table.gtable td.dec-L{color:var(--red);font-weight:800}
@@ -154,7 +157,7 @@ table.gtable td.dec-T{color:var(--muted2);font-weight:800}
 table.gtable td.name{font-weight:700}
 table.gtable td.team-label{font-size:9px;font-weight:800;letter-spacing:1px;
   text-transform:uppercase;padding-right:4px}
-table.gtable td.team-label.umass{color:var(--gold)}
+table.gtable td.team-label.umass{color:var(--maroon)}
 table.gtable td.team-label.opp{color:var(--muted)}
 table.gtable td.gsax-pos{color:var(--green);font-weight:700}
 table.gtable td.gsax-neg{color:var(--red);font-weight:700}
@@ -165,13 +168,13 @@ table.gtable td.gsax-na{color:var(--muted);font-style:italic}
 table.ptable{width:100%;border-collapse:collapse}
 table.ptable th{font-size:9px;font-weight:700;letter-spacing:.8px;text-transform:uppercase;
   color:var(--muted);padding:5px 8px;border-bottom:1px solid var(--border);text-align:left;white-space:nowrap}
-table.ptable td{font-size:12px;padding:6px 8px;border-top:1px solid rgba(255,255,255,.03);color:var(--text)}
+table.ptable td{font-size:12px;padding:6px 8px;border-top:1px solid var(--border-faint);color:var(--text)}
 table.ptable td.p-time{color:var(--muted2);font-variant-numeric:tabular-nums;white-space:nowrap}
-table.ptable td.p-team.umass{color:var(--gold);font-weight:700;font-size:9px;text-transform:uppercase;letter-spacing:.8px}
+table.ptable td.p-team.umass{color:var(--maroon);font-weight:700;font-size:9px;text-transform:uppercase;letter-spacing:.8px}
 table.ptable td.p-team.opp{color:var(--muted2);font-weight:700;font-size:9px;text-transform:uppercase;letter-spacing:.8px}
 table.ptable td.p-player{font-weight:600}
 table.ptable td.p-min{text-align:right;color:var(--muted2);font-size:11px;white-space:nowrap}
-table.ptable .pd-row td{background:var(--surface);font-size:9px;font-weight:800;
+table.ptable .pd-row td{background:var(--surface2);font-size:9px;font-weight:800;
   letter-spacing:1px;text-transform:uppercase;color:var(--muted);padding:4px 8px;
   border-top:1px solid var(--border)}
 
@@ -180,31 +183,31 @@ table.ptable .pd-row td{background:var(--surface);font-size:9px;font-weight:800;
   color:var(--text);padding:10px 14px 6px;display:flex;align-items:center;gap:8px}
 .adv-team-hdr-r{justify-content:flex-end}
 .adv-grid{display:grid;grid-template-columns:1fr 160px 1fr;border-top:1px solid var(--border)}
-.adv-l{text-align:right;font-size:22px;font-weight:900;color:#fff;padding:9px 14px;
+.adv-l{text-align:right;font-size:22px;font-weight:900;color:var(--text);padding:9px 14px;
   border-top:1px solid var(--border)}
 .adv-r{font-size:22px;font-weight:900;color:var(--muted2);padding:9px 14px;
   border-top:1px solid var(--border)}
 .adv-c{text-align:center;padding:9px 8px;border-top:1px solid var(--border)}
 .adv-name{font-size:10px;font-weight:700;letter-spacing:.8px;text-transform:uppercase;
   color:var(--muted);display:block}
-.adv-bar{height:3px;background:rgba(255,255,255,.06);border-radius:2px;margin-top:5px;
+.adv-bar{height:3px;background:var(--surface3);border-radius:2px;margin-top:5px;
   display:flex;overflow:hidden}
 .adv-bar-l{background:var(--maroon)}
-.adv-bar-r{background:rgba(255,255,255,.15)}
-.adv-l.lead{color:#fff}.adv-r.lead{color:var(--muted2)}
+.adv-bar-r{background:var(--border2)}
+.adv-l.lead{color:var(--maroon)}.adv-r.lead{color:var(--muted2)}
 
 /* ── SHOT CHART ──────────────────────────────────────────────────────────── */
 .shot-tabs{display:flex;gap:4px;margin-bottom:8px}
 .stab{font-size:10px;font-weight:700;letter-spacing:.5px;text-transform:uppercase;
-  padding:4px 12px;border-radius:4px;cursor:pointer;border:1px solid rgba(255,255,255,.1);
+  padding:4px 12px;border-radius:4px;cursor:pointer;border:1px solid var(--border2);
   color:var(--muted2);background:none}
 .stab.on{background:var(--maroon);color:#fff;border-color:var(--maroon)}
 .shot-filters{display:flex;gap:6px;margin-bottom:8px;align-items:center}
 .sfilt-label{font-size:9px;font-weight:700;letter-spacing:.8px;text-transform:uppercase;color:var(--muted)}
 .sfilt{font-size:9px;font-weight:800;letter-spacing:.6px;text-transform:uppercase;
-  padding:3px 9px;border-radius:3px;cursor:pointer;border:1px solid rgba(255,255,255,.15);
-  color:var(--text);background:rgba(255,255,255,.07);transition:all .15s}
-.sfilt.off{color:var(--muted);background:none;border-color:rgba(255,255,255,.07);text-decoration:line-through}
+  padding:3px 9px;border-radius:3px;cursor:pointer;border:1px solid var(--border2);
+  color:var(--text);background:var(--surface);transition:all .15s}
+.sfilt.off{color:var(--muted);background:none;border-color:var(--border-faint);text-decoration:line-through}
 /* CSS-driven shot visibility */
 .shot-wrap.hide-miss .shot-miss{display:none}
 .shot-wrap.hide-block .shot-block{display:none}
@@ -218,10 +221,10 @@ table.ptable .pd-row td{background:var(--surface);font-size:9px;font-weight:800;
 .sl-dot{width:9px;height:9px;border-radius:50%;flex-shrink:0}
 /* Shot tooltip */
 #shot-tip{position:fixed;display:none;z-index:9999;pointer-events:none;
-  background:#111827;border:1px solid #2a3555;border-radius:6px;
+  background:var(--surface);border:1px solid var(--border2);border-radius:6px;
   padding:8px 12px;font-family:var(--font-ui);min-width:120px;
-  box-shadow:0 8px 24px rgba(0,0,0,.6)}
-#shot-tip .st-name{font-size:13px;font-weight:700;color:#e8eaf0}
+  box-shadow:var(--shadow-sm)}
+#shot-tip .st-name{font-size:13px;font-weight:700;color:var(--text)}
 #shot-tip .st-time{font-size:11px;color:var(--muted2);margin-top:2px}
 #shot-tip .st-type{font-size:9px;font-weight:800;letter-spacing:.6px;
   text-transform:uppercase;margin-top:4px;padding:2px 5px;border-radius:3px;display:inline-block}
@@ -235,7 +238,7 @@ table.ptable .pd-row td{background:var(--surface);font-size:9px;font-weight:800;
 .error-state{text-align:center;padding:80px 24px}
 .error-state h2{font-family:var(--font-display);font-size:22px;color:var(--text);margin-bottom:8px}
 .error-state p{font-size:13px;color:var(--muted)}
-.error-state a{color:var(--gold)}
+.error-state a{color:var(--maroon)}
 
 /* ── RESPONSIVE ──────────────────────────────────────────────────────────── */
 @media(max-width:600px){
@@ -378,7 +381,7 @@ function init() {
     const src = lm[name];
     const logoEl = src
       ? `<img src="${src}" class="gh-logo" alt="${esc(name)}">`
-      : `<div class="gh-logo" style="background:rgba(255,255,255,.04);border-radius:6px;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:800;color:var(--muted)">${esc(name.slice(0,3).toUpperCase())}</div>`;
+      : `<div class="gh-logo" style="background:var(--surface3);border-radius:6px;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:800;color:var(--muted)">${esc(name.slice(0,3).toUpperCase())}</div>`;
     const displayName = name === 'UMass Minutemen' ? 'UMass' : name;
     const infoEl = `<div class="gh-team-info${alignRight ? ' align-right' : ''}">
         <div class="gh-team-name">${esc(displayName)}</div>
@@ -565,7 +568,7 @@ function init() {
   <defs>
     <clipPath id="${id}"><rect x="1" y="1" width="598" height="253" rx="80"/></clipPath>
   </defs>
-  <rect x="0" y="0" width="600" height="255" rx="81" fill="#0e1520"/>
+  <rect x="0" y="0" width="600" height="255" rx="81" fill="#F7F5F1"/>
   <g clip-path="url(#${id})">
     <!-- Ice -->
     <rect x="0" y="0" width="600" height="255" fill="#e8f4f9"/>
@@ -624,7 +627,7 @@ function init() {
     <!-- Shots -->
     ${dots}
   </g>
-  <rect x="0" y="0" width="600" height="255" rx="81" fill="none" stroke="rgba(255,255,255,.12)" stroke-width="2"/>
+  <rect x="0" y="0" width="600" height="255" rx="81" fill="none" stroke="rgba(27,23,20,.12)" stroke-width="2"/>
 </svg>`;
     };
 
