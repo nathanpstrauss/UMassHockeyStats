@@ -8,22 +8,18 @@
 <style>
 *{box-sizing:border-box;margin:0;padding:0}
 :root{
-  /* Design system palette */
   --bg:#F7F5F1;--surface:#FFFFFF;--surface2:#FAF8F4;--surface3:#EFEBE3;
   --border:#E4DFD7;--border2:#CEC8BD;--border-faint:#EFEBE4;
   --text:#1B1714;--muted:#8B847A;--muted2:#A9A299;
   --maroon:#881C1C;--maroon-bright:#A82626;--maroon-dark:#5A1010;
   --maroon-light:#F4E7E7;--maroon-line:#E2C4C4;
   --gold:#B0892E;--gold-dim:#F6EFDD;--gold-border:#E6D5A8;
-  /* All-star tier tokens */
   --t1:#B0892E;--t1-bg:#F6EFDD;--t1-border:#E6D5A8;
   --t2:#2E5E9E;--t2-bg:#E5ECF5;--t2-border:#C5D5EA;
   --t3:#8B847A;--t3-bg:#EFEBE3;--t3-border:#CEC8BD;
-  /* Fonts — Oswald replaces Barlow Condensed, Zilla Slab replaces Libre Baskerville */
   --font-display:'Zilla Slab',Georgia,'Times New Roman',serif;
   --font-ui:'Oswald','Arial Narrow',sans-serif;
   --font-body:'Source Sans 3',system-ui,-apple-system,sans-serif;
-  /* Shadows (warm brown-black) */
   --shadow-xs:0 1px 2px rgba(40,30,20,.05);
   --shadow-sm:0 1px 3px rgba(40,30,20,.07),0 1px 2px rgba(40,30,20,.04);
 }
@@ -45,22 +41,15 @@ nav{background:rgba(247,245,241,.92);border-bottom:1px solid var(--border);
   text-transform:uppercase;color:var(--muted);padding:14px 0 14px 12px;opacity:.6}
 
 /* HEADER */
-.header{padding:36px 24px 24px;border-bottom:1px solid var(--border)}
+.header{padding:36px 24px 24px;border-bottom:1px solid var(--border);max-width:1180px;margin:0 auto}
 .header-eyebrow{font-family:var(--font-ui);font-size:10px;font-weight:800;letter-spacing:2px;
   text-transform:uppercase;color:var(--muted);margin-bottom:8px}
-.header-title{font-family:var(--font-display);font-size:32px;font-weight:700;color:#fff;margin-bottom:6px}
-.header-sub{font-family:var(--font-ui);font-size:13px;color:var(--muted);margin-bottom:20px}
-
-/* STATS STRIP */
-.stats-strip{display:flex;gap:1px;background:var(--border);border:1px solid var(--border);border-radius:6px;overflow:hidden;box-shadow:var(--shadow-xs)}
-.stat-cell{flex:1;background:var(--surface);padding:14px 16px}
-.stat-num{font-family:var(--font-ui);font-size:22px;font-weight:900;color:#fff;line-height:1}
-.stat-lbl{font-family:var(--font-ui);font-size:9px;font-weight:700;letter-spacing:1.2px;
-  text-transform:uppercase;color:var(--muted);margin-top:3px}
+.header-title{font-family:var(--font-display);font-size:36px;font-weight:700;color:var(--text);margin-bottom:6px}
 
 /* CONTROLS */
 .controls{padding:16px 24px;border-bottom:1px solid var(--border);
-  display:flex;flex-wrap:wrap;gap:12px;align-items:center;background:var(--surface)}
+  display:flex;flex-wrap:wrap;gap:12px;align-items:center;background:var(--surface);
+  max-width:1180px;margin:0 auto}
 .ctrl-group{display:flex;align-items:center;gap:6px}
 .ctrl-label{font-family:var(--font-ui);font-size:9px;font-weight:800;letter-spacing:1.2px;
   text-transform:uppercase;color:var(--muted)}
@@ -88,7 +77,7 @@ nav{background:rgba(247,245,241,.92);border-bottom:1px solid var(--border);
 .ctrl-divider{width:1px;height:20px;background:var(--border2)}
 
 /* MAIN CONTENT */
-.main{display:flex;flex-direction:column;}
+.main{display:flex;flex-direction:column;max-width:1180px;margin:0 auto;padding:0 24px}
 
 /* SCHOOL CHART */
 .chart-panel{border-bottom:1px solid var(--border);padding:16px 0}
@@ -115,7 +104,7 @@ nav{background:rgba(247,245,241,.92);border-bottom:1px solid var(--border);
 .leg-dot{width:8px;height:8px;border-radius:1px;flex-shrink:0}
 
 /* TABLE PANEL */
-.table-panel{padding:0;overflow:auto;box-shadow:var(--shadow-sm)}
+.table-panel{padding:0;overflow:auto}
 .result-meta{font-family:var(--font-ui);font-size:10px;font-weight:700;letter-spacing:.8px;
   text-transform:uppercase;color:var(--muted);padding:12px 20px;border-bottom:1px solid var(--border)}
 table{width:100%;border-collapse:collapse}
@@ -223,12 +212,6 @@ td{padding:8px 12px;font-family:var(--font-ui);font-size:13px;vertical-align:mid
 <div class="header">
   <div class="header-eyebrow">Hockey East · 2016–17 to 2025–26</div>
   <h1 class="header-title">All-Star Teams</h1>
-  <div class="stats-strip" id="stats-strip">
-    <div class="stat-cell"><div class="stat-num" id="stat-total">—</div><div class="stat-lbl">Total Selections</div></div>
-    <div class="stat-cell"><div class="stat-num" id="stat-umass">—</div><div class="stat-lbl">UMass Selections</div></div>
-    <div class="stat-cell"><div class="stat-num" id="stat-schools">—</div><div class="stat-lbl">Schools Represented</div></div>
-    <div class="stat-cell"><div class="stat-num" id="stat-seasons">—</div><div class="stat-lbl">Seasons</div></div>
-  </div>
 </div>
 
 <div class="controls">
@@ -665,13 +648,7 @@ function renderAll(){
 }
 
 function renderStats(data){
-  const umassCount = data.filter(d=>d.school===UMASS).length;
-  const schools = new Set(data.map(d=>d.school));
-  const seasons = new Set(data.map(d=>d.year));
-  document.getElementById('stat-total').textContent   = data.length;
-  document.getElementById('stat-umass').textContent   = umassCount;
-  document.getElementById('stat-schools').textContent = schools.size;
-  document.getElementById('stat-seasons').textContent = seasons.size;
+  // stats strip removed
 }
 
 function renderChart(data){
