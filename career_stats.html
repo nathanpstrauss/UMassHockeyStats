@@ -697,7 +697,7 @@ function getFiltered(){
     if(currentEra==='he'&&getEra(p)!=='he') return false;
     if(currentRoster==='active'&&!p.active) return false;
     if(q&&!p.name.toLowerCase().includes(q)&&!dn(p.name).toLowerCase().includes(q)) return false;
-    if(p.career_gp<1&&currentRoster!=='active') return false;
+    if(p.career_gp<1&&currentRoster!=='active'&&!p.active) return false;
     return true;
   });
 }
