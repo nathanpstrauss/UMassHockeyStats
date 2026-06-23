@@ -225,7 +225,7 @@ function makeCard(p){
   if(p.all_american) nm.style.color='#f5c518';
   nl.appendChild(pos); nl.appendChild(nm);
   // Draft badge — use shared DRAFT_MAP as source of truth, fall back to p.draft
-  var draftEntry = (typeof DRAFT_MAP !== 'undefined') ? DRAFT_MAP[p.name] : null;
+  var draftEntry = (typeof DRAFT_MAP !== 'undefined') ? DRAFT_MAP[canonical(p.name)] : null;
   var draftText = draftEntry
     ? draftEntry.team + " R" + draftEntry.round + " #" + draftEntry.pick + " '" + String(draftEntry.year).slice(2)
     : (p.draft && p.draft !== 'Undrafted' ? p.draft : 'Undrafted');

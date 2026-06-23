@@ -225,7 +225,7 @@ const DRAFT_MAP = {
     "pick": 159,
     "year": 2020
   },
-  "Cole O\u2019Hara": {
+  "Cole O'Hara": {
     "team": "NSH",
     "round": 4,
     "pick": 114,
@@ -237,13 +237,13 @@ const DRAFT_MAP = {
     "pick": 143,
     "year": 2022
   },
-  "Francesco Dell\u2019Elce": {
+  "Francesco Dell'Elce": {
     "team": "COL",
     "round": 3,
     "pick": 77,
     "year": 2025
   },
-  "Maxim Mass\u00e9": {
+  "Maxim Masse": {
     "team": "ANA",
     "round": 3,
     "pick": 66,
@@ -431,7 +431,7 @@ const TRANSFER_OUT_MAP = {
   "Jeremy Davidson": "Michigan State",
   "Marco Bozzo": "Northeastern",
   "Peyton Reeves": "Toronto",
-  "Sebastian T\u010drnqvist": "Vermont",
+  "Sebastian Tornqvist": "Vermont",
   "Eric DeDobbelaer": "Robert Morris",
   "Jonny Lazarus": "Mercyhurst",
   "Austin Albrecht": "AIC",
@@ -440,3 +440,33 @@ const TRANSFER_OUT_MAP = {
   "Shane Bear": "RPI",
   "Austin Plevy": "Northeastern"
 };
+
+// ─── Canonical name aliases ────────────────────────────────────────────────
+// Maps any known name variant → canonical ASCII key used in DRAFT_MAP.
+// Allows roster pages and other consumers to call DRAFT_MAP[canonical(p.name)]
+// without needing to know which exact form the data uses.
+const ALIASES = {
+  // Curly-apostrophe variants → ASCII canonical
+  "Francesco Dell’Elce":  "Francesco Dell'Elce",
+  "Cole O’Hara":          "Cole O'Hara",
+  "Cameron O’Neill":      "Cameron O'Neill",
+  "Cam O’Neill":          "Cameron O'Neill",
+  "Cam O'Neill":               "Cameron O'Neill",
+  // Nickname variants
+  "Mikey DeAngelo":            "Michael DeAngelo",
+  "Cam Dunn":                  "Cameron Dunn",
+  // Diacritic → ASCII canonical
+  "Václav Nestrašil": "Vaclav Nestrasil",
+  "Daniel Jenčko":         "Daniel Alexander Jencko",
+  "Lucas Ölvestad":        "Lucas Olvestad",
+  "Thomas Pöck":           "Thomas Pock",
+  "Toni Söderholm":        "Toni Soderholm",
+  "Lukas Klečka":          "Lukas Klecka",
+  "Maxim Massé":           "Maxim Masse",
+  "Sebastian Törnqvist":   "Sebastian Tornqvist",
+  "Sebastian Tčrnqvist":   "Sebastian Tornqvist",
+  // Other name variants
+  "Yegor Barabanov":            "Egor Barabanov",
+  "Kennedy O’Connor":      "Kennedy O'Connor",
+};
+function canonical(name){ return ALIASES[name] || name; }

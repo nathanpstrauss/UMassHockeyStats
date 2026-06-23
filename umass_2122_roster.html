@@ -213,7 +213,7 @@ function makeCard(p){
   var nm=document.createElement('span'); nm.className='player-name'; nm.textContent=p.name;
   nl.appendChild(pos); nl.appendChild(nm);
   // Draft badge — use shared DRAFT_MAP as source of truth, fall back to p.draft
-  var draftEntry = (typeof DRAFT_MAP !== 'undefined') ? DRAFT_MAP[p.name] : null;
+  var draftEntry = (typeof DRAFT_MAP !== 'undefined') ? DRAFT_MAP[canonical(p.name)] : null;
   var draftText = draftEntry
     ? draftEntry.team + " R" + draftEntry.round + " #" + draftEntry.pick + " '" + String(draftEntry.year).slice(2)
     : (p.draft && p.draft !== 'Undrafted' ? p.draft : 'Undrafted');
