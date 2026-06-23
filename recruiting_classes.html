@@ -3,341 +3,567 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1.0">
-<title>UMass Hockey — Recruiting Class Draft Intelligence</title>
-<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;600;700;800;900&family=Barlow:wght@300;400;500&display=swap" rel="stylesheet">
+<title>UMass Hockey — NHL Draft</title>
+<link href="https://fonts.googleapis.com/css2?family=Zilla+Slab:wght@400;700&family=Oswald:wght@400;500;600;700;800;900&family=Source+Sans+3:wght@400;600&display=swap" rel="stylesheet">
 <style>
 *{box-sizing:border-box;margin:0;padding:0}
 :root{
-  --bg:#08090c;--surface:#0e1018;--surface2:#13161f;
-  --border:#1c2035;--border2:#252a40;
-  --text:#dde3f0;--muted:#5a6278;--muted2:#3a4060;
-  --maroon:#881c1c;--maroon-bright:#b02828;--gold:#c8960a;
+  --bg:#F7F5F1;--surface:#FFFFFF;--surface2:#FAF8F4;--surface3:#EFEBE3;
+  --border:#E4DFD7;--border2:#CEC8BD;--border-faint:#EFEBE4;
+  --text:#1B1714;--muted:#8B847A;--muted2:#A9A299;
+  --maroon:#881C1C;--maroon-light:#F4E7E7;--maroon-line:#E2C4C4;
+  --gold:#B0892E;--gold-dim:#F6EFDD;--gold-border:#E6D5A8;
+  --green:#1A8A50;--green-bg:rgba(26,138,80,.08);--green-border:rgba(26,138,80,.2);
+  --blue:#2E5E9E;--blue-bg:#E5ECF5;--blue-border:#C5D5EA;
+  --font-display:'Zilla Slab',Georgia,serif;
+  --font-ui:'Oswald','Arial Narrow',sans-serif;
+  --font-body:'Source Sans 3',system-ui,sans-serif;
+  --shadow-xs:0 1px 2px rgba(40,30,20,.05);
+  --shadow-sm:0 1px 3px rgba(40,30,20,.07),0 1px 2px rgba(40,30,20,.04);
 }
-body{font-family:'Barlow',sans-serif;background:var(--bg);color:var(--text);min-height:100vh}
-nav{
-  position:fixed;top:0;left:0;right:0;z-index:100;
-  display:flex;align-items:center;gap:0;
-  padding:0 40px;height:56px;
-  background:rgba(7,9,14,.92);
-  border-bottom:1px solid var(--border);
-  backdrop-filter:blur(12px);
-}
-.nav-logo{
-  color:#fff;text-decoration:none;
-  display:flex;align-items:center;gap:10px;margin-right:32px;
-}
-.nav-links{display:flex;gap:4px;align-items:center}
-.nav-link{
-  padding:5px 12px;border-radius:5px;font-size:12px;font-weight:700;
-  letter-spacing:1.5px;color:var(--muted2);text-decoration:none;
-  transition:color .15s,background .15s;
-  font-family:'Barlow Condensed',sans-serif;text-transform:uppercase;
-}
-.nav-link:hover{color:#fff;background:var(--surface2)}
-.nav-link.active{color:#fff}
-.nav-link.external{color:var(--maroon-bright)}
-.header{padding:80px 40px 32px;border-bottom:1px solid var(--border);
-  background:linear-gradient(180deg,rgba(136,28,28,.12) 0%,transparent 100%)}
-.back-link:hover{color:var(--text)}
-.header-eyebrow{font-family:'Barlow Condensed',sans-serif;font-size:11px;font-weight:700;
-  text-transform:uppercase;letter-spacing:2.5px;color:var(--maroon-bright);margin-bottom:10px}
-.header-title{font-family:'Barlow Condensed',sans-serif;font-size:clamp(32px,5vw,56px);
-  font-weight:900;color:#fff;line-height:1;margin-bottom:10px}
-.header-sub{font-size:14px;color:var(--muted);max-width:580px;line-height:1.6;margin-bottom:24px}
-.summary-row{display:flex;gap:24px;flex-wrap:wrap}
-.sum-stat{text-align:left}
-.sum-val{font-family:'Barlow Condensed',sans-serif;font-size:28px;font-weight:900;color:#fff;line-height:1}
-.sum-lbl{font-size:10px;color:var(--muted);text-transform:uppercase;letter-spacing:.8px;margin-top:2px}
+body{font-family:var(--font-body);background:var(--bg);color:var(--text);min-height:100vh}
 
-/* ── Controls ── */
-.controls{display:flex;align-items:center;gap:20px;flex-wrap:wrap;
-  padding:16px 40px;border-bottom:1px solid var(--border);background:var(--surface)}
-.ctrl-group{display:flex;align-items:center;gap:10px}
-.ctrl-label{font-family:'Barlow Condensed',sans-serif;font-size:11px;font-weight:700;
-  text-transform:uppercase;letter-spacing:1.5px;color:var(--muted);white-space:nowrap}
-.ctrl-divider{width:1px;height:24px;background:var(--border)}
+/* Nav */
+nav{background:rgba(247,245,241,.92);border-bottom:1px solid var(--border);
+  padding:0 24px;display:flex;align-items:center;position:sticky;top:0;z-index:100;
+  backdrop-filter:blur(10px);box-shadow:var(--shadow-xs)}
+.nav-logo{color:var(--text);text-decoration:none;display:flex;align-items:center;gap:10px;margin-right:32px;padding:10px 0}
+.nav-links{display:flex;gap:4px;align-items:center}
+.nav-links a{padding:5px 10px;border-radius:5px;font-size:11px;font-weight:700;
+  letter-spacing:1.5px;color:var(--muted2);text-decoration:none;
+  font-family:var(--font-ui);text-transform:uppercase;transition:color .15s;
+  border-bottom:2px solid transparent}
+.nav-links a:hover{color:var(--text)}
+.nav-links a.active{color:var(--text);border-bottom-color:var(--maroon)}
+.nav-links a.external{color:var(--maroon)}
+
+/* Header */
+.header{padding:28px 24px 22px;border-bottom:1px solid var(--border)}
+.header-inner{max-width:1180px;margin:0 auto}
+.header-eyebrow{font-family:var(--font-ui);font-size:10px;font-weight:800;letter-spacing:2px;
+  text-transform:uppercase;color:var(--muted);margin-bottom:8px}
+.header-title{font-family:var(--font-display);font-size:30px;font-weight:700;color:var(--text);
+  margin-bottom:18px;letter-spacing:-.3px}
+
+
+
+/* Controls */
+.controls{padding:12px 24px;border-bottom:1px solid var(--border);background:var(--surface)}
+.controls-inner{max-width:1180px;margin:0 auto;display:flex;flex-wrap:wrap;gap:10px;align-items:center}
+.ctrl-label{font-family:var(--font-ui);font-size:10px;font-weight:700;letter-spacing:.8px;
+  text-transform:uppercase;color:var(--muted);white-space:nowrap}
 .toggle-group{display:flex;gap:2px;background:var(--surface2);border:1px solid var(--border);
   border-radius:6px;padding:3px}
-.toggle-btn{font-family:'Barlow Condensed',sans-serif;font-size:12px;font-weight:700;
-  text-transform:uppercase;letter-spacing:.8px;padding:5px 14px;border-radius:4px;
-  border:none;background:transparent;color:var(--muted);cursor:pointer;transition:all .15s}
+.toggle-btn{font-family:var(--font-ui);font-size:11px;font-weight:700;text-transform:uppercase;
+  letter-spacing:.5px;padding:4px 12px;border-radius:4px;border:none;
+  background:transparent;color:var(--muted);cursor:pointer;transition:all .15s}
 .toggle-btn.active{background:var(--maroon);color:#fff}
+.ctrl-select{font-family:var(--font-ui);font-size:11px;font-weight:700;letter-spacing:.3px;
+  text-transform:uppercase;background:var(--surface);border:1px solid var(--border2);
+  color:var(--text);padding:5px 10px;border-radius:4px;cursor:pointer;appearance:none}
+.ctrl-select:focus{outline:none;border-color:var(--maroon)}
+.ctrl-divider{width:1px;height:22px;background:var(--border);flex-shrink:0}
+.search-wrap{flex:1;min-width:160px;max-width:260px;position:relative}
+.search-input{width:100%;font-family:var(--font-ui);font-size:11px;font-weight:600;
+  background:var(--surface);border:1px solid var(--border2);color:var(--text);
+  padding:5px 28px 5px 10px;border-radius:4px}
+.search-input:focus{outline:none;border-color:var(--maroon)}
+.search-clear{position:absolute;right:8px;top:50%;transform:translateY(-50%);
+  background:none;border:none;cursor:pointer;color:var(--muted2);font-size:14px;line-height:1;display:none}
+.reset-btn{font-family:var(--font-ui);font-size:10px;font-weight:700;letter-spacing:.8px;
+  text-transform:uppercase;background:none;border:1px solid var(--border2);
+  color:var(--muted2);padding:5px 10px;border-radius:4px;cursor:pointer}
+.reset-btn:hover{border-color:var(--maroon);color:var(--maroon)}
+.multi-select-wrap{position:relative}
+.multi-select-btn{font-family:var(--font-ui);font-size:11px;font-weight:700;letter-spacing:.3px;
+  text-transform:uppercase;background:var(--surface);border:1px solid var(--border2);
+  color:var(--text);padding:5px 10px;border-radius:4px;cursor:pointer;white-space:nowrap;
+  min-width:100px;text-align:left}
+.multi-select-panel{display:none;position:absolute;top:calc(100% + 4px);left:0;z-index:200;
+  background:var(--surface2);border:1px solid var(--border2);border-radius:6px;
+  min-width:110px;padding:4px 0;box-shadow:var(--shadow-sm)}
+.multi-select-panel.open{display:block}
+.multi-opt{display:flex;align-items:center;gap:8px;padding:5px 12px;cursor:pointer;
+  font-family:var(--font-ui);font-size:11px;font-weight:600;color:var(--text);white-space:nowrap}
+.multi-opt:hover{background:var(--surface3)}
+.multi-opt input[type=checkbox]{accent-color:var(--maroon);cursor:pointer;flex-shrink:0}
+.multi-opt-all{border-bottom:1px solid var(--border);padding-bottom:7px;margin-bottom:2px;color:var(--maroon)}
 
-/* ── Legend ── */
-.legend{display:flex;gap:16px;flex-wrap:wrap;padding:14px 40px;border-bottom:1px solid var(--border)}
-.leg-item{display:flex;align-items:center;gap:6px;font-size:11px;color:var(--muted)}
-.leg-dot{width:10px;height:10px;border-radius:50%;flex-shrink:0}
+/* Result meta */
+.result-meta{font-family:var(--font-ui);font-size:10px;font-weight:700;letter-spacing:.8px;
+  text-transform:uppercase;color:var(--muted);padding:9px 24px;
+  border-bottom:1px solid var(--border);background:var(--surface2)}
+.result-meta-inner{max-width:1180px;margin:0 auto}
 
-/* ── Main ── */
-.main{padding:32px 40px;max-width:1200px}
+/* Table */
+.table-wrap{overflow-x:auto;max-width:1180px;margin:0 auto}
+table{width:100%;border-collapse:collapse;font-size:13px}
+thead th{font-family:var(--font-ui);font-size:9px;font-weight:800;letter-spacing:1.2px;
+  text-transform:uppercase;color:var(--muted);padding:10px 10px;
+  border-bottom:2px solid var(--border2);text-align:left;
+  background:var(--surface2);cursor:pointer;white-space:nowrap;user-select:none;
+  position:sticky;top:55px}
+thead th:hover{color:var(--text)}
+thead th.sorted{color:var(--maroon)}
+thead th.asc::after{content:'↑';color:var(--maroon);margin-left:4px}
+thead th.desc::after{content:'↓';color:var(--maroon);margin-left:4px}
+thead th.r{text-align:right}
+tbody tr{border-bottom:1px solid var(--border-faint);transition:background .1s}
+tbody tr:hover{background:var(--surface2)}
+td{padding:9px 10px;vertical-align:middle}
+td.r{text-align:right;font-variant-numeric:tabular-nums}
+td.name-cell{font-weight:600;white-space:nowrap}
+td.name-cell.active-player{color:var(--gold)}
+.group-hdr{background:var(--surface3);border-top:2px solid var(--border2)}
+.group-hdr td{font-family:var(--font-ui);font-size:10px;font-weight:800;letter-spacing:1.2px;
+  text-transform:uppercase;color:var(--muted);padding:8px 10px;cursor:default}
 
-/* ── Class/year card ── */
-.class-card{background:var(--surface);border:1px solid var(--border);border-radius:12px;
-  margin-bottom:12px;overflow:hidden;transition:border-color .15s}
-.class-card:hover{border-color:var(--border2)}
-.class-header{display:grid;align-items:center;gap:20px;padding:16px 20px;
-  cursor:pointer;user-select:none}
-.class-header.freshman-layout{grid-template-columns:150px 1fr auto}
-.class-header.draftyear-layout{grid-template-columns:120px 1fr auto}
+/* Badges */
+.pos-badge{font-family:var(--font-ui);font-size:9px;font-weight:800;letter-spacing:.5px;
+  padding:2px 6px;border-radius:3px;display:inline-block}
+.pos-F{background:var(--surface3);color:var(--muted)}
+.pos-D{background:#EAF0F9;color:#2E5E9E}
+.pos-G{background:var(--gold-dim);color:var(--gold);border:1px solid var(--gold-border)}
 
-.class-season{font-family:'Barlow Condensed',sans-serif;font-size:24px;font-weight:900;color:#fff}
-.class-season small{display:block;font-size:10px;color:var(--muted);font-weight:700;
-  letter-spacing:1px;text-transform:uppercase;margin-top:2px}
-.draft-bar-wrap{flex:1}
-.draft-bar{height:20px;border-radius:4px;display:flex;overflow:hidden;
-  background:var(--surface2);border:1px solid var(--border)}
-.draft-bar-seg{height:100%;cursor:pointer;transition:opacity .15s}
-.draft-bar-seg:hover{opacity:.75}
-.draft-bar-empty{height:100%;flex:1}
-.class-meta{display:flex;gap:8px;align-items:center;flex-shrink:0}
-.meta-pill{font-family:'Barlow Condensed',sans-serif;font-size:12px;font-weight:700;
-  padding:3px 10px;border-radius:10px;white-space:nowrap}
-.pill-nhl{background:rgba(224,123,57,.15);color:#e07b39;border:1px solid rgba(224,123,57,.3)}
-.pill-picks{background:rgba(74,144,217,.1);color:#4a90d9;border:1px solid rgba(74,144,217,.2)}
-.pill-rate{background:rgba(200,150,10,.1);color:var(--gold);border:1px solid rgba(200,150,10,.2)}
-.pill-active{background:rgba(25,168,122,.1);color:#19a87a;border:1px solid rgba(25,168,122,.2)}
-.chevron{color:var(--muted);transition:transform .25s;font-size:18px;flex-shrink:0;margin-left:4px}
-.class-card.open .chevron{transform:rotate(90deg)}
+.rd-badge{font-family:var(--font-ui);font-size:10px;font-weight:800;
+  padding:2px 7px;border-radius:3px;display:inline-block;white-space:nowrap}
+.rd-1{background:var(--gold-dim);color:var(--gold);border:1px solid var(--gold-border)}
+.rd-2{background:var(--maroon-light);color:var(--maroon);border:1px solid var(--maroon-line)}
+.rd-mid{background:var(--surface3);color:var(--text)}
+.rd-late{background:var(--surface3);color:var(--muted)}
+.rd-pending{background:var(--surface3);color:var(--muted2);border:1px dashed var(--border2);font-style:italic}
 
-/* ── Player grid ── */
-.player-grid{display:none;padding:0 20px 20px;
-  grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:10px}
-.class-card.open .player-grid{display:grid}
-.player-tile{background:var(--surface2);border:1px solid var(--border);border-radius:8px;
-  padding:12px 14px;display:flex;align-items:flex-start;gap:12px;position:relative;overflow:hidden}
-.player-tile::before{content:'';position:absolute;left:0;top:0;bottom:0;width:3px}
-.player-tile[data-tier="nhl"]::before{background:#e07b39}
-.player-tile[data-tier="ahl"]::before{background:#4a90d9}
-.player-tile[data-tier="echl"]::before{background:#5bb85b}
-.player-tile[data-tier="europe"]::before{background:#9b6dd4}
-.player-tile[data-tier="active_college"]::before{background:#19a87a}
-.player-tile[data-tier="other"]::before{background:#555b6e}
-.tile-round{width:28px;height:28px;border-radius:6px;flex-shrink:0;
-  display:flex;align-items:center;justify-content:center;
-  font-family:'Barlow Condensed',sans-serif;font-size:13px;font-weight:900;color:#000}
-.tile-body{flex:1;min-width:0}
-.tile-name{font-family:'Barlow Condensed',sans-serif;font-size:16px;font-weight:800;
-  color:#fff;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.tile-draft{font-size:11px;color:var(--muted);margin-top:2px}
-.tile-class-note{font-size:10px;color:var(--muted2);margin-top:1px}
-.tile-outcome{font-family:'Barlow Condensed',sans-serif;font-size:10px;font-weight:800;
-  text-transform:uppercase;letter-spacing:.8px;margin-top:5px}
-.tile-outcome[data-tier="nhl"]{color:#e07b39}
-.tile-outcome[data-tier="ahl"]{color:#4a90d9}
-.tile-outcome[data-tier="echl"]{color:#5bb85b}
-.tile-outcome[data-tier="europe"]{color:#9b6dd4}
-.tile-outcome[data-tier="active_college"]{color:#19a87a}
-.tile-outcome[data-tier="other"]{color:#555b6e}
-.tile-nhl-gp{font-size:10px;color:var(--muted);margin-left:5px}
-.class-divider{height:1px;background:var(--border);margin:0 20px}
-.section-head{font-family:'Barlow Condensed',sans-serif;font-size:11px;font-weight:700;
-  text-transform:uppercase;letter-spacing:1.5px;color:var(--muted);
-  padding:24px 0 8px;border-top:1px solid var(--border);margin-top:8px}
-.section-head:first-child{border-top:none;padding-top:0;margin-top:0}
+.tier-badge{font-family:var(--font-ui);font-size:9px;font-weight:800;letter-spacing:.4px;
+  padding:2px 7px;border-radius:3px;display:inline-block;white-space:nowrap}
+.tier-nhl{background:var(--green-bg);color:var(--green);border:1px solid var(--green-border)}
+.tier-ahl{background:var(--blue-bg);color:var(--blue);border:1px solid var(--blue-border)}
+.tier-echl{background:var(--surface3);color:var(--muted2)}
+.tier-europe{background:#F0EAF6;color:#6B46A0}
+.tier-active_college{background:var(--gold-dim);color:var(--gold);border:1px solid var(--gold-border)}
+.tier-other{background:var(--surface3);color:var(--muted2)}
 </style>
 </head>
 <body>
 
 <nav>
   <a href="index.html" class="nav-logo">
-    <img src="UMass_Hockey_2_.png" alt="UMass Hockey" style="height:36px;width:auto;display:block;" />
+    <img src="UMass_Hockey_2_.png" alt="UMass" style="height:34px;width:auto;display:block"/>
   </a>
   <div class="nav-links">
-    <a href="index.html#rosters" class="nav-link">Rosters</a>
-    <a href="ncaa_nhl_pipeline.html" class="nav-link">NCAA Pipeline</a>
-    <a href="career_stats.html" class="nav-link">Career Stats</a>
-    <a href="recruiting_classes.html" class="nav-link active">Draft</a>
-    
-    <a href="hea_allstars.html" class="nav-link">HEA All-Stars</a>
-    <a href="awards.html" class="nav-link">Awards</a>
-    <a href="game_log.html" class="nav-link">Game Log</a>
-    <a href="https://umasshockeyblog.substack.com/" class="nav-link external" target="_blank" rel="noopener">Blog ↗</a>
+    <a href="index.html#rosters">Rosters</a>
+    <a href="ncaa_nhl_pipeline.html">NCAA Pipeline</a>
+    <a href="career_stats.html">Career Stats</a>
+    <a href="recruiting_classes.html" class="active">Draft</a>
+    <a href="hea_allstars.html">HEA All-Stars</a>
+    <a href="awards.html">Awards</a>
+    <a href="game_log.html">Game Log</a>
+    <a href="https://umasshockeyblog.substack.com/" class="external" target="_blank" rel="noopener">Blog &#8599;</a>
   </div>
 </nav>
+
 <div class="header">
-  <div class="header-eyebrow">Greg Carvel Era · 2016–Present</div>
-  <h1 class="header-title">Recruiting Class<br>Draft Intelligence</h1>
-  <p class="header-sub">Every NHL draft pick to play under Greg Carvel — by freshman class or by draft year. Which classes produced the most picks? Which drafts had the most Minutemen taken?</p>
-  <div class="summary-row">
-    <div class="sum-stat"><div class="sum-val" style="color:#4a90d9">29</div><div class="sum-lbl">Total draft picks</div></div>
-    <div class="sum-stat"><div class="sum-val" style="color:#e07b39">13</div><div class="sum-lbl">NHL debuts</div></div>
-    <div class="sum-stat"><div class="sum-val" style="color:var(--gold)">68%</div><div class="sum-lbl">NHL conversion rate</div></div>
-    <div class="sum-stat"><div class="sum-val" style="color:#f5c518">2</div><div class="sum-lbl">1st round picks</div></div>
+  <div class="header-inner">
+    <div class="header-eyebrow">Program History &middot; 1991&ndash;Present</div>
+    <h1 class="header-title">UMass at the NHL Draft</h1>
+
   </div>
 </div>
 
 <div class="controls">
-  <div class="ctrl-group">
-    <span class="ctrl-label">View by</span>
+  <div class="controls-inner">
+    <span class="ctrl-label">Group by</span>
     <div class="toggle-group">
-      <button class="toggle-btn active" onclick="setView('freshman')">Freshman Class</button>
-      <button class="toggle-btn" onclick="setView('draftyear')">Draft Year</button>
+      <button class="toggle-btn active" id="btn-none" onclick="setGroup('none')">None</button>
+      <button class="toggle-btn" id="btn-draft" onclick="setGroup('draft')">Draft Year</button>
+      <button class="toggle-btn" id="btn-roster" onclick="setGroup('roster')">Roster Year</button>
     </div>
-  </div>
-  <div class="ctrl-divider"></div>
-  <div class="ctrl-group">
-    <span class="ctrl-label">Sort by</span>
-    <div class="toggle-group" id="sort-btns">
-      <button class="toggle-btn active" onclick="setSort('year')">Year</button>
-      <button class="toggle-btn" onclick="setSort('picks')">Most Picks</button>
-      <button class="toggle-btn" onclick="setSort('nhl')">Most NHL</button>
-      <button class="toggle-btn" onclick="setSort('rate')">NHL Rate</button>
-    </div>
-  </div>
-</div>
-
-<div class="legend">
-<div class="leg-item"><div class="leg-dot" style="background:#e07b39"></div>NHL</div><div class="leg-item"><div class="leg-dot" style="background:#4a90d9"></div>AHL</div><div class="leg-item"><div class="leg-dot" style="background:#5bb85b"></div>ECHL</div><div class="leg-item"><div class="leg-dot" style="background:#9b6dd4"></div>Europe</div><div class="leg-item"><div class="leg-dot" style="background:#19a87a"></div>Still in college</div><div class="leg-item"><div class="leg-dot" style="background:#555b6e"></div>Out of hockey</div>
-</div>
-
-<div class="main" id="main"></div>
-
-<script>
-const CLASS_DATA = {"2015-16": [{"name": "William Lagesson", "pos": "D", "draft": {"team": "EDM", "round": 4, "pick": 91, "year": 2014}, "tier": "nhl", "nhl_seasons": 7, "nhl_gp": 107, "first_umass": "2015-16", "last_umass": "2016-17"}, {"name": "Ivan Chukarov", "pos": "D", "draft": {"team": "BUF", "round": 7, "pick": 182, "year": 2015}, "tier": "echl", "nhl_seasons": 0, "nhl_gp": 0, "first_umass": "2015-16", "last_umass": "2018-19"}], "2017-18": [{"name": "Mario Ferraro", "pos": "D", "draft": {"team": "SJS", "round": 2, "pick": 49, "year": 2017}, "tier": "nhl", "nhl_seasons": 7, "nhl_gp": 490, "first_umass": "2017-18", "last_umass": "2018-19"}, {"name": "Cale Makar", "pos": "D", "draft": {"team": "COL", "round": 1, "pick": 4, "year": 2017}, "tier": "nhl", "nhl_seasons": 8, "nhl_gp": 470, "first_umass": "2017-18", "last_umass": "2018-19"}, {"name": "John Leonard", "pos": "F", "draft": {"team": "SJS", "round": 6, "pick": 182, "year": 2018}, "tier": "nhl", "nhl_seasons": 5, "nhl_gp": 81, "first_umass": "2017-18", "last_umass": "2019-20"}], "2018-19": [{"name": "Marc Del Gaizo", "pos": "D", "draft": {"team": "NSH", "round": 4, "pick": 109, "year": 2019}, "tier": "nhl", "nhl_seasons": 2, "nhl_gp": 55, "first_umass": "2018-19", "last_umass": "2020-21"}, {"name": "Filip Lindberg", "pos": "G", "draft": {"team": "MIN", "round": 7, "pick": 197, "year": 2019}, "tier": "europe", "nhl_seasons": 0, "nhl_gp": 0, "first_umass": "2018-19", "last_umass": "2020-21"}], "2019-20": [{"name": "Zac Jones", "pos": "D", "draft": {"team": "NYR", "round": 3, "pick": 68, "year": 2019}, "tier": "nhl", "nhl_seasons": 5, "nhl_gp": 115, "first_umass": "2019-20", "last_umass": "2020-21"}, {"name": "Matt Kessel", "pos": "D", "draft": {"team": "STL", "round": 5, "pick": 150, "year": 2020}, "tier": "nhl", "nhl_seasons": 4, "nhl_gp": 99, "first_umass": "2019-20", "last_umass": "2021-22"}], "2021-22": [{"name": "Lucas Mercuri", "pos": "F", "draft": {"team": "TBL", "round": 5, "pick": 159, "year": 2020}, "tier": "ahl", "nhl_seasons": 0, "nhl_gp": 0, "first_umass": "2021-22", "last_umass": "2024-25"}, {"name": "Taylor Makar", "pos": "F", "draft": {"team": "COL", "round": 7, "pick": 220, "year": 2021}, "tier": "nhl", "nhl_seasons": 1, "nhl_gp": 12, "first_umass": "2021-22", "last_umass": "2023-24"}, {"name": "Ryan Ufko", "pos": "D", "draft": {"team": "NSH", "round": 4, "pick": 115, "year": 2021}, "tier": "nhl", "nhl_seasons": 2, "nhl_gp": 19, "first_umass": "2021-22", "last_umass": "2023-24"}, {"name": "Scott Morrow", "pos": "D", "draft": {"team": "CAR", "round": 2, "pick": 40, "year": 2021}, "tier": "nhl", "nhl_seasons": 3, "nhl_gp": 45, "first_umass": "2021-22", "last_umass": "2023-24"}], "2020-21": [{"name": "Josh Lopina", "pos": "F", "draft": {"team": "ANA", "round": 4, "pick": 98, "year": 2021}, "tier": "ahl", "nhl_seasons": 0, "nhl_gp": 0, "first_umass": "2020-21", "last_umass": "2021-22"}], "2022-23": [{"name": "Kenny Connors", "pos": "F", "draft": {"team": "LAK", "round": 4, "pick": 103, "year": 2022}, "tier": "nhl", "nhl_seasons": 1, "nhl_gp": 2, "first_umass": "2022-23", "last_umass": "2024-25"}, {"name": "Tyson Dyck", "pos": "F", "draft": {"team": "OTT", "round": 7, "pick": 206, "year": 2022}, "tier": "active_college", "nhl_seasons": 0, "nhl_gp": 0, "first_umass": "2022-23", "last_umass": "2022-23"}, {"name": "Cole O'Hara", "pos": "F", "draft": {"team": "NSH", "round": 4, "pick": 114, "year": 2022}, "tier": "nhl", "nhl_seasons": 1, "nhl_gp": 1, "first_umass": "2022-23", "last_umass": "2024-25"}], "2023-24": [{"name": "Dans Locmelis", "pos": "F", "draft": {"team": "BOS", "round": 4, "pick": 119, "year": 2022}, "tier": "ahl", "nhl_seasons": 0, "nhl_gp": 0, "first_umass": "2023-24", "last_umass": "2024-25"}, {"name": "Michael Hrabal", "pos": "G", "draft": {"team": "ARI", "round": 2, "pick": 38, "year": 2023}, "tier": "ahl", "nhl_seasons": 0, "nhl_gp": 0, "first_umass": "2023-24", "last_umass": "2025-26"}, {"name": "Aydar Suniev", "pos": "F", "draft": {"team": "CGY", "round": 3, "pick": 80, "year": 2023}, "tier": "nhl", "nhl_seasons": 2, "nhl_gp": 7, "first_umass": "2023-24", "last_umass": "2024-25"}, {"name": "Nicholas Van Tassell", "pos": "F", "draft": {"team": "OTT", "round": 7, "pick": 215, "year": 2023}, "tier": "active_college", "nhl_seasons": 0, "nhl_gp": 0, "first_umass": "2023-24", "last_umass": "2025-26"}, {"name": "Cameron O'Neill", "pos": "F", "draft": {"team": "OTT", "round": 5, "pick": 143, "year": 2022}, "tier": "active_college", "nhl_seasons": 0, "nhl_gp": 0, "first_umass": "2023-24", "last_umass": "2025-26"}], "2024-25": [{"name": "Francesco Dell'Elce", "pos": "D", "draft": {"team": "COL", "round": 3, "pick": 77, "year": 2025}, "tier": "active_college", "nhl_seasons": 0, "nhl_gp": 0, "first_umass": "2024-25", "last_umass": "2025-26"}, {"name": "Larry Keenan", "pos": "D", "draft": {"team": "DET", "round": 4, "pick": 117, "year": 2023}, "tier": "active_college", "nhl_seasons": 0, "nhl_gp": 0, "first_umass": "2024-25", "last_umass": "2025-26"}], "2025-26": [{"name": "Vaclav Nestrasil", "pos": "F", "draft": {"team": "CHI", "round": 1, "pick": 25, "year": 2025}, "tier": "active_college", "nhl_seasons": 0, "nhl_gp": 0, "first_umass": "2025-26", "last_umass": "2025-26"}], "2026-27": [{"name": "Maxim Massé", "pos": "F", "draft": {"team": "ANA", "round": 3, "pick": 66, "year": 2024}, "tier": "active_college", "nhl_seasons": 0, "nhl_gp": 0, "first_umass": "2026-27", "last_umass": "2026-27"}, {"name": "Max Curran", "pos": "F", "draft": {"team": "CGY", "round": 5, "pick": 161, "year": 2024}, "tier": "active_college", "nhl_seasons": 0, "nhl_gp": 0, "first_umass": "2026-27", "last_umass": "2026-27", "draft_note": "Originally COL R5 #161 2024; rights traded to CGY in Nazem Kadri deal"}, {"name": "Melvin Novotny", "pos": "F", "draft": {"team": "BUF", "round": 7, "pick": 195, "year": 2025}, "tier": "active_college", "nhl_seasons": 0, "nhl_gp": 0, "first_umass": "2026-27", "last_umass": "2026-27"}, {"name": "Arsenii Radkov", "pos": "G", "draft": {"team": "MTL", "round": 3, "pick": 82, "year": 2025}, "tier": "active_college", "nhl_seasons": 0, "nhl_gp": 0, "first_umass": "2026-27", "last_umass": "2026-27"}]};
-const DRAFT_DATA = {"2014": [{"name": "William Lagesson", "pos": "D", "draft": {"team": "EDM", "round": 4, "pick": 91, "year": 2014}, "tier": "nhl", "nhl_seasons": 7, "nhl_gp": 107, "first_umass": "2015-16", "last_umass": "2016-17", "freshman_class": "2015-16"}], "2015": [{"name": "Ivan Chukarov", "pos": "D", "draft": {"team": "BUF", "round": 7, "pick": 182, "year": 2015}, "tier": "echl", "nhl_seasons": 0, "nhl_gp": 0, "first_umass": "2015-16", "last_umass": "2018-19", "freshman_class": "2015-16"}], "2017": [{"name": "Mario Ferraro", "pos": "D", "draft": {"team": "SJS", "round": 2, "pick": 49, "year": 2017}, "tier": "nhl", "nhl_seasons": 7, "nhl_gp": 490, "first_umass": "2017-18", "last_umass": "2018-19", "freshman_class": "2017-18"}, {"name": "Cale Makar", "pos": "D", "draft": {"team": "COL", "round": 1, "pick": 4, "year": 2017}, "tier": "nhl", "nhl_seasons": 8, "nhl_gp": 470, "first_umass": "2017-18", "last_umass": "2018-19", "freshman_class": "2017-18"}], "2018": [{"name": "John Leonard", "pos": "F", "draft": {"team": "SJS", "round": 6, "pick": 182, "year": 2018}, "tier": "nhl", "nhl_seasons": 5, "nhl_gp": 81, "first_umass": "2017-18", "last_umass": "2019-20", "freshman_class": "2017-18"}], "2019": [{"name": "Marc Del Gaizo", "pos": "D", "draft": {"team": "NSH", "round": 4, "pick": 109, "year": 2019}, "tier": "nhl", "nhl_seasons": 2, "nhl_gp": 55, "first_umass": "2018-19", "last_umass": "2020-21", "freshman_class": "2018-19"}, {"name": "Filip Lindberg", "pos": "G", "draft": {"team": "MIN", "round": 7, "pick": 197, "year": 2019}, "tier": "europe", "nhl_seasons": 0, "nhl_gp": 0, "first_umass": "2018-19", "last_umass": "2020-21", "freshman_class": "2018-19"}, {"name": "Zac Jones", "pos": "D", "draft": {"team": "NYR", "round": 3, "pick": 68, "year": 2019}, "tier": "nhl", "nhl_seasons": 5, "nhl_gp": 115, "first_umass": "2019-20", "last_umass": "2020-21", "freshman_class": "2019-20"}], "2020": [{"name": "Matt Kessel", "pos": "D", "draft": {"team": "STL", "round": 5, "pick": 150, "year": 2020}, "tier": "nhl", "nhl_seasons": 4, "nhl_gp": 99, "first_umass": "2019-20", "last_umass": "2021-22", "freshman_class": "2019-20"}, {"name": "Lucas Mercuri", "pos": "F", "draft": {"team": "TBL", "round": 5, "pick": 159, "year": 2020}, "tier": "ahl", "nhl_seasons": 0, "nhl_gp": 0, "first_umass": "2021-22", "last_umass": "2024-25", "freshman_class": "2021-22"}], "2021": [{"name": "Taylor Makar", "pos": "F", "draft": {"team": "COL", "round": 7, "pick": 220, "year": 2021}, "tier": "nhl", "nhl_seasons": 1, "nhl_gp": 12, "first_umass": "2021-22", "last_umass": "2023-24", "freshman_class": "2021-22"}, {"name": "Ryan Ufko", "pos": "D", "draft": {"team": "NSH", "round": 4, "pick": 115, "year": 2021}, "tier": "nhl", "nhl_seasons": 2, "nhl_gp": 19, "first_umass": "2021-22", "last_umass": "2023-24", "freshman_class": "2021-22"}, {"name": "Scott Morrow", "pos": "D", "draft": {"team": "CAR", "round": 2, "pick": 40, "year": 2021}, "tier": "nhl", "nhl_seasons": 3, "nhl_gp": 45, "first_umass": "2021-22", "last_umass": "2023-24", "freshman_class": "2021-22"}, {"name": "Josh Lopina", "pos": "F", "draft": {"team": "ANA", "round": 4, "pick": 98, "year": 2021}, "tier": "ahl", "nhl_seasons": 0, "nhl_gp": 0, "first_umass": "2020-21", "last_umass": "2021-22", "freshman_class": "2020-21"}], "2022": [{"name": "Kenny Connors", "pos": "F", "draft": {"team": "LAK", "round": 4, "pick": 103, "year": 2022}, "tier": "nhl", "nhl_seasons": 1, "nhl_gp": 2, "first_umass": "2022-23", "last_umass": "2024-25", "freshman_class": "2022-23"}, {"name": "Tyson Dyck", "pos": "F", "draft": {"team": "OTT", "round": 7, "pick": 206, "year": 2022}, "tier": "active_college", "nhl_seasons": 0, "nhl_gp": 0, "first_umass": "2022-23", "last_umass": "2022-23", "freshman_class": "2022-23"}, {"name": "Cole O'Hara", "pos": "F", "draft": {"team": "NSH", "round": 4, "pick": 114, "year": 2022}, "tier": "nhl", "nhl_seasons": 1, "nhl_gp": 1, "first_umass": "2022-23", "last_umass": "2024-25", "freshman_class": "2022-23"}, {"name": "Dans Locmelis", "pos": "F", "draft": {"team": "BOS", "round": 4, "pick": 119, "year": 2022}, "tier": "ahl", "nhl_seasons": 0, "nhl_gp": 0, "first_umass": "2023-24", "last_umass": "2024-25", "freshman_class": "2023-24"}, {"name": "Cameron O'Neill", "pos": "F", "draft": {"team": "OTT", "round": 5, "pick": 143, "year": 2022}, "tier": "active_college", "nhl_seasons": 0, "nhl_gp": 0, "first_umass": "2023-24", "last_umass": "2025-26", "freshman_class": "2023-24"}], "2023": [{"name": "Michael Hrabal", "pos": "G", "draft": {"team": "ARI", "round": 2, "pick": 38, "year": 2023}, "tier": "ahl", "nhl_seasons": 0, "nhl_gp": 0, "first_umass": "2023-24", "last_umass": "2025-26", "freshman_class": "2023-24"}, {"name": "Aydar Suniev", "pos": "F", "draft": {"team": "CGY", "round": 3, "pick": 80, "year": 2023}, "tier": "nhl", "nhl_seasons": 2, "nhl_gp": 7, "first_umass": "2023-24", "last_umass": "2024-25", "freshman_class": "2023-24"}, {"name": "Nicholas Van Tassell", "pos": "F", "draft": {"team": "OTT", "round": 7, "pick": 215, "year": 2023}, "tier": "active_college", "nhl_seasons": 0, "nhl_gp": 0, "first_umass": "2023-24", "last_umass": "2025-26", "freshman_class": "2023-24"}, {"name": "Larry Keenan", "pos": "D", "draft": {"team": "DET", "round": 4, "pick": 117, "year": 2023}, "tier": "active_college", "nhl_seasons": 0, "nhl_gp": 0, "first_umass": "2024-25", "last_umass": "2025-26", "freshman_class": "2024-25"}], "2025": [{"name": "Francesco Dell'Elce", "pos": "D", "draft": {"team": "COL", "round": 3, "pick": 77, "year": 2025}, "tier": "active_college", "nhl_seasons": 0, "nhl_gp": 0, "first_umass": "2024-25", "last_umass": "2025-26", "freshman_class": "2024-25"}, {"name": "Vaclav Nestrasil", "pos": "F", "draft": {"team": "CHI", "round": 1, "pick": 25, "year": 2025}, "tier": "active_college", "nhl_seasons": 0, "nhl_gp": 0, "first_umass": "2025-26", "last_umass": "2025-26", "freshman_class": "2025-26"}, {"name": "Melvin Novotny", "pos": "F", "draft": {"team": "BUF", "round": 7, "pick": 195, "year": 2025}, "tier": "active_college", "nhl_seasons": 0, "nhl_gp": 0, "first_umass": "2026-27", "last_umass": "2026-27", "freshman_class": "2026-27"}, {"name": "Arsenii Radkov", "pos": "G", "draft": {"team": "MTL", "round": 3, "pick": 82, "year": 2025}, "tier": "active_college", "nhl_seasons": 0, "nhl_gp": 0, "first_umass": "2026-27", "last_umass": "2026-27", "freshman_class": "2026-27"}], "2024": [{"name": "Maxim Massé", "pos": "F", "draft": {"team": "ANA", "round": 3, "pick": 66, "year": 2024}, "tier": "active_college", "nhl_seasons": 0, "nhl_gp": 0, "first_umass": "2026-27", "last_umass": "2026-27", "freshman_class": "2026-27"}, {"name": "Max Curran", "pos": "F", "draft": {"team": "CGY", "round": 5, "pick": 161, "year": 2024}, "tier": "active_college", "nhl_seasons": 0, "nhl_gp": 0, "first_umass": "2026-27", "last_umass": "2026-27", "draft_note": "Originally COL R5 #161 2024; rights traded to CGY in Nazem Kadri deal", "freshman_class": "2026-27"}]};
-const TC = {"nhl": "#e07b39", "ahl": "#4a90d9", "echl": "#5bb85b", "europe": "#9b6dd4", "active_college": "#19a87a", "other": "#555b6e"};
-const TL = {"nhl": "NHL", "ahl": "AHL", "echl": "ECHL", "europe": "Europe", "active_college": "Still in college", "other": "Out of hockey"};
-const RC = {"1": "#f5c518", "2": "#e07b39", "3": "#4a90d9", "4": "#5bb85b", "5": "#9b6dd4", "6": "#c47c14", "7": "#555b6e"};
-
-let currentView = 'freshman';
-let currentSort = 'year';
-
-function nhlRate(picks){
-  const eligible = picks.filter(p=>p.tier!=='active_college');
-  if(!eligible.length) return null;
-  return eligible.filter(p=>p.tier==='nhl').length / eligible.length;
-}
-
-function makeBar(picks){
-  const total = picks.length;
-  const rc = {};
-  picks.forEach(p=>{ const r=String(p.draft.round); rc[r]=(rc[r]||0)+1; });
-  return Object.entries(rc).sort((a,b)=>a[0]-b[0]).map(([r,cnt])=>{
-    const w=(cnt/total*100).toFixed(1);
-    const col=RC[r]||'#555b6e';
-    return `<div class="draft-bar-seg" style="width:${w}%;background:${col}" title="R${r}: ${cnt} player${cnt!==1?'s':''}"></div>`;
-  }).join('') + '<div class="draft-bar-empty"></div>';
-}
-
-function makeTile(p, showClass){
-  const d=p.draft;
-  const pickStr = d.pick ? `${d.team} · R${d.round} #${d.pick} · ${d.year}` : `${d.team} · R${d.round} · ${d.year}`;
-  const classNote = showClass && p.freshman_class
-    ? `<div class="tile-class-note">Freshman class of ${p.freshman_class.split('-')[0]}</div>` : '';
-  const gp = p.nhl_gp>0 ? `<span class="tile-nhl-gp">${p.nhl_gp} GP</span>` : '';
-  const roundCol = RC[String(d.round)]||'#555b6e';
-  return `<div class="player-tile" data-tier="${p.tier}">
-    <div class="tile-round" style="background:${roundCol}">R${d.round}</div>
-    <div class="tile-body">
-      <div class="tile-name">${p.name}</div>
-      <div class="tile-draft">${pickStr}</div>
-      ${classNote}
-      <div class="tile-outcome" data-tier="${p.tier}">${TL[p.tier]||p.tier}${gp}</div>
-    </div>
-  </div>`;
-}
-
-function makeCard(key, picks, isFreshman){
-  const total = picks.length;
-  const nhl   = picks.filter(p=>p.tier==='nhl').length;
-  const rate  = nhlRate(picks);
-  const hasActive = picks.some(p=>p.tier==='active_college');
-
-  let headLabel, subLabel, layoutClass;
-  if(isFreshman){
-    const [y1,y2] = key.split('-');
-    headLabel = `${y1}–${y2}`;
-    subLabel  = `Freshman class of ${y1}`;
-    layoutClass = 'freshman-layout';
-  } else {
-    headLabel = key;
-    subLabel  = `${key} NHL Draft`;
-    layoutClass = 'draftyear-layout';
-  }
-
-  const ratePill = hasActive && rate===null
-    ? `<div class="meta-pill pill-active">Active roster</div>`
-    : rate!==null
-      ? `<div class="meta-pill pill-rate">${Math.round(rate*100)}% NHL</div>`
-      : '';
-
-  const sortedPicks = [...picks].sort((a,b)=>a.draft.round-b.draft.round||(a.draft.pick||999)-(b.draft.pick||999));
-  const tiles = sortedPicks.map(p=>makeTile(p,!isFreshman)).join('');
-  const cardId = `card-${key.replace(/[^a-z0-9]/gi,'-')}`;
-
-  return `<div class="class-card" id="${cardId}">
-    <div class="class-header ${layoutClass}" onclick="toggleCard('${cardId}')">
-      <div class="class-season">${headLabel}<small>${subLabel}</small></div>
-      <div class="draft-bar-wrap"><div class="draft-bar">${makeBar(picks)}</div></div>
-      <div class="class-meta">
-        <div class="meta-pill pill-picks">${total} pick${total!==1?'s':''}</div>
-        <div class="meta-pill pill-nhl">${nhl} NHL</div>
-        ${ratePill}
-        <div class="chevron">›</div>
+    <select id="group-select" class="ctrl-select" style="display:none" onchange="render()">
+      <option value="">&#x2014; Select &#x2014;</option>
+    </select>
+    <div class="ctrl-divider"></div>
+    <span class="ctrl-label">Round</span>
+    <div class="multi-select-wrap" id="round-wrap">
+      <button class="multi-select-btn" id="round-btn" onclick="toggleRoundPanel(event)">
+        All rounds <span style="margin-left:4px;opacity:.5">&#9662;</span>
+      </button>
+      <div class="multi-select-panel" id="round-panel">
+        <label class="multi-opt multi-opt-all">
+          <input type="checkbox" id="rd-all" onchange="onRdAll(this)" checked> All rounds
+        </label>
+        <label class="multi-opt"><input type="checkbox" class="rd-cb" value="1" onchange="onRdCb()"> R1</label>
+        <label class="multi-opt"><input type="checkbox" class="rd-cb" value="2" onchange="onRdCb()"> R2</label>
+        <label class="multi-opt"><input type="checkbox" class="rd-cb" value="3" onchange="onRdCb()"> R3</label>
+        <label class="multi-opt"><input type="checkbox" class="rd-cb" value="4" onchange="onRdCb()"> R4</label>
+        <label class="multi-opt"><input type="checkbox" class="rd-cb" value="5" onchange="onRdCb()"> R5</label>
+        <label class="multi-opt"><input type="checkbox" class="rd-cb" value="6" onchange="onRdCb()"> R6</label>
+        <label class="multi-opt"><input type="checkbox" class="rd-cb" value="7" onchange="onRdCb()"> R7</label>
       </div>
     </div>
-    <div class="class-divider"></div>
-    <div class="player-grid">${tiles}</div>
-  </div>`;
+    <div class="ctrl-divider"></div>
+    <div class="search-wrap">
+      <input class="search-input" id="search" placeholder="Search player or team&hellip;" oninput="onSearch(this)">
+      <button class="search-clear" id="search-clear" onclick="clearSearch()">&times;</button>
+    </div>
+    <button class="reset-btn" onclick="resetAll()">Reset</button>
+  </div>
+</div>
+
+<div class="result-meta">
+  <div class="result-meta-inner" id="result-meta">Loading&hellip;</div>
+</div>
+
+<div class="table-wrap">
+  <table>
+    <thead>
+      <tr>
+        <th data-sort="name" onclick="sort('name')">Player</th>
+        <th data-sort="pos" onclick="sort('pos')">Pos</th>
+        <th data-sort="dy" onclick="sort('dy')">Year</th>
+        <th data-sort="dr" onclick="sort('dr')">Rd</th>
+        <th data-sort="dp" onclick="sort('dp')" class="r">Pick</th>
+        <th data-sort="dt" onclick="sort('dt')">Team</th>
+        <th data-sort="tier" onclick="sort('tier')">Status</th>
+        <th data-sort="nhl_gp" onclick="sort('nhl_gp')" class="r">NHL GP</th>
+        <th data-sort="nhl_g" onclick="sort('nhl_g')" class="r">G</th>
+        <th data-sort="nhl_a" onclick="sort('nhl_a')" class="r">A</th>
+        <th data-sort="nhl_pts" onclick="sort('nhl_pts')" class="r">Pts</th>
+        <th data-sort="umass" onclick="sort('umass')" style="border-left:2px solid var(--border2)">Seasons</th>
+        <th data-sort="gp" onclick="sort('gp')" class="r">GP</th>
+        <th data-sort="g" onclick="sort('g')" class="r">G</th>
+        <th data-sort="a" onclick="sort('a')" class="r">A</th>
+        <th data-sort="pts" onclick="sort('pts')" class="r">Pts</th>
+        <th data-sort="pim" onclick="sort('pim')" class="r">PIM</th>
+      </tr>
+    </thead>
+    <tbody id="tbody"></tbody>
+  </table>
+</div>
+
+<script>
+const PLAYERS=[
+{n:"Dale Hooper",pos:"D",g:false,dy:1991,dr:12,dp:259,dt:"MTL",fu:"1993-94",lu:"1995-96",gp:56,sk_g:5,sk_a:30,pts:35,pim:122,nhl:0,tier:"other",active:false,nhl_g:0,nhl_a:0,nhl_pts:0},
+{n:"Brad Norton",pos:"D",g:false,dy:1993,dr:9,dp:215,dt:"EDM",fu:"1994-95",lu:"1997-98",gp:119,sk_g:8,sk_a:47,pts:55,pim:304,nhl:124,tier:"nhl",active:false,nhl_g:3,nhl_a:8,nhl_pts:11},
+{n:"Mike Gaffney",pos:"D",g:false,dy:1994,dr:6,dp:131,dt:"OTT",fu:"1994-95",lu:"1997-98",gp:133,sk_g:14,sk_a:30,pts:44,pim:150,nhl:0,tier:"other",active:false,nhl_g:0,nhl_a:0,nhl_pts:0},
+{n:"Dan Juden",pos:"F",g:false,dy:1994,dr:6,dp:137,dt:"TBL",fu:"1994-95",lu:"1997-98",gp:97,sk_g:15,sk_a:23,pts:38,pim:88,nhl:0,tier:"other",active:false,nhl_g:0,nhl_a:0,nhl_pts:0},
+{n:"Steve MacKinnon",pos:"F",g:false,dy:1994,dr:10,dp:237,dt:"OTT",fu:"1995-96",lu:"1997-98",gp:69,sk_g:17,sk_a:17,pts:34,pim:142,nhl:0,tier:"other",active:false,nhl_g:0,nhl_a:0,nhl_pts:0},
+{n:"Brian Regan",pos:"G",g:false,dy:1994,dr:10,dp:239,dt:"HFD",fu:"1994-95",lu:"1997-98",gp:108,sk_g:0,sk_a:0,pts:0,pim:0,nhl:0,tier:"other",active:false,nhl_g:0,nhl_a:0,nhl_pts:0},
+{n:"Paul Lynch",pos:"F",g:false,dy:2001,dr:5,dp:138,dt:"TBL",fu:"2004-05",lu:"2004-05",gp:2,sk_g:0,sk_a:0,pts:0,pim:0,nhl:0,tier:"other",active:false,nhl_g:0,nhl_a:0,nhl_pts:0},
+{n:"Scott Horvath",pos:"F",g:false,dy:2001,dr:6,dp:184,dt:"COL",fu:"2000-01",lu:"2001-02",gp:42,sk_g:8,sk_a:6,pts:14,pim:22,nhl:0,tier:"other",active:false,nhl_g:0,nhl_a:0,nhl_pts:0},
+{n:"Greg Mauldin",pos:"F",g:false,dy:2002,dr:7,dp:199,dt:"CBJ",fu:"2001-02",lu:"2003-04",gp:98,sk_g:48,sk_a:46,pts:94,pim:51,nhl:36,tier:"nhl",active:false,nhl_g:5,nhl_a:5,nhl_pts:10},
+{n:"John Toffey",pos:"F",g:false,dy:2002,dr:9,dp:287,dt:"TBL",fu:"2003-04",lu:"2004-05",gp:40,sk_g:2,sk_a:5,pts:7,pim:30,nhl:0,tier:"other",active:false,nhl_g:0,nhl_a:0,nhl_pts:0},
+{n:"Stephen Werner",pos:"F",g:false,dy:2003,dr:3,dp:83,dt:"WSH",fu:"2002-03",lu:"2005-06",gp:143,sk_g:50,sk_a:66,pts:116,pim:60,nhl:0,tier:"other",active:false,nhl_g:0,nhl_a:0,nhl_pts:0},
+{n:"Kevin Jarman",pos:"F",g:false,dy:2003,dr:4,dp:103,dt:"CBJ",fu:"2003-04",lu:"2005-06",gp:100,sk_g:12,sk_a:26,pts:38,pim:120,nhl:0,tier:"other",active:false,nhl_g:0,nhl_a:0,nhl_pts:0},
+{n:"Jonathan Quick",pos:"G",g:false,dy:2005,dr:3,dp:72,dt:"LAK",fu:"2005-06",lu:"2006-07",gp:54,sk_g:0,sk_a:0,pts:0,pim:0,nhl:829,tier:"nhl",active:false,nhl_g:0,nhl_a:0,nhl_pts:0},
+{n:"Alex Berry",pos:"F",g:false,dy:2005,dr:5,dp:153,dt:"TOR",fu:"2005-06",lu:"2008-09",gp:95,sk_g:22,sk_a:27,pts:49,pim:179,nhl:0,tier:"other",active:false,nhl_g:0,nhl_a:0,nhl_pts:0},
+{n:"P.J. Fenton",pos:"F",g:false,dy:2005,dr:5,dp:162,dt:"SJS",fu:"2004-05",lu:"2007-08",gp:109,sk_g:27,sk_a:43,pts:70,pim:113,nhl:0,tier:"other",active:false,nhl_g:0,nhl_a:0,nhl_pts:0},
+{n:"John Wessbecker",pos:"D",g:false,dy:2005,dr:7,dp:225,dt:"TBL",fu:"2005-06",lu:"2008-09",gp:85,sk_g:1,sk_a:10,pts:11,pim:66,nhl:0,tier:"other",active:false,nhl_g:0,nhl_a:0,nhl_pts:0},
+{n:"Martin Nolet",pos:"F",g:false,dy:2006,dr:5,dp:144,dt:"LAK",fu:"2007-08",lu:"2009-10",gp:105,sk_g:9,sk_a:15,pts:24,pim:196,nhl:0,tier:"other",active:false,nhl_g:0,nhl_a:0,nhl_pts:0},
+{n:"Casey Wellman",pos:"F",g:false,dy:2007,dr:5,dp:130,dt:"WSH",fu:"2008-09",lu:"2009-10",gp:75,sk_g:34,sk_a:44,pts:78,pim:70,nhl:54,tier:"nhl",active:false,nhl_g:6,nhl_a:10,nhl_pts:16},
+{n:"Danny Hobbs",pos:"F",g:false,dy:2007,dr:7,dp:198,dt:"NYR",fu:"2008-09",lu:"2011-12",gp:120,sk_g:28,sk_a:35,pts:63,pim:76,nhl:0,tier:"echl",active:false,nhl_g:0,nhl_a:0,nhl_pts:0},
+{n:"Justin Braun",pos:"D",g:false,dy:2007,dr:7,dp:201,dt:"SJS",fu:"2007-08",lu:"2009-10",gp:111,sk_g:19,sk_a:55,pts:74,pim:100,nhl:842,tier:"nhl",active:false,nhl_g:34,nhl_a:165,nhl_pts:199},
+{n:"Matt Irwin",pos:"D",g:false,dy:2008,dr:10,dp:289,dt:"SJS",fu:"2008-09",lu:"2009-10",gp:67,sk_g:14,sk_a:28,pts:42,pim:24,nhl:461,tier:"nhl",active:false,nhl_g:25,nhl_a:68,nhl_pts:93},
+{n:"Joel Hanley",pos:"D",g:false,dy:2011,dr:6,dp:168,dt:"MTL",fu:"2010-11",lu:"2013-14",gp:131,sk_g:17,sk_a:58,pts:75,pim:127,nhl:314,tier:"nhl",active:false,nhl_g:5,nhl_a:40,nhl_pts:45},
+{n:"Conor Sheary",pos:"F",g:false,dy:2011,dr:7,dp:184,dt:"BOS",fu:"2010-11",lu:"2013-14",gp:138,sk_g:38,sk_a:66,pts:104,pim:53,nhl:655,tier:"nhl",active:false,nhl_g:131,nhl_a:154,nhl_pts:285},
+{n:"Shane Walsh",pos:"F",g:false,dy:2013,dr:6,dp:166,dt:"CGY",fu:"2012-13",lu:"2015-16",gp:133,sk_g:36,sk_a:31,pts:67,pim:96,nhl:0,tier:"echl",active:false,nhl_g:0,nhl_a:0,nhl_pts:0},
+{n:"Steven Iacobellis",pos:"F",g:false,dy:2013,dr:7,dp:213,dt:"VAN",fu:"2013-14",lu:"2016-17",gp:139,sk_g:31,sk_a:56,pts:87,pim:110,nhl:0,tier:"europe",active:false,nhl_g:0,nhl_a:0,nhl_pts:0},
+{n:"Brandon Montour",pos:"D",g:false,dy:2014,dr:2,dp:55,dt:"ANA",fu:"2014-15",lu:"2014-15",gp:21,sk_g:3,sk_a:17,pts:20,pim:30,nhl:665,tier:"nhl",active:false,nhl_g:95,nhl_a:230,nhl_pts:325},
+{n:"William Lagesson",pos:"D",g:false,dy:2014,dr:4,dp:91,dt:"EDM",fu:"2015-16",lu:"2016-17",gp:63,sk_g:4,sk_a:11,pts:15,pim:54,nhl:107,tier:"nhl",active:false,nhl_g:0,nhl_a:12,nhl_pts:12},
+{n:"Frank Vatrano",pos:"F",g:false,dy:2014,dr:6,dp:156,dt:"BOS",fu:"2013-14",lu:"2014-15",gp:37,sk_g:18,sk_a:10,pts:28,pim:28,nhl:695,tier:"nhl",active:false,nhl_g:186,nhl_a:139,nhl_pts:325},
+{n:"Ivan Chukarov",pos:"D",g:false,dy:2015,dr:7,dp:182,dt:"BUF",fu:"2015-16",lu:"2018-19",gp:128,sk_g:6,sk_a:19,pts:25,pim:88,nhl:0,tier:"echl",active:false,nhl_g:0,nhl_a:0,nhl_pts:0},
+{n:"Cale Makar",pos:"D",g:false,dy:2017,dr:1,dp:4,dt:"COL",fu:"2017-18",lu:"2018-19",gp:75,sk_g:21,sk_a:49,pts:70,pim:51,nhl:470,tier:"nhl",active:false,nhl_g:136,nhl_a:371,nhl_pts:507},
+{n:"Mario Ferraro",pos:"D",g:false,dy:2017,dr:2,dp:49,dt:"SJS",fu:"2017-18",lu:"2018-19",gp:80,sk_g:6,sk_a:31,pts:37,pim:43,nhl:490,tier:"nhl",active:false,nhl_g:24,nhl_a:90,nhl_pts:114},
+{n:"Oliver Chau",pos:"F",g:false,dy:2018,dr:5,dp:140,dt:"MTL",fu:"2017-18",lu:"2020-21",gp:135,sk_g:28,sk_a:56,pts:84,pim:26,nhl:0,tier:"europe",active:false,nhl_g:0,nhl_a:0,nhl_pts:0},
+{n:"John Leonard",pos:"F",g:false,dy:2018,dr:6,dp:182,dt:"SJS",fu:"2017-18",lu:"2019-20",gp:106,sk_g:56,sk_a:49,pts:105,pim:42,nhl:81,tier:"nhl",active:false,nhl_g:8,nhl_a:13,nhl_pts:21},
+{n:"Zac Jones",pos:"D",g:false,dy:2019,dr:3,dp:68,dt:"NYR",fu:"2019-20",lu:"2020-21",gp:61,sk_g:12,sk_a:35,pts:47,pim:32,nhl:115,tier:"nhl",active:false,nhl_g:4,nhl_a:24,nhl_pts:28},
+{n:"Marc Del Gaizo",pos:"D",g:false,dy:2019,dr:4,dp:109,dt:"NSH",fu:"2018-19",lu:"2020-21",gp:90,sk_g:20,sk_a:38,pts:58,pim:44,nhl:55,tier:"nhl",active:false,nhl_g:2,nhl_a:10,nhl_pts:12},
+{n:"Filip Lindberg",pos:"G",g:false,dy:2019,dr:7,dp:197,dt:"MIN",fu:"2018-19",lu:"2020-21",gp:50,sk_g:0,sk_a:0,pts:0,pim:0,nhl:0,tier:"europe",active:false,nhl_g:0,nhl_a:0,nhl_pts:0},
+{n:"Reed Lebster",pos:"F",g:false,dy:2020,dr:4,dp:118,dt:"ARI",fu:"2019-20",lu:"2022-23",gp:112,sk_g:28,sk_a:29,pts:57,pim:41,nhl:0,tier:"ahl",active:false,nhl_g:0,nhl_a:0,nhl_pts:0},
+{n:"Matt Kessel",pos:"D",g:false,dy:2020,dr:5,dp:150,dt:"STL",fu:"2019-20",lu:"2021-22",gp:100,sk_g:23,sk_a:28,pts:51,pim:86,nhl:99,tier:"nhl",active:false,nhl_g:3,nhl_a:10,nhl_pts:13},
+{n:"Lucas Mercuri",pos:"F",g:false,dy:2020,dr:5,dp:159,dt:"TBL",fu:"2021-22",lu:"2024-25",gp:148,sk_g:28,sk_a:57,pts:85,pim:104,nhl:0,tier:"ahl",active:false,nhl_g:0,nhl_a:0,nhl_pts:0},
+{n:"Scott Morrow",pos:"D",g:false,dy:2021,dr:2,dp:40,dt:"CAR",fu:"2021-22",lu:"2023-24",gp:109,sk_g:28,sk_a:66,pts:94,pim:51,nhl:45,tier:"nhl",active:false,nhl_g:1,nhl_a:11,nhl_pts:12},
+{n:"Josh Lopina",pos:"F",g:false,dy:2021,dr:4,dp:98,dt:"ANA",fu:"2020-21",lu:"2021-22",gp:56,sk_g:21,sk_a:29,pts:50,pim:20,nhl:0,tier:"ahl",active:false,nhl_g:0,nhl_a:0,nhl_pts:0},
+{n:"Ryan Ufko",pos:"D",g:false,dy:2021,dr:4,dp:115,dt:"NSH",fu:"2021-22",lu:"2023-24",gp:106,sk_g:23,sk_a:58,pts:81,pim:51,nhl:19,tier:"nhl",active:false,nhl_g:2,nhl_a:9,nhl_pts:11},
+{n:"Taylor Makar",pos:"F",g:false,dy:2021,dr:7,dp:220,dt:"COL",fu:"2021-22",lu:"2023-24",gp:87,sk_g:15,sk_a:7,pts:22,pim:88,nhl:12,tier:"nhl",active:false,nhl_g:0,nhl_a:0,nhl_pts:0},
+{n:"Kenny Connors",pos:"F",g:false,dy:2022,dr:4,dp:103,dt:"LAK",fu:"2022-23",lu:"2024-25",gp:109,sk_g:26,sk_a:51,pts:77,pim:28,nhl:2,tier:"nhl",active:false,nhl_g:0,nhl_a:0,nhl_pts:0},
+{n:"Cole O'Hara",pos:"F",g:false,dy:2022,dr:4,dp:114,dt:"NSH",fu:"2022-23",lu:"2024-25",gp:95,sk_g:10,sk_a:19,pts:29,pim:44,nhl:1,tier:"nhl",active:true,nhl_g:0,nhl_a:1,nhl_pts:1},
+{n:"Dans Locmelis",pos:"F",g:false,dy:2022,dr:4,dp:119,dt:"BOS",fu:"2023-24",lu:"2024-25",gp:70,sk_g:15,sk_a:32,pts:47,pim:12,nhl:0,tier:"ahl",active:false,nhl_g:0,nhl_a:0,nhl_pts:0},
+{n:"Cameron O'Neill",pos:"F",g:false,dy:2022,dr:5,dp:143,dt:"OTT",fu:"2025-26",lu:"2026-27",gp:32,sk_g:5,sk_a:9,pts:14,pim:8,nhl:0,tier:"active_college",active:true,nhl_g:0,nhl_a:0,nhl_pts:0},
+{n:"Ryan Lautenbach",pos:"F",g:false,dy:2022,dr:6,dp:178,dt:"DAL",fu:"2021-22",lu:"2024-25",gp:142,sk_g:23,sk_a:46,pts:69,pim:70,nhl:0,tier:"ahl",active:false,nhl_g:0,nhl_a:0,nhl_pts:0},
+{n:"Owen Mehlenbacher",pos:"D",g:false,dy:2022,dr:7,dp:201,dt:"DET",fu:"2025-26",lu:"2025-26",gp:32,sk_g:3,sk_a:6,pts:9,pim:8,nhl:0,tier:"other",active:false,nhl_g:0,nhl_a:0,nhl_pts:0},
+{n:"Tyson Dyck",pos:"F",g:false,dy:2022,dr:7,dp:206,dt:"OTT",fu:"2022-23",lu:"2022-23",gp:29,sk_g:5,sk_a:4,pts:9,pim:8,nhl:0,tier:"other",active:false,nhl_g:0,nhl_a:0,nhl_pts:0},
+{n:"Michael Hrabal",pos:"G",g:false,dy:2023,dr:2,dp:38,dt:"ARI",fu:"2023-24",lu:"2025-26",gp:96,sk_g:0,sk_a:0,pts:0,pim:0,nhl:0,tier:"ahl",active:false,nhl_g:0,nhl_a:0,nhl_pts:0},
+{n:"Aydar Suniev",pos:"F",g:false,dy:2023,dr:3,dp:80,dt:"CGY",fu:"2023-24",lu:"2024-25",gp:71,sk_g:32,sk_a:31,pts:63,pim:66,nhl:7,tier:"nhl",active:false,nhl_g:0,nhl_a:1,nhl_pts:1},
+{n:"Larry Keenan",pos:"D",g:false,dy:2023,dr:4,dp:117,dt:"DET",fu:"2024-25",lu:"2026-27",gp:76,sk_g:12,sk_a:18,pts:30,pim:26,nhl:0,tier:"active_college",active:true,nhl_g:0,nhl_a:0,nhl_pts:0},
+{n:"Nick VanTassell",pos:"F",g:false,dy:2023,dr:7,dp:215,dt:"OTT",fu:"2023-24",lu:"2025-26",gp:61,sk_g:3,sk_a:3,pts:6,pim:30,nhl:0,tier:"active_college",active:false,nhl_g:0,nhl_a:0,nhl_pts:0},
+{n:"Maxim Mass\u00e9",pos:"F",g:false,dy:2024,dr:3,dp:66,dt:"ANA",fu:"2026-27",lu:"2026-27",gp:0,sk_g:0,sk_a:0,pts:0,pim:0,nhl:0,tier:"active_college",active:true,nhl_g:0,nhl_a:0,nhl_pts:0},
+{n:"Max Curran",pos:"F",g:false,dy:2024,dr:5,dp:161,dt:"CGY",fu:"2026-27",lu:"2026-27",gp:0,sk_g:0,sk_a:0,pts:0,pim:0,nhl:0,tier:"active_college",active:true,nhl_g:0,nhl_a:0,nhl_pts:0},
+{n:"Vaclav Nestrasil",pos:"F",g:false,dy:2025,dr:1,dp:25,dt:"CHI",fu:"2025-26",lu:"2026-27",gp:34,sk_g:13,sk_a:18,pts:31,pim:8,nhl:0,tier:"active_college",active:true,nhl_g:0,nhl_a:0,nhl_pts:0},
+{n:"Francesco Dell'Elce",pos:"D",g:false,dy:2025,dr:3,dp:77,dt:"COL",fu:"2025-26",lu:"2026-27",gp:36,sk_g:5,sk_a:16,pts:21,pim:18,nhl:0,tier:"active_college",active:true,nhl_g:0,nhl_a:0,nhl_pts:0},
+{n:"Arsenii Radkov",pos:"G",g:true,dy:2025,dr:3,dp:82,dt:"MTL",fu:"2026-27",lu:"2026-27",gp:0,sk_g:0,sk_a:0,pts:0,pim:0,nhl:0,tier:"active_college",active:true,nhl_g:null,nhl_a:null,nhl_pts:null},
+{n:"Melvin Novotny",pos:"F",g:false,dy:2025,dr:7,dp:195,dt:"BUF",fu:"2026-27",lu:"2026-27",gp:0,sk_g:0,sk_a:0,pts:0,pim:0,nhl:0,tier:"active_college",active:true,nhl_g:0,nhl_a:0,nhl_pts:0},
+{n:"Tobias Trejbal",pos:"G",g:true,dy:2026,dr:0,dp:0,dt:"TBD",fu:"2026-27",lu:"2026-27",gp:0,sk_g:null,sk_a:null,pts:null,pim:null,nhl:0,tier:"active_college",active:true,pending:true,nhl_g:null,nhl_a:null,nhl_pts:null},
+{n:"Samu Alalauri",pos:"D",g:false,dy:2026,dr:0,dp:0,dt:"TBD",fu:"2026-27",lu:"2026-27",gp:0,sk_g:0,sk_a:0,pts:0,pim:0,nhl:0,tier:"active_college",active:true,pending:true,nhl_g:null,nhl_a:null,nhl_pts:null},
+{n:"Egor Barabanov",pos:"F",g:false,dy:2026,dr:0,dp:0,dt:"TBD",fu:"2026-27",lu:"2026-27",gp:0,sk_g:0,sk_a:0,pts:0,pim:0,nhl:0,tier:"active_college",active:true,pending:true,nhl_g:null,nhl_a:null,nhl_pts:null},
+{n:"Jasper Kuhta",pos:"F",g:false,dy:2026,dr:0,dp:0,dt:"TBD",fu:"2026-27",lu:"2026-27",gp:0,sk_g:0,sk_a:0,pts:0,pim:0,nhl:0,tier:"active_college",active:true,pending:true,nhl_g:null,nhl_a:null,nhl_pts:null}
+];
+const DRAFT_YEARS = [1991, 1993, 1994, 2001, 2002, 2003, 2005, 2006, 2007, 2008, 2011, 2013, 2014, 2015, 2017, 2018, 2019, 2020, 2021, 2022, 2023, 2024, 2025, 2026];
+const ROSTER_SEASONS = ["2026-27", "2025-26", "2024-25", "2023-24", "2022-23", "2021-22", "2020-21", "2019-20", "2018-19", "2017-18", "2016-17", "2015-16", "2014-15", "2013-14", "2012-13", "2011-12", "2010-11", "2009-10", "2008-09", "2007-08", "2006-07", "2005-06", "2004-05", "2003-04", "2002-03", "2001-02", "2000-01", "1997-98", "1996-97", "1995-96", "1994-95", "1993-94"];
+
+function playerSeasons(p) {
+  if(!p.fu || !p.lu) return new Set();
+  const fy = parseInt(p.fu.split('-')[0]);
+  const ly = parseInt(p.lu.split('-')[0]);
+  const out = new Set();
+  for(let y=fy; y<=ly; y++) out.add(y+'-'+String(y+1).slice(2));
+  return out;
 }
 
-function getSortedKeys(dataObj){
-  let keys = Object.keys(dataObj);
-  if(currentSort==='picks')  keys.sort((a,b)=>dataObj[b].length-dataObj[a].length);
-  else if(currentSort==='nhl') keys.sort((a,b)=>{
-    const na=dataObj[b].filter(p=>p.tier==='nhl').length;
-    const nb=dataObj[a].filter(p=>p.tier==='nhl').length;
-    return na-nb||dataObj[b].length-dataObj[a].length;
+function umassRange(p) {
+  if(!p.fu) return '—';
+  const fy = p.fu.split('-')[0];
+  const ly = p.lu ? p.lu.split('-')[0] : fy;
+  if(fy === ly) return p.fu;
+  return fy + '–' + p.lu.split('-')[1];
+}
+
+let sortCol='dy', sortDir=1, groupMode='none', groupVal='', searchQ='', filterRounds=new Set();
+
+function setGroup(g) {
+  groupMode=g; groupVal='';
+  ['none','draft','roster'].forEach(k=>{
+    document.getElementById('btn-'+k).classList.toggle('active',k===g);
   });
-  else if(currentSort==='rate') keys.sort((a,b)=>{
-    const ra=nhlRate(dataObj[a])??-1, rb=nhlRate(dataObj[b])??-1;
-    return rb-ra;
+  const sel=document.getElementById('group-select');
+  if(g==='none'){
+    sel.style.display='none';
+  } else {
+    sel.style.display='';
+    const opts=g==='draft'
+      ? DRAFT_YEARS.map(y=>'<option value="'+y+'">'+(y===2026?'2026 Draft (Jun 27)':y+' Draft')+'</option>')
+      : ROSTER_SEASONS.map(s=>'<option value="'+s+'">'+s+'</option>');
+    sel.innerHTML='<option value="">— Select —</option>'+opts.join('');
+    sel.value='';
+  }
+  render();
+}
+
+function toggleRoundPanel(e){
+  e.stopPropagation();
+  document.getElementById('round-panel').classList.toggle('open');
+}
+function onRdAll(cb){
+  document.querySelectorAll('.rd-cb').forEach(c=>c.checked=false);
+  filterRounds=new Set();
+  updateRoundBtn();
+  render();
+}
+function onRdCb(){
+  filterRounds=new Set();
+  document.querySelectorAll('.rd-cb:checked').forEach(c=>filterRounds.add(parseInt(c.value)));
+  document.getElementById('rd-all').checked=filterRounds.size===0;
+  updateRoundBtn();
+  render();
+}
+function updateRoundBtn(){
+  const btn=document.getElementById('round-btn');
+  if(filterRounds.size===0){
+    btn.textContent='All rounds ▾';
+  } else {
+    const labels=[...filterRounds].sort((a,b)=>a-b).map(r=>'R'+r).join(', ');
+    btn.textContent=labels+' ▾';
+  }
+}
+document.addEventListener('click',function(e){
+  const wrap=document.getElementById('round-wrap');
+  if(wrap&&!wrap.contains(e.target)) document.getElementById('round-panel').classList.remove('open');
+});
+
+function sort(col) {
+  if(sortCol===col) sortDir*=-1; else {sortCol=col; sortDir=1;}
+  document.querySelectorAll('thead th[data-sort]').forEach(th=>{
+    th.classList.remove('sorted','asc','desc');
+    if(th.dataset.sort===sortCol) th.classList.add('sorted',sortDir===1?'asc':'desc');
   });
-  else keys.sort();
-  return keys;
+  render();
 }
 
-function renderAll(){
-  const isFreshman = currentView==='freshman';
-  const dataObj = isFreshman ? CLASS_DATA : DRAFT_DATA;
-  const keys = getSortedKeys(dataObj);
-  const main = document.getElementById('main');
-  const openCards = new Set([...document.querySelectorAll('.class-card.open')].map(c=>c.id));
-  main.innerHTML = keys.map(k=>makeCard(k, dataObj[k], isFreshman)).join('');
-  openCards.forEach(id=>{const c=document.getElementById(id);if(c)c.classList.add('open');});
+function onSearch(el){
+  searchQ=el.value.trim().toLowerCase();
+  document.getElementById('search-clear').style.display=searchQ?'':'none';
+  render();
 }
 
-function setView(v){
-  currentView=v;
-  currentSort='year';
-  document.querySelectorAll('.toggle-btn').forEach(b=>{
-    if(b.getAttribute('onclick').includes("setView"))
-      b.classList.toggle('active',b.getAttribute('onclick').includes("'"+v+"'"));
-    if(b.getAttribute('onclick').includes("setSort"))
-      b.classList.toggle('active',b.getAttribute('onclick').includes("'year'"));
+function clearSearch(){
+  document.getElementById('search').value='';
+  searchQ='';
+  document.getElementById('search-clear').style.display='none';
+  render();
+}
+
+function resetAll(){
+  sortCol='dy'; sortDir=1; searchQ=''; filterRounds=new Set();
+  document.getElementById('search').value='';
+  document.getElementById('search-clear').style.display='none';
+  document.querySelectorAll('.rd-cb').forEach(c=>c.checked=false);
+  document.getElementById('rd-all').checked=true;
+  updateRoundBtn();
+  setGroup('none');
+}
+
+function sortVal(p,col){
+  switch(col){
+    case 'name':    return p.name;
+    case 'pos':     return p.pos;
+    case 'dy':      return p.dy;
+    case 'dr':      return p.dr;
+    case 'dp':      return p.dp;
+    case 'dt':      return p.dt;
+    case 'umass':   return p.fu||'';
+    case 'gp':      return p.gp;
+    case 'g':       return p.sk_g??-1;
+    case 'a':       return p.sk_a??-1;
+    case 'pts':     return p.pts??-1;
+    case 'pim':     return p.pim??-1;
+    case 'tier':    return p.tier;
+    case 'nhl_gp':  return p.nhl;
+    case 'nhl_g':   return p.nhl_g??-1;
+    case 'nhl_a':   return p.nhl_a??-1;
+    case 'nhl_pts': return p.nhl_pts??-1;
+    default:        return '';
+  }
+}
+
+function rdBadge(r){
+  if(r===0) return '<span class="rd-badge rd-pending">TBD</span>';
+  const cls=r===1?'rd-1':r===2?'rd-2':r<=5?'rd-mid':'rd-late';
+  return '<span class="rd-badge '+cls+'">R'+r+'</span>';
+}
+
+const TIER_LABEL={nhl:'NHL',ahl:'AHL',echl:'ECHL',europe:'Europe',active_college:'Active',other:'Other'};
+
+function tierBadge(t){
+  return '<span class="tier-badge tier-'+t+'">'+(TIER_LABEL[t]||t)+'</span>';
+}
+
+function posBadge(p){
+  const pc=p||'?';
+  return '<span class="pos-badge pos-'+pc+'">'+pc+'</span>';
+}
+
+function rowHTML(p){
+  const nc=p.active?'name-cell active-player':'name-cell';
+  const isPending=!!p.pending;
+  // NCAA (UMass) columns
+  const ncGP=isPending?'—':(p.gp>0?p.gp:(p.fu?0:'—'));
+  const ncG=p.sk_g===null?'—':(p.sk_g!==undefined?p.sk_g:'—');
+  const ncA=p.sk_a===null?'—':(p.sk_a!==undefined?p.sk_a:'—');
+  const ncP=p.pts===null?'—':(p.pts!==undefined?p.pts:'—');
+  const ncPIM=p.pim===null?'—':(p.pim!==undefined?p.pim:'—');
+  // NHL columns
+  const nhlGP=p.nhl>0?p.nhl:'—';
+  const nhlG=isPending?'—':(p.nhl_g===null?'—':(p.nhl_g>0?p.nhl_g:(p.nhl>0?p.nhl_g:'—')));
+  const nhlA=isPending?'—':(p.nhl_a===null?'—':(p.nhl_a>0?p.nhl_a:(p.nhl>0?p.nhl_a:'—')));
+  const nhlP=isPending?'—':(p.nhl_pts===null?'—':(p.nhl_pts>0?p.nhl_pts:(p.nhl>0?p.nhl_pts:'—')));
+  const nhlGPStyle=p.nhl>0?'font-weight:600;color:var(--green)':'color:var(--muted2)';
+  const nhlPtsStyle=p.nhl>0?'font-weight:700;color:var(--green)':'color:var(--muted2)';
+  const pickCell=isPending?'<span style="color:var(--muted2);font-style:italic">—</span>':'#'+p.dp;
+  const teamCell=isPending?'<span style="color:var(--muted2);font-style:italic">TBD</span>':p.dt;
+  return '<tr>'+
+    '<td class="'+nc+'">'+p.name+'</td>'+
+    '<td>'+posBadge(p.pos)+'</td>'+
+    '<td style="font-variant-numeric:tabular-nums">'+p.dy+'</td>'+
+    '<td>'+rdBadge(p.dr)+'</td>'+
+    '<td class="r" style="color:var(--muted2)">'+pickCell+'</td>'+
+    '<td style="color:var(--muted2)">'+teamCell+'</td>'+
+    '<td>'+tierBadge(p.tier)+'</td>'+
+    '<td class="r" style="'+nhlGPStyle+'">'+nhlGP+'</td>'+
+    '<td class="r" style="color:var(--muted2)">'+nhlG+'</td>'+
+    '<td class="r" style="color:var(--muted2)">'+nhlA+'</td>'+
+    '<td class="r" style="'+nhlPtsStyle+'">'+nhlP+'</td>'+
+    '<td style="font-size:12px;color:var(--muted);border-left:2px solid var(--border-faint)">'+umassRange(p)+'</td>'+
+    '<td class="r">'+ncGP+'</td>'+
+    '<td class="r" style="color:var(--muted2)">'+ncG+'</td>'+
+    '<td class="r" style="color:var(--muted2)">'+ncA+'</td>'+
+    '<td class="r" style="font-weight:700">'+ncP+'</td>'+
+    '<td class="r" style="color:var(--muted2)">'+ncPIM+'</td>'+
+    '</tr>';
+}
+
+function groupHdrHTML(label){
+  return '<tr class="group-hdr"><td colspan="17">'+label+'</td></tr>';
+}
+
+function render(){
+  const sel=document.getElementById('group-select');
+  groupVal=sel?sel.value:'';
+
+  let data=PLAYERS.filter(p=>{
+    if(searchQ){
+      const hay=(p.name+' '+p.dt).toLowerCase();
+      if(!hay.includes(searchQ)) return false;
+    }
+    if(filterRounds.size>0 && !filterRounds.has(p.dr)) return false;
+    if(groupMode==='draft'&&groupVal){
+      if(p.dy!==parseInt(groupVal)) return false;
+    }
+    if(groupMode==='roster'&&groupVal){
+      const ss=playerSeasons(p);
+      if(!ss.has(groupVal)) return false;
+    }
+    return true;
   });
-  renderAll();
+
+  data=[...data].sort((a,b)=>{
+    const av=sortVal(a,sortCol), bv=sortVal(b,sortCol);
+    if(av<bv) return -sortDir; if(av>bv) return sortDir; return 0;
+  });
+
+  const tbody=document.getElementById('tbody');
+  if(!data.length){
+    tbody.innerHTML='<tr><td colspan="17" style="padding:48px 24px;text-align:center;color:var(--muted);font-family:var(--font-ui);font-size:11px;font-weight:700;letter-spacing:.5px;text-transform:uppercase">No players match this filter</td></tr>';
+    document.getElementById('result-meta').textContent='No results';
+    return;
+  }
+
+  let html='';
+  if(groupMode==='draft'&&!groupVal){
+    const byYear={};
+    data.forEach(p=>{if(!byYear[p.dy])byYear[p.dy]=[];byYear[p.dy].push(p);});
+    const years=[...new Set(data.map(p=>p.dy))].sort((a,b)=>a-b);
+    years.forEach(y=>{
+      const picks=byYear[y];
+      const pending=picks.filter(p=>p.pending).length;
+      const confirmed=picks.length-pending;
+      let label=y+' NHL Draft';
+      if(confirmed>0&&pending>0) label+=' — '+confirmed+' pick'+(confirmed!==1?'s':'')+' + '+pending+' pending';
+      else if(pending>0) label+=' — '+pending+' prospect'+(pending!==1?'s':'')+' (draft Jun 27)';
+      else label+=' — '+picks.length+' pick'+(picks.length!==1?'s':'');
+      html+=groupHdrHTML(label);
+      picks.forEach(p=>html+=rowHTML(p));
+    });
+  } else {
+    html=data.map(rowHTML).join('');
+  }
+
+  tbody.innerHTML=html;
+
+  const nhlC=data.filter(p=>p.tier==='nhl').length;
+  const acC=data.filter(p=>p.tier==='active_college'&&!p.pending).length;
+  const pendC=data.filter(p=>p.pending).length;
+  let meta=data.length+' player'+(data.length!==1?'s':'');
+  if(nhlC) meta+=' · '+nhlC+' NHL debuts';
+  if(acC)  meta+=' · '+acC+' active';
+  if(pendC) meta+=' · '+pendC+' pending (Jun 27)';
+  document.getElementById('result-meta').textContent=meta;
 }
 
-function setSort(s){
-  currentSort=s;
-  document.querySelectorAll('[onclick*="setSort"]').forEach(b=>
-    b.classList.toggle('active',b.getAttribute('onclick').includes("'"+s+"'")));
-  renderAll();
-}
+// Init sort header
+(function(){
+  const th=document.querySelector('thead th[data-sort="'+sortCol+'"]');
+  if(th) th.classList.add('sorted','asc');
+})();
 
-function toggleCard(id){
-  const c=document.getElementById(id);
-  if(c) c.classList.toggle('open');
-}
-
-renderAll();
-// Auto-open best freshman class and biggest draft year
-setTimeout(()=>{
-  const c1=document.getElementById('card-2017-18');
-  const c2=document.getElementById('card-2022');
-  if(c1)c1.classList.add('open');
-},100);
+render();
 </script>
 </body>
 </html>
