@@ -1,0 +1,490 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>UMass Hockey — Minutemen in the Pros</title>
+<link href="https://fonts.googleapis.com/css2?family=Zilla+Slab:wght@400;700&family=Oswald:wght@400;500;600;700;800;900&family=Source+Sans+3:wght@400;600&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#F7F5F1;--surface:#FFFFFF;--surface2:#FAF8F4;--surface3:#EFEBE3;
+  --border:#E4DFD7;--border2:#CEC8BD;--border-faint:#EFEBE4;
+  --text:#1B1714;--muted:#8B847A;--muted2:#A9A299;
+  --maroon:#881C1C;--maroon-light:#F4E7E7;--maroon-line:#E2C4C4;
+  --gold:#B0892E;--gold-dim:#F6EFDD;--gold-border:#E6D5A8;
+  --green:#1A8A50;--green-bg:rgba(26,138,80,.08);--green-border:rgba(26,138,80,.2);
+  --blue:#2E5E9E;--blue-bg:#E5ECF5;--blue-border:#C5D5EA;
+  --font-display:'Zilla Slab',Georgia,serif;
+  --font-ui:'Oswald','Arial Narrow',sans-serif;
+  --font-body:'Source Sans 3',system-ui,sans-serif;
+  --shadow-xs:0 1px 2px rgba(40,30,20,.05);
+  --shadow-sm:0 1px 3px rgba(40,30,20,.07),0 1px 2px rgba(40,30,20,.04);
+}
+body{font-family:var(--font-body);background:var(--bg);color:var(--text);min-height:100vh}
+
+/* Nav */
+nav{background:rgba(247,245,241,.92);border-bottom:1px solid var(--border);
+  padding:0 24px;display:flex;align-items:center;position:sticky;top:0;z-index:100;
+  backdrop-filter:blur(10px);box-shadow:var(--shadow-xs)}
+.nav-logo{color:var(--text);text-decoration:none;display:flex;align-items:center;gap:10px;margin-right:32px;padding:10px 0}
+.nav-links{display:flex;gap:4px;align-items:center;flex-wrap:wrap}
+.nav-links a{padding:5px 10px;border-radius:5px;font-size:11px;font-weight:700;
+  letter-spacing:1.5px;color:var(--muted2);text-decoration:none;
+  font-family:var(--font-ui);text-transform:uppercase;transition:color .15s;
+  border-bottom:2px solid transparent}
+.nav-links a:hover{color:var(--text)}
+.nav-links a.active{color:var(--text);border-bottom-color:var(--maroon)}
+.nav-links a.external{color:var(--maroon)}
+
+/* Header */
+.header{padding:28px 24px 22px;border-bottom:1px solid var(--border)}
+.header-inner{max-width:1180px;margin:0 auto}
+.header-eyebrow{font-family:var(--font-ui);font-size:10px;font-weight:800;letter-spacing:2px;
+  text-transform:uppercase;color:var(--muted);margin-bottom:8px}
+.header-title{font-family:var(--font-display);font-size:30px;font-weight:700;color:var(--text);
+  margin-bottom:6px;letter-spacing:-.3px}
+.header-sub{font-size:13px;color:var(--muted);max-width:680px;line-height:1.5}
+
+/* Controls */
+.controls{padding:12px 24px;border-bottom:1px solid var(--border);background:var(--surface)}
+.controls-inner{max-width:1180px;margin:0 auto;display:flex;flex-wrap:wrap;gap:10px;align-items:center}
+.ctrl-label{font-family:var(--font-ui);font-size:10px;font-weight:700;letter-spacing:.8px;
+  text-transform:uppercase;color:var(--muted);white-space:nowrap}
+.toggle-group{display:flex;gap:2px;background:var(--surface2);border:1px solid var(--border);
+  border-radius:6px;padding:3px;flex-wrap:wrap}
+.toggle-btn{font-family:var(--font-ui);font-size:11px;font-weight:700;text-transform:uppercase;
+  letter-spacing:.5px;padding:4px 12px;border-radius:4px;border:none;
+  background:transparent;color:var(--muted);cursor:pointer;transition:all .15s}
+.toggle-btn:hover{color:var(--text)}
+.toggle-btn.active{background:var(--maroon);color:#fff}
+.ctrl-divider{width:1px;height:22px;background:var(--border);flex-shrink:0}
+.search-wrap{flex:1;min-width:160px;max-width:260px;position:relative}
+.search-input{width:100%;font-family:var(--font-ui);font-size:11px;font-weight:600;
+  background:var(--surface);border:1px solid var(--border2);color:var(--text);
+  padding:5px 28px 5px 10px;border-radius:4px}
+.search-input:focus{outline:none;border-color:var(--maroon)}
+.search-clear{position:absolute;right:8px;top:50%;transform:translateY(-50%);
+  background:none;border:none;cursor:pointer;color:var(--muted2);font-size:14px;line-height:1;display:none}
+.reset-btn{font-family:var(--font-ui);font-size:10px;font-weight:700;letter-spacing:.8px;
+  text-transform:uppercase;background:none;border:1px solid var(--border2);
+  color:var(--muted2);padding:5px 10px;border-radius:4px;cursor:pointer}
+.reset-btn:hover{border-color:var(--maroon);color:var(--maroon)}
+
+/* Result meta */
+.result-meta{font-family:var(--font-ui);font-size:10px;font-weight:700;letter-spacing:.8px;
+  text-transform:uppercase;color:var(--muted);padding:9px 24px;
+  border-bottom:1px solid var(--border);background:var(--surface2)}
+.result-meta-inner{max-width:1180px;margin:0 auto}
+
+/* Section + tables */
+.page-wrap{max-width:1180px;margin:0 auto;padding:0 24px 60px}
+.tbl-section{margin-top:26px}
+.tbl-section-title{font-family:var(--font-display);font-size:19px;font-weight:700;color:var(--text);
+  display:flex;align-items:baseline;gap:10px;margin-bottom:2px}
+.tbl-section-count{font-family:var(--font-ui);font-size:11px;font-weight:700;letter-spacing:.6px;
+  text-transform:uppercase;color:var(--muted2)}
+.tbl-section-note{font-size:11px;color:var(--muted2);font-style:italic;margin-bottom:8px}
+.table-wrap{overflow-x:auto}
+table{width:100%;border-collapse:collapse;font-size:13px}
+thead th{font-family:var(--font-ui);font-size:9px;font-weight:800;letter-spacing:1.2px;
+  text-transform:uppercase;color:var(--muted);padding:10px 10px;
+  border-bottom:2px solid var(--border2);text-align:left;
+  background:var(--surface2);cursor:pointer;white-space:nowrap;user-select:none}
+thead th:hover{color:var(--text)}
+thead th.sorted{color:var(--maroon)}
+thead th.asc::after{content:'↑';color:var(--maroon);margin-left:4px}
+thead th.desc::after{content:'↓';color:var(--maroon);margin-left:4px}
+thead th.r{text-align:right}
+thead th.nosort{cursor:default}
+thead th.nosort:hover{color:var(--muted)}
+tbody tr.prow{border-bottom:1px solid var(--border-faint);transition:background .1s;cursor:pointer}
+tbody tr.prow:hover{background:var(--surface2)}
+td{padding:9px 10px;vertical-align:middle}
+td.r{text-align:right;font-variant-numeric:tabular-nums}
+td.name-cell{font-weight:600;white-space:nowrap}
+td.name-cell .caret{display:inline-block;width:12px;color:var(--muted2);font-size:10px;transition:transform .15s}
+tr.prow.open td.name-cell .caret{transform:rotate(90deg)}
+td.name-cell.active-player .pname{color:var(--gold)}
+.empty-msg{padding:30px 10px;text-align:center;color:var(--muted2);font-style:italic;font-size:13px}
+
+/* League bucket badges */
+.lg-badge{font-family:var(--font-ui);font-size:9px;font-weight:800;letter-spacing:.4px;
+  padding:2px 6px;border-radius:3px;display:inline-block;margin-right:3px;white-space:nowrap}
+.lg-NHL{background:var(--green-bg);color:var(--green);border:1px solid var(--green-border)}
+.lg-AHL{background:var(--blue-bg);color:var(--blue);border:1px solid var(--blue-border)}
+.lg-ECHL{background:var(--surface3);color:var(--text)}
+.lg-MinorPro{background:var(--surface3);color:var(--muted)}
+.lg-Europe{background:#F0EAF6;color:#6B46A0}
+.lg-Collegiate{background:var(--gold-dim);color:var(--gold);border:1px solid var(--gold-border)}
+.lg-list{display:flex;gap:3px;flex-wrap:wrap}
+
+/* Expanded detail */
+tr.detail-row td{background:var(--surface2);padding:0}
+.detail-inner{padding:6px 10px 14px 34px}
+.detail-title{font-family:var(--font-ui);font-size:9px;font-weight:800;letter-spacing:1px;
+  text-transform:uppercase;color:var(--muted);margin:8px 0 5px}
+table.sub{width:auto;min-width:420px;font-size:12px}
+table.sub th{background:transparent;border-bottom:1px solid var(--border);padding:5px 12px 5px 0;
+  font-size:8px;cursor:default}
+table.sub th:hover{color:var(--muted)}
+table.sub td{padding:4px 12px 4px 0;color:var(--text)}
+table.sub td.team{color:var(--muted);font-weight:600}
+table.sub tr.career-line td{border-top:1px solid var(--border);font-weight:700;color:var(--text)}
+.raw-lg{font-family:var(--font-ui);font-size:9px;font-weight:700;color:var(--muted2);
+  text-transform:uppercase;letter-spacing:.3px;margin-left:6px}
+
+.footnote{max-width:1180px;margin:0 auto;padding:18px 24px 0;font-size:11px;color:var(--muted2);line-height:1.6}
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="index.html" class="nav-logo">
+    <img src="UMass_Hockey_2_.png" alt="UMass" style="height:34px;width:auto;display:block"/>
+  </a>
+  <div class="nav-links">
+    <a href="index.html#rosters">Rosters</a>
+    <a href="ncaa_nhl_pipeline.html">NCAA Pipeline</a>
+    <a href="career_stats.html">Career Stats</a>
+    <a href="recruiting_classes.html">Draft</a>
+    <a href="minutemen_in_the_pros.html" class="active">Pros</a>
+    <a href="hea_allstars.html">HEA All-Stars</a>
+    <a href="awards.html">Awards</a>
+    <a href="game_log.html">Game Log</a>
+    <a href="https://umasshockeyblog.substack.com/" class="external" target="_blank" rel="noopener">Blog &#8599;</a>
+  </div>
+</nav>
+
+<div class="header">
+  <div class="header-inner">
+    <div class="header-eyebrow">Program History &middot; Post-UMass Careers</div>
+    <h1 class="header-title">Minutemen in the Pros</h1>
+    <div class="header-sub">Where UMass alumni have played after Amherst. Pick a league to see every Minuteman who skated there, with career totals and a season-by-season breakdown. Career lines aggregate within each specific league.</div>
+  </div>
+</div>
+
+<div class="controls">
+  <div class="controls-inner">
+    <span class="ctrl-label">League</span>
+    <div class="toggle-group" id="league-toggles"></div>
+    <div class="ctrl-divider"></div>
+    <span class="ctrl-label">Status</span>
+    <div class="toggle-group" id="status-toggles">
+      <button class="toggle-btn active" data-status="all">All</button>
+      <button class="toggle-btn" data-status="active">Active '25-26</button>
+    </div>
+    <div class="ctrl-divider"></div>
+    <div class="search-wrap">
+      <input type="text" class="search-input" id="search" placeholder="Search players...">
+      <button class="search-clear" id="search-clear">&times;</button>
+    </div>
+    <button class="reset-btn" id="reset">Reset</button>
+  </div>
+</div>
+
+<div class="result-meta"><div class="result-meta-inner" id="result-meta"></div></div>
+
+<div class="page-wrap" id="page-wrap"></div>
+
+<div class="footnote" id="footnote"></div>
+
+<script src="site_data.js"></script>
+<script src="pro_stats.js"></script>
+<script>
+(function(){
+  "use strict";
+
+  // ── Bucket model ───────────────────────────────────────────────────────────
+  // PRO buckets define pro-eligibility + the "All Leagues" aggregate.
+  // Collegiate is a selectable view (post-UMass college stints of pro players).
+  // Junior is kept in the data but never surfaced here.
+  const PRO_BUCKETS = ['NHL','AHL','ECHL','Minor Pro','Europe'];
+  const PRO_SET = new Set(PRO_BUCKETS);
+  const VIEWS = ['ALL','NHL','AHL','ECHL','Minor Pro','Europe','Collegiate'];
+  const VIEW_LABEL = {ALL:'All Leagues',NHL:'NHL',AHL:'AHL',ECHL:'ECHL','Minor Pro':'Minor Pro',Europe:'Europe',Collegiate:'Collegiate'};
+  const BUCKET_ORDER = ['NHL','AHL','ECHL','Minor Pro','Europe','Collegiate']; // display order in All-Leagues breakdown
+  const bucketClass = b => 'lg-'+String(b).replace(/\s+/g,'');
+
+  // safe references to shared helpers from site_data.js (read-only)
+  const canon = (typeof canonical==='function') ? canonical : (x=>x);
+  const disp  = (typeof displayName==='function') ? displayName : (x=>x);
+
+  const PS = (typeof PRO_STATS!=='undefined') ? PRO_STATS : {};
+
+  // Master pro-eligible universe: ≥1 row in a pro bucket.
+  const ROSTER = Object.keys(PS).map(key=>{
+    const rec = PS[key];
+    const seasons = (rec && rec.seasons) ? rec.seasons : [];
+    return {
+      key,
+      name: disp(key),
+      role: rec.role || 'skater',
+      seasons,
+      proEligible: seasons.some(s=>PRO_SET.has(s.bucket)),
+      active2526: seasons.some(s=>s.season==='2025-26' && PRO_SET.has(s.bucket))
+    };
+  }).filter(p=>p.proEligible);
+
+  // ── State ───────────────────────────────────────────────────────────────────
+  const state = {
+    view:'NHL',            // default
+    status:'all',          // all | active
+    search:'',
+    sort:{ skater:{col:'pts',dir:-1}, goalie:{col:'gp',dir:-1} },
+    open:new Set()         // expanded player keys (prefixed by role)
+  };
+
+  // ── Aggregation helpers ──────────────────────────────────────────────────────
+  function relevantSeasons(p){
+    // seasons that belong to the current view
+    if(state.view==='ALL') return p.seasons.filter(s=>PRO_SET.has(s.bucket));
+    return p.seasons.filter(s=>s.bucket===state.view);
+  }
+  function sumSeasons(rows){
+    const t={gp:0,g:0,a:0,pts:0,pim:0};
+    rows.forEach(s=>{t.gp+=(+s.gp||0);t.g+=(+s.g||0);t.a+=(+s.a||0);t.pts+=(+s.pts||0);t.pim+=(+s.pim||0);});
+    return t;
+  }
+  function distinctSeasonCount(rows){ return new Set(rows.map(s=>s.season)).size; }
+
+  // Build the row objects for one role given the current view + filters.
+  function buildRows(role){
+    const q = state.search.trim().toLowerCase();
+    const out=[];
+    ROSTER.forEach(p=>{
+      if(p.role!==role) return;
+      const rel = relevantSeasons(p);
+      if(!rel.length) return; // not present in this view
+      if(state.status==='active' && !rel.some(s=>s.season==='2025-26')) return;
+      if(q && !p.name.toLowerCase().includes(q) && !p.key.toLowerCase().includes(q)) return;
+      const agg = sumSeasons(rel);
+      const leagues = [...new Set(rel.map(s=>s.bucket))]
+        .sort((a,b)=>BUCKET_ORDER.indexOf(a)-BUCKET_ORDER.indexOf(b));
+      out.push({
+        key:p.key, name:p.name, role,
+        active:p.active2526,
+        rel, agg,
+        seasonCount:distinctSeasonCount(rel),
+        leagues, leagueCount:leagues.length
+      });
+    });
+    return out;
+  }
+
+  function sortRows(rows, role){
+    const {col,dir}=state.sort[role];
+    const val=(r)=>{
+      switch(col){
+        case 'name': return r.name.toLowerCase();
+        case 'seas': return state.view==='ALL' ? r.leagueCount : r.seasonCount;
+        case 'gp': return r.agg.gp;
+        case 'g': return r.agg.g;
+        case 'a': return r.agg.a;
+        case 'pts': return r.agg.pts;
+        case 'pim': return r.agg.pim;
+        default: return r.agg.pts;
+      }
+    };
+    return rows.slice().sort((x,y)=>{
+      const vx=val(x), vy=val(y);
+      if(vx<vy) return -1*dir;
+      if(vx>vy) return 1*dir;
+      return x.name.toLowerCase()<y.name.toLowerCase()?-1:1; // stable tiebreak by name
+    });
+  }
+
+  // ── Rendering ─────────────────────────────────────────────────────────────
+  function leagueBadges(buckets){
+    return '<span class="lg-list">'+buckets.map(b=>`<span class="lg-badge ${bucketClass(b)}">${b}</span>`).join('')+'</span>';
+  }
+
+  function skaterHeaders(){
+    const seasLabel = state.view==='ALL' ? 'Leagues' : 'Seasons';
+    return `<tr>
+      <th data-col="name" class="${sortCls('skater','name')}">Player</th>
+      <th data-col="seas" class="${sortCls('skater','seas')}">${seasLabel}</th>
+      <th data-col="gp" class="r ${sortCls('skater','gp')}">GP</th>
+      <th data-col="g" class="r ${sortCls('skater','g')}">G</th>
+      <th data-col="a" class="r ${sortCls('skater','a')}">A</th>
+      <th data-col="pts" class="r ${sortCls('skater','pts')}">Pts</th>
+      <th data-col="pim" class="r ${sortCls('skater','pim')}">PIM</th>
+    </tr>`;
+  }
+  function goalieHeaders(){
+    const seasLabel = state.view==='ALL' ? 'Leagues' : 'Seasons';
+    return `<tr>
+      <th data-col="name" class="${sortCls('goalie','name')}">Player</th>
+      <th data-col="seas" class="${sortCls('goalie','seas')}">${seasLabel}</th>
+      <th data-col="gp" class="r ${sortCls('goalie','gp')}">GP</th>
+      <th data-col="pts" class="r ${sortCls('goalie','pts')}">Pts</th>
+    </tr>`;
+  }
+  function sortCls(role,col){
+    const s=state.sort[role];
+    if(s.col!==col) return '';
+    return 'sorted '+(s.dir<0?'desc':'asc');
+  }
+
+  function skaterRow(r){
+    const isOpen=state.open.has('skater:'+r.key);
+    const seasCell = state.view==='ALL' ? leagueBadges(r.leagues) : r.seasonCount;
+    let html=`<tr class="prow${isOpen?' open':''}" data-role="skater" data-key="${r.key}">
+      <td class="name-cell${r.active?' active-player':''}"><span class="caret">▶</span> <span class="pname">${r.name}</span></td>
+      <td>${seasCell}</td>
+      <td class="r">${r.agg.gp}</td><td class="r">${r.agg.g}</td><td class="r">${r.agg.a}</td>
+      <td class="r">${r.agg.pts}</td><td class="r">${r.agg.pim}</td>
+    </tr>`;
+    if(isOpen) html+=`<tr class="detail-row"><td colspan="7">${detailSkater(r)}</td></tr>`;
+    return html;
+  }
+  function goalieRow(r){
+    const isOpen=state.open.has('goalie:'+r.key);
+    const seasCell = state.view==='ALL' ? leagueBadges(r.leagues) : r.seasonCount;
+    let html=`<tr class="prow${isOpen?' open':''}" data-role="goalie" data-key="${r.key}">
+      <td class="name-cell${r.active?' active-player':''}"><span class="caret">▶</span> <span class="pname">${r.name}</span></td>
+      <td>${seasCell}</td>
+      <td class="r">${r.agg.gp}</td><td class="r">${r.agg.pts}</td>
+    </tr>`;
+    if(isOpen) html+=`<tr class="detail-row"><td colspan="4">${detailGoalie(r)}</td></tr>`;
+    return html;
+  }
+
+  function detailSkater(r){
+    if(state.view==='ALL'){
+      // per-pro-bucket career breakdown
+      const byB={};
+      r.rel.forEach(s=>{(byB[s.bucket]=byB[s.bucket]||[]).push(s);});
+      const order=BUCKET_ORDER.filter(b=>byB[b]);
+      let rows=order.map(b=>{
+        const t=sumSeasons(byB[b]); const sc=distinctSeasonCount(byB[b]);
+        return `<tr><td class="team"><span class="lg-badge ${bucketClass(b)}">${b}</span></td><td>${sc}</td><td>${t.gp}</td><td>${t.g}</td><td>${t.a}</td><td>${t.pts}</td><td>${t.pim}</td></tr>`;
+      }).join('');
+      return `<div class="detail-inner"><div class="detail-title">Pro career by league</div>
+        <table class="sub"><thead><tr><th>League</th><th>Seas</th><th>GP</th><th>G</th><th>A</th><th>Pts</th><th>PIM</th></tr></thead>
+        <tbody>${rows}</tbody></table></div>`;
+    }
+    // specific bucket: season-by-season
+    const seasons=r.rel.slice().sort((a,b)=>a.season<b.season?-1:1);
+    let rows=seasons.map(s=>`<tr><td>${s.season}</td><td class="team">${s.team||'—'}<span class="raw-lg">${s.league||''}</span></td><td>${s.gp||0}</td><td>${s.g||0}</td><td>${s.a||0}</td><td>${s.pts||0}</td><td>${s.pim||0}</td></tr>`).join('');
+    const t=r.agg;
+    rows+=`<tr class="career-line"><td>Career</td><td class="team">${VIEW_LABEL[state.view]}</td><td>${t.gp}</td><td>${t.g}</td><td>${t.a}</td><td>${t.pts}</td><td>${t.pim}</td></tr>`;
+    return `<div class="detail-inner"><div class="detail-title">${VIEW_LABEL[state.view]} — season by season</div>
+      <table class="sub"><thead><tr><th>Season</th><th>Team</th><th>GP</th><th>G</th><th>A</th><th>Pts</th><th>PIM</th></tr></thead>
+      <tbody>${rows}</tbody></table></div>`;
+  }
+  function detailGoalie(r){
+    if(state.view==='ALL'){
+      const byB={};
+      r.rel.forEach(s=>{(byB[s.bucket]=byB[s.bucket]||[]).push(s);});
+      const order=BUCKET_ORDER.filter(b=>byB[b]);
+      let rows=order.map(b=>{
+        const t=sumSeasons(byB[b]); const sc=distinctSeasonCount(byB[b]);
+        return `<tr><td class="team"><span class="lg-badge ${bucketClass(b)}">${b}</span></td><td>${sc}</td><td>${t.gp}</td><td>${t.pts}</td></tr>`;
+      }).join('');
+      return `<div class="detail-inner"><div class="detail-title">Pro career by league</div>
+        <table class="sub"><thead><tr><th>League</th><th>Seas</th><th>GP</th><th>Pts</th></tr></thead><tbody>${rows}</tbody></table>
+        <div class="tbl-section-note" style="margin-top:8px">Record, GAA &amp; SV% to be added.</div></div>`;
+    }
+    const seasons=r.rel.slice().sort((a,b)=>a.season<b.season?-1:1);
+    let rows=seasons.map(s=>`<tr><td>${s.season}</td><td class="team">${s.team||'—'}<span class="raw-lg">${s.league||''}</span></td><td>${s.gp||0}</td><td>${s.pts||0}</td></tr>`).join('');
+    const t=r.agg;
+    rows+=`<tr class="career-line"><td>Career</td><td class="team">${VIEW_LABEL[state.view]}</td><td>${t.gp}</td><td>${t.pts}</td></tr>`;
+    return `<div class="detail-inner"><div class="detail-title">${VIEW_LABEL[state.view]} — season by season</div>
+      <table class="sub"><thead><tr><th>Season</th><th>Team</th><th>GP</th><th>Pts</th></tr></thead><tbody>${rows}</tbody></table>
+      <div class="tbl-section-note" style="margin-top:8px">Record, GAA &amp; SV% to be added.</div></div>`;
+  }
+
+  function render(){
+    // league toggles
+    const lt=document.getElementById('league-toggles');
+    lt.innerHTML=VIEWS.map(v=>`<button class="toggle-btn${state.view===v?' active':''}" data-view="${v}">${VIEW_LABEL[v]}</button>`).join('');
+
+    const skaters=sortRows(buildRows('skater'),'skater');
+    const goalies=sortRows(buildRows('goalie'),'goalie');
+
+    // result meta
+    const scope = VIEW_LABEL[state.view] + (state.status==='active' ? " · Active '25-26" : '');
+    document.getElementById('result-meta').textContent =
+      `${scope} — ${skaters.length} skater${skaters.length===1?'':'s'}, ${goalies.length} goalie${goalies.length===1?'':'s'}`;
+
+    const wrap=document.getElementById('page-wrap');
+    let html='';
+
+    // Skaters
+    html+=`<div class="tbl-section">
+      <div class="tbl-section-title">Skaters <span class="tbl-section-count">${skaters.length}</span></div>
+      <div class="table-wrap"><table data-role="skater"><thead>${skaterHeaders()}</thead><tbody>`;
+    html+= skaters.length ? skaters.map(skaterRow).join('') : `<tr><td colspan="7" class="empty-msg">No skaters match.</td></tr>`;
+    html+=`</tbody></table></div></div>`;
+
+    // Goalies
+    html+=`<div class="tbl-section">
+      <div class="tbl-section-title">Goalies <span class="tbl-section-count">${goalies.length}</span></div>
+      <div class="tbl-section-note">Goalie data currently covers games played and points; win-loss records, GAA and save percentage are being added.</div>
+      <div class="table-wrap"><table data-role="goalie"><thead>${goalieHeaders()}</thead><tbody>`;
+    html+= goalies.length ? goalies.map(goalieRow).join('') : `<tr><td colspan="4" class="empty-msg">No goalies match.</td></tr>`;
+    html+=`</tbody></table></div></div>`;
+
+    wrap.innerHTML=html;
+
+    document.getElementById('footnote').innerHTML =
+      `Post-UMass careers only. A player appears here once he has played in at least one professional league (NHL, AHL, ECHL, Minor Pro or Europe); the Collegiate view shows post-UMass college stints of those same players. Career lines aggregate within the selected league. Source: EliteProspects.`;
+
+    wireDynamic();
+  }
+
+  // ── Events ──────────────────────────────────────────────────────────────────
+  function wireDynamic(){
+    document.querySelectorAll('#league-toggles .toggle-btn').forEach(b=>{
+      b.addEventListener('click',()=>{ state.view=b.dataset.view; state.open.clear(); render(); });
+    });
+    document.querySelectorAll('thead th[data-col]').forEach(th=>{
+      th.addEventListener('click',()=>{
+        const role=th.closest('table').dataset.role;
+        const col=th.dataset.col;
+        const s=state.sort[role];
+        if(s.col===col){ s.dir*=-1; }
+        else { s.col=col; s.dir = (col==='name') ? 1 : -1; }
+        render();
+      });
+    });
+    document.querySelectorAll('tr.prow').forEach(tr=>{
+      tr.addEventListener('click',()=>{
+        const id=tr.dataset.role+':'+tr.dataset.key;
+        if(state.open.has(id)) state.open.delete(id); else state.open.add(id);
+        render();
+      });
+    });
+  }
+
+  function wireStatic(){
+    document.querySelectorAll('#status-toggles .toggle-btn').forEach(b=>{
+      b.addEventListener('click',()=>{
+        document.querySelectorAll('#status-toggles .toggle-btn').forEach(x=>x.classList.remove('active'));
+        b.classList.add('active');
+        state.status=b.dataset.status; state.open.clear(); render();
+      });
+    });
+    const si=document.getElementById('search'), sc=document.getElementById('search-clear');
+    si.addEventListener('input',()=>{
+      state.search=si.value;
+      sc.style.display=si.value?'block':'none';
+      render();
+    });
+    sc.addEventListener('click',()=>{ si.value=''; state.search=''; sc.style.display='none'; render(); });
+    document.getElementById('reset').addEventListener('click',()=>{
+      state.view='NHL'; state.status='all'; state.search=''; state.open.clear();
+      state.sort={skater:{col:'pts',dir:-1},goalie:{col:'gp',dir:-1}};
+      si.value=''; sc.style.display='none';
+      document.querySelectorAll('#status-toggles .toggle-btn').forEach(x=>x.classList.toggle('active',x.dataset.status==='all'));
+      render();
+    });
+  }
+
+  wireStatic();
+  render();
+})();
+</script>
+</body>
+</html>

@@ -153,6 +153,7 @@ td.name-cell.active-player{color:var(--gold)}
     <a href="ncaa_nhl_pipeline.html">NCAA Pipeline</a>
     <a href="career_stats.html">Career Stats</a>
     <a href="recruiting_classes.html" class="active">Draft</a>
+    <a href="minutemen_in_the_pros.html">Pros</a>
     <a href="hea_allstars.html">HEA All-Stars</a>
     <a href="awards.html">Awards</a>
     <a href="game_log.html">Game Log</a>
@@ -238,8 +239,11 @@ td.name-cell.active-player{color:var(--gold)}
   </table>
 </div>
 
+<script src="site_data.js"></script>
+<script src="pro_stats.js"></script>
 <script>
 const PLAYERS=[
+{n:"Tom O'Connor",pos:"D",g:false,dy:1992,dr:4,dp:102,dt:"PIT",fu:"1994-95",lu:"1997-98",gp:132,sk_g:8,sk_a:29,pts:37,pim:162,nhl:0,tier:"other",active:false,nhl_g:0,nhl_a:0,nhl_pts:0},
 {n:"Dale Hooper",pos:"D",g:false,dy:1991,dr:12,dp:259,dt:"MTL",fu:"1993-94",lu:"1995-96",gp:56,sk_g:5,sk_a:30,pts:35,pim:122,nhl:0,tier:"other",active:false,nhl_g:0,nhl_a:0,nhl_pts:0},
 {n:"Brad Norton",pos:"D",g:false,dy:1993,dr:9,dp:215,dt:"EDM",fu:"1994-95",lu:"1997-98",gp:119,sk_g:8,sk_a:47,pts:55,pim:304,nhl:124,tier:"nhl",active:false,nhl_g:3,nhl_a:8,nhl_pts:11},
 {n:"Mike Gaffney",pos:"D",g:false,dy:1994,dr:6,dp:131,dt:"OTT",fu:"1994-95",lu:"1997-98",gp:133,sk_g:14,sk_a:30,pts:44,pim:150,nhl:0,tier:"other",active:false,nhl_g:0,nhl_a:0,nhl_pts:0},
@@ -284,7 +288,7 @@ const PLAYERS=[
 {n:"Kenny Connors",pos:"F",g:false,dy:2022,dr:4,dp:103,dt:"LAK",fu:"2022-23",lu:"2024-25",gp:109,sk_g:26,sk_a:51,pts:77,pim:28,nhl:2,tier:"nhl",active:false,nhl_g:0,nhl_a:0,nhl_pts:0},
 {n:"Cole O'Hara",pos:"F",g:false,dy:2022,dr:4,dp:114,dt:"NSH",fu:"2022-23",lu:"2024-25",gp:95,sk_g:10,sk_a:19,pts:29,pim:44,nhl:1,tier:"nhl",active:false,nhl_g:0,nhl_a:1,nhl_pts:1},
 {n:"Dans Locmelis",pos:"F",g:false,dy:2022,dr:4,dp:119,dt:"BOS",fu:"2023-24",lu:"2024-25",gp:70,sk_g:15,sk_a:32,pts:47,pim:12,nhl:0,tier:"ahl",active:false,nhl_g:0,nhl_a:0,nhl_pts:0},
-{n:"Cam O'Neill",pos:"F",g:false,dy:2022,dr:5,dp:143,dt:"OTT",fu:"2025-26",lu:"2026-27",gp:32,sk_g:5,sk_a:9,pts:14,pim:8,nhl:0,tier:"active_college",active:true,nhl_g:0,nhl_a:0,nhl_pts:0},
+{n:"Cameron O'Neill",pos:"F",g:false,dy:2022,dr:5,dp:143,dt:"OTT",fu:"2025-26",lu:"2026-27",gp:32,sk_g:5,sk_a:9,pts:14,pim:8,nhl:0,tier:"active_college",active:true,nhl_g:0,nhl_a:0,nhl_pts:0},
 {n:"Owen Mehlenbacher",pos:"D",g:false,dy:2022,dr:7,dp:201,dt:"DET",fu:"2025-26",lu:"2025-26",gp:32,sk_g:3,sk_a:6,pts:9,pim:8,nhl:0,tier:"other",active:false,nhl_g:0,nhl_a:0,nhl_pts:0},
 {n:"Tyson Dyck",pos:"F",g:false,dy:2022,dr:7,dp:206,dt:"OTT",fu:"2022-23",lu:"2022-23",gp:29,sk_g:5,sk_a:4,pts:9,pim:8,nhl:0,tier:"other",active:false,nhl_g:0,nhl_a:0,nhl_pts:0},
 {n:"Michael Hrabal",pos:"G",g:false,dy:2023,dr:2,dp:38,dt:"ARI",fu:"2023-24",lu:"2025-26",gp:96,sk_g:0,sk_a:0,pts:0,pim:0,nhl:0,tier:"ahl",active:false,nhl_g:0,nhl_a:0,nhl_pts:0},
@@ -294,14 +298,33 @@ const PLAYERS=[
 {n:"Maxim Mass\u00e9",pos:"F",g:false,dy:2024,dr:3,dp:66,dt:"ANA",fu:"2026-27",lu:"2026-27",gp:0,sk_g:0,sk_a:0,pts:0,pim:0,nhl:0,tier:"active_college",active:true,nhl_g:0,nhl_a:0,nhl_pts:0},
 {n:"Max Curran",pos:"F",g:false,dy:2024,dr:5,dp:161,dt:"CGY",fu:"2026-27",lu:"2026-27",gp:0,sk_g:0,sk_a:0,pts:0,pim:0,nhl:0,tier:"active_college",active:true,nhl_g:0,nhl_a:0,nhl_pts:0},
 {n:"Václav Nestrašil",pos:"F",g:false,dy:2025,dr:1,dp:25,dt:"CHI",fu:"2025-26",lu:"2026-27",gp:34,sk_g:13,sk_a:18,pts:31,pim:8,nhl:0,tier:"active_college",active:true,nhl_g:0,nhl_a:0,nhl_pts:0},
-{n:"Francesco Dell’Elce",pos:"D",g:false,dy:2025,dr:3,dp:77,dt:"COL",fu:"2024-25",lu:"2026-27",gp:76,sk_g:12,sk_a:33,pts:45,pim:30,nhl:0,tier:"active_college",active:true,nhl_g:0,nhl_a:0,nhl_pts:0},
+{n:"Francesco Dell'Elce",pos:"D",g:false,dy:2025,dr:3,dp:77,dt:"COL",fu:"2025-26",lu:"2026-27",gp:36,sk_g:5,sk_a:16,pts:21,pim:18,nhl:0,tier:"active_college",active:true,nhl_g:0,nhl_a:0,nhl_pts:0},
 {n:"Melvin Novotny",pos:"F",g:false,dy:2025,dr:7,dp:195,dt:"BUF",fu:"2026-27",lu:"2026-27",gp:0,sk_g:0,sk_a:0,pts:0,pim:0,nhl:0,tier:"active_college",active:true,nhl_g:0,nhl_a:0,nhl_pts:0},
 {n:"Tobias Trejbal",pos:"G",g:true,dy:2026,dr:0,dp:0,dt:"TBD",fu:"2026-27",lu:"2026-27",gp:0,sk_g:null,sk_a:null,pts:null,pim:null,nhl:0,tier:"active_college",active:true,pending:true,nhl_g:null,nhl_a:null,nhl_pts:null},
 {n:"Samu Alalauri",pos:"D",g:false,dy:2026,dr:0,dp:0,dt:"TBD",fu:"2026-27",lu:"2026-27",gp:0,sk_g:0,sk_a:0,pts:0,pim:0,nhl:0,tier:"active_college",active:true,pending:true,nhl_g:null,nhl_a:null,nhl_pts:null},
 {n:"Egor Barabanov",pos:"F",g:false,dy:2026,dr:0,dp:0,dt:"TBD",fu:"2026-27",lu:"2026-27",gp:0,sk_g:0,sk_a:0,pts:0,pim:0,nhl:0,tier:"active_college",active:true,pending:true,nhl_g:null,nhl_a:null,nhl_pts:null},
 {n:"Jasper Kuhta",pos:"F",g:false,dy:2026,dr:0,dp:0,dt:"TBD",fu:"2026-27",lu:"2026-27",gp:0,sk_g:0,sk_a:0,pts:0,pim:0,nhl:0,tier:"active_college",active:true,pending:true,nhl_g:null,nhl_a:null,nhl_pts:null}
 ];
-const DRAFT_YEARS = [1991, 1993, 1994, 2001, 2002, 2003, 2005, 2006, 2007, 2008, 2011, 2013, 2014, 2015, 2017, 2018, 2019, 2020, 2021, 2022, 2023, 2024, 2025, 2026];
+// ── Live pro-career derivation from PRO_STATS (replaces stale hardcoded nhl/tier) ──
+// NHL columns = NHL-bucket totals; tier badge = highest pro bucket reached.
+(function(){
+  if(typeof PRO_STATS==='undefined') return;
+  const cn = (typeof canonical==='function') ? canonical : (x=>x);
+  const ORDER = ['NHL','AHL','ECHL','Europe','Minor Pro'];           // highest → lowest pro bucket
+  const TIER  = {'NHL':'nhl','AHL':'ahl','ECHL':'echl','Europe':'europe','Minor Pro':'other'};
+  PLAYERS.forEach(p=>{
+    const ps = PRO_STATS[cn(p.n)];
+    if(!ps || !ps.seasons) return;                                    // amateur / not yet pro → keep as-is
+    let gp=0,g=0,a=0,pts=0; const buckets=new Set();
+    ps.seasons.forEach(s=>{
+      buckets.add(s.bucket);
+      if(s.bucket==='NHL'){ gp+=s.gp||0; g+=s.g||0; a+=s.a||0; pts+=s.pts||0; }
+    });
+    p.nhl=gp; p.nhl_g=g; p.nhl_a=a; p.nhl_pts=pts;                    // NHL-bucket totals (0 if never NHL)
+    for(const b of ORDER){ if(buckets.has(b)){ p.tier=TIER[b]; break; } } // highest pro bucket; college/jr-only keeps hardcoded tier
+  });
+})();
+const DRAFT_YEARS = [1991, 1992, 1993, 1994, 2001, 2002, 2003, 2005, 2006, 2007, 2008, 2011, 2013, 2014, 2015, 2017, 2018, 2019, 2020, 2021, 2022, 2023, 2024, 2025, 2026];
 const ROSTER_SEASONS = ["2026-27", "2025-26", "2024-25", "2023-24", "2022-23", "2021-22", "2020-21", "2019-20", "2018-19", "2017-18", "2016-17", "2015-16", "2014-15", "2013-14", "2012-13", "2011-12", "2010-11", "2009-10", "2008-09", "2007-08", "2006-07", "2005-06", "2004-05", "2003-04", "2002-03", "2001-02", "2000-01", "1997-98", "1996-97", "1995-96", "1994-95", "1993-94"];
 
 function playerSeasons(p) {

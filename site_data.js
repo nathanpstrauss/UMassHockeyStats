@@ -177,7 +177,7 @@ const DRAFT_MAP = {
     "pick": 215,
     "year": 1993
   },
-  "Jonathan Quick": {
+  "Jon Quick": {
     "team": "LAK",
     "round": 3,
     "pick": 72,
@@ -374,6 +374,12 @@ const DRAFT_MAP = {
     "round": 7,
     "pick": 215,
     "year": 2023
+  },
+  "Tom O'Connor": {
+    "team": "PIT",
+    "round": 4,
+    "pick": 102,
+    "year": 1992
   }
 };
 
@@ -468,5 +474,31 @@ const ALIASES = {
   // Other name variants
   "Yegor Barabanov":            "Egor Barabanov",
   "Kennedy O’Connor":      "Kennedy O'Connor",
+  // Pro-data reconciliation variants (→ canonical PRO_STATS key)
+  "Finnegan Loftus":       "Finn Loftus",
+  "Kazimier Sobieski":     "Kaz Sobieski",
+  "Calen Kiefiuk":         "Cal Kiefiuk",
+  "Matt Kessel":           "Matthew Kessel",
+  "Matthew Murray":        "Matt Murray",
+  "Jonathan Lazarus":      "Jonny Lazarus",
+  "Mike Marcou":           "Michael Marcou",
+  "Corey Quirk":           "Cory Quirk",
+  "Michael Kostka":        "Mike Kostka",
+  "Jonathan Quick":        "Jon Quick",
+  "Thomas Poeck":          "Thomas Pock",
+  "Mike Mullen":           "Michael Mullen",
 };
 function canonical(name){ return ALIASES[name] || name; }
+
+// ─── Display names ─────────────────────────────────────────────
+// Canonical ASCII key → accented/preferred display form. Consumers that
+// iterate canonical keys (e.g. the Minutemen in the Pros page reading
+// PRO_STATS) call displayName() to render the proper accented name.
+const DISPLAY_NAMES = {
+  "Thomas Pock":          "Thomas Pöck",
+  "Toni Soderholm":       "Toni Söderholm",
+  "Sebastian Tornqvist":  "Sebastian Törnqvist",
+  "Vaclav Nestrasil":     "Václav Nestrašil",
+  "Maxim Masse":          "Maxim Massé",
+};
+function displayName(name){ return DISPLAY_NAMES[name] || name; }
