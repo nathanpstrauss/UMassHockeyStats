@@ -474,6 +474,9 @@ const ALIASES = {
   // Other name variants
   "Yegor Barabanov":            "Egor Barabanov",
   "Kennedy O’Connor":      "Kennedy O'Connor",
+  "Nicholas Van Tassell":  "Nick VanTassell",
+  "Nick Van Tassell":      "Nick VanTassell",
+  "Nicholas VanTassell":   "Nick VanTassell",
   // Pro-data reconciliation variants (→ canonical PRO_STATS key)
   "Finnegan Loftus":       "Finn Loftus",
   "Kazimier Sobieski":     "Kaz Sobieski",
