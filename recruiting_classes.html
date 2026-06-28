@@ -205,6 +205,24 @@ td.name-cell.active-player{color:var(--gold)}
       </div>
     </div>
     <div class="ctrl-divider"></div>
+    <span class="ctrl-label">Status</span>
+    <div class="multi-select-wrap" id="tier-wrap">
+      <button class="multi-select-btn" id="tier-btn" onclick="toggleTierPanel(event)">
+        All statuses <span style="margin-left:4px;opacity:.5">&#9662;</span>
+      </button>
+      <div class="multi-select-panel" id="tier-panel">
+        <label class="multi-opt multi-opt-all">
+          <input type="checkbox" id="tier-all" onchange="onTierAll(this)" checked> All statuses
+        </label>
+        <label class="multi-opt"><input type="checkbox" class="tier-cb" value="nhl" onchange="onTierCb()"> NHL</label>
+        <label class="multi-opt"><input type="checkbox" class="tier-cb" value="ahl" onchange="onTierCb()"> AHL</label>
+        <label class="multi-opt"><input type="checkbox" class="tier-cb" value="echl" onchange="onTierCb()"> ECHL</label>
+        <label class="multi-opt"><input type="checkbox" class="tier-cb" value="europe" onchange="onTierCb()"> Europe</label>
+        <label class="multi-opt"><input type="checkbox" class="tier-cb" value="active_college" onchange="onTierCb()"> Active</label>
+        <label class="multi-opt"><input type="checkbox" class="tier-cb" value="other" onchange="onTierCb()"> Other</label>
+      </div>
+    </div>
+    <div class="ctrl-divider"></div>
     <span class="ctrl-label">Draft Yr</span>
     <select id="yr-from" class="ctrl-select" onchange="onYrFrom(this)"></select>
     <span class="ctrl-label" style="letter-spacing:0">to</span>
@@ -310,7 +328,7 @@ const PLAYERS=[
 {n:"Maxim Mass\u00e9",pos:"F",g:false,dy:2024,dr:3,dp:66,dt:"ANA",fu:"2026-27",lu:"2026-27",gp:0,sk_g:0,sk_a:0,pts:0,pim:0,nhl:0,tier:"active_college",active:true,nhl_g:0,nhl_a:0,nhl_pts:0},
 {n:"Max Curran",pos:"F",g:false,dy:2024,dr:5,dp:161,dt:"CGY",fu:"2026-27",lu:"2026-27",gp:0,sk_g:0,sk_a:0,pts:0,pim:0,nhl:0,tier:"active_college",active:true,nhl_g:0,nhl_a:0,nhl_pts:0},
 {n:"Václav Nestrašil",pos:"F",g:false,dy:2025,dr:1,dp:25,dt:"CHI",fu:"2025-26",lu:"2026-27",gp:34,sk_g:13,sk_a:18,pts:31,pim:8,nhl:0,tier:"active_college",active:true,nhl_g:0,nhl_a:0,nhl_pts:0},
-{n:"Francesco Dell'Elce",pos:"D",g:false,dy:2025,dr:3,dp:77,dt:"COL",fu:"2025-26",lu:"2026-27",gp:36,sk_g:5,sk_a:16,pts:21,pim:18,nhl:0,tier:"active_college",active:true,nhl_g:0,nhl_a:0,nhl_pts:0},
+{n:"Francesco Dell'Elce",pos:"D",g:false,dy:2025,dr:3,dp:77,dt:"COL",fu:"2024-25",lu:"2026-27",gp:76,sk_g:12,sk_a:33,pts:45,pim:30,nhl:0,tier:"active_college",active:true,nhl_g:0,nhl_a:0,nhl_pts:0},
 {n:"Melvin Novotny",pos:"F",g:false,dy:2025,dr:7,dp:195,dt:"BUF",fu:"2026-27",lu:"2026-27",gp:0,sk_g:0,sk_a:0,pts:0,pim:0,nhl:0,tier:"active_college",active:true,nhl_g:0,nhl_a:0,nhl_pts:0},
 {n:"Tobias Trejbal",pos:"G",g:true,dy:2026,dr:2,dp:42,dt:"CGY",fu:"2026-27",lu:"2026-27",gp:0,sk_g:0,sk_a:0,pts:0,pim:0,nhl:0,tier:"active_college",active:true,nhl_g:0,nhl_a:0,nhl_pts:0},
 {n:"Samu Alalauri",pos:"D",g:false,dy:2026,dr:3,dp:66,dt:"CHI",fu:"2026-27",lu:"2026-27",gp:0,sk_g:0,sk_a:0,pts:0,pim:0,nhl:0,tier:"active_college",active:true,nhl_g:0,nhl_a:0,nhl_pts:0},
@@ -371,7 +389,7 @@ function umassRange(p) {
   return fy + '–' + p.lu.split('-')[1];
 }
 
-let sortCol='dy', sortDir=1, groupMode='none', groupVal='', searchQ='', filterRounds=new Set();
+let sortCol='dy', sortDir=-1, groupMode='none', groupVal='', searchQ='', filterRounds=new Set(), filterTiers=new Set();
 let yrFrom=DRAFT_YEARS[0], yrTo=DRAFT_YEARS[DRAFT_YEARS.length-1], showCommits=false, showTransfers=false;
 
 function onYrFrom(el){ yrFrom=parseInt(el.value); render(); }
@@ -430,9 +448,38 @@ function updateRoundBtn(){
     btn.textContent=labels+' ▾';
   }
 }
+const STATUS_ORDER=['nhl','ahl','echl','europe','active_college','other'];
+function toggleTierPanel(e){
+  e.stopPropagation();
+  document.getElementById('tier-panel').classList.toggle('open');
+}
+function onTierAll(cb){
+  document.querySelectorAll('.tier-cb').forEach(c=>c.checked=false);
+  filterTiers=new Set();
+  updateTierBtn();
+  render();
+}
+function onTierCb(){
+  filterTiers=new Set();
+  document.querySelectorAll('.tier-cb:checked').forEach(c=>filterTiers.add(c.value));
+  document.getElementById('tier-all').checked=filterTiers.size===0;
+  updateTierBtn();
+  render();
+}
+function updateTierBtn(){
+  const btn=document.getElementById('tier-btn');
+  if(filterTiers.size===0){
+    btn.textContent='All statuses ▾';
+  } else {
+    const labels=STATUS_ORDER.filter(t=>filterTiers.has(t)).map(t=>TIER_LABEL[t]).join(', ');
+    btn.textContent=labels+' ▾';
+  }
+}
 document.addEventListener('click',function(e){
-  const wrap=document.getElementById('round-wrap');
-  if(wrap&&!wrap.contains(e.target)) document.getElementById('round-panel').classList.remove('open');
+  const rw=document.getElementById('round-wrap');
+  if(rw&&!rw.contains(e.target)) document.getElementById('round-panel').classList.remove('open');
+  const tw=document.getElementById('tier-wrap');
+  if(tw&&!tw.contains(e.target)) document.getElementById('tier-panel').classList.remove('open');
 });
 
 function sort(col) {
@@ -458,12 +505,15 @@ function clearSearch(){
 }
 
 function resetAll(){
-  sortCol='dy'; sortDir=1; searchQ=''; filterRounds=new Set();
+  sortCol='dy'; sortDir=-1; searchQ=''; filterRounds=new Set(); filterTiers=new Set();
   yrFrom=DRAFT_YEARS[0]; yrTo=DRAFT_YEARS[DRAFT_YEARS.length-1]; showCommits=false; showTransfers=false;
   document.getElementById('yr-from').value=yrFrom;
   document.getElementById('yr-to').value=yrTo;
   document.getElementById('show-commits').checked=false;
   document.getElementById('show-transfers').checked=false;
+  document.querySelectorAll('.tier-cb').forEach(c=>c.checked=false);
+  document.getElementById('tier-all').checked=true;
+  updateTierBtn();
   document.getElementById('search').value='';
   document.getElementById('search-clear').style.display='none';
   document.querySelectorAll('.rd-cb').forEach(c=>c.checked=false);
@@ -565,6 +615,7 @@ function render(){
       if(!hay.includes(searchQ)) return false;
     }
     if(filterRounds.size>0 && !filterRounds.has(p.dr)) return false;
+    if(filterTiers.size>0 && !filterTiers.has(p.tier)) return false;
     if(p.dy<yrFrom || p.dy>yrTo) return false;
     if(!showCommits && p.commit) return false;
     if(!showTransfers && p.transfer) return false;
@@ -636,7 +687,7 @@ function render(){
 // Init sort header
 (function(){
   const th=document.querySelector('thead th[data-sort="'+sortCol+'"]');
-  if(th) th.classList.add('sorted','asc');
+  if(th) th.classList.add('sorted','desc');
 })();
 
 initYearRange();
