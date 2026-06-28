@@ -28,17 +28,17 @@ a{color:inherit;text-decoration:none}
 
 /* NAV */
 nav{background:rgba(247,245,241,.92);border-bottom:1px solid var(--border);
-  padding:0 24px;display:flex;align-items:center;gap:0;position:sticky;top:0;z-index:100;
+  padding:0 24px;display:flex;align-items:center;position:sticky;top:0;z-index:100;
   backdrop-filter:blur(10px);box-shadow:var(--shadow-xs)}
-.nav-logo{margin-right:20px;padding:10px 0}
-.nav-logo img{height:32px;display:block}
-.nav-links{display:flex;gap:2px;flex:1}
-.nav-links a{font-family:var(--font-ui);font-size:11px;font-weight:800;letter-spacing:1.2px;
-  text-transform:uppercase;padding:14px 12px;color:var(--muted);transition:color .15s;white-space:nowrap}
-.nav-links a:hover,.nav-links a.active{color:var(--text)}
-.nav-links a.active{border-bottom:2px solid var(--maroon)}
-.nav-right a{font-family:var(--font-ui);font-size:11px;font-weight:700;letter-spacing:.8px;
-  text-transform:uppercase;color:var(--muted);padding:14px 0 14px 12px;opacity:.6}
+.nav-logo{color:var(--text);text-decoration:none;display:flex;align-items:center;gap:10px;margin-right:32px;padding:10px 0}
+.nav-links{display:flex;gap:4px;align-items:center}
+.nav-links a{padding:5px 10px;border-radius:5px;font-size:11px;font-weight:700;
+  letter-spacing:1.5px;color:var(--muted2);text-decoration:none;
+  font-family:var(--font-ui);text-transform:uppercase;transition:color .15s;
+  border-bottom:2px solid transparent}
+.nav-links a:hover{color:var(--text)}
+.nav-links a.active{color:var(--text);border-bottom-color:var(--maroon)}
+.nav-links a.external{color:var(--maroon)}
 
 /* HEADER */
 .header{padding:36px 24px 24px;border-bottom:1px solid var(--border);max-width:1180px;margin:0 auto}
@@ -196,17 +196,20 @@ td{padding:8px 12px;font-family:var(--font-ui);font-size:13px;vertical-align:mid
 <body>
 
 <nav>
-  <div class="nav-logo"><img src="UMass_Hockey_2_.png" alt="UMass Hockey"></div>
+  <a href="index.html" class="nav-logo">
+    <img src="UMass_Hockey_2_.png" alt="UMass" style="height:34px;width:auto;display:block"/>
+  </a>
   <div class="nav-links">
-    <a href="index.html">Rosters</a>
+    <a href="index.html#rosters">Rosters</a>
     <a href="ncaa_nhl_pipeline.html">NCAA Pipeline</a>
     <a href="career_stats.html">Career Stats</a>
     <a href="recruiting_classes.html">Draft</a>
+    <a href="minutemen_in_the_pros.html">Pros</a>
     <a href="hea_allstars.html" class="active">HEA All-Stars</a>
     <a href="awards.html">Awards</a>
     <a href="game_log.html">Game Log</a>
+    <a href="https://umasshockeyblog.substack.com/" class="external" target="_blank" rel="noopener">Blog &#8599;</a>
   </div>
-  <div class="nav-right"><a href="https://umasshockeyblog.substack.com/" target="_blank" rel="noopener">Blog ↗</a></div>
 </nav>
 
 <div class="header">
