@@ -211,6 +211,7 @@ td.name-cell.active-player{color:var(--gold)}
     <select id="yr-to" class="ctrl-select" onchange="onYrTo(this)"></select>
     <div class="ctrl-divider"></div>
     <label class="ctrl-check"><input type="checkbox" id="show-commits" onchange="onShowCommits(this)"> Show commits</label>
+    <label class="ctrl-check"><input type="checkbox" id="show-transfers" onchange="onShowTransfers(this)"> Show transfers</label>
     <div class="ctrl-divider"></div>
     <div class="search-wrap">
       <input class="search-input" id="search" placeholder="Search player or team&hellip;" oninput="onSearch(this)">
@@ -300,12 +301,12 @@ const PLAYERS=[
 {n:"Cole O'Hara",pos:"F",g:false,dy:2022,dr:4,dp:114,dt:"NSH",fu:"2022-23",lu:"2024-25",gp:95,sk_g:10,sk_a:19,pts:29,pim:44,nhl:1,tier:"nhl",active:false,nhl_g:0,nhl_a:1,nhl_pts:1},
 {n:"Dans Locmelis",pos:"F",g:false,dy:2022,dr:4,dp:119,dt:"BOS",fu:"2023-24",lu:"2024-25",gp:70,sk_g:15,sk_a:32,pts:47,pim:12,nhl:0,tier:"ahl",active:false,nhl_g:0,nhl_a:0,nhl_pts:0},
 {n:"Cameron O'Neill",pos:"F",g:false,dy:2022,dr:5,dp:143,dt:"OTT",fu:"2025-26",lu:"2026-27",gp:32,sk_g:5,sk_a:9,pts:14,pim:8,nhl:0,tier:"active_college",active:true,nhl_g:0,nhl_a:0,nhl_pts:0},
-{n:"Owen Mehlenbacher",pos:"D",g:false,dy:2022,dr:7,dp:201,dt:"DET",fu:"2025-26",lu:"2025-26",gp:32,sk_g:3,sk_a:6,pts:9,pim:8,nhl:0,tier:"other",active:false,nhl_g:0,nhl_a:0,nhl_pts:0},
+{n:"Owen Mehlenbacher",pos:"D",g:false,dy:2022,dr:7,dp:201,dt:"DET",fu:"2025-26",lu:"2025-26",gp:32,sk_g:3,sk_a:6,pts:9,pim:8,nhl:0,transfer:true,tier:"other",active:false,nhl_g:0,nhl_a:0,nhl_pts:0},
 {n:"Tyson Dyck",pos:"F",g:false,dy:2022,dr:7,dp:206,dt:"OTT",fu:"2022-23",lu:"2022-23",gp:29,sk_g:5,sk_a:4,pts:9,pim:8,nhl:0,tier:"other",active:false,nhl_g:0,nhl_a:0,nhl_pts:0},
 {n:"Michael Hrabal",pos:"G",g:false,dy:2023,dr:2,dp:38,dt:"ARI",fu:"2023-24",lu:"2025-26",gp:96,sk_g:0,sk_a:0,pts:0,pim:0,nhl:0,tier:"ahl",active:false,nhl_g:0,nhl_a:0,nhl_pts:0},
 {n:"Aydar Suniev",pos:"F",g:false,dy:2023,dr:3,dp:80,dt:"CGY",fu:"2023-24",lu:"2024-25",gp:71,sk_g:32,sk_a:31,pts:63,pim:66,nhl:7,tier:"nhl",active:false,nhl_g:0,nhl_a:1,nhl_pts:1},
 {n:"Larry Keenan",pos:"D",g:false,dy:2023,dr:4,dp:117,dt:"DET",fu:"2024-25",lu:"2026-27",gp:76,sk_g:12,sk_a:18,pts:30,pim:26,nhl:0,tier:"active_college",active:true,nhl_g:0,nhl_a:0,nhl_pts:0},
-{n:"Nick VanTassell",pos:"F",g:false,dy:2023,dr:7,dp:215,dt:"OTT",fu:"2023-24",lu:"2025-26",gp:87,sk_g:5,sk_a:13,pts:18,pim:40,nhl:0,tier:"active_college",active:false,nhl_g:0,nhl_a:0,nhl_pts:0},
+{n:"Nick VanTassell",pos:"F",g:false,dy:2023,dr:7,dp:215,dt:"OTT",fu:"2023-24",lu:"2025-26",gp:87,sk_g:5,sk_a:13,pts:18,pim:40,nhl:0,tier:"other",active:false,nhl_g:0,nhl_a:0,nhl_pts:0},
 {n:"Maxim Mass\u00e9",pos:"F",g:false,dy:2024,dr:3,dp:66,dt:"ANA",fu:"2026-27",lu:"2026-27",gp:0,sk_g:0,sk_a:0,pts:0,pim:0,nhl:0,tier:"active_college",active:true,nhl_g:0,nhl_a:0,nhl_pts:0},
 {n:"Max Curran",pos:"F",g:false,dy:2024,dr:5,dp:161,dt:"CGY",fu:"2026-27",lu:"2026-27",gp:0,sk_g:0,sk_a:0,pts:0,pim:0,nhl:0,tier:"active_college",active:true,nhl_g:0,nhl_a:0,nhl_pts:0},
 {n:"Václav Nestrašil",pos:"F",g:false,dy:2025,dr:1,dp:25,dt:"CHI",fu:"2025-26",lu:"2026-27",gp:34,sk_g:13,sk_a:18,pts:31,pim:8,nhl:0,tier:"active_college",active:true,nhl_g:0,nhl_a:0,nhl_pts:0},
@@ -316,12 +317,12 @@ const PLAYERS=[
 {n:"Egor Barabanov",pos:"F",g:false,dy:2026,dr:4,dp:100,dt:"CGY",fu:"2026-27",lu:"2026-27",gp:0,sk_g:0,sk_a:0,pts:0,pim:0,nhl:0,tier:"active_college",active:true,nhl_g:0,nhl_a:0,nhl_pts:0},
 {n:"Jasper Kuhta",pos:"F",g:false,dy:2026,dr:7,dp:197,dt:"DAL",fu:"2026-27",lu:"2026-27",gp:0,sk_g:0,sk_a:0,pts:0,pim:0,nhl:0,tier:"active_college",active:true,nhl_g:0,nhl_a:0,nhl_pts:0},
 {n:"Landon Nycz",pos:"D",g:false,dy:2026,dr:4,dp:107,dt:"STL",fu:"2025-26",lu:"2026-27",gp:35,sk_g:1,sk_a:2,pts:3,pim:2,nhl:0,tier:"active_college",active:true,nhl_g:0,nhl_a:0,nhl_pts:0},
-{n:"Liam Gorman",pos:"F",g:false,dy:2018,dr:6,dp:177,dt:"PIT",fu:"2023-24",lu:"2023-24",gp:28,sk_g:1,sk_a:3,pts:4,pim:17,nhl:0,tier:"echl",active:false,nhl_g:0,nhl_a:0,nhl_pts:0},
-{n:"Slava Demin",pos:"F",g:false,dy:2018,dr:4,dp:99,dt:"VGK",fu:"2021-22",lu:"2021-22",gp:24,sk_g:1,sk_a:2,pts:3,pim:4,nhl:0,tier:"echl",active:false,nhl_g:0,nhl_a:0,nhl_pts:0},
-{n:"Josh Nodler",pos:"F",g:false,dy:2019,dr:5,dp:150,dt:"CGY",fu:"2022-23",lu:"2022-23",gp:27,sk_g:2,sk_a:3,pts:5,pim:8,nhl:0,tier:"echl",active:false,nhl_g:0,nhl_a:0,nhl_pts:0},
+{n:"Liam Gorman",pos:"F",g:false,dy:2018,dr:6,dp:177,dt:"PIT",fu:"2023-24",lu:"2023-24",gp:28,sk_g:1,sk_a:3,pts:4,pim:17,nhl:0,transfer:true,tier:"echl",active:false,nhl_g:0,nhl_a:0,nhl_pts:0},
+{n:"Slava Demin",pos:"F",g:false,dy:2018,dr:4,dp:99,dt:"VGK",fu:"2021-22",lu:"2021-22",gp:24,sk_g:1,sk_a:2,pts:3,pim:4,nhl:0,transfer:true,tier:"echl",active:false,nhl_g:0,nhl_a:0,nhl_pts:0},
+{n:"Josh Nodler",pos:"F",g:false,dy:2019,dr:5,dp:150,dt:"CGY",fu:"2022-23",lu:"2022-23",gp:27,sk_g:2,sk_a:3,pts:5,pim:8,nhl:0,transfer:true,tier:"echl",active:false,nhl_g:0,nhl_a:0,nhl_pts:0},
 {n:"Noah Ellis",pos:"D",g:false,dy:2020,dr:6,dp:184,dt:"VGK",fu:"2022-23",lu:"2022-23",gp:24,sk_g:1,sk_a:1,pts:2,pim:6,nhl:0,tier:"other",active:false,nhl_g:0,nhl_a:0,nhl_pts:0},
-{n:"Ben Gallacher",pos:"D",g:false,dy:2010,dr:4,dp:93,dt:"FLA",fu:"2013-14",lu:"2015-16",gp:101,sk_g:4,sk_a:27,pts:31,pim:105,nhl:0,tier:"other",active:false,nhl_g:0,nhl_a:0,nhl_pts:0},
-{n:"Cole Brady",pos:"G",g:false,dy:2019,dr:5,dp:127,dt:"NJD",fu:"2022-23",lu:"2023-24",gp:22,sk_g:0,sk_a:0,pts:0,pim:0,nhl:0,tier:"other",active:false,nhl_g:0,nhl_a:0,nhl_pts:0},
+{n:"Ben Gallacher",pos:"D",g:false,dy:2010,dr:4,dp:93,dt:"FLA",fu:"2013-14",lu:"2015-16",gp:101,sk_g:4,sk_a:27,pts:31,pim:105,nhl:0,transfer:true,tier:"other",active:false,nhl_g:0,nhl_a:0,nhl_pts:0},
+{n:"Cole Brady",pos:"G",g:false,dy:2019,dr:5,dp:127,dt:"NJD",fu:"2022-23",lu:"2023-24",gp:22,sk_g:0,sk_a:0,pts:0,pim:0,nhl:0,transfer:true,tier:"other",active:false,nhl_g:0,nhl_a:0,nhl_pts:0},
 {n:"Arsenii Radkov",pos:"G",g:false,dy:2025,dr:3,dp:82,dt:"MTL",commit:true,tier:"commit",active:false,nhl:0,nhl_g:0,nhl_a:0,nhl_pts:0},
 {n:"Oleg Kulebiakin",pos:"F",g:false,dy:2026,dr:2,dp:57,dt:"TBL",commit:true,tier:"commit",active:false,nhl:0,nhl_g:0,nhl_a:0,nhl_pts:0},
 {n:"Finn Kearns",pos:"D",g:false,dy:2026,dr:5,dp:131,dt:"SEA",commit:true,tier:"commit",active:false,nhl:0,nhl_g:0,nhl_a:0,nhl_pts:0},
@@ -371,11 +372,12 @@ function umassRange(p) {
 }
 
 let sortCol='dy', sortDir=1, groupMode='none', groupVal='', searchQ='', filterRounds=new Set();
-let yrFrom=DRAFT_YEARS[0], yrTo=DRAFT_YEARS[DRAFT_YEARS.length-1], showCommits=false;
+let yrFrom=DRAFT_YEARS[0], yrTo=DRAFT_YEARS[DRAFT_YEARS.length-1], showCommits=false, showTransfers=false;
 
 function onYrFrom(el){ yrFrom=parseInt(el.value); render(); }
 function onYrTo(el){ yrTo=parseInt(el.value); render(); }
 function onShowCommits(el){ showCommits=el.checked; render(); }
+function onShowTransfers(el){ showTransfers=el.checked; render(); }
 function initYearRange(){
   const yf=document.getElementById('yr-from'), yt=document.getElementById('yr-to');
   const opts=DRAFT_YEARS.map(y=>'<option value="'+y+'">'+y+'</option>').join('');
@@ -457,10 +459,11 @@ function clearSearch(){
 
 function resetAll(){
   sortCol='dy'; sortDir=1; searchQ=''; filterRounds=new Set();
-  yrFrom=DRAFT_YEARS[0]; yrTo=DRAFT_YEARS[DRAFT_YEARS.length-1]; showCommits=false;
+  yrFrom=DRAFT_YEARS[0]; yrTo=DRAFT_YEARS[DRAFT_YEARS.length-1]; showCommits=false; showTransfers=false;
   document.getElementById('yr-from').value=yrFrom;
   document.getElementById('yr-to').value=yrTo;
   document.getElementById('show-commits').checked=false;
+  document.getElementById('show-transfers').checked=false;
   document.getElementById('search').value='';
   document.getElementById('search-clear').style.display='none';
   document.querySelectorAll('.rd-cb').forEach(c=>c.checked=false);
@@ -564,6 +567,7 @@ function render(){
     if(filterRounds.size>0 && !filterRounds.has(p.dr)) return false;
     if(p.dy<yrFrom || p.dy>yrTo) return false;
     if(!showCommits && p.commit) return false;
+    if(!showTransfers && p.transfer) return false;
     if(groupMode==='draft'&&groupVal){
       if(p.dy!==parseInt(groupVal)) return false;
     }
@@ -594,13 +598,15 @@ function render(){
     years.forEach(y=>{
       const picks=byYear[y];
       const commits=picks.filter(p=>p.commit).length;
-      const nonCommit=picks.filter(p=>!p.commit);
-      const pending=nonCommit.filter(p=>p.pending).length;
-      const confirmed=nonCommit.length-pending;
+      const transfers=picks.filter(p=>p.transfer).length;
+      const core=picks.filter(p=>!p.commit&&!p.transfer);
+      const pending=core.filter(p=>p.pending).length;
+      const confirmed=core.length-pending;
       let label=y+' NHL Draft';
       if(confirmed>0&&pending>0) label+=' — '+confirmed+' pick'+(confirmed!==1?'s':'')+' + '+pending+' pending';
       else if(pending>0) label+=' — '+pending+' prospect'+(pending!==1?'s':'')+' (draft Jun 27)';
       else if(confirmed>0) label+=' — '+confirmed+' pick'+(confirmed!==1?'s':'');
+      if(transfers>0) label+=(label.includes('—')?' + ':' — ')+transfers+' transfer'+(transfers!==1?'s':'');
       if(commits>0) label+=(label.includes('—')?' + ':' — ')+commits+' commit'+(commits!==1?'s':'');
       html+=groupHdrHTML(label);
       picks.forEach(p=>html+=rowHTML(p));
@@ -612,14 +618,17 @@ function render(){
   tbody.innerHTML=html;
 
   const commitC=data.filter(p=>p.commit).length;
-  const baseCount=data.length-commitC;
-  const nhlC=data.filter(p=>p.tier==='nhl').length;
-  const acC=data.filter(p=>p.tier==='active_college'&&!p.pending).length;
-  const pendC=data.filter(p=>p.pending).length;
+  const transferC=data.filter(p=>p.transfer).length;
+  const baseCount=data.length-commitC-transferC;
+  const core=data.filter(p=>!p.commit&&!p.transfer);
+  const nhlC=core.filter(p=>p.tier==='nhl').length;
+  const acC=core.filter(p=>p.tier==='active_college'&&!p.pending).length;
+  const pendC=core.filter(p=>p.pending).length;
   let meta=baseCount+' player'+(baseCount!==1?'s':'');
   if(nhlC) meta+=' · '+nhlC+' NHL debuts';
   if(acC)  meta+=' · '+acC+' active';
   if(pendC) meta+=' · '+pendC+' pending (Jun 27)';
+  if(transferC) meta+=' · '+transferC+' transfer'+(transferC!==1?'s':'');
   if(commitC) meta+=' · '+commitC+' commit'+(commitC!==1?'s':'');
   document.getElementById('result-meta').textContent=meta;
 }
