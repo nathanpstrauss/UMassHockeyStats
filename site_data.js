@@ -380,6 +380,72 @@ const DRAFT_MAP = {
     "round": 4,
     "pick": 102,
     "year": 1992
+  },
+  "Tobias Trejbal": {
+    "team": "CGY",
+    "round": 2,
+    "pick": 42,
+    "year": 2026
+  },
+  "Samu Alalauri": {
+    "team": "CHI",
+    "round": 3,
+    "pick": 66,
+    "year": 2026
+  },
+  "Egor Barabanov": {
+    "team": "CGY",
+    "round": 4,
+    "pick": 100,
+    "year": 2026
+  },
+  "Jasper Kuhta": {
+    "team": "DAL",
+    "round": 7,
+    "pick": 197,
+    "year": 2026
+  },
+  "Landon Nycz": {
+    "team": "STL",
+    "round": 4,
+    "pick": 107,
+    "year": 2026
+  },
+  "Oleg Kulebiakin": {
+    "team": "TBL",
+    "round": 2,
+    "pick": 57,
+    "year": 2026
+  },
+  "Finn Kearns": {
+    "team": "SEA",
+    "round": 5,
+    "pick": 131,
+    "year": 2026
+  },
+  "Alexandre Taillefer": {
+    "team": "WPG",
+    "round": 5,
+    "pick": 135,
+    "year": 2026
+  },
+  "Vashek Blanar": {
+    "team": "BOS",
+    "round": 4,
+    "pick": 100,
+    "year": 2025
+  },
+  "Jordan Charron": {
+    "team": "PIT",
+    "round": 5,
+    "pick": 154,
+    "year": 2025
+  },
+  "Felix Farhammar": {
+    "team": "NYR",
+    "round": 7,
+    "pick": 203,
+    "year": 2025
   }
 };
 
@@ -473,6 +539,10 @@ const ALIASES = {
   "Sebastian Tčrnqvist":   "Sebastian Tornqvist",
   // Other name variants
   "Yegor Barabanov":            "Egor Barabanov",
+  "Oleg Kulebyakin":            "Oleg Kulebiakin",
+  "Vashek Blanár":              "Vashek Blanar",
+  "Vlashek Blanar":             "Vashek Blanar",
+  "Felix Färhammar":            "Felix Farhammar",
   "Kennedy O’Connor":      "Kennedy O'Connor",
   "Nicholas Van Tassell":  "Nick VanTassell",
   "Nick Van Tassell":      "Nick VanTassell",
@@ -503,5 +573,7 @@ const DISPLAY_NAMES = {
   "Sebastian Tornqvist":  "Sebastian Törnqvist",
   "Vaclav Nestrasil":     "Václav Nestrašil",
   "Maxim Masse":          "Maxim Massé",
+  "Vashek Blanar":        "Vashek Blanár",
+  "Felix Farhammar":      "Felix Färhammar",
 };
 function displayName(name){ return DISPLAY_NAMES[name] || name; }
