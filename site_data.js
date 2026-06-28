@@ -446,7 +446,19 @@ const DRAFT_MAP = {
     "round": 7,
     "pick": 203,
     "year": 2025
-  }
+  },
+  "Jonathan Quick": {
+    "team": "LAK",
+    "round": 3,
+    "pick": 72,
+    "year": 2005
+  },
+  "Matt Kessel": {
+    "team": "STL",
+    "round": 5,
+    "pick": 150,
+    "year": 2020
+  },
 };
 
 const TRANSFER_IN_MAP = {
@@ -560,6 +572,10 @@ const ALIASES = {
   "Jonathan Quick":        "Jon Quick",
   "Thomas Poeck":          "Thomas Pock",
   "Mike Mullen":           "Michael Mullen",
+  "Francesco Dell'Elce": "Francesco Dell'Elce",
+  "Cole O'Hara": "Cole O'Hara",
+  "Maxim Masse": "Maxim Masse",
+  "Sebastian Tornqvist": "Sebastian Tornqvist",
 };
 function canonical(name){ return ALIASES[name] || name; }
 
@@ -575,5 +591,13 @@ const DISPLAY_NAMES = {
   "Maxim Masse":          "Maxim Massé",
   "Vashek Blanar":        "Vashek Blanár",
   "Felix Farhammar":      "Felix Färhammar",
+  "Lukas Klecka": "Lukas Klečka",
+  "Lucas Olvestad": "Lucas Ölvestad",
+  "Daniel Alexander Jencko": "Daniel Jenčko",
+  "Cameron O'Neill": "Cam O'Neill",
+  "Michael DeAngelo": "Mikey DeAngelo",
+  "Cameron Dunn": "Cam Dunn",
+  "Cole O'Hara": "Cole O’Hara",
+  "Francesco Dell'Elce": "Francesco Dell’Elce",
 };
 function displayName(name){ return DISPLAY_NAMES[name] || name; }
