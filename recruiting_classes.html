@@ -296,9 +296,6 @@ const PLAYERS=[
 {n:"Danny Hobbs",pos:"F",g:false,dy:2007,dr:7,dp:198,dt:"NYR",fu:"2008-09",lu:"2011-12",gp:120,sk_g:28,sk_a:35,pts:63,pim:76,nhl:0,tier:"echl",active:false,nhl_g:0,nhl_a:0,nhl_pts:0},
 {n:"Justin Braun",pos:"D",g:false,dy:2007,dr:7,dp:201,dt:"SJS",fu:"2007-08",lu:"2009-10",gp:111,sk_g:19,sk_a:55,pts:74,pim:100,nhl:842,tier:"nhl",active:false,nhl_g:34,nhl_a:165,nhl_pts:199},
 {n:"Matt Irwin",pos:"D",g:false,dy:2008,dr:10,dp:289,dt:"SJS",fu:"2008-09",lu:"2009-10",gp:67,sk_g:14,sk_a:28,pts:42,pim:24,nhl:461,tier:"nhl",active:false,nhl_g:25,nhl_a:68,nhl_pts:93},
-{n:"Joel Hanley",pos:"D",g:false,dy:2011,dr:6,dp:168,dt:"MTL",fu:"2010-11",lu:"2013-14",gp:131,sk_g:17,sk_a:58,pts:75,pim:127,nhl:314,tier:"nhl",active:false,nhl_g:5,nhl_a:40,nhl_pts:45},
-{n:"Conor Sheary",pos:"F",g:false,dy:2011,dr:7,dp:184,dt:"BOS",fu:"2010-11",lu:"2013-14",gp:138,sk_g:38,sk_a:66,pts:104,pim:53,nhl:655,tier:"nhl",active:false,nhl_g:131,nhl_a:154,nhl_pts:285},
-{n:"Shane Walsh",pos:"F",g:false,dy:2013,dr:6,dp:166,dt:"CGY",fu:"2012-13",lu:"2015-16",gp:133,sk_g:36,sk_a:31,pts:67,pim:96,nhl:0,tier:"echl",active:false,nhl_g:0,nhl_a:0,nhl_pts:0},
 {n:"Brandon Montour",pos:"D",g:false,dy:2014,dr:2,dp:55,dt:"ANA",fu:"2014-15",lu:"2014-15",gp:21,sk_g:3,sk_a:17,pts:20,pim:30,nhl:665,tier:"nhl",active:false,nhl_g:95,nhl_a:230,nhl_pts:325},
 {n:"William Lagesson",pos:"D",g:false,dy:2014,dr:4,dp:91,dt:"EDM",fu:"2015-16",lu:"2016-17",gp:63,sk_g:4,sk_a:11,pts:15,pim:54,nhl:107,tier:"nhl",active:false,nhl_g:0,nhl_a:12,nhl_pts:12},
 {n:"Frank Vatrano",pos:"F",g:false,dy:2014,dr:6,dp:156,dt:"BOS",fu:"2013-14",lu:"2014-15",gp:37,sk_g:18,sk_a:10,pts:28,pim:28,nhl:695,tier:"nhl",active:false,nhl_g:186,nhl_a:139,nhl_pts:325},
@@ -318,7 +315,7 @@ const PLAYERS=[
 {n:"Kenny Connors",pos:"F",g:false,dy:2022,dr:4,dp:103,dt:"LAK",fu:"2022-23",lu:"2024-25",gp:109,sk_g:26,sk_a:51,pts:77,pim:28,nhl:2,tier:"nhl",active:false,nhl_g:0,nhl_a:0,nhl_pts:0},
 {n:"Cole O'Hara",pos:"F",g:false,dy:2022,dr:4,dp:114,dt:"NSH",fu:"2022-23",lu:"2024-25",gp:95,sk_g:10,sk_a:19,pts:29,pim:44,nhl:1,tier:"nhl",active:false,nhl_g:0,nhl_a:1,nhl_pts:1},
 {n:"Dans Locmelis",pos:"F",g:false,dy:2022,dr:4,dp:119,dt:"BOS",fu:"2023-24",lu:"2024-25",gp:70,sk_g:15,sk_a:32,pts:47,pim:12,nhl:0,tier:"ahl",active:false,nhl_g:0,nhl_a:0,nhl_pts:0},
-{n:"Cameron O'Neill",pos:"F",g:false,dy:2022,dr:5,dp:143,dt:"OTT",fu:"2025-26",lu:"2026-27",gp:32,sk_g:5,sk_a:9,pts:14,pim:8,nhl:0,tier:"active_college",active:true,nhl_g:0,nhl_a:0,nhl_pts:0},
+{n:"Cam O'Neill",pos:"F",g:false,dy:2022,dr:5,dp:143,dt:"OTT",fu:"2023-24",lu:"2026-27",gp:88,sk_g:10,sk_a:14,pts:24,pim:37,nhl:0,tier:"active_college",active:true,nhl_g:0,nhl_a:0,nhl_pts:0},
 {n:"Owen Mehlenbacher",pos:"D",g:false,dy:2022,dr:7,dp:201,dt:"DET",fu:"2025-26",lu:"2025-26",gp:32,sk_g:3,sk_a:6,pts:9,pim:8,nhl:0,transfer:true,tier:"other",active:false,nhl_g:0,nhl_a:0,nhl_pts:0},
 {n:"Tyson Dyck",pos:"F",g:false,dy:2022,dr:7,dp:206,dt:"OTT",fu:"2022-23",lu:"2022-23",gp:29,sk_g:5,sk_a:4,pts:9,pim:8,nhl:0,tier:"other",active:false,nhl_g:0,nhl_a:0,nhl_pts:0},
 {n:"Michael Hrabal",pos:"G",g:false,dy:2023,dr:2,dp:38,dt:"ARI",fu:"2023-24",lu:"2025-26",gp:96,sk_g:0,sk_a:0,pts:0,pim:0,nhl:0,tier:"ahl",active:false,nhl_g:0,nhl_a:0,nhl_pts:0},
@@ -368,7 +365,7 @@ const PLAYERS=[
     for(const b of ORDER){ if(buckets.has(b)){ p.tier=TIER[b]; break; } } // highest pro bucket; college/jr-only keeps hardcoded tier
   });
 })();
-const DRAFT_YEARS = [1991, 1992, 1993, 1994, 2001, 2002, 2003, 2005, 2006, 2007, 2008, 2010, 2011, 2013, 2014, 2015, 2017, 2018, 2019, 2020, 2021, 2022, 2023, 2024, 2025, 2026];
+const DRAFT_YEARS = [1991, 1992, 1993, 1994, 2001, 2002, 2003, 2005, 2006, 2007, 2008, 2010, 2014, 2015, 2017, 2018, 2019, 2020, 2021, 2022, 2023, 2024, 2025, 2026];
 const ROSTER_SEASONS = ["2026-27", "2025-26", "2024-25", "2023-24", "2022-23", "2021-22", "2020-21", "2019-20", "2018-19", "2017-18", "2016-17", "2015-16", "2014-15", "2013-14", "2012-13", "2011-12", "2010-11", "2009-10", "2008-09", "2007-08", "2006-07", "2005-06", "2004-05", "2003-04", "2002-03", "2001-02", "2000-01", "1997-98", "1996-97", "1995-96", "1994-95", "1993-94"];
 
 function playerSeasons(p) {

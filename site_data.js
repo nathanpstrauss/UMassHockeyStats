@@ -291,24 +291,6 @@ const DRAFT_MAP = {
     "pick": 130,
     "year": 2007
   },
-  "Conor Sheary": {
-    "team": "BOS",
-    "round": 7,
-    "pick": 184,
-    "year": 2011
-  },
-  "Joel Hanley": {
-    "team": "MTL",
-    "round": 6,
-    "pick": 168,
-    "year": 2011
-  },
-  "Shane Walsh": {
-    "team": "CGY",
-    "round": 6,
-    "pick": 166,
-    "year": 2013
-  },
   "Frank Vatrano": {
     "team": "BOS",
     "round": 6,
