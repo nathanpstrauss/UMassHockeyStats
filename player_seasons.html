@@ -456,7 +456,7 @@ function sortRows(rows) {
     vb = parseFloat(vb) || 0;
     // GAA: lower is better; invert when sortDir is -1 (desc "best first")
     if (col === 'avg') return -sortDir * (va - vb);
-    return sortDir * (vb - va);
+    return sortDir * (va - vb);
   });
 }
 

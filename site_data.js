@@ -469,7 +469,8 @@ const TRANSFER_IN_MAP = {
   "Josh Couturier": "Boston College",
   "Ben Gallacher": "Ohio State",
   "Josh Nodler": "Michigan State",
-  "Niko Rufo": "Providence"
+  "Niko Rufo": "Providence",
+  "John Toffey": "Ohio State"
 };
 
 const TRANSFER_OUT_MAP = {

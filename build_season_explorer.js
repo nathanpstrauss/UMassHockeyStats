@@ -46,6 +46,7 @@ const TRANSFER_ENTRY_CLASS = {
   'Ben Gallacher':       'So',
   'Josh Nodler':         'Sr',
   'Niko Rufo':           'Gr',
+  'John Toffey':         'So',
 };
 
 // ── Load data ──────────────────────────────────────────────────────────────
