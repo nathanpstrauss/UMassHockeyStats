@@ -164,6 +164,13 @@ td.td-num{text-align:right;font-variant-numeric:tabular-nums;
       <button class="toggle-btn" onclick="setType('goalie')">Goalies</button>
     </div>
 
+    <!-- Position filter (skater mode only) -->
+    <div class="toggle-group" id="pos-btns">
+      <button class="toggle-btn active" onclick="setPos('all')">All</button>
+      <button class="toggle-btn" onclick="setPos('F')">F</button>
+      <button class="toggle-btn" onclick="setPos('D')">D</button>
+    </div>
+
     <div class="ctrl-div"></div>
 
     <!-- Aggregation mode -->
@@ -246,6 +253,7 @@ let ptype    = 'skater';   // 'skater' | 'goalie'
 let classFilter = 'all';
 let sortCol  = 'pts';
 let sortDir  = -1;          // -1 = desc, 1 = asc
+let posFilter = 'all';      // 'all' | 'F' | 'D'
 
 // ── Boot ─────────────────────────────────────────────────────────────────
 fetch('season_explorer.json')
@@ -283,6 +291,9 @@ function setType(v) {
   ptype = v;
   document.querySelectorAll('#type-btns .toggle-btn').forEach(b =>
     b.classList.toggle('active', b.textContent.toLowerCase().startsWith(v)));
+  // Show pos filter only in skater mode
+  document.getElementById('pos-btns').style.display = v === 'skater' ? '' : 'none';
+  if (v === 'goalie') { posFilter = 'all'; }
   // Reset sort to sensible default per type
   sortCol = v === 'goalie' ? 'w' : 'pts';
   sortDir = -1;
@@ -317,6 +328,15 @@ function setMode(v) {
   // Reset sort
   sortCol = ptype === 'goalie' ? 'w' : 'pts';
   sortDir = -1;
+  render();
+}
+
+function setPos(v) {
+  posFilter = v;
+  document.querySelectorAll('#pos-btns .toggle-btn').forEach(b => {
+    const lbl = b.textContent;
+    b.classList.toggle('active', lbl === (v === 'all' ? 'All' : v));
+  });
   render();
 }
 
@@ -415,6 +435,11 @@ function getWorkingRows() {
 
   // 1. Start with the raw flat rows, filter by type
   let rows = ALL_ROWS.filter(r => r.is_goalie === isGoalie);
+
+  // Position filter (skaters only)
+  if (!isGoalie && posFilter !== 'all') {
+    rows = rows.filter(r => r.pos === posFilter);
+  }
 
   if (mode === 'season') {
     // Season range filter
