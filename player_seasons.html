@@ -1,0 +1,596 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>UMass Hockey — Player Seasons</title>
+<link href="https://fonts.googleapis.com/css2?family=Zilla+Slab:wght@400;700&family=Oswald:wght@400;500;600;700;800;900&family=Source+Sans+3:wght@400;600&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#F7F5F1;--surface:#FFFFFF;--surface2:#FAF8F4;--surface3:#EFEBE3;
+  --border:#E4DFD7;--border2:#CEC8BD;--border-faint:#EFEBE4;
+  --text:#1B1714;--muted:#8B847A;--muted2:#A9A299;
+  --maroon:#881C1C;--maroon-bright:#A82626;--maroon-light:#F4E7E7;--maroon-line:#E2C4C4;
+  --gold:#B0892E;--gold-dim:#F6EFDD;--gold-border:#E6D5A8;
+  --teal:#1F7A4D;--teal-bg:rgba(31,122,77,.08);--teal-border:rgba(31,122,77,.2);
+  --font-display:'Zilla Slab',Georgia,serif;
+  --font-ui:'Oswald','Arial Narrow',sans-serif;
+  --font-body:'Source Sans 3',system-ui,sans-serif;
+  --shadow-xs:0 1px 2px rgba(40,30,20,.05);
+  --shadow-sm:0 1px 3px rgba(40,30,20,.07),0 1px 2px rgba(40,30,20,.04);
+}
+body{font-family:var(--font-body);background:var(--bg);color:var(--text);min-height:100vh}
+
+/* ── Nav ────────────────────────────────────────────────────────── */
+nav{background:rgba(247,245,241,.92);border-bottom:1px solid var(--border);
+  padding:0 24px;display:flex;align-items:center;position:sticky;top:0;z-index:100;
+  backdrop-filter:blur(10px);box-shadow:var(--shadow-xs)}
+.nav-logo{text-decoration:none;display:flex;align-items:center;gap:10px;margin-right:32px;padding:10px 0}
+.nav-links{display:flex;gap:4px;align-items:center}
+.nav-links a{font-family:var(--font-ui);font-size:11px;font-weight:700;
+  letter-spacing:1.5px;padding:5px 10px;border-radius:5px;
+  color:var(--muted2);text-decoration:none;
+  text-transform:uppercase;transition:color .15s;
+  border-bottom:2px solid transparent}
+.nav-links a:hover{color:var(--text)}
+.nav-links a.active{color:var(--text);border-bottom-color:var(--maroon)}
+.nav-links a.external{color:var(--maroon)}
+
+/* ── Header ─────────────────────────────────────────────────────── */
+.header{padding:28px 40px 22px;border-bottom:1px solid var(--maroon-line);
+  background:linear-gradient(180deg,#F4E7E7 0%,#F7F5F1 65%)}
+.header-inner{max-width:1180px;margin:0 auto}
+.header-eyebrow{font-family:var(--font-ui);font-size:10px;font-weight:800;
+  text-transform:uppercase;letter-spacing:2px;color:var(--muted);margin-bottom:8px}
+.header-title{font-family:var(--font-display);font-size:30px;
+  font-weight:700;color:var(--text);line-height:1;margin-bottom:12px}
+.header-sub{font-size:13px;color:var(--muted2);max-width:620px;line-height:1.6}
+
+/* ── Controls ───────────────────────────────────────────────────── */
+.controls{padding:10px 40px;border-bottom:1px solid var(--border);
+  background:rgba(247,245,241,.95);position:sticky;top:55px;z-index:10;
+  backdrop-filter:blur(8px);box-shadow:var(--shadow-xs)}
+.controls-inner{max-width:1180px;margin:0 auto;display:flex;align-items:center;
+  gap:10px;flex-wrap:wrap}
+.ctrl-label{font-family:var(--font-ui);font-size:10px;font-weight:700;
+  text-transform:uppercase;letter-spacing:.8px;color:var(--muted);white-space:nowrap}
+.toggle-group{display:flex;gap:2px;background:var(--surface2);
+  border:1px solid var(--border);border-radius:6px;padding:3px}
+.toggle-btn{font-family:var(--font-ui);font-size:11px;font-weight:700;
+  text-transform:uppercase;letter-spacing:.5px;padding:4px 10px;border-radius:4px;
+  border:none;background:transparent;color:var(--muted);cursor:pointer;transition:all .15s}
+.toggle-btn.active{background:var(--maroon);color:#fff}
+.ctrl-div{width:1px;height:20px;background:var(--border);flex-shrink:0}
+.ctrl-select{font-family:var(--font-ui);font-size:11px;font-weight:700;
+  background:var(--surface);border:1px solid var(--border2);border-radius:4px;
+  padding:4px 6px;color:var(--text);cursor:pointer;max-width:100px}
+.ctrl-select:focus{outline:none;border-color:var(--maroon)}
+.ctrl-check-wrap{display:flex;align-items:center;gap:5px;cursor:pointer;
+  font-family:var(--font-ui);font-size:10px;font-weight:700;text-transform:uppercase;
+  letter-spacing:.5px;color:var(--muted);user-select:none}
+.ctrl-check-wrap input{accent-color:var(--maroon);cursor:pointer}
+.search-wrap{flex:1;max-width:200px}
+.search-input{width:100%;background:var(--surface);border:1px solid var(--border2);
+  border-radius:4px;padding:5px 10px;color:var(--text);font-size:12px;
+  font-family:var(--font-ui)}
+.search-input:focus{outline:none;border-color:var(--maroon)}
+.search-input::placeholder{color:var(--muted2)}
+
+/* ── Table ──────────────────────────────────────────────────────── */
+.table-wrap{overflow-x:auto;padding:0 40px 60px}
+.table-inner{max-width:1180px;margin:0 auto}
+table{width:100%;border-collapse:collapse;margin-top:20px;
+  table-layout:fixed;font-size:13px}
+
+thead th{font-family:var(--font-ui);font-size:9px;font-weight:800;
+  text-transform:uppercase;letter-spacing:1.2px;color:var(--muted);
+  padding:9px 8px;border-bottom:2px solid var(--border2);
+  text-align:right;cursor:pointer;user-select:none;white-space:nowrap;
+  background:var(--surface2)}
+thead th.th-left{text-align:left}
+thead th:hover{color:var(--text)}
+thead th.sorted{color:var(--maroon)}
+.sort-arrow{display:inline-block;margin-left:2px;opacity:.4;font-size:9px}
+thead th.sorted .sort-arrow{opacity:1;color:var(--maroon)}
+
+tbody tr{border-bottom:1px solid var(--border-faint);transition:background .1s}
+tbody tr:hover{background:var(--surface2)}
+tbody tr.active-row{background:var(--gold-dim);border-left:2px solid var(--gold)}
+tbody tr:not(.active-row){border-left:2px solid transparent}
+td{padding:8px 8px;vertical-align:middle}
+td.td-num{text-align:right;font-variant-numeric:tabular-nums;
+  font-family:var(--font-ui);font-size:13px;font-weight:600}
+
+/* ── Player cell ────────────────────────────────────────────────── */
+.player-name{font-family:var(--font-ui);font-size:13px;font-weight:600;line-height:1.1}
+.player-name.is-active{color:var(--gold)}
+.player-meta{display:flex;align-items:center;gap:5px;margin-top:2px;flex-wrap:wrap}
+.badge-class{font-family:var(--font-ui);font-size:8px;font-weight:800;
+  padding:1px 5px;border-radius:3px;background:var(--surface3);
+  color:var(--muted);border:1px solid var(--border2);text-transform:uppercase}
+.badge-draft{font-family:var(--font-ui);font-size:8px;font-weight:800;
+  padding:1px 5px;border-radius:3px;background:var(--maroon-light);
+  color:var(--maroon);border:1px solid var(--maroon-line);white-space:nowrap}
+.badge-active{font-family:var(--font-ui);font-size:8px;font-weight:800;
+  padding:1px 5px;border-radius:3px;background:var(--teal-bg);
+  color:var(--teal);border:1px solid var(--teal-border)}
+
+/* ── Empty state ────────────────────────────────────────────────── */
+.empty{text-align:center;padding:60px;color:var(--muted);
+  font-family:var(--font-ui);font-size:12px;letter-spacing:.5px;text-transform:uppercase}
+.loading{text-align:center;padding:80px;color:var(--muted);
+  font-family:var(--font-ui);font-size:12px;letter-spacing:1px;text-transform:uppercase}
+
+/* ── Aggregation mode row count ─────────────────────────────────── */
+.row-count{font-family:var(--font-ui);font-size:11px;color:var(--muted2);
+  margin-top:10px;margin-bottom:-8px;letter-spacing:.3px}
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="index.html" class="nav-logo">
+    <img src="UMass_Hockey_2_.png" alt="UMass" style="height:34px;width:auto;display:block"/>
+  </a>
+  <div class="nav-links">
+    <a href="index.html#rosters">Rosters</a>
+    <a href="ncaa_nhl_pipeline.html">NCAA Pipeline</a>
+    <a href="career_stats.html">Career Stats</a>
+    <a href="player_seasons.html" class="active">Player Seasons</a>
+    <a href="recruiting_classes.html">Draft</a>
+    <a href="minutemen_in_the_pros.html">Pros</a>
+    <a href="hea_allstars.html">HEA All-Stars</a>
+    <a href="awards.html">Awards</a>
+    <a href="game_log.html">Game Log</a>
+    <a href="https://umasshockeyblog.substack.com/" class="external" target="_blank" rel="noopener">Blog &#8599;</a>
+  </div>
+</nav>
+
+<div class="header">
+  <div class="header-inner">
+    <div class="header-eyebrow">Program History · 1993–Present</div>
+    <h1 class="header-title">Player Seasons</h1>
+    <p class="header-sub">Every UMass player-season since 1993–94 — sortable, filterable, and aggregatable. Find the best freshman campaigns, top single-season scoring, and first-year breakouts.</p>
+  </div>
+</div>
+
+<div class="controls">
+  <div class="controls-inner">
+
+    <!-- Skater / Goalie toggle -->
+    <div class="toggle-group" id="type-btns">
+      <button class="toggle-btn active" onclick="setType('skater')">Skaters</button>
+      <button class="toggle-btn" onclick="setType('goalie')">Goalies</button>
+    </div>
+
+    <div class="ctrl-div"></div>
+
+    <!-- Aggregation mode -->
+    <span class="ctrl-label">View</span>
+    <div class="toggle-group" id="mode-btns">
+      <button class="toggle-btn active" onclick="setMode('season')">Season</button>
+      <button class="toggle-btn" onclick="setMode('firstN')">First N</button>
+      <button class="toggle-btn" onclick="setMode('career')">Career</button>
+    </div>
+
+    <!-- N selector (First N mode) -->
+    <span class="ctrl-label" id="n-label" style="display:none">N</span>
+    <select class="ctrl-select" id="n-select" style="display:none;max-width:60px" onchange="render()">
+      <option value="1">1</option>
+      <option value="2" selected>2</option>
+      <option value="3">3</option>
+      <option value="4">4</option>
+      <option value="5">5</option>
+    </select>
+
+    <div class="ctrl-div"></div>
+
+    <!-- Season range (Season mode only) -->
+    <span class="ctrl-label" id="from-label">From</span>
+    <select class="ctrl-select" id="from-select" onchange="render()"></select>
+    <span style="font-family:var(--font-ui);font-size:11px;color:var(--muted)">→</span>
+    <select class="ctrl-select" id="to-select" onchange="render()"></select>
+
+    <div class="ctrl-div" id="class-div"></div>
+
+    <!-- Class filter (Season mode only) -->
+    <div class="toggle-group" id="class-btns" style="display:none">
+      <button class="toggle-btn active" onclick="setClass('all')">All</button>
+      <button class="toggle-btn" onclick="setClass('Fr')">Fr</button>
+      <button class="toggle-btn" onclick="setClass('So')">So</button>
+      <button class="toggle-btn" onclick="setClass('Jr')">Jr</button>
+      <button class="toggle-btn" onclick="setClass('Sr')">Sr</button>
+      <button class="toggle-btn" onclick="setClass('Gr')">Gr</button>
+    </div>
+
+    <div class="ctrl-div"></div>
+
+    <!-- Drafted / Active filters -->
+    <label class="ctrl-check-wrap">
+      <input type="checkbox" id="chk-drafted" onchange="render()"> Drafted
+    </label>
+    <label class="ctrl-check-wrap">
+      <input type="checkbox" id="chk-active" onchange="render()"> 2026–27
+    </label>
+
+    <div class="ctrl-div"></div>
+
+    <!-- Search -->
+    <div class="search-wrap">
+      <input class="search-input" id="search" placeholder="Search player…" oninput="render()">
+    </div>
+
+  </div>
+</div>
+
+<div class="table-wrap">
+  <div class="table-inner">
+    <div class="loading" id="loading">Loading…</div>
+    <div class="row-count" id="row-count" style="display:none"></div>
+    <table id="main-table" style="display:none">
+      <colgroup id="colgroup"></colgroup>
+      <thead id="thead"></thead>
+      <tbody id="tbody"></tbody>
+    </table>
+    <div class="empty" id="empty" style="display:none">No seasons match your filters.</div>
+  </div>
+</div>
+
+<script src="site_data.js"></script>
+<script>
+// ── State ────────────────────────────────────────────────────────────────
+let ALL_ROWS = [];  // raw flat array from season_explorer.json
+let mode     = 'season';   // 'season' | 'firstN' | 'career'
+let ptype    = 'skater';   // 'skater' | 'goalie'
+let classFilter = 'all';
+let sortCol  = 'pts';
+let sortDir  = -1;          // -1 = desc, 1 = asc
+
+// ── Boot ─────────────────────────────────────────────────────────────────
+fetch('season_explorer.json')
+  .then(r => r.json())
+  .then(data => {
+    ALL_ROWS = data;
+    buildSeasonDropdowns();
+    // Default: skater Season mode → sort by PTS desc
+    sortCol = 'pts'; sortDir = -1;
+    render();
+    document.getElementById('loading').style.display = 'none';
+    document.getElementById('main-table').style.display = '';
+    document.getElementById('row-count').style.display = '';
+    // Show class buttons (initially Season mode)
+    document.getElementById('class-btns').style.display = '';
+  })
+  .catch(err => {
+    document.getElementById('loading').textContent = 'Error loading data. ' + err.message;
+  });
+
+// ── Season dropdown population ────────────────────────────────────────────
+function buildSeasonDropdowns() {
+  const seasons = [...new Set(ALL_ROWS.map(r => r.season))].sort();
+  const fromSel = document.getElementById('from-select');
+  const toSel   = document.getElementById('to-select');
+  seasons.forEach(s => {
+    const o1 = new Option(s, s); fromSel.appendChild(o1);
+    const o2 = new Option(s, s); toSel.appendChild(o2);
+  });
+  toSel.value = seasons[seasons.length - 1]; // default To = latest
+}
+
+// ── Control state setters ─────────────────────────────────────────────────
+function setType(v) {
+  ptype = v;
+  document.querySelectorAll('#type-btns .toggle-btn').forEach(b =>
+    b.classList.toggle('active', b.textContent.toLowerCase().startsWith(v)));
+  // Reset sort to sensible default per type
+  sortCol = v === 'goalie' ? 'w' : 'pts';
+  sortDir = -1;
+  render();
+}
+
+function setMode(v) {
+  mode = v;
+  document.querySelectorAll('#mode-btns .toggle-btn').forEach(b =>
+    b.classList.toggle('active', b.getAttribute('onclick').includes("'"+v+"'")));
+
+  const isSeasonMode = v === 'season';
+  const isFirstN     = v === 'firstN';
+
+  // N selector
+  document.getElementById('n-label').style.display  = isFirstN ? '' : 'none';
+  document.getElementById('n-select').style.display = isFirstN ? '' : 'none';
+
+  // Season range
+  document.getElementById('from-label').style.display   = isSeasonMode ? '' : 'none';
+  document.getElementById('from-select').style.display  = isSeasonMode ? '' : 'none';
+  document.getElementById('to-select').style.display    = isSeasonMode ? '' : 'none';
+  // The → span
+  document.querySelectorAll('.controls-inner span').forEach(span => {
+    if (span.textContent === '→') span.style.display = isSeasonMode ? '' : 'none';
+  });
+
+  // Class filter
+  document.getElementById('class-btns').style.display = isSeasonMode ? '' : 'none';
+  document.getElementById('class-div').style.display  = isSeasonMode ? '' : 'none';
+
+  // Reset sort
+  sortCol = ptype === 'goalie' ? 'w' : 'pts';
+  sortDir = -1;
+  render();
+}
+
+function setClass(v) {
+  classFilter = v;
+  document.querySelectorAll('#class-btns .toggle-btn').forEach(b => {
+    const lbl = b.textContent;
+    b.classList.toggle('active', lbl === (v === 'all' ? 'All' : v));
+  });
+  render();
+}
+
+function setSort(col) {
+  if (sortCol === col) sortDir *= -1;
+  else { sortCol = col; sortDir = -1; }
+  render();
+}
+
+// ── Helpers: minutes parsing ─────────────────────────────────────────────
+function parseMins(str) {
+  if (!str || str === '0:00') return 0;
+  const parts = str.split(':');
+  return (parseInt(parts[0]) || 0) * 60 + (parseInt(parts[1]) || 0);
+}
+function formatMins(totalSec) {
+  const m = Math.floor(totalSec / 60), s = totalSec % 60;
+  return m + ':' + String(s).padStart(2, '0');
+}
+
+// ── Aggregation ───────────────────────────────────────────────────────────
+function aggregate(rows, maxIdx) {
+  // maxIdx: number for First N, null for Career
+  const src = maxIdx ? rows.filter(r => r.season_index <= maxIdx) : rows;
+  const bySlug = {};
+  src.forEach(r => {
+    if (!bySlug[r.slug]) {
+      bySlug[r.slug] = {
+        slug: r.slug, display_name: r.display_name,
+        is_goalie: r.is_goalie, pos: r.pos, active: r.active,
+        gp: 0,
+        // skater
+        g: 0, a: 0, pts: 0, plus_minus: 0, pen_min: 0,
+        pp: 0, sh: 0, gw: 0, shots: 0, blk: 0,
+        // goalie accumulators
+        w: 0, l: 0, t: 0, sho: 0,
+        _saves: 0, _ga: 0, _mins_sec: 0,
+      };
+    }
+    const agg = bySlug[r.slug];
+    agg.gp += r.gp || 0;
+    if (!r.is_goalie) {
+      agg.g         += r.g         || 0;
+      agg.a         += r.a         || 0;
+      agg.pts       += r.pts       || 0;
+      agg.plus_minus+= r.plus_minus|| 0;
+      agg.pen_min   += r.pen_min   || 0;
+      agg.pp        += r.pp        || 0;
+      agg.sh        += r.sh        || 0;
+      agg.gw        += r.gw        || 0;
+      agg.shots     += r.shots     || 0;
+      agg.blk       += r.blk       || 0;
+    } else {
+      agg.w        += r.w   || 0;
+      agg.l        += r.l   || 0;
+      agg.t        += r.t   || 0;
+      agg.sho      += r.sho || 0;
+      agg._saves   += r.saves || 0;
+      agg._ga      += r.ga    || 0;
+      agg._mins_sec+= parseMins(r.minutes);
+    }
+  });
+
+  return Object.values(bySlug).map(agg => {
+    if (agg.is_goalie) {
+      const totalSec = agg._mins_sec;
+      const totalMin = totalSec / 60;
+      agg.avg    = totalMin > 0 ? (agg._ga * 60) / totalMin : 0;
+      agg.sv_pct = (agg._saves + agg._ga) > 0 ? agg._saves / (agg._saves + agg._ga) : 0;
+      agg.minutes = formatMins(totalSec);
+    } else {
+      agg.pct = agg.shots > 0 ? agg.g / agg.shots : 0;
+    }
+    return agg;
+  });
+}
+
+// ── Main filter + render ──────────────────────────────────────────────────
+function getWorkingRows() {
+  const fromVal   = (document.getElementById('from-select') || {}).value;
+  const toVal     = (document.getElementById('to-select')   || {}).value;
+  const onlyDraft = document.getElementById('chk-drafted').checked;
+  const onlyActv  = document.getElementById('chk-active').checked;
+  const q         = document.getElementById('search').value.toLowerCase().trim();
+  const isGoalie  = ptype === 'goalie';
+  const N         = parseInt(document.getElementById('n-select').value);
+
+  // 1. Start with the raw flat rows, filter by type
+  let rows = ALL_ROWS.filter(r => r.is_goalie === isGoalie);
+
+  if (mode === 'season') {
+    // Season range filter
+    if (fromVal) rows = rows.filter(r => r.season >= fromVal);
+    if (toVal)   rows = rows.filter(r => r.season <= toVal);
+    // Class filter
+    if (classFilter !== 'all') rows = rows.filter(r => r.class === classFilter);
+  }
+
+  // For aggregation modes, aggregate BEFORE applying player-level filters
+  if (mode === 'firstN')  rows = aggregate(rows, N);
+  if (mode === 'career')  rows = aggregate(rows, null);
+
+  // Player-level filters (applied after aggregation in agg modes, or on rows in season mode)
+  if (onlyActv) rows = rows.filter(r => r.active);
+
+  if (onlyDraft) {
+    rows = rows.filter(r => {
+      const key = canonical(r.display_name);
+      return DRAFT_MAP[key] !== undefined;
+    });
+  }
+
+  if (q) {
+    rows = rows.filter(r => r.display_name.toLowerCase().includes(q));
+  }
+
+  return rows;
+}
+
+function sortRows(rows) {
+  const col = sortCol;
+  return [...rows].sort((a, b) => {
+    let va = a[col], vb = b[col];
+    if (col === 'display_name') {
+      return sortDir * (va || '').localeCompare(vb || '');
+    }
+    va = parseFloat(va) || 0;
+    vb = parseFloat(vb) || 0;
+    // GAA: lower is better; invert when sortDir is -1 (desc "best first")
+    if (col === 'avg') return -sortDir * (va - vb);
+    return sortDir * (vb - va);
+  });
+}
+
+// ── Column definitions ────────────────────────────────────────────────────
+function getSkaterCols() {
+  const isSeason = mode === 'season';
+  const cols = [
+    {key:'_rank',    label:'#',      w:32,  left:true,  sortable:false},
+    {key:'display_name',label:'Player',w:190,left:true, sortable:true},
+  ];
+  if (isSeason) {
+    cols.push({key:'season',       label:'Season', w:72, left:true, sortable:true});
+    cols.push({key:'season_index', label:'Yr',     w:28, sortable:true});
+    cols.push({key:'class',        label:'Cl',     w:28, sortable:false});
+  }
+  cols.push(
+    {key:'gp',        label:'GP',   w:36, sortable:true},
+    {key:'g',         label:'G',    w:36, sortable:true},
+    {key:'a',         label:'A',    w:36, sortable:true},
+    {key:'pts',       label:'PTS',  w:42, sortable:true},
+    {key:'plus_minus',label:'+/−',  w:42, sortable:true},
+    {key:'pen_min',   label:'PIM',  w:40, sortable:true},
+    {key:'pp',        label:'PP',   w:36, sortable:true},
+    {key:'sh',        label:'SH',   w:36, sortable:true},
+    {key:'gw',        label:'GW',   w:36, sortable:true},
+    {key:'shots',     label:'SOG',  w:42, sortable:true},
+    {key:'pct',       label:'SH%',  w:48, sortable:true},
+    {key:'blk',       label:'BLK',  w:40, sortable:true},
+  );
+  return cols;
+}
+
+function getGoalieCols() {
+  const isSeason = mode === 'season';
+  const cols = [
+    {key:'_rank',    label:'#',     w:32,  left:true, sortable:false},
+    {key:'display_name',label:'Player',w:200,left:true,sortable:true},
+  ];
+  if (isSeason) {
+    cols.push({key:'season',       label:'Season', w:72, left:true, sortable:true});
+    cols.push({key:'season_index', label:'Yr',     w:28, sortable:true});
+    cols.push({key:'class',        label:'Cl',     w:28, sortable:false});
+  }
+  cols.push(
+    {key:'gp',    label:'GP',  w:36, sortable:true},
+    {key:'w',     label:'W',   w:36, sortable:true},
+    {key:'l',     label:'L',   w:36, sortable:true},
+    {key:'t',     label:'T',   w:32, sortable:true},
+    {key:'avg',   label:'GAA', w:48, sortable:true},
+    {key:'sv_pct',label:'SV%', w:52, sortable:true},
+    {key:'sho',   label:'SHO', w:40, sortable:true},
+  );
+  return cols;
+}
+
+// ── Render ────────────────────────────────────────────────────────────────
+function render() {
+  const rows   = getWorkingRows();
+  const sorted = sortRows(rows);
+  const cols   = ptype === 'goalie' ? getGoalieCols() : getSkaterCols();
+
+  // Colgroup
+  const cg = document.getElementById('colgroup');
+  cg.innerHTML = cols.map(c => `<col style="width:${c.w}px">`).join('');
+
+  // Thead
+  const th = document.getElementById('thead');
+  th.innerHTML = '<tr>' + cols.map(c => {
+    if (!c.sortable) {
+      return `<th class="th-left${c.left?'':''}" style="${c.left?'text-align:left':''}">${c.label}</th>`;
+    }
+    const isSorted = sortCol === c.key;
+    const arrow = isSorted ? (sortDir === -1 ? '▼' : '▲') : '▾';
+    return `<th class="${isSorted?'sorted':''} ${c.left?'th-left':''}"
+      style="${c.left?'text-align:left':''}"
+      onclick="setSort('${c.key}')">${c.label}<span class="sort-arrow">${arrow}</span></th>`;
+  }).join('') + '</tr>';
+
+  // Row count label
+  const rcEl = document.getElementById('row-count');
+  const noun = mode === 'season' ? 'player-season' : 'player';
+  const plural = sorted.length === 1 ? noun : noun + 's';
+  rcEl.textContent = sorted.length.toLocaleString() + ' ' + plural;
+
+  // Empty
+  document.getElementById('empty').style.display = sorted.length ? 'none' : '';
+  document.getElementById('main-table').style.display = sorted.length ? '' : 'none';
+
+  // Tbody
+  const tbody = document.getElementById('tbody');
+  tbody.innerHTML = sorted.map((r, i) => {
+    const isActive = r.active;
+    const rowCls   = isActive ? 'active-row' : '';
+
+    // Draft badge
+    const draftKey  = canonical(r.display_name);
+    const draftInfo = DRAFT_MAP[draftKey];
+    const draftBadge = draftInfo
+      ? `<span class="badge-draft">${draftInfo.year} Rd${draftInfo.round} ${draftInfo.team}</span>`
+      : '';
+    const activeBadge = isActive ? `<span class="badge-active">2026-27</span>` : '';
+
+    // Class badge (season mode, player col)
+    const classBadge = (mode === 'season' && r.class)
+      ? `<span class="badge-class">${r.class}</span>` : '';
+
+    // Name cell
+    const nameHtml = `
+      <div class="player-name${isActive?' is-active':''}">${r.display_name}</div>
+      <div class="player-meta">${draftBadge}${activeBadge}</div>`;
+
+    // Build cells
+    const cells = cols.map(c => {
+      if (c.key === '_rank')        return `<td class="td-num" style="color:var(--muted2)">${i+1}</td>`;
+      if (c.key === 'display_name') return `<td>${nameHtml}</td>`;
+      if (c.key === 'season')       return `<td style="font-family:var(--font-ui);font-size:11px;font-weight:700;color:var(--muted)">${r.season||''}</td>`;
+      if (c.key === 'season_index') return `<td class="td-num" style="color:var(--muted2)">${r.season_index||''}</td>`;
+      if (c.key === 'class')        return `<td style="font-family:var(--font-ui);font-size:11px;font-weight:700;color:var(--muted)">${r.class||''}</td>`;
+
+      // Stat cells
+      const v = r[c.key];
+      let display;
+      if (c.key === 'pct')    display = (v && v > 0) ? (Math.round(v * 1000) / 10).toFixed(1) + '%' : '—';
+      else if (c.key === 'avg')    display = v ? parseFloat(v).toFixed(2) : '—';
+      else if (c.key === 'sv_pct') display = v ? parseFloat(v).toFixed(3) : '—';
+      else if (c.key === 'plus_minus') display = (v === undefined || v === null) ? '—' : (v > 0 ? '+' + v : v);
+      else display = (v === undefined || v === null || v === 0) ? (c.key === 'gp' ? 0 : '—') : v;
+
+      return `<td class="td-num">${display}</td>`;
+    });
+
+    return `<tr class="${rowCls}">${cells.join('')}</tr>`;
+  }).join('');
+}
+</script>
+</body>
+</html>

@@ -466,7 +466,10 @@ const TRANSFER_IN_MAP = {
   "Samuli Niinisaari": "Brown",
   "Carson Gicewicz": "St. Lawrence",
   "Brett Boeing": "Michigan Tech",
-  "Josh Couturier": "Boston College"
+  "Josh Couturier": "Boston College",
+  "Ben Gallacher": "Ohio State",
+  "Josh Nodler": "Michigan State",
+  "Niko Rufo": "Providence"
 };
 
 const TRANSFER_OUT_MAP = {
