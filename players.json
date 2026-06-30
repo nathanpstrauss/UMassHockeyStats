@@ -8,7 +8,7 @@
   "debut_season": "2022-23",
   "final_season": "2022-23",
   "active": false,
-  "active_years": "2022–23"
+  "active_years": "2022\u201323"
  },
  {
   "slug": "aduba-obi",
@@ -19,7 +19,7 @@
   "debut_season": "2003-04",
   "final_season": "2005-06",
   "active": false,
-  "active_years": "2003–06"
+  "active_years": "2003\u201306"
  },
  {
   "slug": "alalauri-samu",
@@ -30,7 +30,7 @@
   "debut_season": "2026-27",
   "final_season": "2026-27",
   "active": true,
-  "active_years": "2026–27"
+  "active_years": "2026\u201327"
  },
  {
   "slug": "albrecht-austin",
@@ -41,7 +41,7 @@
   "debut_season": "2017-18",
   "final_season": "2017-18",
   "active": false,
-  "active_years": "2017–18"
+  "active_years": "2017\u201318"
  },
  {
   "slug": "alden-peter",
@@ -52,7 +52,7 @@
   "debut_season": "2002-03",
   "final_season": "2003-04",
   "active": false,
-  "active_years": "2002–04"
+  "active_years": "2002\u201304"
  },
  {
   "slug": "alger-linden",
@@ -63,7 +63,7 @@
   "debut_season": "2020-21",
   "final_season": "2024-25",
   "active": false,
-  "active_years": "2020–25"
+  "active_years": "2020\u201325"
  },
  {
   "slug": "alger-rich",
@@ -74,7 +74,7 @@
   "debut_season": "1993-94",
   "final_season": "1994-95",
   "active": false,
-  "active_years": "1993–95"
+  "active_years": "1993\u201395"
  },
  {
   "slug": "allen-conor",
@@ -85,7 +85,7 @@
   "debut_season": "2010-11",
   "final_season": "2012-13",
   "active": false,
-  "active_years": "2010–13"
+  "active_years": "2010\u201313"
  },
  {
   "slug": "anderson-matt",
@@ -96,7 +96,7 @@
   "debut_season": "2002-03",
   "final_season": "2005-06",
   "active": false,
-  "active_years": "2002–06"
+  "active_years": "2002\u201306"
  },
  {
   "slug": "arvanitis-brad",
@@ -107,7 +107,7 @@
   "debut_season": "2017-18",
   "final_season": "2018-19",
   "active": false,
-  "active_years": "2017–19"
+  "active_years": "2017\u201319"
  },
  {
   "slug": "auvenshine-emerson",
@@ -118,7 +118,7 @@
   "debut_season": "2011-12",
   "final_season": "2014-15",
   "active": false,
-  "active_years": "2011–15"
+  "active_years": "2011\u201315"
  },
  {
   "slug": "badger-ryan",
@@ -129,7 +129,7 @@
   "debut_season": "2015-16",
   "final_season": "2016-17",
   "active": false,
-  "active_years": "2015–17"
+  "active_years": "2015\u201317"
  },
  {
   "slug": "baker-matt",
@@ -140,7 +140,7 @@
   "debut_season": "2021-22",
   "final_season": "2021-22",
   "active": false,
-  "active_years": "2021–22"
+  "active_years": "2021\u201322"
  },
  {
   "slug": "barabanov-egor",
@@ -151,7 +151,7 @@
   "debut_season": "2026-27",
   "final_season": "2026-27",
   "active": true,
-  "active_years": "2026–27"
+  "active_years": "2026\u201327"
  },
  {
   "slug": "baxandall-brennan",
@@ -162,7 +162,7 @@
   "debut_season": "2013-14",
   "final_season": "2016-17",
   "active": false,
-  "active_years": "2013–17"
+  "active_years": "2013\u201317"
  },
  {
   "slug": "bear-shane",
@@ -173,7 +173,7 @@
   "debut_season": "2016-17",
   "final_season": "2017-18",
   "active": false,
-  "active_years": "2016–18"
+  "active_years": "2016\u201318"
  },
  {
   "slug": "berry-alex",
@@ -184,7 +184,7 @@
   "debut_season": "2005-06",
   "final_season": "2008-09",
   "active": false,
-  "active_years": "2005–09"
+  "active_years": "2005\u201309"
  },
  {
   "slug": "bevis-topher",
@@ -195,7 +195,7 @@
   "debut_season": "2005-06",
   "final_season": "2008-09",
   "active": false,
-  "active_years": "2005–09"
+  "active_years": "2005\u201309"
  },
  {
   "slug": "blanchard-jeff",
@@ -206,7 +206,7 @@
   "debut_season": "1996-97",
   "final_season": "1999-00",
   "active": false,
-  "active_years": "1996–00"
+  "active_years": "1996\u201300"
  },
  {
   "slug": "boehm-david",
@@ -217,7 +217,7 @@
   "debut_season": "2008-09",
   "final_season": "2009-10",
   "active": false,
-  "active_years": "2008–10"
+  "active_years": "2008\u201310"
  },
  {
   "slug": "boeing-brett",
@@ -228,7 +228,7 @@
   "debut_season": "2016-17",
   "final_season": "2018-19",
   "active": false,
-  "active_years": "2016–19"
+  "active_years": "2016\u201319"
  },
  {
   "slug": "bohlinger-aaron",
@@ -239,7 +239,7 @@
   "debut_season": "2020-21",
   "final_season": "2023-24",
   "active": false,
-  "active_years": "2020–24"
+  "active_years": "2020\u201324"
  },
  {
   "slug": "bonneau-rob",
@@ -250,7 +250,7 @@
   "debut_season": "1993-94",
   "final_season": "1996-97",
   "active": false,
-  "active_years": "1993–97"
+  "active_years": "1993\u201397"
  },
  {
   "slug": "boyle-kevin",
@@ -261,7 +261,7 @@
   "debut_season": "2011-12",
   "final_season": "2012-13",
   "active": false,
-  "active_years": "2011–13"
+  "active_years": "2011\u201313"
  },
  {
   "slug": "bozzo-marco",
@@ -272,7 +272,7 @@
   "debut_season": "2017-18",
   "final_season": "2018-19",
   "active": false,
-  "active_years": "2017–20"
+  "active_years": "2017\u201320"
  },
  {
   "slug": "brady-cole",
@@ -283,7 +283,7 @@
   "debut_season": "2022-23",
   "final_season": "2023-24",
   "active": false,
-  "active_years": "2022–24"
+  "active_years": "2022\u201324"
  },
  {
   "slug": "brannen-chris",
@@ -294,7 +294,7 @@
   "debut_season": "1998-99",
   "final_season": "1999-00",
   "active": false,
-  "active_years": "1998–00"
+  "active_years": "1998\u201300"
  },
  {
   "slug": "braun-justin",
@@ -305,7 +305,7 @@
   "debut_season": "2007-08",
   "final_season": "2009-10",
   "active": false,
-  "active_years": "2007–10"
+  "active_years": "2007\u201310"
  },
  {
   "slug": "buono-carmine",
@@ -316,7 +316,7 @@
   "debut_season": "2015-16",
   "final_season": "2016-17",
   "active": false,
-  "active_years": "2015–17"
+  "active_years": "2015\u201317"
  },
  {
   "slug": "burchett-keith",
@@ -327,7 +327,7 @@
   "debut_season": "2014-15",
   "final_season": "2015-16",
   "active": false,
-  "active_years": "2014–16"
+  "active_years": "2014\u201316"
  },
  {
   "slug": "burto-matt",
@@ -338,7 +338,7 @@
   "debut_season": "2004-05",
   "final_season": "2007-08",
   "active": false,
-  "active_years": "2004–08"
+  "active_years": "2004\u201308"
  },
  {
   "slug": "busillo-mike",
@@ -349,7 +349,7 @@
   "debut_season": "2011-12",
   "final_season": "2014-15",
   "active": false,
-  "active_years": "2011–15"
+  "active_years": "2011\u201315"
  },
  {
   "slug": "cahill-gerry",
@@ -360,7 +360,7 @@
   "debut_season": "1993-94",
   "final_season": "1996-97",
   "active": false,
-  "active_years": "1993–97"
+  "active_years": "1993\u201397"
  },
  {
   "slug": "callahan-jimmy",
@@ -371,7 +371,7 @@
   "debut_season": "2000-01",
   "final_season": "2001-02",
   "active": false,
-  "active_years": "2000–02"
+  "active_years": "2000\u201302"
  },
  {
   "slug": "cameron-michael",
@@ -382,7 +382,7 @@
   "debut_season": "2022-23",
   "final_season": "2024-25",
   "active": false,
-  "active_years": "2022–25"
+  "active_years": "2022\u201325"
  },
  {
   "slug": "campanale-dean",
@@ -393,7 +393,7 @@
   "debut_season": "1994-95",
   "final_season": "1997-98",
   "active": false,
-  "active_years": "1994–98"
+  "active_years": "1994\u201398"
  },
  {
   "slug": "capraro-chris",
@@ -404,7 +404,7 @@
   "debut_season": "2002-03",
   "final_season": "2005-06",
   "active": false,
-  "active_years": "2002–06"
+  "active_years": "2002\u201306"
  },
  {
   "slug": "carzo-rocco",
@@ -415,7 +415,7 @@
   "debut_season": "2009-10",
   "final_season": "2012-13",
   "active": false,
-  "active_years": "2009–13"
+  "active_years": "2009\u201313"
  },
  {
   "slug": "cassaro-gianfranco",
@@ -426,7 +426,7 @@
   "debut_season": "2019-20",
   "final_season": "2020-21",
   "active": false,
-  "active_years": "2019–21"
+  "active_years": "2019\u201321"
  },
  {
   "slug": "chaffee-mitchell",
@@ -437,7 +437,7 @@
   "debut_season": "2017-18",
   "final_season": "2019-20",
   "active": false,
-  "active_years": "2017–20"
+  "active_years": "2017\u201320"
  },
  {
   "slug": "chau-oliver",
@@ -448,7 +448,7 @@
   "debut_season": "2017-18",
   "final_season": "2020-21",
   "active": false,
-  "active_years": "2017–21"
+  "active_years": "2017\u201321"
  },
  {
   "slug": "chukarov-ivan",
@@ -459,7 +459,7 @@
   "debut_season": "2015-16",
   "final_season": "2018-19",
   "active": false,
-  "active_years": "2015–19"
+  "active_years": "2015\u201319"
  },
  {
   "slug": "concannon-marc",
@@ -470,7 +470,7 @@
   "debut_season": "2007-08",
   "final_season": "2010-11",
   "active": false,
-  "active_years": "2007–11"
+  "active_years": "2007\u201311"
  },
  {
   "slug": "condon-bill",
@@ -481,7 +481,7 @@
   "debut_season": "1993-94",
   "final_season": "1993-94",
   "active": false,
-  "active_years": "1993–94"
+  "active_years": "1993\u201394"
  },
  {
   "slug": "connors-kenny",
@@ -492,7 +492,7 @@
   "debut_season": "2022-23",
   "final_season": "2024-25",
   "active": false,
-  "active_years": "2022–25"
+  "active_years": "2022\u201325"
  },
  {
   "slug": "corcoran-brian",
@@ -503,7 +503,7 @@
   "debut_season": "1993-94",
   "final_season": "1994-95",
   "active": false,
-  "active_years": "1993–95"
+  "active_years": "1993\u201395"
  },
  {
   "slug": "cornforth-gavin",
@@ -514,7 +514,7 @@
   "debut_season": "2026-27",
   "final_season": "2026-27",
   "active": true,
-  "active_years": "2026–27"
+  "active_years": "2026\u201327"
  },
  {
   "slug": "corradi-steve",
@@ -525,7 +525,7 @@
   "debut_season": "1993-94",
   "final_season": "1993-94",
   "active": false,
-  "active_years": "1993–94"
+  "active_years": "1993\u201394"
  },
  {
   "slug": "cosman-bo",
@@ -536,7 +536,7 @@
   "debut_season": "2023-24",
   "final_season": "2025-26",
   "active": false,
-  "active_years": "2023–26"
+  "active_years": "2023\u201326"
  },
  {
   "slug": "couturier-josh",
@@ -547,7 +547,7 @@
   "debut_season": "2017-18",
   "final_season": "2017-18",
   "active": false,
-  "active_years": "2016–18"
+  "active_years": "2016\u201318"
  },
  {
   "slug": "crowder-scott",
@@ -558,7 +558,7 @@
   "debut_season": "2005-06",
   "final_season": "2008-09",
   "active": false,
-  "active_years": "2005–09"
+  "active_years": "2005\u201309"
  },
  {
   "slug": "crumb-jedd",
@@ -569,7 +569,7 @@
   "debut_season": "1998-99",
   "final_season": "2000-01",
   "active": false,
-  "active_years": "1998–01"
+  "active_years": "1998\u201301"
  },
  {
   "slug": "culgin-joe",
@@ -580,7 +580,7 @@
   "debut_season": "1997-98",
   "final_season": "1997-98",
   "active": false,
-  "active_years": "1997–98"
+  "active_years": "1997\u201398"
  },
  {
   "slug": "culgin-joey",
@@ -591,7 +591,7 @@
   "debut_season": "1998-99",
   "final_season": "2000-01",
   "active": false,
-  "active_years": "1998–01"
+  "active_years": "1998\u201301"
  },
  {
   "slug": "curran-max",
@@ -602,7 +602,7 @@
   "debut_season": "2026-27",
   "final_season": "2026-27",
   "active": true,
-  "active_years": "2026–27"
+  "active_years": "2026\u201327"
  },
  {
   "slug": "czepiel-kevin",
@@ -613,7 +613,7 @@
   "debut_season": "2009-10",
   "final_season": "2012-13",
   "active": false,
-  "active_years": "2009–13"
+  "active_years": "2009\u201313"
  },
  {
   "slug": "dagostino-sam",
@@ -624,7 +624,7 @@
   "debut_season": "2006-07",
   "final_season": "2006-07",
   "active": false,
-  "active_years": "2006–07"
+  "active_years": "2006\u201307"
  },
  {
   "slug": "dainton-paul",
@@ -635,7 +635,7 @@
   "debut_season": "2007-08",
   "final_season": "2010-11",
   "active": false,
-  "active_years": "2007–11"
+  "active_years": "2007\u201311"
  },
  {
   "slug": "davidson-jeremy",
@@ -646,7 +646,7 @@
   "debut_season": "2019-20",
   "final_season": "2019-20",
   "active": false,
-  "active_years": "2019–20"
+  "active_years": "2019\u201320"
  },
  {
   "slug": "davis-chris",
@@ -657,7 +657,7 @@
   "debut_season": "2005-06",
   "final_season": "2008-09",
   "active": false,
-  "active_years": "2005–09"
+  "active_years": "2005\u201309"
  },
  {
   "slug": "deangelo-michael",
@@ -668,7 +668,7 @@
   "debut_season": "2025-26",
   "final_season": "2025-26",
   "active": true,
-  "active_years": "2025–27"
+  "active_years": "2025\u201327"
  },
  {
   "slug": "deangelo-peter",
@@ -679,7 +679,7 @@
   "debut_season": "2010-11",
   "final_season": "2013-14",
   "active": false,
-  "active_years": "2010–14"
+  "active_years": "2010\u201314"
  },
  {
   "slug": "dedobbelaer-eric",
@@ -690,7 +690,7 @@
   "debut_season": "2022-23",
   "final_season": "2022-23",
   "active": false,
-  "active_years": "2021–24"
+  "active_years": "2021\u201324"
  },
  {
   "slug": "degon-marvin",
@@ -701,7 +701,7 @@
   "debut_season": "2002-03",
   "final_season": "2005-06",
   "active": false,
-  "active_years": "2002–06"
+  "active_years": "2002\u201306"
  },
  {
   "slug": "delgaizo-anthony",
@@ -712,7 +712,7 @@
   "debut_season": "2018-19",
   "final_season": "2021-22",
   "active": false,
-  "active_years": "2018–22"
+  "active_years": "2018\u201322"
  },
  {
   "slug": "delgaizo-marc",
@@ -723,7 +723,7 @@
   "debut_season": "2018-19",
   "final_season": "2020-21",
   "active": false,
-  "active_years": "2018–21"
+  "active_years": "2018\u201321"
  },
  {
   "slug": "dellelce-francesco",
@@ -734,7 +734,7 @@
   "debut_season": "2024-25",
   "final_season": "2025-26",
   "active": true,
-  "active_years": "2024–27"
+  "active_years": "2024\u201327"
  },
  {
   "slug": "demianiuk-dusty",
@@ -745,7 +745,7 @@
   "debut_season": "2001-02",
   "final_season": "2004-05",
   "active": false,
-  "active_years": "2001–05"
+  "active_years": "2001\u201305"
  },
  {
   "slug": "demin-slava",
@@ -756,7 +756,7 @@
   "debut_season": "2021-22",
   "final_season": "2021-22",
   "active": false,
-  "active_years": "2021–22"
+  "active_years": "2021\u201322"
  },
  {
   "slug": "dexheimer-barrett",
@@ -767,7 +767,7 @@
   "debut_season": "2026-27",
   "final_season": "2026-27",
   "active": true,
-  "active_years": "2026–27"
+  "active_years": "2026\u201327"
  },
  {
   "slug": "dileo-dan",
@@ -778,7 +778,7 @@
   "debut_season": "1996-97",
   "final_season": "1997-98",
   "active": false,
-  "active_years": "1996–98"
+  "active_years": "1996\u201398"
  },
  {
   "slug": "dill-henry",
@@ -789,7 +789,7 @@
   "debut_season": "2014-15",
   "final_season": "2015-16",
   "active": false,
-  "active_years": "2014–16"
+  "active_years": "2014\u201316"
  },
  {
   "slug": "dineen-patrick",
@@ -800,7 +800,7 @@
   "debut_season": "2005-06",
   "final_season": "2007-08",
   "active": false,
-  "active_years": "2005–08"
+  "active_years": "2005\u201308"
  },
  {
   "slug": "donaldson-cam",
@@ -811,7 +811,7 @@
   "debut_season": "2021-22",
   "final_season": "2021-22",
   "active": false,
-  "active_years": "2021–22"
+  "active_years": "2021\u201322"
  },
  {
   "slug": "donnellan-mike",
@@ -822,7 +822,7 @@
   "debut_season": "2009-10",
   "final_season": "2010-11",
   "active": false,
-  "active_years": "2009–11"
+  "active_years": "2009\u201311"
  },
  {
   "slug": "downey-jesse",
@@ -833,7 +833,7 @@
   "debut_season": "2005-06",
   "final_season": "2005-06",
   "active": false,
-  "active_years": "2005–06"
+  "active_years": "2005\u201306"
  },
  {
   "slug": "drohan-randy",
@@ -844,7 +844,7 @@
   "debut_season": "1998-99",
   "final_season": "2001-02",
   "active": false,
-  "active_years": "1998–02"
+  "active_years": "1998\u201302"
  },
  {
   "slug": "duerr-james",
@@ -855,7 +855,7 @@
   "debut_season": "2024-25",
   "final_season": "2025-26",
   "active": false,
-  "active_years": "2024–26"
+  "active_years": "2024\u201326"
  },
  {
   "slug": "dunn-cameron",
@@ -866,7 +866,7 @@
   "debut_season": "2024-25",
   "final_season": "2025-26",
   "active": true,
-  "active_years": "2024–27"
+  "active_years": "2024\u201327"
  },
  {
   "slug": "duplessis-luke",
@@ -877,7 +877,7 @@
   "debut_season": "1999-00",
   "final_season": "2000-01",
   "active": false,
-  "active_years": "1999–01"
+  "active_years": "1999\u201301"
  },
  {
   "slug": "dyck-tyson",
@@ -888,7 +888,7 @@
   "debut_season": "2022-23",
   "final_season": "2022-23",
   "active": false,
-  "active_years": "2022–23"
+  "active_years": "2022\u201323"
  },
  {
   "slug": "edlin-matt",
@@ -899,7 +899,7 @@
   "debut_season": "2001-02",
   "final_season": "2001-02",
   "active": false,
-  "active_years": "2001–02"
+  "active_years": "2001\u201302"
  },
  {
   "slug": "ellis-noah",
@@ -910,7 +910,7 @@
   "debut_season": "2022-23",
   "final_season": "2022-23",
   "active": false,
-  "active_years": "2022–23"
+  "active_years": "2022\u201323"
  },
  {
   "slug": "evans-mike",
@@ -921,7 +921,7 @@
   "debut_season": "1993-94",
   "final_season": "1995-96",
   "active": false,
-  "active_years": "1993–96"
+  "active_years": "1993\u201396"
  },
  {
   "slug": "faith-eric",
@@ -932,7 +932,7 @@
   "debut_season": "2019-20",
   "final_season": "2022-23",
   "active": false,
-  "active_years": "2019–23"
+  "active_years": "2019\u201323"
  },
  {
   "slug": "farmer-ty",
@@ -943,7 +943,7 @@
   "debut_season": "2018-19",
   "final_season": "2021-22",
   "active": false,
-  "active_years": "2018–22"
+  "active_years": "2018\u201322"
  },
  {
   "slug": "fawcett-chris",
@@ -954,7 +954,7 @@
   "debut_season": "1994-95",
   "final_season": "1997-98",
   "active": false,
-  "active_years": "1994–98"
+  "active_years": "1994\u201398"
  },
  {
   "slug": "felix-colin",
@@ -965,7 +965,7 @@
   "debut_season": "2018-19",
   "final_season": "2021-22",
   "active": false,
-  "active_years": "2018–22"
+  "active_years": "2018\u201322"
  },
  {
   "slug": "fenton-pj",
@@ -976,7 +976,7 @@
   "debut_season": "2004-05",
   "final_season": "2007-08",
   "active": false,
-  "active_years": "2004–08"
+  "active_years": "2004\u201308"
  },
  {
   "slug": "fernandez-fernando",
@@ -987,7 +987,7 @@
   "debut_season": "2002-03",
   "final_season": "2002-03",
   "active": false,
-  "active_years": "2002–03"
+  "active_years": "2002\u201303"
  },
  {
   "slug": "ferraro-mario",
@@ -998,7 +998,7 @@
   "debut_season": "2017-18",
   "final_season": "2018-19",
   "active": false,
-  "active_years": "2017–19"
+  "active_years": "2017\u201319"
  },
  {
   "slug": "fetzer-matt",
@@ -1009,7 +1009,7 @@
   "debut_season": "2002-03",
   "final_season": "2004-05",
   "active": false,
-  "active_years": "2002–05"
+  "active_years": "2002\u201305"
  },
  {
   "slug": "filiou-eric",
@@ -1020,7 +1020,7 @@
   "debut_season": "2010-11",
   "final_season": "2012-13",
   "active": false,
-  "active_years": "2010–13"
+  "active_years": "2010\u201313"
  },
  {
   "slug": "fitzgerald-bryan",
@@ -1031,7 +1031,7 @@
   "debut_season": "1996-97",
   "final_season": "1998-99",
   "active": false,
-  "active_years": "1996–99"
+  "active_years": "1996\u201399"
  },
  {
   "slug": "fryer-callum",
@@ -1042,7 +1042,7 @@
   "debut_season": "2015-16",
   "final_season": "2016-17",
   "active": false,
-  "active_years": "2015–17"
+  "active_years": "2015\u201317"
  },
  {
   "slug": "furness-ryan",
@@ -1053,7 +1053,7 @@
   "debut_season": "1996-97",
   "final_season": "1997-98",
   "active": false,
-  "active_years": "1996–98"
+  "active_years": "1996\u201398"
  },
  {
   "slug": "gaffney-mike",
@@ -1064,7 +1064,7 @@
   "debut_season": "1994-95",
   "final_season": "1997-98",
   "active": false,
-  "active_years": "1994–98"
+  "active_years": "1994\u201398"
  },
  {
   "slug": "galanek-jack",
@@ -1075,7 +1075,7 @@
   "debut_season": "2025-26",
   "final_season": "2025-26",
   "active": true,
-  "active_years": "2025–26"
+  "active_years": "2025\u201326"
  },
  {
   "slug": "gallacher-ben",
@@ -1086,7 +1086,7 @@
   "debut_season": "2013-14",
   "final_season": "2015-16",
   "active": false,
-  "active_years": "2013–16"
+  "active_years": "2013\u201316"
  },
  {
   "slug": "gates-rj",
@@ -1097,7 +1097,7 @@
   "debut_season": "1997-98",
   "final_season": "2000-01",
   "active": false,
-  "active_years": "1997–01"
+  "active_years": "1997\u201301"
  },
  {
   "slug": "gaudet-jake",
@@ -1108,7 +1108,7 @@
   "debut_season": "2017-18",
   "final_season": "2020-21",
   "active": false,
-  "active_years": "2017–21"
+  "active_years": "2017\u201321"
  },
  {
   "slug": "gedman-matt",
@@ -1119,7 +1119,7 @@
   "debut_season": "2008-09",
   "final_season": "2008-09",
   "active": false,
-  "active_years": "2008–09"
+  "active_years": "2008\u201309"
  },
  {
   "slug": "geever-ray",
@@ -1130,7 +1130,7 @@
   "debut_season": "1997-98",
   "final_season": "1999-00",
   "active": false,
-  "active_years": "1997–00"
+  "active_years": "1997\u201300"
  },
  {
   "slug": "gicewicz-carson",
@@ -1141,7 +1141,7 @@
   "debut_season": "2020-21",
   "final_season": "2020-21",
   "active": false,
-  "active_years": "2020–21"
+  "active_years": "2020\u201321"
  },
  {
   "slug": "gilbert-jamie",
@@ -1152,7 +1152,7 @@
   "debut_season": "2004-05",
   "final_season": "2004-05",
   "active": false,
-  "active_years": "2004–05"
+  "active_years": "2004\u201305"
  },
  {
   "slug": "giusto-tony",
@@ -1163,7 +1163,7 @@
   "debut_season": "1993-94",
   "final_season": "1994-95",
   "active": false,
-  "active_years": "1993–95"
+  "active_years": "1993\u201395"
  },
  {
   "slug": "gordon-dan",
@@ -1174,7 +1174,7 @@
   "debut_season": "2004-05",
   "final_season": "2004-05",
   "active": false,
-  "active_years": "2004–05"
+  "active_years": "2004\u201305"
  },
  {
   "slug": "gorman-liam",
@@ -1185,7 +1185,7 @@
   "debut_season": "2023-24",
   "final_season": "2023-24",
   "active": false,
-  "active_years": "2023–24"
+  "active_years": "2023\u201324"
  },
  {
   "slug": "gracel-branden",
@@ -1196,7 +1196,7 @@
   "debut_season": "2010-11",
   "final_season": "2013-14",
   "active": false,
-  "active_years": "2010–14"
+  "active_years": "2010\u201314"
  },
  {
   "slug": "graham-henry",
@@ -1207,7 +1207,7 @@
   "debut_season": "2022-23",
   "final_season": "2022-23",
   "active": false,
-  "active_years": "2020–23"
+  "active_years": "2020\u201323"
  },
  {
   "slug": "guzzo-steven",
@@ -1218,7 +1218,7 @@
   "debut_season": "2011-12",
   "final_season": "2014-15",
   "active": false,
-  "active_years": "2011–15"
+  "active_years": "2011\u201315"
  },
  {
   "slug": "haight-mac",
@@ -1229,7 +1229,7 @@
   "debut_season": "2013-14",
   "final_season": "2013-14",
   "active": false,
-  "active_years": "2013–14"
+  "active_years": "2013\u201314"
  },
  {
   "slug": "hanley-joel",
@@ -1240,7 +1240,7 @@
   "debut_season": "2010-11",
   "final_season": "2013-14",
   "active": false,
-  "active_years": "2010–14"
+  "active_years": "2010\u201314"
  },
  {
   "slug": "hanrahan-coleson",
@@ -1251,7 +1251,7 @@
   "debut_season": "2025-26",
   "final_season": "2025-26",
   "active": true,
-  "active_years": "2025–27"
+  "active_years": "2025\u201327"
  },
  {
   "slug": "hanson-josh",
@@ -1262,7 +1262,7 @@
   "debut_season": "2001-02",
   "final_season": "2003-04",
   "active": false,
-  "active_years": "2001–04"
+  "active_years": "2001\u201304"
  },
  {
   "slug": "harding-jerry",
@@ -1273,7 +1273,7 @@
   "debut_season": "2020-21",
   "final_season": "2022-23",
   "active": false,
-  "active_years": "2020–23"
+  "active_years": "2020\u201323"
  },
  {
   "slug": "heffernan-jim",
@@ -1284,7 +1284,7 @@
   "debut_season": "1993-94",
   "final_season": "1994-95",
   "active": false,
-  "active_years": "1993–95"
+  "active_years": "1993\u201395"
  },
  {
   "slug": "helanen-markus",
@@ -1295,7 +1295,7 @@
   "debut_season": "1997-98",
   "final_season": "2000-01",
   "active": false,
-  "active_years": "1997–01"
+  "active_years": "1997\u201301"
  },
  {
   "slug": "hetnik-marc",
@@ -1306,7 +1306,7 @@
   "debut_season": "2013-14",
   "final_season": "2016-17",
   "active": false,
-  "active_years": "2013–17"
+  "active_years": "2013\u201317"
  },
  {
   "slug": "hildenbrand-niko",
@@ -1317,7 +1317,7 @@
   "debut_season": "2016-17",
   "final_season": "2019-20",
   "active": false,
-  "active_years": "2016–20"
+  "active_years": "2016\u201320"
  },
  {
   "slug": "hirsch-tim",
@@ -1328,7 +1328,7 @@
   "debut_season": "1997-98",
   "final_season": "1997-98",
   "active": false,
-  "active_years": "1997–98"
+  "active_years": "1997\u201398"
  },
  {
   "slug": "hobbs-danny",
@@ -1339,7 +1339,7 @@
   "debut_season": "2008-09",
   "final_season": "2011-12",
   "active": false,
-  "active_years": "2008–12"
+  "active_years": "2008\u201312"
  },
  {
   "slug": "hoekstra-josh",
@@ -1350,7 +1350,7 @@
   "debut_season": "1994-95",
   "final_season": "1994-95",
   "active": false,
-  "active_years": "1994–95"
+  "active_years": "1994\u201395"
  },
  {
   "slug": "holland-tiger",
@@ -1361,7 +1361,7 @@
   "debut_season": "1993-94",
   "final_season": "1996-97",
   "active": false,
-  "active_years": "1993–97"
+  "active_years": "1993\u201397"
  },
  {
   "slug": "hooper-dale",
@@ -1372,7 +1372,7 @@
   "debut_season": "1993-94",
   "final_season": "1995-96",
   "active": false,
-  "active_years": "1993–96"
+  "active_years": "1993\u201396"
  },
  {
   "slug": "horton-jake",
@@ -1383,7 +1383,7 @@
   "debut_season": "2014-15",
   "final_season": "2017-18",
   "active": false,
-  "active_years": "2014–18"
+  "active_years": "2014\u201318"
  },
  {
   "slug": "horvath-scott",
@@ -1394,7 +1394,7 @@
   "debut_season": "2000-01",
   "final_season": "2001-02",
   "active": false,
-  "active_years": "2000–02"
+  "active_years": "2000\u201302"
  },
  {
   "slug": "hrabal-michael",
@@ -1405,7 +1405,7 @@
   "debut_season": "2023-24",
   "final_season": "2025-26",
   "active": false,
-  "active_years": "2023–26"
+  "active_years": "2023\u201326"
  },
  {
   "slug": "hurley-jason",
@@ -1416,7 +1416,7 @@
   "debut_season": "1996-97",
   "final_season": "1996-97",
   "active": false,
-  "active_years": "1996–97"
+  "active_years": "1996\u201397"
  },
  {
   "slug": "iacobellis-steven",
@@ -1427,7 +1427,7 @@
   "debut_season": "2013-14",
   "final_season": "2016-17",
   "active": false,
-  "active_years": "2013–17"
+  "active_years": "2013\u201317"
  },
  {
   "slug": "iovanna-michael",
@@ -1438,7 +1438,7 @@
   "debut_season": "2015-16",
   "final_season": "2016-17",
   "active": false,
-  "active_years": "2015–17"
+  "active_years": "2015\u201317"
  },
  {
   "slug": "irving-jackson",
@@ -1449,7 +1449,7 @@
   "debut_season": "2023-24",
   "final_season": "2025-26",
   "active": true,
-  "active_years": "2023–27"
+  "active_years": "2023\u201327"
  },
  {
   "slug": "irwin-matt",
@@ -1460,7 +1460,7 @@
   "debut_season": "2008-09",
   "final_season": "2009-10",
   "active": false,
-  "active_years": "2008–10"
+  "active_years": "2008\u201310"
  },
  {
   "slug": "jacobs-stephen",
@@ -1471,7 +1471,7 @@
   "debut_season": "2002-03",
   "final_season": "2004-05",
   "active": false,
-  "active_years": "2002–05"
+  "active_years": "2002\u201305"
  },
  {
   "slug": "jacques-jon",
@@ -1482,7 +1482,7 @@
   "debut_season": "1994-95",
   "final_season": "1995-96",
   "active": false,
-  "active_years": "1994–96"
+  "active_years": "1994\u201396"
  },
  {
   "slug": "jalkanen-samuli",
@@ -1493,7 +1493,7 @@
   "debut_season": "1999-00",
   "final_season": "2001-02",
   "active": false,
-  "active_years": "1999–02"
+  "active_years": "1999\u201302"
  },
  {
   "slug": "jarman-kevin",
@@ -1504,7 +1504,7 @@
   "debut_season": "2003-04",
   "final_season": "2005-06",
   "active": false,
-  "active_years": "2003–06"
+  "active_years": "2003\u201306"
  },
  {
   "slug": "jencko-daniel",
@@ -1515,7 +1515,7 @@
   "debut_season": "2024-25",
   "final_season": "2025-26",
   "active": true,
-  "active_years": "2024–27"
+  "active_years": "2024\u201327"
  },
  {
   "slug": "jeszka-griff",
@@ -1526,7 +1526,7 @@
   "debut_season": "2016-17",
   "final_season": "2017-18",
   "active": false,
-  "active_years": "2016–18"
+  "active_years": "2016\u201318"
  },
  {
   "slug": "johnson-mike",
@@ -1537,7 +1537,7 @@
   "debut_season": "1998-99",
   "final_season": "2001-02",
   "active": false,
-  "active_years": "1998–02"
+  "active_years": "1998\u201302"
  },
  {
   "slug": "jones-zac",
@@ -1548,7 +1548,7 @@
   "debut_season": "2019-20",
   "final_season": "2020-21",
   "active": false,
-  "active_years": "2019–21"
+  "active_years": "2019\u201321"
  },
  {
   "slug": "juden-dan",
@@ -1559,7 +1559,7 @@
   "debut_season": "1994-95",
   "final_season": "1997-98",
   "active": false,
-  "active_years": "1994–98"
+  "active_years": "1994\u201398"
  },
  {
   "slug": "kaiser-bobby",
@@ -1570,7 +1570,7 @@
   "debut_season": "2018-19",
   "final_season": "2019-20",
   "active": false,
-  "active_years": "2018–20"
+  "active_years": "2018\u201320"
  },
  {
   "slug": "keane-brian",
@@ -1581,7 +1581,7 @@
   "debut_season": "2007-08",
   "final_season": "2010-11",
   "active": false,
-  "active_years": "2007–11"
+  "active_years": "2007\u201311"
  },
  {
   "slug": "keats-kurt",
@@ -1592,7 +1592,7 @@
   "debut_season": "2015-16",
   "final_season": "2018-19",
   "active": false,
-  "active_years": "2015–19"
+  "active_years": "2015\u201319"
  },
  {
   "slug": "keenan-larry",
@@ -1603,7 +1603,7 @@
   "debut_season": "2024-25",
   "final_season": "2025-26",
   "active": true,
-  "active_years": "2024–27"
+  "active_years": "2024\u201327"
  },
  {
   "slug": "kennedy-bryan",
@@ -1614,7 +1614,7 @@
   "debut_season": "1995-96",
   "final_season": "1998-99",
   "active": false,
-  "active_years": "1995–99"
+  "active_years": "1995\u201399"
  },
  {
   "slug": "kerr-justin",
@@ -1625,7 +1625,7 @@
   "debut_season": "2025-26",
   "final_season": "2025-26",
   "active": true,
-  "active_years": "2025–27"
+  "active_years": "2025\u201327"
  },
  {
   "slug": "kessel-matthew",
@@ -1636,7 +1636,7 @@
   "debut_season": "2019-20",
   "final_season": "2021-22",
   "active": false,
-  "active_years": "2019–22"
+  "active_years": "2019\u201322"
  },
  {
   "slug": "kessler-kevin",
@@ -1647,7 +1647,7 @@
   "debut_season": "2007-08",
   "final_season": "2009-10",
   "active": false,
-  "active_years": "2007–10"
+  "active_years": "2007\u201310"
  },
  {
   "slug": "kiefiuk-cal",
@@ -1658,7 +1658,7 @@
   "debut_season": "2019-20",
   "final_season": "2022-23",
   "active": false,
-  "active_years": "2019–23"
+  "active_years": "2019\u201323"
  },
  {
   "slug": "kilduff-dave",
@@ -1669,7 +1669,7 @@
   "debut_season": "1993-94",
   "final_season": "1995-96",
   "active": false,
-  "active_years": "1993–96"
+  "active_years": "1993\u201396"
  },
  {
   "slug": "kiley-patrick",
@@ -1680,7 +1680,7 @@
   "debut_season": "2010-11",
   "final_season": "2013-14",
   "active": false,
-  "active_years": "2010–14"
+  "active_years": "2010\u201314"
  },
  {
   "slug": "king-darcy",
@@ -1691,7 +1691,7 @@
   "debut_season": "1998-99",
   "final_season": "2001-02",
   "active": false,
-  "active_years": "1998–02"
+  "active_years": "1998\u201302"
  },
  {
   "slug": "klann-zech",
@@ -1702,7 +1702,7 @@
   "debut_season": "2004-05",
   "final_season": "2005-06",
   "active": false,
-  "active_years": "2004–06"
+  "active_years": "2004\u201306"
  },
  {
   "slug": "klecka-lukas",
@@ -1713,7 +1713,7 @@
   "debut_season": "2025-26",
   "final_season": "2025-26",
   "active": true,
-  "active_years": "2025–27"
+  "active_years": "2025\u201327"
  },
  {
   "slug": "koopman-matt",
@@ -1724,7 +1724,7 @@
   "debut_season": "2022-23",
   "final_season": "2022-23",
   "active": false,
-  "active_years": "2022–23"
+  "active_years": "2022\u201323"
  },
  {
   "slug": "kostka-mike",
@@ -1735,7 +1735,7 @@
   "debut_season": "2004-05",
   "final_season": "2007-08",
   "active": false,
-  "active_years": "2004–08"
+  "active_years": "2004\u201308"
  },
  {
   "slug": "kravchenko-dennis",
@@ -1746,7 +1746,7 @@
   "debut_season": "2014-15",
   "final_season": "2015-16",
   "active": false,
-  "active_years": "2014–16"
+  "active_years": "2014\u201316"
  },
  {
   "slug": "kublin-doug",
@@ -1757,7 +1757,7 @@
   "debut_season": "2007-08",
   "final_season": "2010-11",
   "active": false,
-  "active_years": "2007–11"
+  "active_years": "2007\u201311"
  },
  {
   "slug": "kuhta-jasper",
@@ -1768,7 +1768,7 @@
   "debut_season": "2026-27",
   "final_season": "2026-27",
   "active": true,
-  "active_years": "2026–27"
+  "active_years": "2026\u201327"
  },
  {
   "slug": "kuiper-nick",
@@ -1779,7 +1779,7 @@
   "debut_season": "2000-01",
   "final_season": "2003-04",
   "active": false,
-  "active_years": "2000–04"
+  "active_years": "2000\u201304"
  },
  {
   "slug": "lacroix-andrew",
@@ -1790,7 +1790,7 @@
   "debut_season": "2025-26",
   "final_season": "2025-26",
   "active": false,
-  "active_years": "2025–26"
+  "active_years": "2025\u201326"
  },
  {
   "slug": "lagesson-william",
@@ -1801,7 +1801,7 @@
   "debut_season": "2015-16",
   "final_season": "2016-17",
   "active": false,
-  "active_years": "2015–17"
+  "active_years": "2015\u201317"
  },
  {
   "slug": "lagunov-philip",
@@ -1812,7 +1812,7 @@
   "debut_season": "2017-18",
   "final_season": "2020-21",
   "active": false,
-  "active_years": "2017–21"
+  "active_years": "2017\u201321"
  },
  {
   "slug": "lang-jeff",
@@ -1823,7 +1823,7 @@
   "debut_season": "2001-02",
   "final_season": "2004-05",
   "active": false,
-  "active_years": "2001–05"
+  "active_years": "2001\u201305"
  },
  {
   "slug": "langeraap-chase",
@@ -1834,7 +1834,7 @@
   "debut_season": "2007-08",
   "final_season": "2010-11",
   "active": false,
-  "active_years": "2007–11"
+  "active_years": "2007\u201311"
  },
  {
   "slug": "larue-zack",
@@ -1845,7 +1845,7 @@
   "debut_season": "2011-12",
   "final_season": "2014-15",
   "active": false,
-  "active_years": "2011–15"
+  "active_years": "2011\u201315"
  },
  {
   "slug": "latulippe-armand",
@@ -1856,7 +1856,7 @@
   "debut_season": "1993-94",
   "final_season": "1994-95",
   "active": false,
-  "active_years": "1993–95"
+  "active_years": "1993\u201395"
  },
  {
   "slug": "lautenbach-ryan",
@@ -1867,7 +1867,7 @@
   "debut_season": "2021-22",
   "final_season": "2024-25",
   "active": false,
-  "active_years": "2021–25"
+  "active_years": "2021\u201325"
  },
  {
   "slug": "lazarus-jonny",
@@ -1878,7 +1878,7 @@
   "debut_season": "2016-17",
   "final_season": "2017-18",
   "active": false,
-  "active_years": "2016–18"
+  "active_years": "2016\u201318"
  },
  {
   "slug": "leaderer-david",
@@ -1889,7 +1889,7 @@
   "debut_season": "2004-05",
   "final_season": "2007-08",
   "active": false,
-  "active_years": "2004–08"
+  "active_years": "2004\u201308"
  },
  {
   "slug": "lebster-reed",
@@ -1900,7 +1900,7 @@
   "debut_season": "2019-20",
   "final_season": "2022-23",
   "active": false,
-  "active_years": "2019–23"
+  "active_years": "2019\u201323"
  },
  {
   "slug": "lecomte-michael",
@@ -1911,7 +1911,7 @@
   "debut_season": "2007-08",
   "final_season": "2010-11",
   "active": false,
-  "active_years": "2007–11"
+  "active_years": "2007\u201311"
  },
  {
   "slug": "lee-patrick",
@@ -1922,7 +1922,7 @@
   "debut_season": "2014-15",
   "final_season": "2016-17",
   "active": false,
-  "active_years": "2014–17"
+  "active_years": "2014\u201317"
  },
  {
   "slug": "leonard-john",
@@ -1933,7 +1933,7 @@
   "debut_season": "2017-18",
   "final_season": "2019-20",
   "active": false,
-  "active_years": "2017–20"
+  "active_years": "2017\u201320"
  },
  {
   "slug": "lieberman-charlie",
@@ -1944,7 +1944,7 @@
   "debut_season": "2025-26",
   "final_season": "2025-26",
   "active": true,
-  "active_years": "2024–27"
+  "active_years": "2024\u201327"
  },
  {
   "slug": "lindberg-filip",
@@ -1955,7 +1955,7 @@
   "debut_season": "2018-19",
   "final_season": "2020-21",
   "active": false,
-  "active_years": "2018–21"
+  "active_years": "2018\u201321"
  },
  {
   "slug": "locmelis-dans",
@@ -1966,7 +1966,7 @@
   "debut_season": "2023-24",
   "final_season": "2024-25",
   "active": false,
-  "active_years": "2023–25"
+  "active_years": "2023\u201325"
  },
  {
   "slug": "loftus-finn",
@@ -1977,7 +1977,7 @@
   "debut_season": "2024-25",
   "final_season": "2024-25",
   "active": false,
-  "active_years": "2024–25"
+  "active_years": "2024\u201325"
  },
  {
   "slug": "lopina-josh",
@@ -1988,7 +1988,7 @@
   "debut_season": "2020-21",
   "final_season": "2021-22",
   "active": false,
-  "active_years": "2020–22"
+  "active_years": "2020\u201322"
  },
  {
   "slug": "lovell-tim",
@@ -1999,7 +1999,7 @@
   "debut_season": "1997-98",
   "final_season": "1997-98",
   "active": false,
-  "active_years": "1997–98"
+  "active_years": "1997\u201398"
  },
  {
   "slug": "lusth-anders",
@@ -2010,7 +2010,7 @@
   "debut_season": "2004-05",
   "final_season": "2004-05",
   "active": false,
-  "active_years": "2004–05"
+  "active_years": "2004\u201305"
  },
  {
   "slug": "luszcz-john",
@@ -2021,7 +2021,7 @@
   "debut_season": "2003-04",
   "final_season": "2003-04",
   "active": false,
-  "active_years": "2003–04"
+  "active_years": "2003\u201304"
  },
  {
   "slug": "lynch-paul",
@@ -2032,7 +2032,7 @@
   "debut_season": "2004-05",
   "final_season": "2004-05",
   "active": false,
-  "active_years": "2004–05"
+  "active_years": "2004\u201305"
  },
  {
   "slug": "macdonald-craig",
@@ -2043,7 +2043,7 @@
   "debut_season": "2001-02",
   "final_season": "2004-05",
   "active": false,
-  "active_years": "2001–05"
+  "active_years": "2001\u201305"
  },
  {
   "slug": "macdonald-oliver",
@@ -2054,7 +2054,7 @@
   "debut_season": "2020-21",
   "final_season": "2021-22",
   "active": false,
-  "active_years": "2020–22"
+  "active_years": "2020\u201322"
  },
  {
   "slug": "mackinnon-steve",
@@ -2065,7 +2065,7 @@
   "debut_season": "1995-96",
   "final_season": "1997-98",
   "active": false,
-  "active_years": "1995–98"
+  "active_years": "1995\u201398"
  },
  {
   "slug": "makar-cale",
@@ -2076,7 +2076,7 @@
   "debut_season": "2017-18",
   "final_season": "2018-19",
   "active": false,
-  "active_years": "2017–19"
+  "active_years": "2017\u201319"
  },
  {
   "slug": "makar-taylor",
@@ -2087,7 +2087,7 @@
   "debut_season": "2021-22",
   "final_season": "2023-24",
   "active": false,
-  "active_years": "2021–24"
+  "active_years": "2021\u201324"
  },
  {
   "slug": "manganaro-sal",
@@ -2098,7 +2098,7 @@
   "debut_season": "1994-95",
   "final_season": "1995-96",
   "active": false,
-  "active_years": "1994–96"
+  "active_years": "1994\u201396"
  },
  {
   "slug": "manning-blair",
@@ -2109,18 +2109,18 @@
   "debut_season": "1993-94",
   "final_season": "1994-95",
   "active": false,
-  "active_years": "1993–95"
+  "active_years": "1993\u201395"
  },
  {
   "slug": "marcou-james",
   "display_name": "James Marcou",
   "canonical_name": "James Marcou",
-  "pos": "D",
+  "pos": "F",
   "is_goalie": false,
   "debut_season": "2007-08",
   "final_season": "2009-10",
   "active": false,
-  "active_years": "2007–10"
+  "active_years": "2007\u201310"
  },
  {
   "slug": "marcou-michael",
@@ -2131,7 +2131,7 @@
   "debut_season": "2008-09",
   "final_season": "2011-12",
   "active": false,
-  "active_years": "2008–12"
+  "active_years": "2008\u201312"
  },
  {
   "slug": "maresco-kevin",
@@ -2142,18 +2142,18 @@
   "debut_season": "2005-06",
   "final_season": "2005-06",
   "active": false,
-  "active_years": "2005–06"
+  "active_years": "2005\u201306"
  },
  {
   "slug": "masse-maxim",
-  "display_name": "Maxim Massé",
+  "display_name": "Maxim Mass\u00e9",
   "canonical_name": "Maxim Masse",
   "pos": "F",
   "is_goalie": false,
   "debut_season": "2026-27",
   "final_season": "2026-27",
   "active": true,
-  "active_years": "2026–27"
+  "active_years": "2026\u201327"
  },
  {
   "slug": "mastalerz-steve",
@@ -2164,7 +2164,7 @@
   "debut_season": "2011-12",
   "final_season": "2014-15",
   "active": false,
-  "active_years": "2011–15"
+  "active_years": "2011\u201315"
  },
  {
   "slug": "matheson-mark",
@@ -2175,7 +2175,7 @@
   "debut_season": "2003-04",
   "final_season": "2005-06",
   "active": false,
-  "active_years": "2003–06"
+  "active_years": "2003\u201306"
  },
  {
   "slug": "mauldin-greg",
@@ -2186,7 +2186,7 @@
   "debut_season": "2001-02",
   "final_season": "2003-04",
   "active": false,
-  "active_years": "2001–04"
+  "active_years": "2001\u201304"
  },
  {
   "slug": "mcdermott-elliott",
@@ -2197,7 +2197,7 @@
   "debut_season": "2022-23",
   "final_season": "2023-24",
   "active": false,
-  "active_years": "2022–24"
+  "active_years": "2022\u201324"
  },
  {
   "slug": "mcdougall-riley",
@@ -2208,7 +2208,7 @@
   "debut_season": "2014-15",
   "final_season": "2016-17",
   "active": false,
-  "active_years": "2014–17"
+  "active_years": "2014\u201317"
  },
  {
   "slug": "mcelhenie-luke",
@@ -2219,7 +2219,7 @@
   "debut_season": "2016-17",
   "final_season": "2016-17",
   "active": false,
-  "active_years": "2016–17"
+  "active_years": "2016\u201317"
  },
  {
   "slug": "mclaughlin-jake",
@@ -2230,7 +2230,7 @@
   "debut_season": "2016-17",
   "final_season": "2019-20",
   "active": false,
-  "active_years": "2016–20"
+  "active_years": "2016\u201320"
  },
  {
   "slug": "mcnelis-john",
@@ -2241,7 +2241,7 @@
   "debut_season": "2026-27",
   "final_season": "2026-27",
   "active": true,
-  "active_years": "2026–27"
+  "active_years": "2026\u201327"
  },
  {
   "slug": "mehlenbacher-owen",
@@ -2252,7 +2252,7 @@
   "debut_season": "2025-26",
   "final_season": "2025-26",
   "active": false,
-  "active_years": "2025–26"
+  "active_years": "2025\u201326"
  },
  {
   "slug": "mercuri-lucas",
@@ -2263,7 +2263,7 @@
   "debut_season": "2021-22",
   "final_season": "2024-25",
   "active": false,
-  "active_years": "2021–25"
+  "active_years": "2021\u201325"
  },
  {
   "slug": "meyers-dan",
@@ -2274,7 +2274,7 @@
   "debut_season": "2006-07",
   "final_season": "2009-10",
   "active": false,
-  "active_years": "2007–10"
+  "active_years": "2007\u201310"
  },
  {
   "slug": "mika-george",
@@ -2285,7 +2285,7 @@
   "debut_season": "2017-18",
   "final_season": "2020-21",
   "active": false,
-  "active_years": "2017–21"
+  "active_years": "2017\u201321"
  },
  {
   "slug": "miljko-martin",
@@ -2296,7 +2296,7 @@
   "debut_season": "1998-99",
   "final_season": "2001-02",
   "active": false,
-  "active_years": "1998–02"
+  "active_years": "1998\u201302"
  },
  {
   "slug": "montour-brandon",
@@ -2307,7 +2307,7 @@
   "debut_season": "2014-15",
   "final_season": "2014-15",
   "active": false,
-  "active_years": "2014–15"
+  "active_years": "2014\u201315"
  },
  {
   "slug": "moore-kevin",
@@ -2318,7 +2318,7 @@
   "debut_season": "2010-11",
   "final_season": "2011-12",
   "active": false,
-  "active_years": "2010–12"
+  "active_years": "2010\u201312"
  },
  {
   "slug": "moriarty-rich",
@@ -2329,7 +2329,7 @@
   "debut_season": "1993-94",
   "final_season": "1996-97",
   "active": false,
-  "active_years": "1993–97"
+  "active_years": "1993\u201397"
  },
  {
   "slug": "morrow-scott",
@@ -2340,7 +2340,7 @@
   "debut_season": "2021-22",
   "final_season": "2023-24",
   "active": false,
-  "active_years": "2021–24"
+  "active_years": "2021\u201324"
  },
  {
   "slug": "mullen-michael",
@@ -2351,7 +2351,7 @@
   "debut_season": "2002-03",
   "final_season": "2002-03",
   "active": false,
-  "active_years": "2002–03"
+  "active_years": "2002\u201303"
  },
  {
   "slug": "murray-matt",
@@ -2362,7 +2362,7 @@
   "debut_season": "2017-18",
   "final_season": "2021-22",
   "active": false,
-  "active_years": "2017–22"
+  "active_years": "2017\u201322"
  },
  {
   "slug": "murray-owen",
@@ -2373,7 +2373,7 @@
   "debut_season": "2022-23",
   "final_season": "2025-26",
   "active": false,
-  "active_years": "2022–26"
+  "active_years": "2022\u201326"
  },
  {
   "slug": "musa-jack",
@@ -2384,7 +2384,7 @@
   "debut_season": "2023-24",
   "final_season": "2025-26",
   "active": true,
-  "active_years": "2023–27"
+  "active_years": "2023\u201327"
  },
  {
   "slug": "musa-joey",
@@ -2395,18 +2395,18 @@
   "debut_season": "2024-25",
   "final_season": "2024-25",
   "active": false,
-  "active_years": "2024–25"
+  "active_years": "2024\u201325"
  },
  {
   "slug": "nestrasil-vaclav",
-  "display_name": "Václav Nestrašil",
+  "display_name": "V\u00e1clav Nestra\u0161il",
   "canonical_name": "Vaclav Nestrasil",
   "pos": "F",
   "is_goalie": false,
   "debut_season": "2025-26",
   "final_season": "2025-26",
   "active": true,
-  "active_years": "2025–27"
+  "active_years": "2025\u201327"
  },
  {
   "slug": "niinisaari-samuli",
@@ -2417,7 +2417,7 @@
   "debut_season": "2023-24",
   "final_season": "2023-24",
   "active": false,
-  "active_years": "2023–24"
+  "active_years": "2023\u201324"
  },
  {
   "slug": "nizwantowski-brad",
@@ -2428,7 +2428,7 @@
   "debut_season": "1999-00",
   "final_season": "2001-02",
   "active": false,
-  "active_years": "1999–02"
+  "active_years": "1999\u201302"
  },
  {
   "slug": "nodler-josh",
@@ -2439,7 +2439,7 @@
   "debut_season": "2022-23",
   "final_season": "2022-23",
   "active": false,
-  "active_years": "2022–23"
+  "active_years": "2022\u201323"
  },
  {
   "slug": "nolet-martin",
@@ -2450,7 +2450,7 @@
   "debut_season": "2007-08",
   "final_season": "2009-10",
   "active": false,
-  "active_years": "2007–10"
+  "active_years": "2007\u201310"
  },
  {
   "slug": "norris-warren",
@@ -2461,7 +2461,7 @@
   "debut_season": "1993-94",
   "final_season": "1996-97",
   "active": false,
-  "active_years": "1993–97"
+  "active_years": "1993\u201397"
  },
  {
   "slug": "norton-brad",
@@ -2472,7 +2472,7 @@
   "debut_season": "1994-95",
   "final_season": "1997-98",
   "active": false,
-  "active_years": "1994–98"
+  "active_years": "1994\u201398"
  },
  {
   "slug": "novotny-melvin",
@@ -2483,7 +2483,7 @@
   "debut_season": "2026-27",
   "final_season": "2026-27",
   "active": true,
-  "active_years": "2026–27"
+  "active_years": "2026\u201327"
  },
  {
   "slug": "nycz-landon",
@@ -2494,7 +2494,7 @@
   "debut_season": "2025-26",
   "final_season": "2025-26",
   "active": true,
-  "active_years": "2025–27"
+  "active_years": "2025\u201327"
  },
  {
   "slug": "oconnell-keith",
@@ -2505,7 +2505,7 @@
   "debut_season": "1994-95",
   "final_season": "1996-97",
   "active": false,
-  "active_years": "1994–97"
+  "active_years": "1994\u201397"
  },
  {
   "slug": "oconnor-kennedy",
@@ -2516,7 +2516,7 @@
   "debut_season": "2022-23",
   "final_season": "2025-26",
   "active": false,
-  "active_years": "2022–26"
+  "active_years": "2022\u201326"
  },
  {
   "slug": "oconnor-tom",
@@ -2527,7 +2527,7 @@
   "debut_season": "1994-95",
   "final_season": "1997-98",
   "active": false,
-  "active_years": "1994–98"
+  "active_years": "1994\u201398"
  },
  {
   "slug": "ohara-cole",
@@ -2538,7 +2538,7 @@
   "debut_season": "2022-23",
   "final_season": "2024-25",
   "active": false,
-  "active_years": "2022–25"
+  "active_years": "2022\u201325"
  },
  {
   "slug": "olczyk-eddie",
@@ -2549,7 +2549,7 @@
   "debut_season": "2009-10",
   "final_season": "2012-13",
   "active": false,
-  "active_years": "2009–13"
+  "active_years": "2009\u201313"
  },
  {
   "slug": "olvestad-lucas",
@@ -2560,7 +2560,7 @@
   "debut_season": "2024-25",
   "final_season": "2025-26",
   "active": false,
-  "active_years": "2024–26"
+  "active_years": "2024\u201326"
  },
  {
   "slug": "oneill-cameron",
@@ -2571,7 +2571,7 @@
   "debut_season": "2023-24",
   "final_season": "2025-26",
   "active": true,
-  "active_years": "2023–27"
+  "active_years": "2023\u201327"
  },
  {
   "slug": "ortiz-will",
@@ -2582,7 +2582,7 @@
   "debut_season": "2007-08",
   "final_season": "2009-10",
   "active": false,
-  "active_years": "2007–10"
+  "active_years": "2007\u201310"
  },
  {
   "slug": "pavicich-luke",
@@ -2593,7 +2593,7 @@
   "debut_season": "2021-22",
   "final_season": "2022-23",
   "active": false,
-  "active_years": "2021–24"
+  "active_years": "2021\u201324"
  },
  {
   "slug": "pearlstein-brett",
@@ -2604,7 +2604,7 @@
   "debut_season": "1993-94",
   "final_season": "1993-94",
   "active": false,
-  "active_years": "1993–94"
+  "active_years": "1993\u201394"
  },
  {
   "slug": "pereira-michael",
@@ -2615,7 +2615,7 @@
   "debut_season": "2010-11",
   "final_season": "2013-14",
   "active": false,
-  "active_years": "2010–14"
+  "active_years": "2010\u201314"
  },
  {
   "slug": "perry-tom",
@@ -2626,7 +2626,7 @@
   "debut_season": "1993-94",
   "final_season": "1996-97",
   "active": false,
-  "active_years": "1993–97"
+  "active_years": "1993\u201397"
  },
  {
   "slug": "petrella-anthony",
@@ -2637,7 +2637,7 @@
   "debut_season": "2014-15",
   "final_season": "2016-17",
   "active": false,
-  "active_years": "2014–17"
+  "active_years": "2014\u201317"
  },
  {
   "slug": "phillips-adam",
@@ -2648,7 +2648,7 @@
   "debut_season": "2010-11",
   "final_season": "2013-14",
   "active": false,
-  "active_years": "2010–14"
+  "active_years": "2010\u201314"
  },
  {
   "slug": "pigozzi-ray",
@@ -2659,7 +2659,7 @@
   "debut_season": "2013-14",
   "final_season": "2016-17",
   "active": false,
-  "active_years": "2013–17"
+  "active_years": "2013\u201317"
  },
  {
   "slug": "plevy-austin",
@@ -2670,18 +2670,18 @@
   "debut_season": "2015-16",
   "final_season": "2017-18",
   "active": false,
-  "active_years": "2015–18"
+  "active_years": "2015\u201318"
  },
  {
   "slug": "pock-thomas",
-  "display_name": "Thomas Pöck",
+  "display_name": "Thomas P\u00f6ck",
   "canonical_name": "Thomas Pock",
   "pos": "F",
   "is_goalie": false,
   "debut_season": "2000-01",
   "final_season": "2003-04",
   "active": false,
-  "active_years": "2000–04"
+  "active_years": "2000\u201304"
  },
  {
   "slug": "poulin-kevin",
@@ -2692,7 +2692,7 @@
   "debut_season": "1998-99",
   "final_season": "1999-00",
   "active": false,
-  "active_years": "1998–00"
+  "active_years": "1998\u201300"
  },
  {
   "slug": "power-troy",
@@ -2703,7 +2703,7 @@
   "debut_season": "2010-11",
   "final_season": "2014-15",
   "active": false,
-  "active_years": "2010–15"
+  "active_years": "2010\u201315"
  },
  {
   "slug": "pritchard-jacob",
@@ -2714,7 +2714,7 @@
   "debut_season": "2018-19",
   "final_season": "2018-19",
   "active": false,
-  "active_years": "2018–19"
+  "active_years": "2018\u201319"
  },
  {
   "slug": "quick-jon",
@@ -2725,7 +2725,7 @@
   "debut_season": "2005-06",
   "final_season": "2006-07",
   "active": false,
-  "active_years": "2005–06"
+  "active_years": "2005\u201306"
  },
  {
   "slug": "quirk-cory",
@@ -2736,7 +2736,7 @@
   "debut_season": "2005-06",
   "final_season": "2008-09",
   "active": false,
-  "active_years": "2005–09"
+  "active_years": "2005\u201309"
  },
  {
   "slug": "rafferty-justin",
@@ -2747,7 +2747,7 @@
   "debut_season": "2001-02",
   "final_season": "2002-03",
   "active": false,
-  "active_years": "2001–03"
+  "active_years": "2001\u201303"
  },
  {
   "slug": "raiola-anthony",
@@ -2758,7 +2758,7 @@
   "debut_season": "2010-11",
   "final_season": "2013-14",
   "active": false,
-  "active_years": "2010–14"
+  "active_years": "2010\u201314"
  },
  {
   "slug": "reeves-peyton",
@@ -2769,7 +2769,7 @@
   "debut_season": "2019-20",
   "final_season": "2019-20",
   "active": false,
-  "active_years": "2019–20"
+  "active_years": "2019\u201320"
  },
  {
   "slug": "regan-brian",
@@ -2780,7 +2780,7 @@
   "debut_season": "1994-95",
   "final_season": "1997-98",
   "active": false,
-  "active_years": "1994–98"
+  "active_years": "1994\u201398"
  },
  {
   "slug": "regan-sean",
@@ -2791,7 +2791,7 @@
   "debut_season": "2001-02",
   "final_season": "2004-05",
   "active": false,
-  "active_years": "2001–05"
+  "active_years": "2001\u201305"
  },
  {
   "slug": "renyard-nic",
@@ -2802,7 +2802,7 @@
   "debut_season": "2015-16",
   "final_season": "2016-17",
   "active": false,
-  "active_years": "2015–17"
+  "active_years": "2015\u201317"
  },
  {
   "slug": "rissling-jaynen",
@@ -2813,7 +2813,7 @@
   "debut_season": "1993-94",
   "final_season": "1995-96",
   "active": false,
-  "active_years": "1993–96"
+  "active_years": "1993\u201396"
  },
  {
   "slug": "rowe-darren",
@@ -2824,7 +2824,7 @@
   "debut_season": "2009-10",
   "final_season": "2012-13",
   "active": false,
-  "active_years": "2009–13"
+  "active_years": "2009\u201313"
  },
  {
   "slug": "rufo-niko",
@@ -2835,7 +2835,7 @@
   "debut_season": "2017-18",
   "final_season": "2017-18",
   "active": false,
-  "active_years": "2017–18"
+  "active_years": "2017\u201318"
  },
  {
   "slug": "sanda-christian",
@@ -2846,7 +2846,7 @@
   "debut_season": "2023-24",
   "final_season": "2023-24",
   "active": false,
-  "active_years": "2023–24"
+  "active_years": "2023\u201324"
  },
  {
   "slug": "saunders-shawn",
@@ -2857,7 +2857,7 @@
   "debut_season": "2007-08",
   "final_season": "2010-11",
   "active": false,
-  "active_years": "2007–11"
+  "active_years": "2007\u201311"
  },
  {
   "slug": "scaparotti-anthony",
@@ -2868,7 +2868,7 @@
   "debut_season": "1999-00",
   "final_season": "2000-01",
   "active": false,
-  "active_years": "1999–01"
+  "active_years": "1999\u201301"
  },
  {
   "slug": "sell-nathan",
@@ -2879,7 +2879,7 @@
   "debut_season": "1996-97",
   "final_season": "1999-00",
   "active": false,
-  "active_years": "1996–00"
+  "active_years": "1996\u201300"
  },
  {
   "slug": "shaw-brendan",
@@ -2890,7 +2890,7 @@
   "debut_season": "1997-98",
   "final_season": "1998-99",
   "active": false,
-  "active_years": "1997–99"
+  "active_years": "1997\u201399"
  },
  {
   "slug": "shaw-jay",
@@ -2901,7 +2901,7 @@
   "debut_season": "1997-98",
   "final_season": "2000-01",
   "active": false,
-  "active_years": "1997–01"
+  "active_years": "1997\u201301"
  },
  {
   "slug": "shaw-justin",
@@ -2912,7 +2912,7 @@
   "debut_season": "1998-99",
   "final_season": "2000-01",
   "active": false,
-  "active_years": "1998–01"
+  "active_years": "1998\u201301"
  },
  {
   "slug": "shea-colin",
@@ -2923,7 +2923,7 @@
   "debut_season": "2010-11",
   "final_season": "2013-14",
   "active": false,
-  "active_years": "2010–14"
+  "active_years": "2010\u201314"
  },
  {
   "slug": "sheary-conor",
@@ -2934,7 +2934,7 @@
   "debut_season": "2010-11",
   "final_season": "2013-14",
   "active": false,
-  "active_years": "2010–14"
+  "active_years": "2010\u201314"
  },
  {
   "slug": "sheehan-tom",
@@ -2945,7 +2945,7 @@
   "debut_season": "1993-94",
   "final_season": "1994-95",
   "active": false,
-  "active_years": "1993–95"
+  "active_years": "1993\u201395"
  },
  {
   "slug": "sickavish-kelly",
@@ -2956,7 +2956,7 @@
   "debut_season": "1999-00",
   "final_season": "2002-03",
   "active": false,
-  "active_years": "1999–03"
+  "active_years": "1999\u201303"
  },
  {
   "slug": "smiley-maddison",
@@ -2967,7 +2967,7 @@
   "debut_season": "2014-15",
   "final_season": "2015-16",
   "active": false,
-  "active_years": "2014–16"
+  "active_years": "2014\u201316"
  },
  {
   "slug": "smith-jason",
@@ -2978,7 +2978,7 @@
   "debut_season": "1993-94",
   "final_season": "1993-94",
   "active": false,
-  "active_years": "1993–94"
+  "active_years": "1993\u201394"
  },
  {
   "slug": "smith-judd",
@@ -2989,7 +2989,7 @@
   "debut_season": "1993-94",
   "final_season": "1996-97",
   "active": false,
-  "active_years": "1993–97"
+  "active_years": "1993\u201397"
  },
  {
   "slug": "smith-matt",
@@ -3000,7 +3000,7 @@
   "debut_season": "1997-98",
   "final_season": "1997-98",
   "active": false,
-  "active_years": "1997–98"
+  "active_years": "1997\u201398"
  },
  {
   "slug": "sobieski-kaz",
@@ -3011,18 +3011,18 @@
   "debut_season": "2024-25",
   "final_season": "2024-25",
   "active": false,
-  "active_years": "2024–25"
+  "active_years": "2024\u201325"
  },
  {
   "slug": "soderholm-toni",
-  "display_name": "Toni Söderholm",
+  "display_name": "Toni S\u00f6derholm",
   "canonical_name": "Toni Soderholm",
   "pos": "D",
   "is_goalie": false,
   "debut_season": "1998-99",
   "final_season": "2001-02",
   "active": false,
-  "active_years": "1998–02"
+  "active_years": "1998\u201302"
  },
  {
   "slug": "solon-jamie",
@@ -3033,7 +3033,7 @@
   "debut_season": "2002-03",
   "final_season": "2005-06",
   "active": false,
-  "active_years": "2002–06"
+  "active_years": "2002\u201306"
  },
  {
   "slug": "stack-evan",
@@ -3044,7 +3044,7 @@
   "debut_season": "2012-13",
   "final_season": "2013-14",
   "active": false,
-  "active_years": "2012–14"
+  "active_years": "2012\u201314"
  },
  {
   "slug": "stephens-nick",
@@ -3055,7 +3055,7 @@
   "debut_season": "1997-98",
   "final_season": "2000-01",
   "active": false,
-  "active_years": "1997–01"
+  "active_years": "1997\u201301"
  },
  {
   "slug": "stork-dean",
@@ -3066,7 +3066,7 @@
   "debut_season": "1996-97",
   "final_season": "1998-99",
   "active": false,
-  "active_years": "1996–99"
+  "active_years": "1996\u201399"
  },
  {
   "slug": "sullivan-ryan",
@@ -3077,7 +3077,7 @@
   "debut_season": "2020-21",
   "final_season": "2022-23",
   "active": false,
-  "active_years": "2020–23"
+  "active_years": "2020\u201323"
  },
  {
   "slug": "summerfield-garrett",
@@ -3088,7 +3088,7 @@
   "debut_season": "2003-04",
   "final_season": "2005-06",
   "active": false,
-  "active_years": "2003–06"
+  "active_years": "2003\u201306"
  },
  {
   "slug": "suniev-aydar",
@@ -3099,7 +3099,7 @@
   "debut_season": "2023-24",
   "final_season": "2024-25",
   "active": false,
-  "active_years": "2023–25"
+  "active_years": "2023\u201325"
  },
  {
   "slug": "suter-jack",
@@ -3110,7 +3110,7 @@
   "debut_season": "2016-17",
   "final_season": "2019-20",
   "active": false,
-  "active_years": "2016–20"
+  "active_years": "2016\u201320"
  },
  {
   "slug": "syner-tj",
@@ -3121,7 +3121,7 @@
   "debut_season": "2008-09",
   "final_season": "2011-12",
   "active": false,
-  "active_years": "2008–12"
+  "active_years": "2008\u201312"
  },
  {
   "slug": "taillefer-mathieu",
@@ -3132,7 +3132,7 @@
   "debut_season": "2026-27",
   "final_season": "2026-27",
   "active": true,
-  "active_years": "2026–27"
+  "active_years": "2026\u201327"
  },
  {
   "slug": "tegeler-andrew",
@@ -3143,7 +3143,7 @@
   "debut_season": "2011-12",
   "final_season": "2012-13",
   "active": false,
-  "active_years": "2011–13"
+  "active_years": "2011\u201313"
  },
  {
   "slug": "teglia-jeff",
@@ -3154,7 +3154,7 @@
   "debut_season": "2010-11",
   "final_season": "2012-13",
   "active": false,
-  "active_years": "2010–13"
+  "active_years": "2010\u201313"
  },
  {
   "slug": "thornton-chris",
@@ -3165,7 +3165,7 @@
   "debut_season": "1999-00",
   "final_season": "1999-00",
   "active": false,
-  "active_years": "1999–00"
+  "active_years": "1999\u201300"
  },
  {
   "slug": "tiefenwerth-kj",
@@ -3176,7 +3176,7 @@
   "debut_season": "2012-13",
   "final_season": "2012-13",
   "active": false,
-  "active_years": "2012–13"
+  "active_years": "2012\u201313"
  },
  {
   "slug": "timmins-jeff",
@@ -3187,7 +3187,7 @@
   "debut_season": "2000-01",
   "final_season": "2000-01",
   "active": false,
-  "active_years": "2000–01"
+  "active_years": "2000\u201301"
  },
  {
   "slug": "toffey-john",
@@ -3198,18 +3198,18 @@
   "debut_season": "2003-04",
   "final_season": "2004-05",
   "active": false,
-  "active_years": "2003–05"
+  "active_years": "2003\u201305"
  },
  {
   "slug": "tornqvist-sebastian",
-  "display_name": "Sebastian Törnqvist",
+  "display_name": "Sebastian T\u00f6rnqvist",
   "canonical_name": "Sebastian Tornqvist",
   "pos": "D",
   "is_goalie": false,
   "debut_season": "2023-24",
   "final_season": "2023-24",
   "active": false,
-  "active_years": "2023–24"
+  "active_years": "2023\u201324"
  },
  {
   "slug": "torpstrom-eetu",
@@ -3220,7 +3220,7 @@
   "debut_season": "2017-18",
   "final_season": "2017-18",
   "active": false,
-  "active_years": "2017–18"
+  "active_years": "2017\u201318"
  },
  {
   "slug": "torretti-dominic",
@@ -3231,7 +3231,7 @@
   "debut_season": "2003-04",
   "final_season": "2003-04",
   "active": false,
-  "active_years": "2003–04"
+  "active_years": "2003\u201304"
  },
  {
   "slug": "trejbal-tobias",
@@ -3242,7 +3242,7 @@
   "debut_season": "2026-27",
   "final_season": "2026-27",
   "active": true,
-  "active_years": "2026–27"
+  "active_years": "2026\u201327"
  },
  {
   "slug": "trento-dominic",
@@ -3253,7 +3253,7 @@
   "debut_season": "2014-15",
   "final_season": "2016-17",
   "active": false,
-  "active_years": "2014–17"
+  "active_years": "2014\u201317"
  },
  {
   "slug": "trivigno-bobby",
@@ -3264,7 +3264,7 @@
   "debut_season": "2018-19",
   "final_season": "2021-22",
   "active": false,
-  "active_years": "2018–22"
+  "active_years": "2018\u201322"
  },
  {
   "slug": "trosky-joe",
@@ -3275,7 +3275,7 @@
   "debut_season": "1995-96",
   "final_season": "1995-96",
   "active": false,
-  "active_years": "1995–96"
+  "active_years": "1995\u201396"
  },
  {
   "slug": "trovato-peter",
@@ -3286,7 +3286,7 @@
   "debut_season": "2001-02",
   "final_season": "2004-05",
   "active": false,
-  "active_years": "2001–05"
+  "active_years": "2001\u201305"
  },
  {
   "slug": "tucker-kevin",
@@ -3297,7 +3297,7 @@
   "debut_season": "1997-98",
   "final_season": "1998-99",
   "active": false,
-  "active_years": "1997–99"
+  "active_years": "1997\u201399"
  },
  {
   "slug": "turner-jeff",
@@ -3308,7 +3308,7 @@
   "debut_season": "1997-98",
   "final_season": "2000-01",
   "active": false,
-  "active_years": "1997–01"
+  "active_years": "1997\u201301"
  },
  {
   "slug": "turner-tim",
@@ -3319,7 +3319,7 @@
   "debut_season": "1999-00",
   "final_season": "2002-03",
   "active": false,
-  "active_years": "1999–03"
+  "active_years": "1999\u201303"
  },
  {
   "slug": "ufko-ryan",
@@ -3330,7 +3330,7 @@
   "debut_season": "2021-22",
   "final_season": "2023-24",
   "active": false,
-  "active_years": "2021–24"
+  "active_years": "2021\u201324"
  },
  {
   "slug": "vanroboys-lucas",
@@ -3341,7 +3341,7 @@
   "debut_season": "2023-24",
   "final_season": "2023-24",
   "active": false,
-  "active_years": "2023–24"
+  "active_years": "2023\u201324"
  },
  {
   "slug": "vantassell-nick",
@@ -3352,7 +3352,7 @@
   "debut_season": "2023-24",
   "final_season": "2025-26",
   "active": false,
-  "active_years": "2023–26"
+  "active_years": "2023\u201326"
  },
  {
   "slug": "vasiliev-dmitri",
@@ -3363,7 +3363,7 @@
   "debut_season": "1998-99",
   "final_season": "1999-00",
   "active": false,
-  "active_years": "1998–00"
+  "active_years": "1998\u201300"
  },
  {
   "slug": "vatrano-frank",
@@ -3374,7 +3374,7 @@
   "debut_season": "2013-14",
   "final_season": "2014-15",
   "active": false,
-  "active_years": "2013–15"
+  "active_years": "2013\u201315"
  },
  {
   "slug": "vegara-kolby",
@@ -3385,7 +3385,7 @@
   "debut_season": "2018-19",
   "final_season": "2020-21",
   "active": false,
-  "active_years": "2018–21"
+  "active_years": "2018\u201321"
  },
  {
   "slug": "virtue-jordan",
@@ -3396,7 +3396,7 @@
   "debut_season": "2005-06",
   "final_season": "2008-09",
   "active": false,
-  "active_years": "2005–09"
+  "active_years": "2005\u201309"
  },
  {
   "slug": "vitek-tim",
@@ -3407,7 +3407,7 @@
   "debut_season": "2001-02",
   "final_season": "2004-05",
   "active": false,
-  "active_years": "2001–05"
+  "active_years": "2001\u201305"
  },
  {
   "slug": "wagar-blair",
@@ -3418,7 +3418,7 @@
   "debut_season": "1993-94",
   "final_season": "1995-96",
   "active": false,
-  "active_years": "1993–96"
+  "active_years": "1993\u201396"
  },
  {
   "slug": "wahlin-brandon",
@@ -3429,7 +3429,7 @@
   "debut_season": "2013-14",
   "final_season": "2013-14",
   "active": false,
-  "active_years": "2013–14"
+  "active_years": "2013\u201314"
  },
  {
   "slug": "waidlich-michael",
@@ -3440,7 +3440,7 @@
   "debut_season": "2002-03",
   "final_season": "2004-05",
   "active": false,
-  "active_years": "2002–05"
+  "active_years": "2002\u201305"
  },
  {
   "slug": "wait-garrett",
@@ -3451,7 +3451,7 @@
   "debut_season": "2020-21",
   "final_season": "2021-22",
   "active": false,
-  "active_years": "2020–23"
+  "active_years": "2020\u201323"
  },
  {
   "slug": "wakaluk-alex",
@@ -3462,7 +3462,7 @@
   "debut_season": "2013-14",
   "final_season": "2016-17",
   "active": false,
-  "active_years": "2013–17"
+  "active_years": "2013\u201317"
  },
  {
   "slug": "wallis-kris",
@@ -3473,7 +3473,7 @@
   "debut_season": "1997-98",
   "final_season": "2000-01",
   "active": false,
-  "active_years": "1997–01"
+  "active_years": "1997\u201301"
  },
  {
   "slug": "walsh-matt",
@@ -3484,7 +3484,7 @@
   "debut_season": "2001-02",
   "final_season": "2002-03",
   "active": false,
-  "active_years": "2001–03"
+  "active_years": "2001\u201303"
  },
  {
   "slug": "walsh-shane",
@@ -3495,7 +3495,7 @@
   "debut_season": "2012-13",
   "final_season": "2015-16",
   "active": false,
-  "active_years": "2012–16"
+  "active_years": "2012\u201316"
  },
  {
   "slug": "warner-mike",
@@ -3506,7 +3506,7 @@
   "debut_season": "2000-01",
   "final_season": "2003-04",
   "active": false,
-  "active_years": "2000–04"
+  "active_years": "2000\u201304"
  },
  {
   "slug": "warner-tim",
@@ -3517,7 +3517,7 @@
   "debut_season": "2001-02",
   "final_season": "2004-05",
   "active": false,
-  "active_years": "2001–05"
+  "active_years": "2001\u201305"
  },
  {
   "slug": "watson-brett",
@@ -3528,7 +3528,7 @@
   "debut_season": "2007-08",
   "final_season": "2009-10",
   "active": false,
-  "active_years": "2007–10"
+  "active_years": "2007\u201310"
  },
  {
   "slug": "wellman-casey",
@@ -3539,7 +3539,7 @@
   "debut_season": "2008-09",
   "final_season": "2009-10",
   "active": false,
-  "active_years": "2008–10"
+  "active_years": "2008\u201310"
  },
  {
   "slug": "werner-stephen",
@@ -3550,7 +3550,7 @@
   "debut_season": "2002-03",
   "final_season": "2005-06",
   "active": false,
-  "active_years": "2002–06"
+  "active_years": "2002\u201306"
  },
  {
   "slug": "wessbecker-john",
@@ -3561,7 +3561,7 @@
   "debut_season": "2005-06",
   "final_season": "2008-09",
   "active": false,
-  "active_years": "2005–09"
+  "active_years": "2005\u201309"
  },
  {
   "slug": "widmar-joseph",
@@ -3572,7 +3572,7 @@
   "debut_season": "2015-16",
   "final_season": "2016-17",
   "active": false,
-  "active_years": "2015–17"
+  "active_years": "2015\u201317"
  },
  {
   "slug": "wilde-matthew",
@@ -3583,7 +3583,7 @@
   "debut_season": "2025-26",
   "final_season": "2025-26",
   "active": false,
-  "active_years": "2025–26"
+  "active_years": "2025\u201326"
  },
  {
   "slug": "winer-gabe",
@@ -3594,7 +3594,7 @@
   "debut_season": "2002-03",
   "final_season": "2005-06",
   "active": false,
-  "active_years": "2002–06"
+  "active_years": "2002\u201306"
  },
  {
   "slug": "wischow-ryan",
@@ -3605,7 +3605,7 @@
   "debut_season": "2016-17",
   "final_season": "2017-18",
   "active": false,
-  "active_years": "2016–18"
+  "active_years": "2016\u201318"
  },
  {
   "slug": "wright-dennis",
@@ -3616,7 +3616,7 @@
   "debut_season": "1993-94",
   "final_season": "1996-97",
   "active": false,
-  "active_years": "1993–97"
+  "active_years": "1993\u201397"
  },
  {
   "slug": "yevenko-oleg",
@@ -3627,7 +3627,7 @@
   "debut_season": "2011-12",
   "final_season": "2014-15",
   "active": false,
-  "active_years": "2011–15"
+  "active_years": "2011\u201315"
  },
  {
   "slug": "zavisza-jr",
@@ -3638,7 +3638,7 @@
   "debut_season": "1999-00",
   "final_season": "2001-02",
   "active": false,
-  "active_years": "1999–02"
+  "active_years": "1999\u201302"
  },
  {
   "slug": "zimmerman-elias",
@@ -3649,6 +3649,6 @@
   "debut_season": "2025-26",
   "final_season": "2025-26",
   "active": false,
-  "active_years": "2025–26"
+  "active_years": "2025\u201326"
  }
 ]
