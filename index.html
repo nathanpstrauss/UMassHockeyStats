@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>UMass Hockey Stats</title>
+<link href="https://fonts.googleapis.com/css2?family=Zilla+Slab:wght@400;700&family=Oswald:wght@400;500;600;700;800;900&family=Source+Sans+3:wght@400;600&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#F7F5F1;--surface:#FFFFFF;--surface2:#FAF8F4;--surface3:#EFEBE3;
+  --border:#E4DFD7;--border2:#CEC8BD;--border-faint:#EFEBE4;
+  --text:#1B1714;--muted:#8B847A;--muted2:#A9A299;
+  --maroon:#881C1C;--maroon-bright:#A82626;--maroon-light:#F4E7E7;--maroon-line:#E2C4C4;
+  --gold:#B0892E;--gold-dim:#F6EFDD;--gold-border:#E6D5A8;
+  --win:#1A8A50;--win-bg:rgba(26,138,80,.07);--win-border:rgba(26,138,80,.2);
+  --loss:#B23A3A;--loss-bg:rgba(178,58,58,.07);--loss-border:rgba(178,58,58,.2);
+  --tie:#2E5E9E;--tie-bg:#E5ECF5;--tie-border:#C5D5EA;
+  --font-display:'Zilla Slab',Georgia,'Times New Roman',serif;
+  --font-ui:'Oswald','Arial Narrow',sans-serif;
+  --font-body:'Source Sans 3',system-ui,-apple-system,sans-serif;
+  --shadow-xs:0 1px 2px rgba(40,30,20,.05);
+  --shadow-sm:0 1px 3px rgba(40,30,20,.07),0 1px 2px rgba(40,30,20,.04);
+  --shadow-md:0 4px 14px rgba(40,30,20,.08),0 1px 3px rgba(40,30,20,.05);
+}
+html{scroll-behavior:smooth}
+body{font-family:var(--font-body);background:var(--bg);color:var(--text);min-height:100vh}
+a{color:inherit;text-decoration:none}
+
+/* NAV — matches career_stats.html / game_log.html */
+nav{background:rgba(247,245,241,.92);border-bottom:1px solid var(--border);
+  padding:0 24px;display:flex;align-items:center;position:sticky;top:0;z-index:100;
+  backdrop-filter:blur(10px);box-shadow:var(--shadow-xs)}
+.nav-logo{text-decoration:none;display:flex;align-items:center;gap:10px;margin-right:32px;padding:10px 0}
+.nav-logo img{height:34px;width:auto;display:block}
+.nav-links{display:flex;gap:4px;align-items:center;flex-wrap:wrap}
+.nav-links a{padding:5px 10px;border-radius:5px;font-size:11px;font-weight:700;
+  letter-spacing:1.5px;color:var(--muted2);text-decoration:none;
+  font-family:var(--font-ui);text-transform:uppercase;transition:color .15s;
+  border-bottom:2px solid transparent}
+.nav-links a:hover{color:var(--text)}
+.nav-links a.active{color:var(--text);border-bottom-color:var(--maroon)}
+.nav-links a.external{color:var(--maroon)}
+
+/* HERO */
+.hero{position:relative;overflow:hidden;border-bottom:1px solid var(--border)}
+.hero-bg{position:absolute;inset:0;background-image:url('IMG_1685.JPG');
+  background-size:cover;background-position:center 28%}
+.hero-bg::after{content:'';position:absolute;inset:0;
+  background:linear-gradient(to top,rgba(18,13,11,.92) 0%,rgba(18,13,11,.6) 45%,rgba(18,13,11,.3) 100%),
+             linear-gradient(to right,rgba(18,13,11,.7) 0%,rgba(18,13,11,.15) 55%,transparent 100%)}
+.hero-inner{position:relative;z-index:1;max-width:1180px;margin:0 auto;
+  padding:100px 24px 56px;min-height:440px;display:flex;flex-direction:column;justify-content:flex-end}
+.hero-eyebrow{font-family:var(--font-ui);font-size:11px;font-weight:800;letter-spacing:3px;
+  text-transform:uppercase;color:#E3C36B;margin-bottom:16px;display:flex;align-items:center;gap:10px}
+.hero-eyebrow::before{content:'';display:block;width:34px;height:2px;background:#E3C36B;opacity:.7}
+.hero-title{font-family:var(--font-display);font-size:clamp(40px,6.5vw,72px);font-weight:700;
+  line-height:1;color:#fff;letter-spacing:-.5px;margin-bottom:18px}
+.hero-title span{color:#E3C36B}
+.hero-sub{font-family:var(--font-body);font-size:16px;color:rgba(255,255,255,.85);
+  line-height:1.6;max-width:560px}
+
+/* LATEST GAME */
+.latest{max-width:1180px;margin:0 auto;padding:8px 24px 16px}
+.section-label{font-family:var(--font-ui);font-size:11px;font-weight:800;letter-spacing:2px;
+  text-transform:uppercase;color:var(--muted);margin-bottom:14px;display:flex;align-items:center;gap:12px}
+.section-label::after{content:'';flex:1;height:1px;background:var(--border)}
+.game-card{background:var(--surface);border:1px solid var(--border);border-radius:10px;
+  box-shadow:var(--shadow-md);overflow:hidden}
+.game-card-top{display:flex;flex-wrap:wrap;align-items:center;gap:24px;padding:24px 28px}
+.gc-result{flex-shrink:0;display:flex;flex-direction:column;align-items:center;justify-content:center;
+  width:72px;height:72px;border-radius:10px;font-family:var(--font-ui)}
+.gc-result.loss{background:var(--loss-bg);border:1px solid var(--loss-border)}
+.gc-result.win{background:var(--win-bg);border:1px solid var(--win-border)}
+.gc-result.tie{background:var(--tie-bg);border:1px solid var(--tie-border)}
+.gc-result-letter{font-size:34px;font-weight:900;line-height:1}
+.gc-result.loss .gc-result-letter{color:var(--loss)}
+.gc-result.win .gc-result-letter{color:var(--win)}
+.gc-result.tie .gc-result-letter{color:var(--tie)}
+.gc-result-tag{font-size:9px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;
+  color:var(--muted);margin-top:3px}
+.gc-main{flex:1;min-width:200px}
+.gc-date{font-family:var(--font-ui);font-size:11px;font-weight:700;letter-spacing:1.5px;
+  text-transform:uppercase;color:var(--muted);margin-bottom:6px}
+.gc-matchup{font-family:var(--font-display);font-size:26px;font-weight:700;color:var(--text);line-height:1.15}
+.gc-venue{font-family:var(--font-body);font-size:13px;color:var(--muted);margin-top:6px}
+.gc-score{flex-shrink:0;text-align:right;font-family:var(--font-ui)}
+.gc-score-line{font-size:15px;font-weight:600;color:var(--muted);letter-spacing:.5px}
+.gc-score-big{font-size:46px;font-weight:900;color:var(--text);line-height:1;letter-spacing:-1px}
+.gc-actions{display:flex;flex-wrap:wrap;gap:1px;background:var(--border);border-top:1px solid var(--border)}
+.gc-btn{flex:1;min-width:160px;background:var(--surface);padding:16px 24px;
+  font-family:var(--font-ui);font-size:12px;font-weight:800;letter-spacing:1.5px;text-transform:uppercase;
+  color:var(--maroon);display:flex;align-items:center;justify-content:center;gap:8px;transition:background .15s}
+.gc-btn:hover{background:var(--maroon-light)}
+.gc-btn .arr{transition:transform .15s}
+.gc-btn:hover .arr{transform:translateX(3px)}
+
+/* EXPLORE THE DATABASE */
+.tools{max-width:1180px;margin:0 auto;padding:40px 24px 64px}
+.tools-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:16px;margin-top:18px}
+@media(max-width:680px){.tools-grid{grid-template-columns:1fr}}
+.tool-card{display:flex;flex-direction:column;background:var(--surface);border:1px solid var(--border);
+  border-radius:10px;padding:24px;transition:border-color .15s,box-shadow .15s,transform .15s;
+  position:relative;overflow:hidden}
+.tool-card::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;
+  background:var(--maroon);transform:scaleX(0);transform-origin:left;transition:transform .2s}
+.tool-card:hover{border-color:var(--border2);box-shadow:var(--shadow-sm);transform:translateY(-2px)}
+.tool-card:hover::before{transform:scaleX(1)}
+.tool-eyebrow{font-family:var(--font-ui);font-size:10px;font-weight:800;letter-spacing:2px;
+  text-transform:uppercase;color:var(--maroon-bright);margin-bottom:8px}
+.tool-title{font-family:var(--font-display);font-size:22px;font-weight:700;color:var(--text);
+  line-height:1.05;margin-bottom:10px}
+.tool-desc{font-family:var(--font-body);font-size:14px;color:var(--muted);line-height:1.55;flex:1}
+.tool-arrow{font-family:var(--font-ui);font-size:18px;color:var(--muted2);margin-top:16px;
+  transition:color .15s,transform .15s}
+.tool-card:hover .tool-arrow{color:var(--maroon);transform:translateX(4px)}
+
+/* FOOTER */
+footer{border-top:1px solid var(--border);background:var(--surface2)}
+.footer-inner{max-width:1180px;margin:0 auto;padding:28px 24px;
+  display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:12px}
+.footer-logo{font-family:var(--font-display);font-size:15px;font-weight:700;color:var(--text)}
+.footer-logo span{color:var(--maroon)}
+.footer-meta{font-family:var(--font-ui);font-size:10px;font-weight:600;letter-spacing:1px;
+  text-transform:uppercase;color:var(--muted)}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a href="index.html" class="nav-logo">
+    <img src="UMass_Hockey_2_.png" alt="UMass Hockey"/>
+  </a>
+  <div class="nav-links">
+    <a href="index.html#rosters">Rosters</a>
+    <a href="ncaa_nhl_pipeline.html">NCAA Pipeline</a>
+    <a href="career_stats.html">Career Stats</a>
+    <a href="recruiting_classes.html">Draft</a>
+    <a href="minutemen_in_the_pros.html">Pros</a>
+    <a href="hea_allstars.html">HEA All-Stars</a>
+    <a href="awards.html">Awards</a>
+    <a href="game_log.html">Game Log</a>
+    <a href="https://umasshockeyblog.substack.com/" class="external" target="_blank" rel="noopener">Blog &#8599;</a>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-bg"></div>
+  <div class="hero-inner">
+    <div class="hero-eyebrow">Massachusetts Men's Hockey</div>
+    <h1 class="hero-title"><span>UMass</span>HockeyStats</h1>
+    <p class="hero-sub">A complete record of Massachusetts men's hockey: career stats, draft history, pro careers, and every game the program has played.</p>
+  </div>
+</section>
+
+<!-- LATEST GAME -->
+<section class="latest">
+  <div class="section-label">Latest Game</div>
+  <div class="game-card">
+    <div class="game-card-top">
+      <div class="gc-result loss">
+        <div class="gc-result-letter">L</div>
+        <div class="gc-result-tag">Loss</div>
+      </div>
+      <div class="gc-main">
+        <div class="gc-date">March 20, 2026</div>
+        <div class="gc-matchup">UMass vs. Merrimack</div>
+        <div class="gc-venue">TD Garden &middot; Boston, MA &middot; Neutral Site</div>
+      </div>
+      <div class="gc-score">
+        <div class="gc-score-line">UMass 0 &ndash; Merrimack 2</div>
+        <div class="gc-score-big">0&ndash;2</div>
+      </div>
+    </div>
+    <div class="gc-actions">
+      <a class="gc-btn" href="game.html?id=2025-26:3/20">Game Recap <span class="arr">&rarr;</span></a>
+      <a class="gc-btn" href="game_log.html">Box Score <span class="arr">&rarr;</span></a>
+    </div>
+  </div>
+</section>
+
+<!-- EXPLORE THE DATABASE -->
+<section class="tools">
+  <div class="section-label">Explore the Database</div>
+  <div class="tools-grid">
+    <a href="career_stats.html" class="tool-card">
+      <div class="tool-eyebrow">Stats</div>
+      <div class="tool-title">Career Stats</div>
+      <div class="tool-desc">Season-by-season stats for every Minuteman since 1993, plus program rankings, pro careers, and draft info.</div>
+      <div class="tool-arrow">&rarr;</div>
+    </a>
+    <a href="recruiting_classes.html" class="tool-card">
+      <div class="tool-eyebrow">Draft History</div>
+      <div class="tool-title">UMass at the Draft</div>
+      <div class="tool-desc">Every UMass player taken in the NHL Draft. Browse by freshman class or draft year, and follow the picks still in college.</div>
+      <div class="tool-arrow">&rarr;</div>
+    </a>
+    <a href="hea_allstars.html" class="tool-card">
+      <div class="tool-eyebrow">Conference Honors</div>
+      <div class="tool-title">HEA All-Stars</div>
+      <div class="tool-desc">UMass players named to the Hockey East All-Star and all-conference teams over the years.</div>
+      <div class="tool-arrow">&rarr;</div>
+    </a>
+    <a href="minutemen_in_the_pros.html" class="tool-card">
+      <div class="tool-eyebrow">Pro Careers</div>
+      <div class="tool-title">UMass in the Pros</div>
+      <div class="tool-desc">Minutemen playing pro hockey at every level, from the NHL and AHL down to the ECHL and the leagues across Europe.</div>
+      <div class="tool-arrow">&rarr;</div>
+    </a>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-inner">
+    <div class="footer-logo"><span>UMass</span>HockeyStats</div>
+    <div class="footer-meta">Data via EliteProspects &middot; HockeyDB &middot; UMass Hockey Record Book &middot; CHN</div>
+  </div>
+</footer>
+
+</body>
+</html>
