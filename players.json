@@ -913,6 +913,17 @@
   "active_years": "2022\u201323"
  },
  {
+  "slug": "eskit-ethan",
+  "display_name": "Ethan Eskit",
+  "canonical_name": "Ethan Eskit",
+  "pos": "G",
+  "is_goalie": true,
+  "debut_season": "2026-27",
+  "final_season": "2026-27",
+  "active": true,
+  "active_years": "2026\u201327"
+ },
+ {
   "slug": "evans-mike",
   "display_name": "Mike Evans",
   "canonical_name": "Mike Evans",
@@ -1075,7 +1086,7 @@
   "debut_season": "2025-26",
   "final_season": "2025-26",
   "active": true,
-  "active_years": "2025\u201326"
+  "active_years": "2025\u201327"
  },
  {
   "slug": "gallacher-ben",

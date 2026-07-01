@@ -1,0 +1,494 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0">
+<title>UMass Hockey — Add a Note</title>
+<link href="https://fonts.googleapis.com/css2?family=Zilla+Slab:wght@400;700&family=Oswald:wght@400;500;600;700;800;900&family=Source+Sans+3:wght@400;600&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#F7F5F1;--surface:#FFFFFF;--surface2:#FAF8F4;--surface3:#EFEBE3;
+  --border:#E4DFD7;--border2:#CEC8BD;--border-faint:#EFEBE4;
+  --text:#1B1714;--muted:#8B847A;--muted2:#A9A299;
+  --maroon:#881C1C;--maroon-bright:#A82626;--maroon-light:#F4E7E7;--maroon-line:#E2C4C4;
+  --gold:#B0892E;--gold-dim:#F6EFDD;--gold-border:#E6D5A8;
+  --teal:#1F7A4D;--teal-bg:rgba(31,122,77,.08);--teal-border:rgba(31,122,77,.2);
+  --font-display:'Zilla Slab',Georgia,serif;
+  --font-ui:'Oswald','Arial Narrow',sans-serif;
+  --font-body:'Source Sans 3',system-ui,sans-serif;
+  --shadow-sm:0 1px 3px rgba(40,30,20,.07),0 1px 2px rgba(40,30,20,.04);
+  --shadow-md:0 4px 14px rgba(40,30,20,.10);
+}
+html{-webkit-text-size-adjust:100%}
+body{font-family:var(--font-body);background:var(--bg);color:var(--text);min-height:100vh;
+  -webkit-tap-highlight-color:transparent;padding-bottom:40px}
+
+/* ── Header ───────────────────────────────────────────── */
+.header{padding:22px 18px 16px;border-bottom:1px solid var(--maroon-line);
+  background:linear-gradient(180deg,#F4E7E7 0%,#F7F5F1 70%);position:sticky;top:0;z-index:10}
+.header-eyebrow{font-family:var(--font-ui);font-size:10px;font-weight:800;
+  letter-spacing:.14em;text-transform:uppercase;color:var(--maroon)}
+.header-title{font-family:var(--font-display);font-size:24px;font-weight:700;
+  color:var(--text);margin-top:2px}
+
+/* breadcrumb — this genuinely is a 3-step sequence, so the steps carry real info */
+.breadcrumb{display:flex;gap:6px;margin-top:14px;font-family:var(--font-ui);
+  font-size:10px;font-weight:700;letter-spacing:.06em;text-transform:uppercase}
+.crumb{color:var(--muted2);display:flex;align-items:center;gap:6px}
+.crumb.active{color:var(--maroon)}
+.crumb.done{color:var(--text)}
+.crumb-sep{color:var(--border2)}
+.crumb-val{color:var(--text);font-weight:600;text-transform:none;font-family:var(--font-body);
+  max-width:90px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+
+/* ── Layout ───────────────────────────────────────────── */
+.screen{padding:20px 18px;max-width:520px;margin:0 auto;display:none}
+.screen.active{display:block}
+.section-label{font-family:var(--font-ui);font-size:11px;font-weight:800;
+  letter-spacing:.08em;text-transform:uppercase;color:var(--muted);margin-bottom:10px}
+
+/* back link */
+.back-link{display:inline-flex;align-items:center;gap:6px;font-family:var(--font-ui);
+  font-size:12px;font-weight:700;color:var(--maroon);text-transform:uppercase;
+  letter-spacing:.04em;background:none;border:none;padding:6px 0 16px;cursor:pointer}
+.back-link svg{width:14px;height:14px}
+
+/* big tap-target lists */
+.tap-list{display:flex;flex-direction:column;gap:10px}
+.tap-btn{font-family:var(--font-ui);font-size:16px;font-weight:600;color:var(--text);
+  background:var(--surface);border:1px solid var(--border);border-radius:10px;
+  padding:18px 16px;text-align:left;cursor:pointer;display:flex;align-items:center;
+  justify-content:space-between;box-shadow:var(--shadow-sm);transition:border-color .12s,background .12s}
+.tap-btn:active{background:var(--maroon-light);border-color:var(--maroon)}
+.tap-btn .arrow{color:var(--border2);font-size:18px}
+.tap-btn.year-btn{font-family:var(--font-display);font-size:20px;font-weight:700}
+.tap-btn .year-meta{font-family:var(--font-ui);font-size:10px;font-weight:700;
+  color:var(--muted);text-transform:uppercase;letter-spacing:.05em}
+
+/* search box */
+.search-wrap{margin-bottom:14px}
+.search-input{width:100%;padding:14px 16px;font-family:var(--font-body);font-size:16px;
+  border:1px solid var(--border2);border-radius:10px;background:var(--surface);color:var(--text)}
+.search-input:focus{outline:none;border-color:var(--maroon)}
+.search-input::placeholder{color:var(--muted2)}
+.empty-note{font-family:var(--font-body);font-size:14px;color:var(--muted);
+  text-align:center;padding:24px 0}
+
+/* ── Note form (step 3) ──────────────────────────────── */
+.player-pill{display:inline-flex;align-items:center;gap:8px;background:var(--maroon-light);
+  border:1px solid var(--maroon-line);border-radius:999px;padding:8px 16px 8px 14px;margin-bottom:18px}
+.player-pill-name{font-family:var(--font-display);font-size:16px;font-weight:700;color:var(--maroon)}
+
+.field-group{margin-bottom:20px}
+.field-label{font-family:var(--font-ui);font-size:11px;font-weight:800;
+  letter-spacing:.07em;text-transform:uppercase;color:var(--muted);margin-bottom:8px;display:block}
+
+.segmented{display:flex;gap:8px}
+.seg-btn{flex:1;font-family:var(--font-ui);font-size:13px;font-weight:700;
+  text-transform:uppercase;letter-spacing:.03em;padding:14px 8px;border-radius:9px;
+  border:1px solid var(--border2);background:var(--surface);color:var(--text);cursor:pointer}
+.seg-btn.selected{background:var(--maroon);border-color:var(--maroon);color:#fff}
+
+textarea.note-input{width:100%;min-height:120px;padding:14px 16px;font-family:var(--font-body);
+  font-size:16px;line-height:1.5;border:1px solid var(--border2);border-radius:10px;
+  background:var(--surface);color:var(--text);resize:vertical}
+textarea.note-input:focus,.search-input:focus{outline:none;border-color:var(--maroon)}
+
+input.text-input{width:100%;padding:14px 16px;font-family:var(--font-body);font-size:16px;
+  border:1px solid var(--border2);border-radius:10px;background:var(--surface);color:var(--text)}
+input.text-input:focus{outline:none;border-color:var(--maroon)}
+
+.char-count{font-family:var(--font-ui);font-size:10px;color:var(--muted2);
+  text-align:right;margin-top:6px}
+
+/* live preview card — the signature element: a scouting-card style preview
+   of the note as it's being authored, echoing the site's stat-card vernacular */
+.preview-card{margin-top:24px;border:1px solid var(--border);border-left:3px solid var(--maroon);
+  background:var(--surface2);border-radius:8px;padding:16px;box-shadow:var(--shadow-sm)}
+.preview-label{font-family:var(--font-ui);font-size:9px;font-weight:800;letter-spacing:.1em;
+  text-transform:uppercase;color:var(--muted2);margin-bottom:8px}
+.preview-type{display:inline-block;font-family:var(--font-ui);font-size:9px;font-weight:800;
+  letter-spacing:.06em;text-transform:uppercase;color:var(--maroon);background:var(--maroon-light);
+  border:1px solid var(--maroon-line);border-radius:4px;padding:3px 8px;margin-bottom:8px}
+.preview-text{font-family:var(--font-body);font-size:14px;line-height:1.5;color:var(--text);
+  font-style:italic;min-height:20px}
+.preview-source{font-family:var(--font-ui);font-size:11px;color:var(--muted);margin-top:8px}
+.preview-source:before{content:"— "}
+
+.submit-btn{width:100%;margin-top:24px;font-family:var(--font-ui);font-size:15px;font-weight:800;
+  letter-spacing:.05em;text-transform:uppercase;padding:18px;border:none;border-radius:10px;
+  background:var(--maroon);color:#fff;cursor:pointer;box-shadow:var(--shadow-md)}
+.submit-btn:active{background:var(--maroon-bright)}
+.submit-btn:disabled{background:var(--border2);box-shadow:none;cursor:not-allowed}
+
+/* ── Confirmation (the "stamp") ──────────────────────── */
+.confirm-wrap{display:flex;flex-direction:column;align-items:center;text-align:center;padding:60px 18px}
+.stamp{width:84px;height:84px;border-radius:50%;border:3px solid var(--maroon);
+  display:flex;align-items:center;justify-content:center;margin-bottom:20px;
+  animation:stampIn .38s cubic-bezier(.34,1.56,.64,1) both}
+.stamp svg{width:38px;height:38px}
+@keyframes stampIn{0%{transform:scale(.4) rotate(-12deg);opacity:0}100%{transform:scale(1) rotate(-8deg);opacity:1}}
+.confirm-title{font-family:var(--font-display);font-size:22px;font-weight:700;color:var(--text);margin-bottom:6px}
+.confirm-sub{font-family:var(--font-body);font-size:14px;color:var(--muted);margin-bottom:30px}
+.confirm-actions{display:flex;flex-direction:column;gap:10px;width:100%;max-width:320px}
+.confirm-btn{font-family:var(--font-ui);font-size:13px;font-weight:700;text-transform:uppercase;
+  letter-spacing:.04em;padding:14px;border-radius:9px;cursor:pointer}
+.confirm-btn.primary{background:var(--maroon);color:#fff;border:none}
+.confirm-btn.secondary{background:var(--surface);color:var(--text);border:1px solid var(--border2)}
+
+/* ── Loading / error states ──────────────────────────── */
+.status-msg{font-family:var(--font-body);font-size:14px;color:var(--muted);text-align:center;padding:60px 18px}
+.status-msg.error{color:var(--maroon)}
+
+/* respect reduced motion */
+@media (prefers-reduced-motion:reduce){.stamp{animation:none}}
+
+@media (min-width:600px){
+  .header,.screen{padding-left:32px;padding-right:32px}
+}
+</style>
+</head>
+<body>
+
+<div class="header">
+  <div class="header-eyebrow">UMass Hockey Stats</div>
+  <div class="header-title">Add a Note</div>
+  <div class="breadcrumb" id="breadcrumb">
+    <span class="crumb active" data-step="1">Year</span>
+    <span class="crumb-sep">/</span>
+    <span class="crumb" data-step="2">Player</span>
+    <span class="crumb-sep">/</span>
+    <span class="crumb" data-step="3">Note</span>
+  </div>
+</div>
+
+<!-- STEP 1: YEAR -->
+<div class="screen active" id="screen-year">
+  <div class="section-label">Choose a season</div>
+  <div class="tap-list" id="year-list"></div>
+</div>
+
+<!-- STEP 2: PLAYER -->
+<div class="screen" id="screen-player">
+  <button class="back-link" id="back-to-year">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M15 18l-6-6 6-6"/></svg>
+    <span id="back-to-year-label">Change season</span>
+  </button>
+  <div class="section-label" id="player-section-label">Choose a player</div>
+  <div class="search-wrap">
+    <input type="text" class="search-input" id="player-search" placeholder="Search players…" autocomplete="off">
+  </div>
+  <div class="tap-list" id="player-list"></div>
+  <div class="empty-note" id="player-empty" style="display:none">No players match that search.</div>
+</div>
+
+<!-- STEP 3: NOTE -->
+<div class="screen" id="screen-note">
+  <button class="back-link" id="back-to-player">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M15 18l-6-6 6-6"/></svg>
+    <span>Change player</span>
+  </button>
+  <div class="player-pill"><span class="player-pill-name" id="selected-player-name"></span></div>
+
+  <div class="field-group">
+    <label class="field-label">Type</label>
+    <div class="segmented" id="type-segmented">
+      <button class="seg-btn selected" data-type="Fact">Fact</button>
+      <button class="seg-btn" data-type="Quote">Quote</button>
+      <button class="seg-btn" data-type="Trivia">Trivia</button>
+    </div>
+  </div>
+
+  <div class="field-group">
+    <label class="field-label">Note</label>
+    <textarea class="note-input" id="note-text" maxlength="500" placeholder="What's the fact, quote, or piece of trivia?"></textarea>
+    <div class="char-count"><span id="char-count">0</span>/500</div>
+  </div>
+
+  <div class="field-group">
+    <label class="field-label">Source <span style="text-transform:none;font-weight:400">(optional)</span></label>
+    <input type="text" class="text-input" id="note-source" placeholder="e.g. EliteProspects, game broadcast, Nathan's notes">
+  </div>
+
+  <div class="preview-card">
+    <div class="preview-label">Will appear as</div>
+    <div class="preview-type" id="preview-type">Fact</div>
+    <div class="preview-text" id="preview-text">Your note text will show up here…</div>
+    <div class="preview-source" id="preview-source" style="display:none"></div>
+  </div>
+
+  <button class="submit-btn" id="submit-btn">Save note</button>
+</div>
+
+<!-- CONFIRMATION -->
+<div class="screen" id="screen-confirm">
+  <div class="confirm-wrap">
+    <div class="stamp">
+      <svg viewBox="0 0 24 24" fill="none" stroke="#881C1C" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+    </div>
+    <div class="confirm-title">Saved</div>
+    <div class="confirm-sub" id="confirm-sub">Your note will sync to the site within a few days.</div>
+    <div class="confirm-actions">
+      <button class="confirm-btn primary" id="add-another-same">Add another note for <span id="confirm-player-name"></span></button>
+      <button class="confirm-btn secondary" id="add-different-player">Pick a different player</button>
+    </div>
+  </div>
+</div>
+
+<!-- LOADING / ERROR -->
+<div class="screen" id="screen-loading">
+  <div class="status-msg" id="loading-msg">Loading rosters…</div>
+</div>
+
+<script>
+(function(){
+  'use strict';
+
+  // ── Config ────────────────────────────────────────────
+  var FORM_ACTION = 'https://docs.google.com/forms/d/e/1FAIpQLSc2stal8S6SlE-zmKXuytl8QL08vJOV8huon2C8jgNGFu3R4g/formResponse';
+  var ENTRY = {
+    slug: 'entry.1282364288',
+    display_name: 'entry.290075587',
+    note: 'entry.67060027',
+    type: 'entry.321121458',
+    source: 'entry.748882167'
+  };
+
+  // ── State ─────────────────────────────────────────────
+  var playersBySlug = {};   // slug -> display_name
+  var rosterByYear = {};    // year -> [slug,...]
+  var years = [];           // sorted, most recent first
+  var selected = { year: null, slug: null, displayName: null, type: 'Fact' };
+
+  var screens = {
+    year: document.getElementById('screen-year'),
+    player: document.getElementById('screen-player'),
+    note: document.getElementById('screen-note'),
+    confirm: document.getElementById('screen-confirm'),
+    loading: document.getElementById('screen-loading')
+  };
+  var crumbs = document.querySelectorAll('.crumb');
+
+  function showScreen(name){
+    Object.keys(screens).forEach(function(k){ screens[k].classList.remove('active'); });
+    screens[name].classList.add('active');
+  }
+
+  function setBreadcrumb(step){
+    crumbs.forEach(function(c){
+      var s = parseInt(c.getAttribute('data-step'), 10);
+      c.classList.remove('active','done');
+      if (s === step) c.classList.add('active');
+      else if (s < step) c.classList.add('done');
+    });
+  }
+
+  function escapeHtml(str){
+    return String(str)
+      .replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;')
+      .replace(/"/g,'&quot;').replace(/'/g,'&#39;');
+  }
+
+  // ── Load data ─────────────────────────────────────────
+  Promise.all([
+    fetch('players.json').then(function(r){ if(!r.ok) throw new Error('players.json: ' + r.status); return r.json(); }),
+    fetch('roster_by_year.json').then(function(r){ if(!r.ok) throw new Error('roster_by_year.json: ' + r.status); return r.json(); })
+  ]).then(function(results){
+    var playersDim = results[0];
+    rosterByYear = results[1];
+
+    playersDim.forEach(function(p){ playersBySlug[p.slug] = p.display_name; });
+
+    years = Object.keys(rosterByYear).sort().reverse(); // most recent first
+    renderYearList();
+
+    var lastYear = null;
+    try { lastYear = localStorage.getItem('umassNotesLastYear'); } catch(e){}
+    if (lastYear && years.indexOf(lastYear) !== -1) {
+      // pre-select nothing automatically — just leaves it as a fast tap at top
+    }
+
+    showScreen('year');
+  }).catch(function(err){
+    document.getElementById('loading-msg').textContent =
+      'Could not load roster data (' + err.message + '). Check your connection and reload.';
+    document.getElementById('loading-msg').classList.add('error');
+    showScreen('loading');
+  });
+
+  // ── Step 1: Year ──────────────────────────────────────
+  function renderYearList(){
+    var list = document.getElementById('year-list');
+    list.innerHTML = '';
+    years.forEach(function(y){
+      var count = (rosterByYear[y] || []).length;
+      var btn = document.createElement('button');
+      btn.className = 'tap-btn year-btn';
+      btn.innerHTML = '<span>' + escapeHtml(y) + '</span><span class="year-meta">' + count + ' players</span>';
+      btn.addEventListener('click', function(){ selectYear(y); });
+      list.appendChild(btn);
+    });
+  }
+
+  function selectYear(year){
+    selected.year = year;
+    try { localStorage.setItem('umassNotesLastYear', year); } catch(e){}
+    document.getElementById('back-to-year-label').textContent = 'Change season (' + year + ')';
+    document.getElementById('player-section-label').textContent = year + ' roster';
+    document.getElementById('player-search').value = '';
+    renderPlayerList('');
+    setBreadcrumb(2);
+    showScreen('player');
+    document.getElementById('player-search').focus();
+  }
+
+  document.getElementById('back-to-year').addEventListener('click', function(){
+    setBreadcrumb(1);
+    showScreen('year');
+  });
+
+  // ── Step 2: Player ────────────────────────────────────
+  function renderPlayerList(filterText){
+    var slugs = rosterByYear[selected.year] || [];
+    var q = filterText.trim().toLowerCase();
+    var filtered = slugs.filter(function(slug){
+      var name = playersBySlug[slug] || slug;
+      return !q || name.toLowerCase().indexOf(q) !== -1;
+    });
+
+    var list = document.getElementById('player-list');
+    var empty = document.getElementById('player-empty');
+    list.innerHTML = '';
+
+    if (filtered.length === 0) {
+      empty.style.display = 'block';
+      return;
+    }
+    empty.style.display = 'none';
+
+    filtered.forEach(function(slug){
+      var name = playersBySlug[slug] || slug;
+      var btn = document.createElement('button');
+      btn.className = 'tap-btn';
+      btn.innerHTML = '<span>' + escapeHtml(name) + '</span><span class="arrow">›</span>';
+      btn.addEventListener('click', function(){ selectPlayer(slug, name); });
+      list.appendChild(btn);
+    });
+  }
+
+  document.getElementById('player-search').addEventListener('input', function(e){
+    renderPlayerList(e.target.value);
+  });
+
+  function selectPlayer(slug, name){
+    selected.slug = slug;
+    selected.displayName = name;
+    document.getElementById('selected-player-name').textContent = name;
+    document.getElementById('confirm-player-name').textContent = name;
+    resetNoteForm();
+    setBreadcrumb(3);
+    showScreen('note');
+  }
+
+  document.getElementById('back-to-player').addEventListener('click', function(){
+    setBreadcrumb(2);
+    showScreen('player');
+  });
+
+  // ── Step 3: Note ──────────────────────────────────────
+  var typeSeg = document.getElementById('type-segmented');
+  typeSeg.addEventListener('click', function(e){
+    var btn = e.target.closest('.seg-btn');
+    if (!btn) return;
+    Array.prototype.forEach.call(typeSeg.querySelectorAll('.seg-btn'), function(b){ b.classList.remove('selected'); });
+    btn.classList.add('selected');
+    selected.type = btn.getAttribute('data-type');
+    updatePreview();
+  });
+
+  var noteInput = document.getElementById('note-text');
+  var sourceInput = document.getElementById('note-source');
+  var charCount = document.getElementById('char-count');
+
+  noteInput.addEventListener('input', function(){
+    charCount.textContent = noteInput.value.length;
+    updatePreview();
+  });
+  sourceInput.addEventListener('input', updatePreview);
+
+  function updatePreview(){
+    var text = noteInput.value.trim();
+    document.getElementById('preview-type').textContent = selected.type;
+    document.getElementById('preview-text').textContent = text || 'Your note text will show up here…';
+    document.getElementById('preview-text').style.fontStyle = text ? 'normal' : 'italic';
+    var src = sourceInput.value.trim();
+    var srcEl = document.getElementById('preview-source');
+    if (src) { srcEl.style.display = 'block'; srcEl.textContent = src; }
+    else { srcEl.style.display = 'none'; }
+  }
+
+  function resetNoteForm(){
+    Array.prototype.forEach.call(typeSeg.querySelectorAll('.seg-btn'), function(b){ b.classList.remove('selected'); });
+    typeSeg.querySelector('[data-type="Fact"]').classList.add('selected');
+    selected.type = 'Fact';
+    noteInput.value = '';
+    sourceInput.value = '';
+    charCount.textContent = '0';
+    updatePreview();
+  }
+
+  // ── Submit ────────────────────────────────────────────
+  var submitBtn = document.getElementById('submit-btn');
+  submitBtn.addEventListener('click', function(){
+    var text = noteInput.value.trim();
+    if (!text) {
+      noteInput.focus();
+      noteInput.style.borderColor = 'var(--maroon)';
+      return;
+    }
+
+    submitBtn.disabled = true;
+    submitBtn.textContent = 'Saving…';
+
+    var body = new URLSearchParams();
+    body.set(ENTRY.slug, selected.slug);
+    body.set(ENTRY.display_name, selected.displayName);
+    body.set(ENTRY.note, text);
+    body.set(ENTRY.type, selected.type);
+    body.set(ENTRY.source, sourceInput.value.trim());
+
+    fetch(FORM_ACTION, {
+      method: 'POST',
+      mode: 'no-cors',
+      headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+      body: body.toString()
+    }).catch(function(){
+      // no-cors means we can't read success/failure anyway — proceed optimistically
+    }).finally(function(){
+      submitBtn.disabled = false;
+      submitBtn.textContent = 'Save note';
+      document.getElementById('confirm-sub').textContent =
+        'Your note will sync to the site within a few days.';
+      showScreen('confirm');
+    });
+  });
+
+  // ── Confirmation actions ──────────────────────────────
+  document.getElementById('add-another-same').addEventListener('click', function(){
+    resetNoteForm();
+    setBreadcrumb(3);
+    showScreen('note');
+  });
+
+  document.getElementById('add-different-player').addEventListener('click', function(){
+    document.getElementById('player-search').value = '';
+    renderPlayerList('');
+    setBreadcrumb(2);
+    showScreen('player');
+  });
+
+})();
+</script>
+</body>
+</html>
