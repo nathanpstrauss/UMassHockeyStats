@@ -99,6 +99,18 @@ td:nth-child(n+4){text-align:right;font-variant-numeric:tabular-nums;
 .expand-grid{display:grid;grid-template-columns:1fr 1fr;gap:20px}
 .expand-grid.has-notes{grid-template-columns:1fr 1fr 1fr}
 .expand-section{}
+.note-list{display:flex;flex-direction:column;gap:8px}
+.note-item{font-size:12px;color:var(--muted2);line-height:1.4;padding-bottom:8px;
+  border-bottom:1px solid var(--border-faint)}
+.note-item:last-child{border-bottom:none;padding-bottom:0}
+.note-item-type{font-family:var(--font-ui);font-size:8px;font-weight:800;
+  text-transform:uppercase;letter-spacing:.6px;color:var(--gold);display:block;margin-bottom:2px}
+.note-item-source{color:var(--muted2);font-size:10px}
+.note-quote{border-left:2px solid var(--maroon-line);padding:2px 0 2px 10px;
+  font-style:italic;color:var(--text);font-size:12px;line-height:1.4}
+.note-quote-source{display:block;font-family:var(--font-ui);font-size:9px;
+  font-weight:700;color:var(--muted);margin-top:4px;font-style:normal}
+.note-quote-source:before{content:"— "}
 .expand-section-title{font-family:var(--font-ui);font-size:9px;
   font-weight:800;text-transform:uppercase;letter-spacing:1.2px;color:var(--muted);
   margin-bottom:8px;border-bottom:1px solid var(--border);padding-bottom:4px}
@@ -282,6 +294,11 @@ buildRankings();
 // Keys are canonical ASCII names (used for all matching/lookups).
 // Values are the correctly accented display forms shown in the UI.
 function dn(name){ return DISPLAY_NAMES[name] || name; }
+function escapeHtml(str){
+  return String(str==null?'':str)
+    .replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;')
+    .replace(/"/g,'&quot;').replace(/'/g,'&#39;');
+}
 
 // ─────────────────────────────────────────────────────────────────────────
 
@@ -297,6 +314,8 @@ const NHL_LEAGUES = new Set(['NHL']);
 let currentPos='all', currentEra='all', currentRoster='all';
 let sortCol='career_tp', sortDir=1;
 let expanded=new Set();
+let NAME_TO_SLUG = {};   // populated async from players.json — canonical_name/display_name -> slug
+let PLAYER_NOTES = {};   // populated async from player_notes.json — slug -> [{type,note,source,timestamp}]
 
 function getEra(p){
   if(!p.umass_seasons||!p.umass_seasons.length) return 'unknown';
@@ -420,11 +439,28 @@ function makeExpandRow(p){
     if(r) rankHTML+=`<div class="rank-item"><div class="rank-num">#${r}</div><div class="rank-lbl">${cat.label}</div></div>`;
   });
 
+  // Notes — sourced from PLAYER_NOTES (fetched async from player_notes.json),
+  // keyed by slug resolved via NAME_TO_SLUG (fetched async from players.json).
+  // Independent data store — never touches RAW/PLAYERS[]/DRAFT_MAP.
+  const noteSlug = NAME_TO_SLUG[canonical(p.name)];
+  const notes = (noteSlug && PLAYER_NOTES[noteSlug]) || [];
+  let notesHTML = '';
+  notes.forEach(n=>{
+    const text = escapeHtml(n.note);
+    const source = escapeHtml(n.source);
+    if(n.type==='Quote'){
+      notesHTML += `<div class="note-quote">&ldquo;${text}&rdquo;${source ? `<span class="note-quote-source">${source}</span>` : ''}</div>`;
+    } else {
+      const typeLabel = escapeHtml(n.type||'Fact');
+      notesHTML += `<div class="note-item"><span class="note-item-type">${typeLabel}</span>${text}${source ? ` <span class="note-item-source">(${source})</span>` : ''}</div>`;
+    }
+  });
+
   return `<tr class="expand-row"><td colspan="10">
     <div class="expand-inner">
       ${draftHTML ? `<div style="margin-bottom:12px">${draftHTML}</div>` : ''}
     ${rankHTML ? `<div style="margin-bottom:16px"><div class="expand-section-title">Program Rankings</div><div class="rankings-wrap">${rankHTML}</div></div>` : ''}
-      <div class="expand-grid">
+      <div class="expand-grid${notes.length ? ' has-notes' : ''}">
         <div class="expand-section">
           <div class="expand-section-title">UMass Career — Season by Season</div>
           <table class="stat-table"><thead>${umassHeaders}</thead><tbody>${umassRows}${umassTotal}</tbody></table>
@@ -433,6 +469,10 @@ function makeExpandRow(p){
           <div class="expand-section-title">Professional Career</div>
           ${proRows}
         </div>
+        ${notes.length ? `<div class="expand-section">
+          <div class="expand-section-title">Notes</div>
+          <div class="note-list">${notesHTML}</div>
+        </div>` : ''}
       </div>
     </div>
   </td></tr>`;
@@ -529,6 +569,32 @@ function toggleExpand(name){
   renderTable();}
 
 renderTable();
+
+// Notes are loaded async and out-of-band from the embedded RAW data — this
+// keeps the page's initial render fully synchronous (no flash of empty
+// table waiting on network), and just re-renders once notes are ready so
+// any row a user already had open picks them up.
+(async function loadPlayerNotes(){
+  try{
+    const [playersRes, notesRes] = await Promise.all([
+      fetch('players.json'),
+      fetch('player_notes.json')
+    ]);
+    if(playersRes.ok){
+      const playersDim = await playersRes.json();
+      playersDim.forEach(pl=>{
+        NAME_TO_SLUG[pl.canonical_name] = pl.slug;
+        NAME_TO_SLUG[pl.display_name] = pl.slug;
+      });
+    }
+    if(notesRes.ok){
+      PLAYER_NOTES = await notesRes.json();
+    }
+    renderTable();
+  }catch(e){
+    console.warn('Player notes unavailable:', e);
+  }
+})();
 </script>
 </body>
 </html>
