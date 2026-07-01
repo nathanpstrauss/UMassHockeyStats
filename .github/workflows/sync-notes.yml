@@ -1,0 +1,47 @@
+name: Sync Player Notes
+
+# Runs sync_notes.js: pulls the published Google Sheet CSV, validates rows
+# against players.json, and commits player_notes.json + a QC report if
+# anything changed.
+#
+# NOTE on the schedule: GitHub Actions cron only supports calendar-based
+# day-of-month steps, not a true rolling "every 72 hours" interval. `*/3`
+# on the day-of-month field runs on the 1st, 4th, 7th, 10th... of each
+# month, which resets at month boundaries — so the gap between runs is
+# usually 3 days but is occasionally 1–2 days right after a month rolls
+# over (e.g. the 31st to the 1st). Not a bug, just a known limitation of
+# calendar-cron; workflow_dispatch is always available for an on-demand run.
+on:
+  schedule:
+    - cron: '0 12 */3 * *'   # 12:00 UTC, every 3rd day-of-month
+  workflow_dispatch: {}
+
+permissions:
+  contents: write
+
+jobs:
+  sync-notes:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+
+      - name: Set up Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Run sync_notes.js
+        run: node sync_notes.js --apply
+
+      - name: Commit changes if any
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add player_notes.json player_notes_qc.md
+          if git diff --cached --quiet; then
+            echo "No changes to commit."
+          else
+            git commit -m "Sync player notes [automated]"
+            git push
+          fi
