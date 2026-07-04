@@ -1,10 +1,10 @@
 # player_notes.json — Sync QC Report
 
-Run: 2026-07-01T19:51:49.593Z
+Run: 2026-07-04T13:50:50.851Z
 
-- Rows in sheet: 5
-- Clean rows synced: 5
-- Players with notes: 2
+- Rows in sheet: 10
+- Clean rows synced: 10
+- Players with notes: 6
 - Unmatched slug: 0
 - Invalid type value: 0
 - Empty note text: 0
