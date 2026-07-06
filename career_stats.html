@@ -151,6 +151,14 @@ td:nth-child(n+4){text-align:right;font-variant-numeric:tabular-nums;
 .rank-lbl{font-family:var(--font-ui);font-size:9px;color:var(--muted);text-transform:uppercase;
   letter-spacing:.8px;margin-top:2px}
 
+/* Bio strip */
+.bio-strip{display:flex;align-items:center;flex-wrap:wrap;
+  font-family:var(--font-ui);font-size:12px;font-weight:600;color:var(--muted2);
+  padding:8px 14px;background:var(--surface3);border:1px solid var(--border2);
+  border-radius:6px;border-left:3px solid var(--border2)}
+.bio-item{white-space:nowrap}
+.bio-sep{margin:0 8px;color:var(--border2)}
+
 .empty{text-align:center;padding:60px;color:var(--muted);font-family:var(--font-ui);font-size:12px;letter-spacing:.5px;text-transform:uppercase}
 
 /* Nav */
@@ -316,6 +324,7 @@ let sortCol='career_tp', sortDir=1;
 let expanded=new Set();
 let NAME_TO_SLUG = {};   // populated async from players.json — canonical_name/display_name -> slug
 let PLAYER_NOTES = {};   // populated async from player_notes.json — slug -> [{type,note,source,timestamp}]
+let PLAYER_BIO = {};     // populated async from players.json — slug -> full players.json record (bio fields)
 
 function getEra(p){
   if(!p.umass_seasons||!p.umass_seasons.length) return 'unknown';
@@ -376,6 +385,51 @@ function leagueBadgeClass(lg){
   return '';
 }
 
+// Bio formatting helpers — source data is players.json (PLAYER_BIO), fetched
+// async alongside player_notes.json. Bio fields are additive-only there and
+// never touch RAW/ep_career. A player with no EP profile (or one whose bio
+// hasn't been staged) simply has null fields here, so every helper below
+// returns null rather than an empty string, and makeBioStrip omits the whole
+// strip if nothing usable comes back — no empty labels, no broken layout.
+function formatBirthplace(bio){
+  if(!bio || !bio.birth_city) return null;
+  if(bio.state_prov) return `${bio.birth_city}, ${bio.state_prov}`;
+  if(bio.birth_country) return `${bio.birth_city}, ${bio.birth_country}`;
+  return bio.birth_city;
+}
+function formatDob(bio){
+  if(!bio) return null;
+  if(bio.dob){
+    const d = new Date(bio.dob+'T00:00:00');
+    if(!isNaN(d)) return d.toLocaleDateString('en-US',{month:'long',day:'numeric',year:'numeric'});
+  }
+  if(bio.dob_partial){
+    const monthYear = bio.dob_partial.match(/^(\d{4})-(\d{2})$/);
+    if(monthYear){
+      const d = new Date(parseInt(monthYear[1]), parseInt(monthYear[2])-1, 1);
+      if(!isNaN(d)) return d.toLocaleDateString('en-US',{month:'long',year:'numeric'});
+    }
+    if(/^\d{4}$/.test(bio.dob_partial)) return bio.dob_partial;
+  }
+  return null;
+}
+function formatHeight(bio){
+  if(!bio || !bio.height_in) return null;
+  const ft = Math.floor(bio.height_in/12);
+  const inch = bio.height_in%12;
+  return `${ft}'${inch}"`;
+}
+function formatWeight(bio){
+  if(!bio || !bio.weight_lb) return null;
+  return `${bio.weight_lb} lbs`;
+}
+function makeBioStrip(bio){
+  const parts = [formatBirthplace(bio), formatDob(bio), formatHeight(bio), formatWeight(bio)].filter(Boolean);
+  if(!parts.length) return '';
+  const inner = parts.map(p=>`<span class="bio-item">${escapeHtml(p)}</span>`).join('<span class="bio-sep">·</span>');
+  return `<div class="bio-strip">${inner}</div>`;
+}
+
 function makeExpandRow(p){
   const isG = p.is_goalie;
   
@@ -419,6 +473,12 @@ function makeExpandRow(p){
   });
   if(!proRows) proRows='<div style="font-size:11px;color:var(--muted2);font-style:italic;padding:8px 0">No professional seasons recorded</div>';
 
+  // Bio strip — sourced from PLAYER_BIO (fetched async from players.json),
+  // keyed by slug resolved via NAME_TO_SLUG. Same resolution path as notes.
+  const bioSlug = NAME_TO_SLUG[canonical(p.name)];
+  const bio = bioSlug ? PLAYER_BIO[bioSlug] : null;
+  const bioHTML = makeBioStrip(bio);
+
   // Draft info
   const draft = DRAFT_MAP[canonical(p.name)];
   let draftHTML = '';
@@ -458,6 +518,7 @@ function makeExpandRow(p){
 
   return `<tr class="expand-row"><td colspan="10">
     <div class="expand-inner">
+      ${bioHTML ? `<div style="margin-bottom:12px">${bioHTML}</div>` : ''}
       ${draftHTML ? `<div style="margin-bottom:12px">${draftHTML}</div>` : ''}
     ${rankHTML ? `<div style="margin-bottom:16px"><div class="expand-section-title">Program Rankings</div><div class="rankings-wrap">${rankHTML}</div></div>` : ''}
       <div class="expand-grid${notes.length ? ' has-notes' : ''}">
@@ -585,6 +646,7 @@ renderTable();
       playersDim.forEach(pl=>{
         NAME_TO_SLUG[pl.canonical_name] = pl.slug;
         NAME_TO_SLUG[pl.display_name] = pl.slug;
+        PLAYER_BIO[pl.slug] = pl;
       });
     }
     if(notesRes.ok){
