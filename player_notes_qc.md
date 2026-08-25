@@ -1,6 +1,6 @@
 # player_notes.json — Sync QC Report
 
-Run: 2026-08-22T12:52:43.309Z
+Run: 2026-08-25T13:00:21.365Z
 
 - Rows in sheet: 10
 - Clean rows synced: 10
