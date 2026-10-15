@@ -245,6 +245,7 @@ td.td-num{text-align:right;font-variant-numeric:tabular-nums;
 </div>
 
 <script src="site_data.js"></script>
+<script src="player_stats_2026-27.js"></script>
 <script>
 // ── State ────────────────────────────────────────────────────────────────
 let ALL_ROWS = [];  // raw flat array from season_explorer.json
@@ -259,7 +260,7 @@ let posFilter = 'all';      // 'all' | 'F' | 'D'
 fetch('season_explorer.json')
   .then(r => r.json())
   .then(data => {
-    ALL_ROWS = data;
+    ALL_ROWS = mergeSeason2627(data);
     buildSeasonDropdowns();
     // Default: skater Season mode → sort by PTS desc
     sortCol = 'pts'; sortDir = -1;
@@ -273,6 +274,34 @@ fetch('season_explorer.json')
   .catch(err => {
     document.getElementById('loading').textContent = 'Error loading data. ' + err.message;
   });
+
+// ── 2026-27 merge ─────────────────────────────────────────────────────────
+// season_explorer.json holds seasons through 2025-26 (frozen).
+// player_stats_2026-27.js (built by build_player_stats_2627.py after each game)
+// holds one 2026-27 row per player, keyed by slug, with season_index and class
+// already set. Any existing 2026-27 row for that slug is replaced, and the
+// player's display name on earlier rows is aligned to the current one.
+// If the file is missing, the page shows season_explorer.json as is.
+function mergeSeason2627(rows) {
+  if (typeof PLAYER_STATS_2627 === 'undefined') return rows;
+  const season = PLAYER_STATS_2627.season;
+  const recs = PLAYER_STATS_2627.players;
+  const out = rows.filter(r => !(r.season === season && recs[r.slug]));
+  out.forEach(r => { if (recs[r.slug]) r.display_name = recs[r.slug].display_name; });
+  Object.entries(recs).forEach(([slug, rec]) => {
+    const s = rec.season_row;
+    const row = {
+      slug, display_name: rec.display_name, is_goalie: rec.is_goalie, pos: rec.pos,
+      season, season_index: rec.season_index, class: rec.class, active: true,
+    };
+    const keys = rec.is_goalie
+      ? ['gp','gs','minutes','ga','avg','saves','sv_pct','w','l','t','sho','pp_ga','sh_ga','en']
+      : ['gp','g','a','pts','plus_minus','pen_min','pp','sh','gw','shots','pct','blk'];
+    keys.forEach(k => { row[k] = s[k]; });
+    out.push(row);
+  });
+  return out;
+}
 
 // ── Season dropdown population ────────────────────────────────────────────
 function buildSeasonDropdowns() {
