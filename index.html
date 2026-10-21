@@ -133,7 +133,7 @@ footer{border-top:1px solid var(--border);background:var(--surface2)}
     <img src="UMass_Hockey_2_.png" alt="UMass Hockey"/>
   </a>
   <div class="nav-links">
-    <a href="index.html#rosters">Rosters</a>
+    <a href="index.html">Home</a>
     <a href="ncaa_nhl_pipeline.html">NCAA Pipeline</a>
     <a href="career_stats.html">Career Stats</a>
     <a href="player_seasons.html">Player Seasons</a>
@@ -159,28 +159,80 @@ footer{border-top:1px solid var(--border);background:var(--surface2)}
 <!-- LATEST GAME -->
 <section class="latest">
   <div class="section-label">Latest Game</div>
-  <div class="game-card">
+  <div class="game-card" id="latest-card">
+    <div class="game-card-top"><div class="gc-main">
+      <div class="gc-matchup">See the <a href="game_log.html">Game Log</a></div>
+    </div></div>
+  </div>
+</section>
+<script src="game_meta.js"></script>
+<script src="games_2026-27.js"></script>
+<script>
+// Latest Game card. Reads every season file listed in SEASON_ROWS plus
+// game_meta.js and shows the most recent game. Add next season's
+// games_YYYY-YY.js script tag and its array name here each fall.
+(function () {
+  const SEASON_ROWS = [typeof GAMES_2627 !== 'undefined' ? GAMES_2627 : []];
+  const META = typeof GAME_META !== 'undefined' ? GAME_META : {};
+  const MONTHS = ['','January','February','March','April','May','June',
+                  'July','August','September','October','November','December'];
+  const esc = s => String(s == null ? '' : s)
+    .replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+  const yearOf = (season, m) => { const y = parseInt(season, 10); return m >= 7 ? y : y + 1; };
+
+  const games = {};
+  for (const [key, g] of Object.entries(META)) {
+    games[key] = {opp: g.opp, v: g.v, arena: g.arena, city: g.city, r: g.r, ug: g.ug, og: g.og};
+  }
+  for (const rows of SEASON_ROWS) {
+    for (const g of rows) {
+      const [m, d] = g.d.split('/').map(Number);
+      games[`${g.s}:${m}/${d}`] = {opp: g.o, v: g.v, arena: g.a, city: g.l, r: g.r, ug: g.ug, og: g.og};
+    }
+  }
+  let best = null, bestT = -Infinity;
+  for (const key of Object.keys(games)) {
+    const [season, md] = key.split(':');
+    const [m, d] = md.split('/').map(Number);
+    const t = new Date(yearOf(season, m), m - 1, d).getTime();
+    if (t > bestT) { bestT = t; best = key; }
+  }
+  if (!best) return;
+
+  const g = games[best];
+  const [season, md] = best.split(':');
+  const [m, d] = md.split('/').map(Number);
+  const res = {W: ['win', 'W', 'Win'], L: ['loss', 'L', 'Loss'], T: ['tie', 'T', 'Tie']}[g.r]
+           || ['tie', '-', ''];
+  const matchup = g.v === 'A' ? `UMass at ${esc(g.opp)}` : `UMass vs. ${esc(g.opp)}`;
+  const venue = [g.arena, g.city, g.v === 'N' ? 'Neutral Site' : '']
+    .filter(Boolean).map(esc).join(' &middot; ');
+  const recap = META[best]
+    ? `<a class="gc-btn" href="game.html?id=${encodeURIComponent(best).replace(/%3A/g, ':').replace(/%2F/g, '/')}">Game Recap <span class="arr">&rarr;</span></a>`
+    : '';
+
+  document.getElementById('latest-card').innerHTML = `
     <div class="game-card-top">
-      <div class="gc-result loss">
-        <div class="gc-result-letter">L</div>
-        <div class="gc-result-tag">Loss</div>
+      <div class="gc-result ${res[0]}">
+        <div class="gc-result-letter">${res[1]}</div>
+        <div class="gc-result-tag">${res[2]}</div>
       </div>
       <div class="gc-main">
-        <div class="gc-date">March 20, 2026</div>
-        <div class="gc-matchup">UMass vs. Merrimack</div>
-        <div class="gc-venue">TD Garden &middot; Boston, MA &middot; Neutral Site</div>
+        <div class="gc-date">${MONTHS[m]} ${d}, ${yearOf(season, m)}</div>
+        <div class="gc-matchup">${matchup}</div>
+        <div class="gc-venue">${venue}</div>
       </div>
       <div class="gc-score">
-        <div class="gc-score-line">UMass 0 &ndash; Merrimack 2</div>
-        <div class="gc-score-big">0&ndash;2</div>
+        <div class="gc-score-line">UMass ${g.ug} &ndash; ${esc(g.opp)} ${g.og}</div>
+        <div class="gc-score-big">${g.ug}&ndash;${g.og}</div>
       </div>
     </div>
     <div class="gc-actions">
-      <a class="gc-btn" href="game.html?id=2025-26:3/20">Game Recap <span class="arr">&rarr;</span></a>
+      ${recap}
       <a class="gc-btn" href="game_log.html">Box Score <span class="arr">&rarr;</span></a>
-    </div>
-  </div>
-</section>
+    </div>`;
+})();
+</script>
 
 <!-- EXPLORE THE DATABASE -->
 <section class="tools">
