@@ -6,5 +6,7 @@ const GAMES_2627 = [
 {"d":"10/2/26","o":"Colorado College","a":"Ed Robson Arena","l":"Colorado Springs","ug":0,"og":2,"r":"L","c":"Greg Carvel","s":"2026-27","v":"A"},
 {"d":"10/3/26","o":"Colorado College","a":"Ed Robson Arena","l":"Colorado Springs","ug":1,"og":6,"r":"L","c":"Greg Carvel","s":"2026-27","v":"A"},
 {"d":"10/9/26","o":"RIT","a":"Mullins Center","l":"Amherst","ug":2,"og":2,"r":"T","c":"Greg Carvel","s":"2026-27","v":"H"},
-{"d":"10/10/26","o":"RIT","a":"Mullins Center","l":"Amherst","ug":5,"og":1,"r":"W","c":"Greg Carvel","s":"2026-27","v":"H"}
+{"d":"10/10/26","o":"RIT","a":"Mullins Center","l":"Amherst","ug":5,"og":1,"r":"W","c":"Greg Carvel","s":"2026-27","v":"H"},
+{"d":"10/16/26","o":"Northeastern","a":"Mullins Center","l":"Amherst","ug":4,"og":1,"r":"W","c":"Greg Carvel","s":"2026-27","v":"H"},
+{"d":"10/17/26","o":"Northeastern","a":"Mullins Center","l":"Amherst","ug":1,"og":4,"r":"L","c":"Greg Carvel","s":"2026-27","v":"H","conf":false}
 ];

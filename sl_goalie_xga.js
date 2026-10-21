@@ -505,5 +505,14 @@ const SL_GOALIE_XGA = {
  "2026-27:10/10": {
   "Ethan Eskit": 2.09,
   "Collin Mackenzie": 3.42
+ },
+ "2026-27:10/16": {
+  "Ethan Eskit": 2.71,
+  "Lawton Zacher": 2.86,
+  "Sam Caulfield": 0.34
+ },
+ "2026-27:10/17": {
+  "Ethan Eskit": 2.46,
+  "Sam Caulfield": 2.56
  }
 };
