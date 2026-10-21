@@ -9,10 +9,12 @@
 <link href="https://fonts.googleapis.com/css2?family=Zilla+Slab:wght@400;700&family=Oswald:wght@400;500;600;700;800;900&family=Source+Sans+3:wght@400;600&display=swap" rel="stylesheet">
 <script src="logo_map.js"></script>
 <script src="boxscores.js"></script>
+<script src="boxscores_2026-27.js"></script>
 <script src="game_meta.js"></script>
 <script src="sl_xg.js"></script>
 <script src="sl_shots.js"></script>
 <script src="sl_players.js"></script>
+<script src="sl_goalie_xga.js"></script>
 <style>
 *{box-sizing:border-box;margin:0;padding:0}
 :root{
@@ -260,6 +262,7 @@ table.ptable .pd-row td{background:var(--surface2);font-size:9px;font-weight:800
     <a href="index.html">Rosters</a>
     <a href="ncaa_nhl_pipeline.html">NCAA Pipeline</a>
     <a href="career_stats.html">Career Stats</a>
+    <a href="player_seasons.html">Player Seasons</a>
     <a href="recruiting_classes.html">Draft</a>
     <a href="hea_allstars.html">HEA All-Stars</a>
     <a href="awards.html">Awards</a>
@@ -340,7 +343,7 @@ function init() {
     app.innerHTML = `<div class="error-state">
       <h2>Game not found</h2>
       <p>No data found for <strong>${esc(KEY)}</strong>.
-         Only 2022-23 through 2025-26 games are supported.
+         Recaps are available for 2022-23 onward.
          <a href="game_log.html">← Back to game log</a></p>
     </div>`;
     return;
@@ -511,7 +514,7 @@ function init() {
     <span class="sec-badge badge-sl">SportLogiq · Game ${meta.sl_id}</span>
   </div>
   <div style="padding:14px 0;font-size:12px;color:var(--muted)">
-    Run <code>build_sl_xg.py</code> to generate <code>sl_xg.js</code>.
+    SportLogiq data is not available for this game.
   </div>
 </div>`;
   }
@@ -796,38 +799,42 @@ function init() {
   </div>
 </div>`;
 
-  // ── Goalies with real GSAx ────────────────────────────────────────────────
-  // GSAx = xG Against − Goals Against (positive = better than expected)
-  // Uses team-level xG since we don't split per-goalie at this resolution.
-  function gsaxCell(xgAgainst, goalsAllowed, hasData) {
-    if (!hasData || xgAgainst == null) {
-      return `<td class="r gsax-na">—</td>`;
-    }
-    const val = parseFloat((xgAgainst - goalsAllowed).toFixed(2));
-    const cls = val > 0 ? 'gsax-pos' : val < 0 ? 'gsax-neg' : '';
-    const str = val > 0 ? `+${val}` : `${val}`;
+  // ── Goalies with GSAx ─────────────────────────────────────────────────────
+  // GSAx = goalie xG against − goalie goals allowed (SA − SV, so empty-net
+  // goals are never charged). Positive = better than expected.
+  // Per-goalie xGA comes from sl_goalie_xga.js when entered for the game.
+  // Otherwise team xG against is used, but only when one goalie played and
+  // no empty-net goal was scored against that team. All other cases show —.
+  const GOALIE_XGA = (typeof SL_GOALIE_XGA !== 'undefined' && SL_GOALIE_XGA[KEY]) || {};
+
+  function enAgainst(isUMass) {
+    const scorer = isUMass ? 'O' : 'U';
+    return (box.scoring || []).some(s => s.tm === scorer && (s.en || s.ty === 'EN'));
+  }
+
+  function goalieGsax(g, isUMass, count) {
+    if (g.sa == null || g.sv == null) return null;
+    const ga = g.sa - g.sv;
+    if (GOALIE_XGA[g.name] != null) return GOALIE_XGA[g.name] - ga;
+    if (!slXG || count !== 1 || enAgainst(isUMass)) return null;
+    return (isUMass ? slXG.xg_o : slXG.xg_u) - ga;
+  }
+
+  function gsaxCell(val) {
+    if (val == null) return `<td class="r gsax-na">—</td>`;
+    const v   = parseFloat(val.toFixed(2));
+    const cls = v > 0 ? 'gsax-pos' : v < 0 ? 'gsax-neg' : '';
+    const str = v > 0 ? `+${v.toFixed(2)}` : v.toFixed(2);
     return `<td class="r ${cls}">${str}</td>`;
   }
 
   function goalieRows(goalies, teamCls, teamLabel, isUMass) {
     if (!goalies || !goalies.length) return '';
-    // For multi-goalie games, show GSAx only on the primary goalie (first by TOI/dec)
-    const primary = goalies[0];
-    return goalies.map((g, idx) => {
+    return goalies.map(g => {
       const dec    = isDec(g.dec) ? g.dec : '';
       const decCls = dec ? `dec-${dec}` : '';
       const svpStr = fmtSvp(g.svp);
-      // GSAx: only for first goalie if we have xG data
-      let gsaxTd;
-      if (slXG && idx === 0) {
-        const xgAgainst  = isUMass ? slXG.xg_o : slXG.xg_u;
-        const goalsAllowed = isUMass ? meta.og : meta.ug;
-        gsaxTd = gsaxCell(xgAgainst, goalsAllowed, true);
-      } else if (slXG && idx > 0) {
-        gsaxTd = `<td class="r gsax-na" title="Multi-goalie game — GSAx shown for primary goalie only">—</td>`;
-      } else {
-        gsaxTd = `<td class="r gsax-na">—</td>`;
-      }
+      const gsaxTd = gsaxCell(goalieGsax(g, isUMass, goalies.length));
       return `<tr>
         <td class="team-label ${teamCls}">${tLogo(isUMass ? 'UMass Minutemen' : teamLabel, 16)} ${teamLabel}</td>
         <td class="name">${esc(g.name)}</td>
@@ -841,10 +848,8 @@ function init() {
     }).join('');
   }
 
-  const gsaxNote = slXG
-    ? `<p class="gsax-note">GSAx = xG against minus goals allowed · positive = better than expected.</p>`
-    : hasSL
-    ? `<p class="gsax-note">GSAx requires <code>sl_xg.js</code> — run <code>build_sl_xg.py</code> to generate it.</p>`
+  const gsaxNote = (slXG || Object.keys(GOALIE_XGA).length)
+    ? `<p class="gsax-note">GSAx = xG against minus goals allowed. Positive = better than expected. Empty-net goals are not charged to goalies.</p>`
     : '';
 
   const goaliesHTML = `
