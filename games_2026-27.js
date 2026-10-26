@@ -8,5 +8,6 @@ const GAMES_2627 = [
 {"d":"10/9/26","o":"RIT","a":"Mullins Center","l":"Amherst","ug":2,"og":2,"r":"T","c":"Greg Carvel","s":"2026-27","v":"H"},
 {"d":"10/10/26","o":"RIT","a":"Mullins Center","l":"Amherst","ug":5,"og":1,"r":"W","c":"Greg Carvel","s":"2026-27","v":"H"},
 {"d":"10/16/26","o":"Northeastern","a":"Mullins Center","l":"Amherst","ug":4,"og":1,"r":"W","c":"Greg Carvel","s":"2026-27","v":"H"},
-{"d":"10/17/26","o":"Northeastern","a":"Mullins Center","l":"Amherst","ug":1,"og":4,"r":"L","c":"Greg Carvel","s":"2026-27","v":"H","conf":false}
+{"d":"10/17/26","o":"Northeastern","a":"Mullins Center","l":"Amherst","ug":1,"og":4,"r":"L","c":"Greg Carvel","s":"2026-27","v":"H","conf":false},
+{"d":"10/24/26","o":"Stonehill","a":"Mullins Center","l":"Amherst","ug":5,"og":3,"r":"W","c":"Greg Carvel","s":"2026-27","v":"H"}
 ];

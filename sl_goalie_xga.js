@@ -514,5 +514,9 @@ const SL_GOALIE_XGA = {
  "2026-27:10/17": {
   "Ethan Eskit": 2.46,
   "Sam Caulfield": 2.56
+ },
+ "2026-27:10/24": {
+  "Tobias Trejbal": 3.35,
+  "Mason Vaccari": 5.23
  }
 };
