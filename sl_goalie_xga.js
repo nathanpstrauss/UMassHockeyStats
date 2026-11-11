@@ -526,5 +526,13 @@ const SL_GOALIE_XGA = {
  "2026-27:10/30": {
   "Jackson Irving": 2.11,
   "Rudy Guimond": 2.07
+ },
+ "2026-27:11/6": {
+  "Ethan Eskit": 2.56,
+  "Albin Boija": 1.67
+ },
+ "2026-27:11/7": {
+  "Ethan Eskit": 3.33,
+  "Albin Boija": 1.12
  }
 };
