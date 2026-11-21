@@ -370,9 +370,6 @@ function init() {
   // Season record context (just show season)
   const seasonLabel = KEY.split(':')[0];
 
-  // Has SL coverage?
-  const hasSL = !!meta.sl_id;
-
   // ── Logo helper ──────────────────────────────────────────────────────────
   const lm = (typeof LOGO_MAP !== 'undefined') ? LOGO_MAP : {};
   function tLogo(name, h=20) {
@@ -403,7 +400,6 @@ function init() {
     : `<span class="gh-badge badge-t">Tie</span>`;
   const otBadge = isOT ? `<span class="gh-badge badge-ot">OT</span>` : '';
   const confBadge = meta.conf ? `<span class="gh-badge badge-conf">Hockey East</span>` : '';
-  const slBadge = hasSL ? `<span class="gh-badge badge-sl">SportLogiq</span>` : '';
 
   const headerHTML = `
 <div class="gh">
@@ -416,7 +412,7 @@ function init() {
         <span class="gh-score-n opp">${oGoals}</span>
       </div>
       <div class="gh-result">
-        ${resultBadge}${otBadge}${confBadge}${slBadge}
+        ${resultBadge}${otBadge}${confBadge}
       </div>
     </div>
     ${ghTeam(meta.opp, '\u00a0', true)}
@@ -487,14 +483,13 @@ function init() {
       </div>`;
   }
 
-  // ── SportLogiq advanced stats section ────────────────────────────────────
+  // ── Advanced stats section ──────────────────────────────────────────────
   let slHTML = '';
   if (slXG) {
     slHTML = `
 <div class="sec">
   <div class="sec-hdr">
     <span class="sec-title">Advanced analytics</span>
-    <span class="sec-badge badge-sl">SportLogiq · Game ${meta.sl_id}</span>
   </div>
   <div class="adv-grid">
     <div class="adv-team-hdr adv-team-hdr-r">UMass ${tLogo('UMass Minutemen',22)}</div>
@@ -504,17 +499,6 @@ function init() {
     ${slXG.sc_u || slXG.sc_o ? advRow(slXG.sc_u, slXG.sc_o, 'Scoring chances') : ''}
     ${slXG.ga_u || slXG.ga_o ? advRow(slXG.ga_u, slXG.ga_o, 'Grade A chances') : ''}
     ${slXG.oz_u || slXG.oz_o ? advRow(fmtSec(slXG.oz_u), fmtSec(slXG.oz_o), 'OZ possession') : ''}
-  </div>
-</div>`;
-  } else if (hasSL) {
-    slHTML = `
-<div class="sec">
-  <div class="sec-hdr">
-    <span class="sec-title">Advanced analytics</span>
-    <span class="sec-badge badge-sl">SportLogiq · Game ${meta.sl_id}</span>
-  </div>
-  <div style="padding:14px 0;font-size:12px;color:var(--muted)">
-    SportLogiq data is not available for this game.
   </div>
 </div>`;
   }
@@ -644,7 +628,6 @@ function init() {
 <div class="sec">
   <div class="sec-hdr">
     <span class="sec-title">Shot chart</span>
-    <span class="sec-badge badge-sl">SportLogiq</span>
   </div>
   <div style="padding:0 0 4px">
     <div class="shot-tabs">
@@ -806,6 +789,8 @@ function init() {
   // Otherwise team xG against is used, but only when one goalie played and
   // no empty-net goal was scored against that team. All other cases show —.
   const GOALIE_XGA = (typeof SL_GOALIE_XGA !== 'undefined' && SL_GOALIE_XGA[KEY]) || {};
+  // Hide the GSAx column for games with no xG data (2026-27 games after Nov 7).
+  const showGsax = !!slXG || Object.keys(GOALIE_XGA).length > 0;
 
   function enAgainst(isUMass) {
     const scorer = isUMass ? 'O' : 'U';
@@ -843,7 +828,7 @@ function init() {
         <td>${g.sv != null ? g.sv : '—'}</td>
         <td>${svpStr}</td>
         <td>${esc(g.toi || '—')}</td>
-        ${gsaxTd}
+        ${showGsax ? gsaxTd : ''}
       </tr>`;
     }).join('');
   }
@@ -856,12 +841,11 @@ function init() {
 <div class="sec">
   <div class="sec-hdr">
     <span class="sec-title">Goalies</span>
-    <span class="sec-badge badge-sl">GSAx via SportLogiq</span>
   </div>
   <table class="gtable">
     <thead><tr>
       <th></th><th style="text-align:left">Goalie</th>
-      <th>Dec</th><th>SA</th><th>SV</th><th>SV%</th><th>TOI</th><th>GSAx</th>
+      <th>Dec</th><th>SA</th><th>SV</th><th>SV%</th><th>TOI</th>${showGsax ? '<th>GSAx</th>' : ''}
     </tr></thead>
     <tbody>
       ${goalieRows(box.goalies,    'umass', 'UMass',       true)}
