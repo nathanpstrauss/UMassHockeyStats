@@ -687,7 +687,7 @@ function init() {
 
       const isU    = g.tm === 'U';
       const tyCode = g.ty || 'EVEN';
-      const tyLbl  = TYPE_LABEL[tyCode] || tyCode;
+      const tyLbl  = (TYPE_LABEL[tyCode] || tyCode) + (g.ex ? '/EX' : '');
 
       const scorerName = g.sc || 'Unknown';
       const snStr = (g.sn != null) ? ` <span class="goal-scorer-num">(${g.sn})</span>` : '';

@@ -13,5 +13,7 @@ const GAMES_2627 = [
 {"d":"10/29/26","o":"Harvard","a":"Bright-Landry Center","l":"Boston","ug":1,"og":2,"r":"L","c":"Greg Carvel","s":"2026-27","v":"A"},
 {"d":"10/30/26","o":"Harvard","a":"Mullins Center","l":"Amherst","ug":4,"og":2,"r":"W","c":"Greg Carvel","s":"2026-27","v":"H"},
 {"d":"11/06/26","o":"Maine","a":"Alfond Arena","l":"Orono","ug":2,"og":1,"r":"W","c":"Greg Carvel","s":"2026-27","v":"A"},
-{"d":"11/07/26","o":"Maine","a":"Alfond Arena","l":"Orono","ug":0,"og":2,"r":"L","c":"Greg Carvel","s":"2026-27","v":"A"}
+{"d":"11/07/26","o":"Maine","a":"Alfond Arena","l":"Orono","ug":0,"og":2,"r":"L","c":"Greg Carvel","s":"2026-27","v":"A"},
+{"d":"11/13/26","o":"Boston College","a":"Mullins Center","l":"Amherst","ug":1,"og":3,"r":"L","c":"Greg Carvel","s":"2026-27","v":"H"},
+{"d":"11/14/26","o":"Boston College","a":"Conte Forum","l":"Chestnut Hill","ug":2,"og":4,"r":"L","c":"Greg Carvel","s":"2026-27","v":"A"}
 ];
